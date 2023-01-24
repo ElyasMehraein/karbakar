@@ -2,19 +2,13 @@ import * as React from 'react';
 import PrimarySearchAppBar from "./pages/index/PrimarySearchAppBar";
 import Wellcome from "./pages/Wellcome/Wellcome";
 import TabPanel from "./pages/index/TabPanel";
-
-// import PrimarySearchAppBar from "./pages/index/PrimarySearchAppBar"
-// import TabPanel from "./pages/index/TabPanel"
-
+import ProfileCollected from './pages/Profile/ProfileCollected';
 
 function App() {
   return (
-    // <Wellcome></Wellcome>
-    <div>
 
-      <PrimarySearchAppBar></PrimarySearchAppBar>
-      <TabPanel></TabPanel>
-    </div>
+    <ProfileCollected></ProfileCollected>
+
   );
 }
 
