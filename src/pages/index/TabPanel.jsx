@@ -7,24 +7,30 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { createTheme, ThemeProvider } from '@mui/material';
+const theme = createTheme({
+  // shadows: "none"
+})
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
+    <ThemeProvider theme={theme}>
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`full-width-tabpanel-${index}`}
+        aria-labelledby={`full-width-tab-${index}`}
+        {...other}
+      >
+        {value === index && (
+          <Box sx={{ p: 3 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    </ThemeProvider>
   );
 }
 
@@ -54,7 +60,7 @@ export default function FullWidthTabs() {
   };
 
   return (
-    <Box sx={{ bgcolor: 'background.paper', width: 500 }}>
+    <Box sx={{ bgcolor: 'background.paper', width: '100%' }}>
       <AppBar position="static">
         <Tabs
           value={value}
@@ -79,7 +85,7 @@ export default function FullWidthTabs() {
           <br />
           <br />
           هر چقدر کارهای بیشتری از درخواست های دیگران انجام بدی دیگران هم درخواست های بیشتری برای شما انجام خواهند داد
-          
+
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Item Two

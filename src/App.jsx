@@ -1,15 +1,18 @@
 import * as React from 'react';
-import PrimarySearchAppBar from "./pages/index/PrimarySearchAppBar";
 import Wellcome from "./pages/Wellcome/Wellcome";
-import TabPanel from "./pages/index/TabPanel";
 import ProfileCollected from './pages/Profile/ProfileCollected';
+import IndexCollected from "./pages/index/IndexCollected"
+import { ThemeProvider } from '@mui/material';
+import theme from './theme';
+
 
 function App() {
   return (
-
-    <ProfileCollected/>
-
+    <ThemeProvider theme={theme}>
+      <IndexCollected />
+    </ThemeProvider>
   );
 }
+
 
 export default App;
