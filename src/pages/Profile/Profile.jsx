@@ -3,7 +3,7 @@ import ButtonAppBar from "./ButtonAppBar";
 import BoxSx from "./BoxSx";
 import SimpleContainer from "./SimpleContainer";
 
-function ProfileCollected() {
+function Profile() {
     return (
         <>
             <ButtonAppBar />
@@ -13,4 +13,4 @@ function ProfileCollected() {
     )
 }
 
-export default ProfileCollected;
+export default Profile;

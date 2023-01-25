@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import { createTheme , ThemeProvider } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const theme = createTheme({
   shadows:"none"
@@ -25,6 +26,7 @@ export default function ButtonAppBar() {
               color="inherit"
               aria-label="menu"
               sx={{ mr: 2 }}
+              component={Link} to="/Index"
             >
               <ArrowBackIcon />
             </IconButton>

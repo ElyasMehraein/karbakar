@@ -1,11 +1,12 @@
 import React, { useEffect } from "react"
 
-function ComponentName() {
+function NewWellcome() {
   return (
     <>
-      
+      <p>hellloo</p>
+  
     </>
   )
 }
 
-export default ComponentName
+export default NewWellcome

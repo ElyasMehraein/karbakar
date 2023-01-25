@@ -3,7 +3,7 @@ import PrimarySearchAppBar from "./PrimarySearchAppBar";
 import TabPanel from "./TabPanel";
 
 
-function IndexCollected() {
+function Index() {
     return (
         <>
             <PrimarySearchAppBar />
@@ -13,4 +13,4 @@ function IndexCollected() {
     )
 }
 
-export default IndexCollected;
+export default Index;

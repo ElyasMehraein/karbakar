@@ -14,6 +14,8 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import { Link } from 'react-router-dom';
+
 import { createTheme, ThemeProvider } from '@mui/material';
 const theme = createTheme({
   shadows: "none"
@@ -203,8 +205,9 @@ export default function PrimarySearchAppBar() {
                 aria-haspopup="true"
                 onClick={handleProfileMenuOpen}
                 color="inherit"
+                component={Link} to="/profile"
               >
-                <AccountCircle />
+                <AccountCircle  />
               </IconButton>
             </Box>
             <Box elevation={0} sx={{ display: { xs: 'none' } }}>
