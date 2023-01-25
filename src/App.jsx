@@ -7,7 +7,7 @@ import ProfileCollected from './pages/Profile/ProfileCollected';
 function App() {
   return (
 
-    <ProfileCollected></ProfileCollected>
+    <ProfileCollected/>
 
   );
 }
