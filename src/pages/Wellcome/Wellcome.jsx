@@ -5,12 +5,15 @@ import './Wellcome.css';
 
 function Wellcome() {
   return (
-    <div className="wellcome">
+    <div >
       <header className="wellcome-header">
         <img src={mhands} className="wellcome-logo" alt="logo" />
         <h1 className='text-extrablack'>کارباکار</h1>
-        <p>
+        <h2>
           باهم برای هم برای زندگی آزاد
+        </h2>
+        <p>
+          اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد و کسب و کارهای مولد
         </p>
         <Button variant="contained">ورود یا ثبت نام</Button>
         

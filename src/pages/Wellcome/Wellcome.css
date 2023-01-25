@@ -6,12 +6,18 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+h1 {
+  margin :15px
+}
 a{
   font-size: 14px;
-  margin-top: 150px;
+  margin-top: 10px;
 }
-
+p{
+  font-size: smaller;
+  text-align: center;
+  margin: 0px 30px 20px 30px;
+}
 .wellcome-header {
   background-color: #ffffff;
   min-height: 100vh;

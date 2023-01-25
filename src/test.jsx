@@ -1,11 +1,11 @@
-import React from "react";
-import { Box } from "@mui/system";
-import { useTheme } from "@mui/material";
+import { ThemeProvider } from '@mui/material';
+import theme from './theme';
 
-const Test = () => {
-    const theme = useTheme()
-    console.log(theme)
-    return <Box />
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <IndexCollected />
+    </ThemeProvider>
+  );
 }
-
-export default Test
