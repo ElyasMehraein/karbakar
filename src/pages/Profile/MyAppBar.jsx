@@ -10,11 +10,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import { createTheme , ThemeProvider } from '@mui/material';
 import { Link } from 'react-router-dom';
 
+
 const theme = createTheme({
   shadows:"none"
 })
 
-export default function ButtonAppBar() {
+export default function MyAppBar() {
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
@@ -30,11 +31,11 @@ export default function ButtonAppBar() {
             >
               <ArrowBackIcon />
             </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
               صفحه شخصی
             </Typography>
 
-            <Button color="inherit"><EditIcon />ویرایش اطلاعات</Button>
+            <Button color="inherit"><EditIcon />ویرایش</Button>
           </Toolbar>
         </AppBar>
       </Box>

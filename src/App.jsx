@@ -7,17 +7,18 @@ import Profile from './pages/Profile/Profile';
 import Index from "./pages/index/Index"
 
 
+
 function App() {
   return (
-    <BrowserRouter>
-    <Routes>
-      <Route path='/NewWellcome' element={<NewWellcome />}/>
-      <Route path='/' element={<Wellcome />}/>
-      <Route path='/index' element={<Index />}/>
-      <Route path='/Profile' element={<Profile />}/>
-    </Routes>
-    </BrowserRouter>
 
+      <BrowserRouter>
+        <Routes>
+          <Route path='/NewWellcome' element={<NewWellcome />} />
+          <Route path='/' element={<Wellcome />} />
+          <Route path='/index' element={<Index />} />
+          <Route path='/Profile' element={<Profile />} />
+        </Routes>
+      </BrowserRouter>
   );
 }
 
