@@ -5,6 +5,7 @@ import Wellcome from "./pages/Wellcome/Wellcome";
 import NewWellcome from "./pages/Wellcome/NewWellcome";
 import Profile from './pages/Profile/Profile';
 import Index from "./pages/index/Index"
+import Business from "./pages/business/business"
 
 
 
@@ -17,6 +18,7 @@ function App() {
           <Route path='/' element={<Wellcome />} />
           <Route path='/index' element={<Index />} />
           <Route path='/Profile' element={<Profile />} />
+          <Route path='/business' element={<Business />} />
         </Routes>
       </BrowserRouter>
   );

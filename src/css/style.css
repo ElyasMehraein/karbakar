@@ -5,7 +5,12 @@ body {
 	font-family: iranyekan !important;
 	/* direction: rtl; */
 	background-color: #cdcdcd;
+	
 	margin: 0;
+	display: inline;
+
+	/* display: flex; */
+	/* justify-content: center; */
 }
 
 h1,
