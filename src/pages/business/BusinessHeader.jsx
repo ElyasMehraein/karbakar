@@ -6,16 +6,22 @@ import BHeader from "../../assets/businessHeader.jpg"
 
 export default function BusinessHeader() {
   return (
-    <Card sx={{ maxWidth: 1000 }}>
-      
-        <CardMedia 
-          component="img"
-          height="220"
-          image={BHeader}
-          alt="business header image"
-        />
-      
-      
+    <Card
+    sx={{ maxWidth: "md" }} 
+
+    >
+
+      <CardMedia
+        component="img"
+        image={BHeader}
+        alt="business header image"
+        height={500}
+        
+
+
+      />
+
+
     </Card>
   );
 }

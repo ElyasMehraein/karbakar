@@ -6,13 +6,13 @@ import profileHeader from "../../assets/profileHeader.jpg"
 
 export default function ProfileImg() {
   return (
-    <Card sx={{ maxWidth: 400 }}>
+    <Card sx={{ maxWidth: "md" }}>
       
         <CardMedia
           component="img"
-          height="220"
           image={profileHeader}
           alt="green iguana"
+          height={400}
         />
       
       
