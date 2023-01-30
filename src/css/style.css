@@ -7,10 +7,8 @@ body {
 	background-color: #cdcdcd;
 	
 	margin: 0;
-	display: inline;
+	width: 100%;
 
-	/* display: flex; */
-	/* justify-content: center; */
 }
 
 h1,

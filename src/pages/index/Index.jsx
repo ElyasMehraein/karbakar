@@ -1,14 +1,13 @@
 import React from "react";
-import PrimarySearchAppBar from "./PrimarySearchAppBar";
 import TabPanel from "./TabPanel";
-
+import IndexTab from "./indexTab";
 
 function Index() {
     return (
         <>
-            <PrimarySearchAppBar />
+            <IndexTab />
+
             <TabPanel />
-            
         </>
     )
 }

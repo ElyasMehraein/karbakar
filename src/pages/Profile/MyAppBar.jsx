@@ -7,13 +7,10 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
-import { createTheme , ThemeProvider } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { ThemeProvider } from '@mui/material';
+import theme from '../theme';
 
-
-const theme = createTheme({
-  shadows:"none"
-})
 
 export default function MyAppBar() {
   return (

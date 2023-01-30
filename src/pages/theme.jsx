@@ -1,15 +1,8 @@
-import { Palette } from '@mui/icons-material';
-import { createTheme, ThemeProvider } from '@mui/material';
-import { green, purple } from '@mui/material/colors';
+import { createTheme  } from '@mui/material';
 const theme = createTheme({
-  shadows: "none",
-  Palette:{
-    common:{
-      arcBlue:"#0B7289",
-      arcOrange: "#FFBA60"
-    }
-    
-  }
+  
+    shadows: Array(25).fill('none')
+
 })
 
 export default theme
