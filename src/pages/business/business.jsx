@@ -2,9 +2,10 @@ import React from "react";
 import MyAppBar from "./MyAppBar";
 import BusinessHeader from "./BusinessHeader"
 import BusinessAvatar from "./BusinessAvatar";
-import TableSegment from './TableSegment'
-import BusinessTexts from './BusinessTexts'
-import BusinessTable from './BusinessTable'
+import BusinessBio from './businessBio'
+import CountactBusiness from './CountactBusiness'
+import TableBoxing from './TableBoxing'
+
 import { Box } from "@mui/material";
 
 function Business() {
@@ -13,9 +14,9 @@ function Business() {
             <MyAppBar />
             <BusinessHeader/>            
             <BusinessAvatar />
-            <BusinessTexts/>
-            <TableSegment/>
-            <BusinessTable/>
+            <BusinessBio/>
+            <CountactBusiness/>
+            <TableBoxing/>
         </Box>
 
     )

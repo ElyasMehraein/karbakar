@@ -8,7 +8,7 @@ export default function UserAvatar() {
     <Avatar
       alt="Remy Sharp"
       src={UserAvatarImg}
-      sx={{ width: 80, height: 80, mt: -5, ml: 2 }}
+      sx={{ width: 80, height: 80, mt: -5, ml: 4 }}
     />
 
   );

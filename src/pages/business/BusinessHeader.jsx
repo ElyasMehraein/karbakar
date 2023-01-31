@@ -9,9 +9,6 @@ import Typography from '@mui/material/Typography';
 export default function BusinessHeader() {
   return (
     <Box
-      // component="img"
-      // src={BHeader}
-      // alt={"some images"}
       sx={{
         backgroundImage: `url(${BHeader})`,
         display: "flex",
@@ -21,22 +18,7 @@ export default function BusinessHeader() {
         width: "100%",
         backgroundSize: "cover"
       }} />
-    // <Box
-    //   sx={{
-    //     backgroundImage: `url(${BHeader})`,
-    //     backgroundRepeat: "no-repeat",
-    //     backgroundColor: "black",
-    //     // backgroundAttachment: "fixed",
-    //     backgroundPosition: "center",
-    //     // backgroundSize: "cover",
-    //     height: 200,
-    //     width: "100%",
-    //     display: "flex",
-    //     justifyContent: "center",
-    //   }}
-    // >
 
-    // </Box>
   );
 }
 

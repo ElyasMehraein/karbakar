@@ -1,22 +1,21 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
+import Box from '@mui/material/Box';
 import profileHeader from "../../assets/profileHeader.jpg"
 
 
 export default function ProfileImg() {
   return (
-    <Card sx={{ maxWidth: "md" }}>
-      
-        <CardMedia
-          component="img"
-          image={profileHeader}
-          alt="green iguana"
-          height={400}
-        />
-      
-      
-    </Card>
+    <Box
+      sx={{
+        backgroundImage: `url(${profileHeader})`,
+        display: "flex",
+        justifyContent: "center",
+        backgroundPosition: "center",
+        height: "300px",
+        width: "100%",
+        backgroundSize: "cover"
+      }} />
+
   );
 }
 

@@ -16,7 +16,7 @@ function Wellcome() {
         <p>
           اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد و کسب و کارهای مولد
         </p>
-        <Button component={Link} to="/index" variant="contained">ورود یا ثبت نام</Button>
+        <Button component={Link} to="/index" variant="contained" >ورود یا ثبت نام</Button>
         
       </header>
     </div>
