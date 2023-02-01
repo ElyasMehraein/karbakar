@@ -6,7 +6,7 @@ const theme = createTheme({
     // subtitle2: {
     //   fontSize: [20, "!important"]
     // },
-    fontFamily: ["iranyekan", "Courier New, monospace", "Brush Script MT, Brush Script Std, cursive"].join(",")
+    fontFamily: ["iranyekan"].join(",")
   }
 
 })
