@@ -8,6 +8,7 @@ import TableBusiness from './TableBusiness'
 
 import { Box } from "@mui/material";
 import EmploeeList from "./EmploeeList";
+import WhatBusinessGet from "./WhatBusinessGet";
 
 function Business() {
     return (
@@ -19,6 +20,7 @@ function Business() {
             <CountactBusiness/>
             <TableBusiness/>
             <EmploeeList/>
+            <WhatBusinessGet/>
         </Box>
 
     )
