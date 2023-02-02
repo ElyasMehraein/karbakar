@@ -4,9 +4,11 @@ import BusinessHeader from "./BusinessHeader"
 import BusinessAvatar from "./BusinessAvatar";
 import BusinessBio from './businessBio'
 import CountactBusiness from './CountactBusiness'
-import TableBoxing from './TableBoxing'
+import TableBusiness from './TableBusiness'
 
 import { Box } from "@mui/material";
+import EmploeeList from "./EmploeeList";
+import WhatBusinessGet from "./WhatBusinessGet";
 
 function Business() {
     return (
@@ -16,7 +18,9 @@ function Business() {
             <BusinessAvatar />
             <BusinessBio/>
             <CountactBusiness/>
-            <TableBoxing/>
+            <TableBusiness/>
+            <EmploeeList/>
+            <WhatBusinessGet/>
         </Box>
 
     )

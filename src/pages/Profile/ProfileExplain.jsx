@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-const BusinessBio = () => {
+const ProfileExplain = () => {
     return (
         <Box
             display="flex"
@@ -14,12 +14,14 @@ const BusinessBio = () => {
                 align='center'
                 sx={{ maxWidth: { xs: 300, md: 800 }, p: 1 }}
             >
-                تعمیر انواع خودرو سواری خارجی موتور گیربکس و لوازم برقی لورم ایپسه در ستون و سطرآنچنانی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-
+           
+                لورم ایپسه در ستون و سطرآنچنانی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
+                تعمیر انواع خودرو سواری خارجی
+                موتور گیربکس و لوازم برقی
 
             </Typography>
         </Box>
     )
 }
 
-export default BusinessBio
+export default ProfileExplain

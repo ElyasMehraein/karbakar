@@ -5,7 +5,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import Box from '@mui/material/Box'
 import { Typography } from '@mui/material';
 
-const CountactBusiness = () => {
+const ProfileCountact = () => {
     return (
         <Box>
 
@@ -31,4 +31,4 @@ const CountactBusiness = () => {
     )
 }
 
-export default CountactBusiness
+export default ProfileCountact
