@@ -157,7 +157,7 @@ export default function IndexTab() {
     );
 
     return (
-        <Box sx={{  flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton
@@ -182,7 +182,9 @@ export default function IndexTab() {
                         />
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                    <Box
+                        
+                        sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
                                 <MailIcon />
@@ -219,6 +221,7 @@ export default function IndexTab() {
                             aria-haspopup="true"
                             onClick={handleMobileMenuOpen}
                             color="inherit"
+                            component={Link} to="/profile"
                         >
                             <MoreIcon />
                         </IconButton>

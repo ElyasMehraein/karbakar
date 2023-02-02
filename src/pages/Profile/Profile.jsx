@@ -2,9 +2,10 @@ import React from "react";
 import MyAppBar from "./MyAppBar";
 import ProfileImg from "./ProfileImg"
 import UserAvatar from "./UserAvatar";
-import TableSegment from './TableSegment'
-import ProfileTexts from './ProfileTexts'
-import ProfileTable from './ProfileTable'
+import ProfileCountact from './ProfileCountact'
+import ProfileBio from "./ProfileBio";
+import ProfileExplain from "./ProfileExplain";
+import UserJobs from "./UserJobs";
 
 function Profile() {
     return (
@@ -13,9 +14,10 @@ function Profile() {
             <ProfileImg>
             </ProfileImg>
             <UserAvatar />
-            <ProfileTexts/>
-            <TableSegment/>
-            <ProfileTable/>
+            <ProfileBio/>
+            <ProfileCountact/>
+            <ProfileExplain/>
+            <UserJobs/>
         </>
 
     )
