@@ -1,13 +1,13 @@
 import React from "react";
-import IndexBar from "./indexBar";
-import IndexTab from "./indexTab";
+import IndexAppBar from "./IndexAppBar";
+import Whatsup from "./Whatsup";
 import { Box } from "@mui/material";
 
 function Index() {
     return (
         <Box>
-            <IndexBar />
-            <IndexTab />
+            <IndexAppBar />
+            <Whatsup />
         </Box>
     )
 }
