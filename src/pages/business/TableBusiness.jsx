@@ -72,6 +72,7 @@ export default function TableBusiness() {
 
   return (
     <Box
+    justifyContent='center'
       sx={{
         p: 1,
         display: 'flex',
@@ -79,7 +80,8 @@ export default function TableBusiness() {
         '& > :not(style)': {
 
           width: "100%",
-          height: 1000,
+          maxWidth:700,
+          height: 480,
 
         },
       }}

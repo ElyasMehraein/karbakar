@@ -7,7 +7,6 @@ import CountactBusiness from './CountactBusiness'
 import TableBusiness from './TableBusiness'
 
 import { Box } from "@mui/material";
-import Workers from "./workers";
 
 function Business() {
     return (
@@ -18,7 +17,6 @@ function Business() {
             <BusinessBio/>
             <CountactBusiness/>
             <TableBusiness/>
-            <Workers/>
         </Box>
 
     )
