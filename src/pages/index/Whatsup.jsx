@@ -80,7 +80,6 @@ export default function FloatingActionButtonZoom() {
     {
       color: 'primary',
       sx: fabStyle,
-      icon: <AddIcon />,
       icon: <EditIcon />,
       label: 'edit',
     },
