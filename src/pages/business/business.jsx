@@ -7,6 +7,7 @@ import CountactBusiness from './CountactBusiness'
 import TableBusiness from './TableBusiness'
 
 import { Box } from "@mui/material";
+import EmploeeList from "./EmploeeList";
 
 function Business() {
     return (
@@ -17,6 +18,7 @@ function Business() {
             <BusinessBio/>
             <CountactBusiness/>
             <TableBusiness/>
+            <EmploeeList/>
         </Box>
 
     )
