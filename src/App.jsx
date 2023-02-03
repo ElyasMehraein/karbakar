@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from '@mui/material';
-import theme from './pages/theme';
+import theme from './theme';
 // Pages
 import Wellcome from "./pages/Wellcome/Wellcome";
 import Profile from './pages/Profile/Profile';

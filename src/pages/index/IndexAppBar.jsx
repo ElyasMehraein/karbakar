@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { styled, alpha ,useTheme} from '@mui/material/styles';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -26,52 +26,61 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
+import Avatar from '@mui/material/Avatar';
+import DomainDisabledIcon from '@mui/icons-material/DomainDisabled';
+import businessavatar from "../../assets/businessAvatar.jpg"
+import businessavatar2 from "../../assets/businessAvatar2.jpg"
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import BusinessIcon from '@mui/icons-material/Business';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+    ({ theme, open }) => ({
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: `-${drawerWidth}px`,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+        }),
     }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
-  }),
 );
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+    shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
-  transition: theme.transitions.create(['margin', 'width'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    marginLeft: `${drawerWidth}px`,
     transition: theme.transitions.create(['margin', 'width'], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
     }),
-  }),
+    ...(open && {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: `${drawerWidth}px`,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
 }));
 
 const DrawerHeader = styled('div')(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
-  ...theme.mixins.toolbar,
-  justifyContent: 'flex-end',
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
 }));
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -226,50 +235,75 @@ export default function IndexAppBar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" open={open}>
                 <Toolbar>
-                <Drawer
-        sx={{
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
+                    <Drawer
+                        sx={{
+                            flexShrink: 0,
+                            '& .MuiDrawer-paper': {
+                                width: drawerWidth,
+                                boxSizing: 'border-box',
+                            },
+                        }}
+                        variant="persistent"
+                        anchor="left"
+                        open={open}
+                    >
+                        <DrawerHeader>
+                            <IconButton onClick={handleDrawerClose}>
+                                {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                            </IconButton>
+                        </DrawerHeader>
+                        <Divider />
+                        <Typography fontWeight='bold' align='right' marginRight={2}>
+                            کسب و کارهای من
+                        </Typography>
+                        <List dir="rtl"  >
+                            <ListItem sx={{ color: "inherit" , mt:0}} component={Link} to="/business">
+                                <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={businessavatar} />
+                                </ListItemAvatar>
+                                <ListItemText align="right" primary="تعمیرگاه استاد جلال" secondary="کسب و کار اصلی" />
+                            </ListItem>
+                            <ListItem sx={{ color: "inherit" , mt:0 }} component={Link} to="/business">
+                                <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={businessavatar2} />
+                                </ListItemAvatar>
+                                <ListItemText align="right" primary="کشاورزی جلال" />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                        <List>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <AddBusinessIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="ایجاد کسب و کار جدید" />
+                                </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <DomainDisabledIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="استعفا از کسب و کار" />
+                                </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <BusinessIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="لیست تمام کسب و کارها" />
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                        <Divider />
+                        <Button color="error" endIcon={<LogoutIcon />}>
+                            خروج از سایت
+                        </Button>
+
+
+                    </Drawer>
                     <IconButton open={open}
                         onClick={handleDrawerOpen}
                         size="large"
@@ -341,6 +375,6 @@ export default function IndexAppBar() {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-        </Box>
+        </Box >
     );
 }

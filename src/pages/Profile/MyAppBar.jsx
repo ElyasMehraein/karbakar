@@ -9,7 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material';
-import theme from '../theme';
+import theme from '../../theme';
 
 
 export default function MyAppBar() {
