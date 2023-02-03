@@ -298,7 +298,7 @@ export default function IndexAppBar() {
                             </ListItem>
                         </List>
                         <Divider />
-                        <Button color="error" endIcon={<LogoutIcon />}>
+                        <Button component={Link} to="/" color="error" endIcon={<LogoutIcon />}>
                             خروج از سایت
                         </Button>
 
