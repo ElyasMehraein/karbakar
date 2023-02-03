@@ -36,7 +36,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Button from '@mui/material/Button';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
     ({ theme, open }) => ({

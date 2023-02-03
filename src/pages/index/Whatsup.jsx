@@ -48,7 +48,7 @@ function a11yProps(index) {
 const fabStyle = {
   position: 'absolute',
   bottom: 16,
-  right: 16,
+  right: 32,
 };
 
 const fabGreenStyle = {
@@ -105,6 +105,7 @@ export default function FloatingActionButtonZoom() {
         bgcolor: 'background.paper',
         width: "100%",
         position: 'relative',
+        height:"80vh",
         minHeight: 200,
         maxWidth: 700
       }}
