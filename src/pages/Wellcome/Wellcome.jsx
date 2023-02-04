@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import mhands from './m-hands.png';
+import mhands from '../../assets/m-hands.png'
 import './Wellcome.css';
 import { Link } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ function Wellcome() {
         <p>
           اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد و کسب و کارهای مولد
         </p>
-        <Button component={Link} to="/index" variant="contained" >ورود یا ثبت نام</Button>
+        <Button component={Link} to="/SignUpIn" variant="contained" >ورود یا ثبت نام</Button>
         
       </header>
     </div>
