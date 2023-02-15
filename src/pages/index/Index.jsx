@@ -1,14 +1,15 @@
 import React from "react";
-import TabPanel from "./TabPanel";
-import IndexTab from "./indexTab";
+import IndexAppBar from "./IndexAppBar";
+import Whatsup from "./Whatsup";
+import { Box } from "@mui/material";
 
 function Index() {
     return (
-        <>
-            <IndexTab />
+        <Box>
 
-            <TabPanel />
-        </>
+            <IndexAppBar />
+            <Whatsup />
+        </Box>
     )
 }
 

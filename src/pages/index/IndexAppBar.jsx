@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
+import { styled, alpha, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
@@ -16,8 +15,73 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
+import MuiAppBar from '@mui/material/AppBar';
+import Drawer from '@mui/material/Drawer';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import Avatar from '@mui/material/Avatar';
+import DomainDisabledIcon from '@mui/icons-material/DomainDisabled';
+import businessavatar from "../../assets/businessAvatar.jpg"
+import businessavatar2 from "../../assets/businessAvatar2.jpg"
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import BusinessIcon from '@mui/icons-material/Business';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import LogoutIcon from '@mui/icons-material/Logout';
+import Button from '@mui/material/Button';
 
+const drawerWidth = 260;
 
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: `-${drawerWidth}px`,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+        }),
+    }),
+);
+
+const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+    transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: `${drawerWidth}px`,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
+}));
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+}));
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -58,7 +122,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function IndexTab() {
+export default function IndexAppBar() {
+    const theme = useTheme();
+    const [open, setOpen] = React.useState(false);
+
+    const handleDrawerOpen = () => {
+        setOpen(true);
+    };
+
+    const handleDrawerClose = () => {
+        setOpen(false);
+    };
+
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -158,15 +233,85 @@ export default function IndexTab() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="static" open={open}>
                 <Toolbar>
-                    <IconButton
+                    <Drawer
+                        sx={{
+                            flexShrink: 0,
+                            '& .MuiDrawer-paper': {
+                                width: drawerWidth,
+                                boxSizing: 'border-box',
+                            },
+                        }}
+                        variant="persistent"
+                        anchor="left"
+                        open={open}
+                    >
+                        <DrawerHeader>
+                            <IconButton onClick={handleDrawerClose}>
+                                {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                            </IconButton>
+                        </DrawerHeader>
+                        <Divider />
+                        <Typography fontWeight='bold' align='right' marginRight={2}>
+                            کسب و کارهای من
+                        </Typography>
+                        <List dir="rtl"  >
+                            <ListItem sx={{ color: "inherit" , mt:0}} component={Link} to="/business">
+                                <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={businessavatar} />
+                                </ListItemAvatar>
+                                <ListItemText align="right" primary="تعمیرگاه استاد جلال" secondary="کسب و کار اصلی" />
+                            </ListItem>
+                            <ListItem sx={{ color: "inherit" , mt:0 }} component={Link} to="/business">
+                                <ListItemAvatar>
+                                    <Avatar alt="Remy Sharp" src={businessavatar2} />
+                                </ListItemAvatar>
+                                <ListItemText align="right" primary="کشاورزی جلال" />
+                            </ListItem>
+                        </List>
+                        <Divider />
+                        <List>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <AddBusinessIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="ایجاد کسب و کار جدید" />
+                                </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <DomainDisabledIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="استعفا از کسب و کار" />
+                                </ListItemButton>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <BusinessIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary="لیست تمام کسب و کارها" />
+                                </ListItemButton>
+                            </ListItem>
+                        </List>
+                        <Divider />
+                        <Button component={Link} to="/" color="error" endIcon={<LogoutIcon />}>
+                            خروج از سایت
+                        </Button>
+
+
+                    </Drawer>
+                    <IconButton open={open}
+                        onClick={handleDrawerOpen}
                         size="large"
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
-                        sx={{ mr: 2 }}
-                        component={Link} to="/business"
+                        sx={{ mr: 2, ...(open && { display: 'none' }) }}
+
 
                     >
                         <MenuIcon />
@@ -183,7 +328,7 @@ export default function IndexTab() {
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box
-                        
+
                         sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
@@ -230,6 +375,6 @@ export default function IndexTab() {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-        </Box>
+        </Box >
     );
 }
