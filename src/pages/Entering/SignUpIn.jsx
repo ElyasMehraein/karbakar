@@ -7,6 +7,10 @@ import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 
 export default function SignUpIn() {
+    function handleSubmit(e){
+        e.preventDefault()
+        alert("hello")
+    }
     return (
         <Box >
             <Box
@@ -54,7 +58,7 @@ export default function SignUpIn() {
                             >
 
                                 <Button sx={{ my: 2, width: 150, }} component={Link} to="/" variant="outlined" >بازگشت </Button>
-                                <Button sx={{ width: 150, }} component={Link} to="/index" variant="contained" >ورود یا ثبت نام</Button>
+                                <Button onSubmit={handleSubmit} sx={{ width: 150, }} component={Link} to="/index" variant="contained" >ورود یا ثبت نام</Button>
                             </Box>
                         </Box>
 
