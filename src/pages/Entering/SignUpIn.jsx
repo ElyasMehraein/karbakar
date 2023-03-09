@@ -1,20 +1,20 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import mhands from '../../assets/m-hands.png';
+import Axios from 'axios';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';
 
 export default function SignUpIn() {
-    function handleSubmit(e){
+
+    function helloo(e) {
         e.preventDefault()
         alert("hello")
     }
     return (
-        <Box >
+        <form  onSubmit={helloo}>
             <Box
-                component="form"
                 sx={{
                     '& .MuiTextField-root': { m: 1, width: '25ch' },
                 }}
@@ -58,7 +58,13 @@ export default function SignUpIn() {
                             >
 
                                 <Button sx={{ my: 2, width: 150, }} component={Link} to="/" variant="outlined" >بازگشت </Button>
-                                <Button onSubmit={handleSubmit} sx={{ width: 150, }} component={Link} to="/index" variant="contained" >ورود یا ثبت نام</Button>
+                                <Button
+                                    type="submit"
+                                    
+
+                                    sx={{ width: 150, }}
+                                    //  component={Link} to="/index"
+                                    variant="contained" >ورود یا ثبت نام</Button>
                             </Box>
                         </Box>
 
@@ -66,6 +72,6 @@ export default function SignUpIn() {
                 </div>
 
             </Box>
-        </Box>
+        </form>
     );
 }
