@@ -8,12 +8,18 @@ import Avatar from '@mui/material/Avatar';
 
 export default function SignUpIn() {
 
-    function helloo(e) {
+    async function helloo(e) {
         e.preventDefault()
-        alert("hello")
+        try {
+            await Axios.post("http://localhost:8080/register", { username: "09300000000", password: "jhbd98g8ysb87hs@@!111", email: "a@5b.com" })
+            console.log("user dorost shod");
+        } catch (error) {
+            console.log("user dorost naaashod");
+        }
+        alert("function anjam shod")
     }
     return (
-        <form  onSubmit={helloo}>
+        <form onSubmit={helloo}>
             <Box
                 sx={{
                     '& .MuiTextField-root': { m: 1, width: '25ch' },
@@ -60,7 +66,7 @@ export default function SignUpIn() {
                                 <Button sx={{ my: 2, width: 150, }} component={Link} to="/" variant="outlined" >بازگشت </Button>
                                 <Button
                                     type="submit"
-                                    
+
 
                                     sx={{ width: 150, }}
                                     //  component={Link} to="/index"
