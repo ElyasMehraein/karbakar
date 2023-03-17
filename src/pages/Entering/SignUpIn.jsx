@@ -69,7 +69,7 @@ export default function SignUpIn() {
 
 
                                     sx={{ width: 150, }}
-                                    //  component={Link} to="/index"
+                                     component={Link} to="/index"
                                     variant="contained" >ورود یا ثبت نام</Button>
                             </Box>
                         </Box>
