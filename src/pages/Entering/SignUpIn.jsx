@@ -16,7 +16,7 @@ export default function SignUpIn() {
         } catch (error) {
             console.log("user dorost naaashod");
         }
-        alert("function anjam shod")
+        // alert("function anjam shod")
     }
     return (
         <form onSubmit={helloo}>
