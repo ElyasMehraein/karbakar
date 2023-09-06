@@ -92,7 +92,6 @@ function Wellcome() {
               label={steps[activeStep].label}
               placeholder={steps[activeStep].placeholder}
               description={steps[activeStep].description}
-              type="tel"
               multiline
             />
           </Paper>
