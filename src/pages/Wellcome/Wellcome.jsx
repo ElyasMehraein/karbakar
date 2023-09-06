@@ -2,7 +2,7 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import mhands from "../../assets/m-hands.png";
 import "./Wellcome.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
@@ -12,6 +12,8 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const steps = [
   {
     label: "شماره موبایل خود را وارد کنید",
@@ -24,32 +26,33 @@ const steps = [
     description:
       "کد تایید برای شماره موبایل 092828282828 ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید",
   },
-  {
-    label: "کد تایید را وارد کنید",
-    description:
-      "حساب کاربری با شماره موبایل شما وجود ندارد. برای ساخت حساب جدید، کد تایید بصورت پیامک برای شما ارسال گردید    ",
-  },
 ];
 
 function Wellcome() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = steps.length;
+  
+  const navigate = useNavigate();
 
-  const handleNext = () => {
+  const handleNext = () =>{
+    activeStep === 1 ? navigate("/index"):
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
+  }
   const handleBack = () => {
+    if (activeStep === 0) {
+      changeShow();
+      return;
+    }
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   const [show, setShow] = useState(true);
-  console.log(show);
   const changeShow = () => {
     setShow(!show);
   };
 
+ 
   return (
     <div>
       <header className="wellcome-header">
@@ -98,11 +101,14 @@ function Wellcome() {
             activeStep={activeStep}
             nextButton={
               <Button
+                
+                
                 size="small"
                 onClick={handleNext}
-                disabled={activeStep === maxSteps - 1}
+                // disabled={activeStep === maxSteps - 1}
               >
                 بعدی
+                {}
                 {theme.direction === "rtl" ? (
                   <KeyboardArrowLeft />
                 ) : (
@@ -114,7 +120,7 @@ function Wellcome() {
               <Button
                 size="small"
                 onClick={handleBack}
-                disabled={activeStep === 0}
+                // disabled={activeStep === 0}
               >
                 {theme.direction === "rtl" ? (
                   <KeyboardArrowRight />

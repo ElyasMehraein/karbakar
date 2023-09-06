@@ -1,6 +1,5 @@
 #root {
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
@@ -21,6 +20,8 @@ p{
   margin: 0px 30px 20px 30px;
 }
 .wellcome-header {
+  padding: 2rem;
+
   background-color: #ffffff;
   min-height: 40vh;
   display: flex;
