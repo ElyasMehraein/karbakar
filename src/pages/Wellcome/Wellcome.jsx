@@ -18,7 +18,11 @@ const steps = [
   {
     label: "شماره موبایل خود را وارد کنید",
     placeholder: "مثلا 09123456789",
-    description: "انتخاب دکمه بعدی به معنی قبول قوانین سایت است",
+    description: (
+      <p>
+        انتخاب دکمه بعدی به معنی موافقت با <a href="url">قوانین سایت</a> است
+      </p>
+    ),
   },
   {
     label: "کد تایید را وارد کنید",
@@ -32,13 +36,14 @@ function Wellcome() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
   const maxSteps = steps.length;
-  
+
   const navigate = useNavigate();
 
-  const handleNext = () =>{
-    activeStep === 1 ? navigate("/index"):
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  }
+  const handleNext = () => {
+    activeStep === 1
+      ? navigate("/index")
+      : setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
   const handleBack = () => {
     if (activeStep === 0) {
       changeShow();
@@ -52,7 +57,6 @@ function Wellcome() {
     setShow(!show);
   };
 
- 
   return (
     <div>
       <header className="wellcome-header">
@@ -71,7 +75,7 @@ function Wellcome() {
           </Button>
         </div>
       ) : (
-        <Box display={"inline-block"} sx={{ maxWidth: 400 }}>
+        <Box display={"inline-block"} sx={{ maxWidth: 500 }}>
           <Paper
             square
             elevation={0}
@@ -83,7 +87,7 @@ function Wellcome() {
             }}
           >
             <TextField
-              sx={{ width: "250px" }}
+              sx={{ width: "230px" }}
               id="outlined-textarea"
               label={steps[activeStep].label}
               placeholder={steps[activeStep].placeholder}
@@ -92,7 +96,7 @@ function Wellcome() {
               multiline
             />
           </Paper>
-          <Box sx={{ height: 150, maxWidth: 400, width: "100%", p: 2 }}>
+          <Box sx={{ height: 150, maxWidth: 500, width: "100%", p: 2 }}>
             {steps[activeStep].description}
           </Box>
           <MobileStepper
@@ -101,8 +105,6 @@ function Wellcome() {
             activeStep={activeStep}
             nextButton={
               <Button
-                
-                
                 size="small"
                 onClick={handleNext}
                 // disabled={activeStep === maxSteps - 1}
