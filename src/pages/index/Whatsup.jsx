@@ -1,6 +1,6 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-// import SwipeableViews from 'react-swipeable-views';
+import SwipeableViews from "react-swipeable-views-react-18-fix";
 import { useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
@@ -124,7 +124,7 @@ export default function FloatingActionButtonZoom() {
           <Tab label="صورتحساب" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      {/* <SwipeableViews
+      <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={value}
         onChangeIndex={handleChangeIndex}
@@ -138,7 +138,7 @@ export default function FloatingActionButtonZoom() {
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
         </TabPanel>
-      </SwipeableViews> */}
+      </SwipeableViews>
       {fabs.map((fab, index) => (
         <Zoom
           key={fab.color}
