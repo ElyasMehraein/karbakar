@@ -106,7 +106,7 @@ export default function FloatingActionButtonZoom() {
         width: "100%",
         position: 'relative',
         height:"80vh",
-        minHeight: 200,
+        minHeight: 800,
         maxWidth: 700
       }}
     >
