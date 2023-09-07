@@ -1,12 +1,14 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
+import AvatarGroup from "@mui/material/AvatarGroup";
+
 import { Box, Chip, Stack } from "@mui/material";
 
 import businessAvatar2 from "../../../assets/businessAvatar2.jpg";
 import businessAvatar from "../../../assets/businessAvatar.jpg";
 import businessAvatar3 from "../../../assets/pars.jpg";
-
+import "./YourReq.css";
 const YourReq = () => {
   return (
     <div align={"center"}>
@@ -26,8 +28,8 @@ const YourReq = () => {
             justifyContent: "space-between",
             bgcolor: "#e3f2fd",
             border: "1px solid #64b5f6",
-            borderRadius: "21px",
-            height: 42,
+            borderRadius: "22px",
+            height: 45,
             "&:hover": {
               backgroundColor: "#bbdefb",
             },
@@ -42,14 +44,35 @@ const YourReq = () => {
               justifyContent: "space-between",
             }}
           >
-            <Avatar alt="Remy Sharp" src={businessAvatar} />
-            <Avatar alt="Remy Sharp" src={businessAvatar2} />
+            <AvatarGroup max={4} total={24}>
+              <Avatar alt="Remy Sharp" src={businessAvatar} />
+              <Avatar alt="Remy Sharp" src={businessAvatar2} />
+              <Avatar alt="Remy Sharp" src={businessAvatar3} />
+            </AvatarGroup>
           </Box>
-          <Box sx={{ mr: 2, flexDirection: "column", display: "flex" }}>
-            <Typography sx={{ textAlign: "right" }}>
+          <Box
+            sx={{
+              // position: "relative",
+              mr: 2,
+              flexDirection: "column",
+              display: "flex",
+            }}
+          >
+            <Typography noWrap={true} 
+            // sx={{ textAlign: "right" }}
+            >
               تعویض روغن ماشین
             </Typography>
-            <Typography sx={{ fontSize: 10 }}>
+            <Typography
+              // dir="rtl"
+              // noWrap={true}
+              sx={{
+                // position: "relative",
+                // textAlign: "right",
+                fontSize: 10,
+                width: "45vw",
+              }}
+            >
               ماشینم پراید هست روغن رو خودم تهیه می کنم
             </Typography>
           </Box>
@@ -76,8 +99,11 @@ const YourReq = () => {
               justifyContent: "space-between",
             }}
           >
-            <Avatar alt="Remy Sharp" src={businessAvatar} />
-            <Avatar alt="Remy Sharp" src={businessAvatar2} />
+            <AvatarGroup max={4} total={24}>
+              <Avatar alt="Remy Sharp" src={businessAvatar} />
+              <Avatar alt="Remy Sharp" src={businessAvatar2} />
+              <Avatar alt="Remy Sharp" src={businessAvatar3} />
+            </AvatarGroup>
           </Box>
           <Box sx={{ mr: 2, flexDirection: "column", display: "flex" }}>
             <Typography sx={{ textAlign: "right" }}>
