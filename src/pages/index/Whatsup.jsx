@@ -1,19 +1,20 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import * as React from "react";
+import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views-react-18-fix";
-import { useTheme } from '@mui/material/styles';
-import AppBar from '@mui/material/AppBar';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Zoom from '@mui/material/Zoom';
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import UpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { green } from '@mui/material/colors';
-import Box from '@mui/material/Box';
-import YourReq from './temporaryComponents/YourReq';
+import { useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Zoom from "@mui/material/Zoom";
+import Fab from "@mui/material/Fab";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import UpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { green } from "@mui/material/colors";
+import Box from "@mui/material/Box";
+import YourReq from "./temporaryComponents/YourReq";
+import OthersRequest from "./temporaryComponents/OthersRequest";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,20 +42,20 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `action-tab-${index}`,
-    'aria-controls': `action-tabpanel-${index}`,
+    "aria-controls": `action-tabpanel-${index}`,
   };
 }
 
 const fabStyle = {
-  position: 'absolute',
-  bottom: 16,
+  position: "fixed",
+  bottom: 32,
   right: 32,
 };
 
 const fabGreenStyle = {
-  color: 'common.white',
+  color: "common.white",
   bgcolor: green[500],
-  '&:hover': {
+  "&:hover": {
     bgcolor: green[600],
   },
 };
@@ -78,39 +79,38 @@ export default function FloatingActionButtonZoom() {
 
   const fabs = [
     {
-      color: 'primary',
+      color: "primary",
       sx: fabStyle,
       icon: <EditIcon />,
-      label: 'edit',
+      label: "edit",
     },
     {
-      color: 'secondary',
+      color: "secondary",
       sx: fabStyle,
       icon: <EditIcon />,
-      label: 'Edit',
+      label: "Edit",
     },
     {
-      color: 'inherit',
+      color: "inherit",
       sx: { ...fabStyle, ...fabGreenStyle },
       icon: <UpIcon />,
-      label: 'Expand',
+      label: "Expand",
     },
   ];
 
   return (
     <Box
-      
       sx={{
         margin: "auto",
-        bgcolor: 'background.paper',
+        bgcolor: "background.paper",
         width: "100%",
-        position: 'relative',
-        height:"80vh",
+        position: "relative",
+        height: "80vh",
         minHeight: 800,
-        maxWidth: 700
+        maxWidth: 1200,
       }}
     >
-      <AppBar position="static" color="default">
+      <AppBar   position= "relative" color="default">
         <Tabs
           value={value}
           onChange={handleChange}
@@ -125,35 +125,39 @@ export default function FloatingActionButtonZoom() {
         </Tabs>
       </AppBar>
       <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        axis={theme.direction === "rtl" ? "x-reverse" : "x"}
         index={value}
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-        <YourReq/>
+          <YourReq />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+        <OthersRequest/>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
         </TabPanel>
       </SwipeableViews>
-      {fabs.map((fab, index) => (
-        <Zoom
-          key={fab.color}
-          in={value === index}
-          timeout={transitionDuration}
-          style={{
-            transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
-          }}
-          unmountOnExit
-        >
-          <Fab sx={fab.sx} aria-label={fab.label} color={fab.color}>
-            {fab.icon}
-          </Fab>
-        </Zoom>
-      ))}
+
+        {fabs.map((fab, index) => (
+          <Zoom
+     
+            key={fab.color}
+            in={value === index}
+            timeout={transitionDuration}
+            style={{
+              transitionDelay: `${
+                value === index ? transitionDuration.exit : 0
+              }ms`,
+            }}
+            unmountOnExit
+          >
+            <Fab sx={fab.sx} aria-label={fab.label} color={fab.color}>
+              {fab.icon}
+            </Fab>
+          </Zoom>
+        ))}
     </Box>
   );
 }

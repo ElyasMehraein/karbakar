@@ -15,6 +15,7 @@ h4,
 h5,
 h6,
 p,
+span,
 input,
 textarea,
 button {
@@ -87,8 +88,9 @@ h1 {
 }
 
 .text-extrabold {
-	font-weight: 800;
+	font-weight: 800 !important
 }
+
 
 .text-black {
 	font-weight: 900;
@@ -98,7 +100,7 @@ h1 {
 	font-weight: 950;
 }
 
-blockquote {
+.blockquote {
 	font-weight: 500;
 	padding: 10px;
 	border: 1px dashed #666666;
@@ -154,7 +156,6 @@ blockquote {
 	padding-bottom: 10px;
 
 }
-
 .farsiparagraph_negativ {
 	font-size: 1em;
 	color: #F9F9F9;
@@ -255,4 +256,10 @@ blockquote {
 	direction: ltr;
 	margin-bottom: 0px;
 	padding-bottom: 0px;
+}
+
+.MuiListItemText-primary {
+	background-color: #CCFF33;
+	display: flex;
+	justify-content:"flex-end"
 }

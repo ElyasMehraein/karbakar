@@ -1,17 +1,11 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import AvatarGroup from "@mui/material/AvatarGroup";
+import { Stack } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 
-import { Box, Chip, Stack } from "@mui/material";
+import RequestFrames from "./YourRequestFrames";
 
-import RequestFrames from "./RequestFrames";
-
-import businessAvatar2 from "../../../assets/businessAvatar2.jpg";
-import businessAvatar from "../../../assets/businessAvatar.jpg";
-import businessAvatar3 from "../../../assets/pars.jpg";
-import "./YourReq.css";
-import FixedBottomNavigation from "../FixedBottomNavigation";
+import FixedBottomNavigation from "../testComponent";
 const YourReq = () => {
   return (
     <div align={"center"}>
@@ -20,18 +14,34 @@ const YourReq = () => {
         بیشتری از درخواست های دیگران انجام بدی دیگران هم درخواست های بیشتری برای
         شما انجام خواهند داد
       </Typography>
-
-      <Typography sx={{ m: 2, width: "200px" }} bgcolor="#cfd8dc">
-        درخواست های تایید شده
-      </Typography>
+      <Grid xs display="flex" justifyContent="center" alignItems="center">
+        <Typography sx={{ m: 2 }} bgcolor="#cfd8dc">
+          درخواست های تایید شده
+        </Typography>
+      </Grid>
       <Stack spacing={1}>
-         <RequestFrames />
-         <FixedBottomNavigation></FixedBottomNavigation>
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
+        <RequestFrames />
       </Stack>
-      <Typography sx={{ m: 2, width: "200px" }} bgcolor="#cfd8dc">
+      <Grid xs display="flex" justifyContent="center" alignItems="center">
+
+      <Typography sx={{ m: 2}} bgcolor="#cfd8dc">
         درخواست های منتظر تایید
       </Typography>
-      
+      </Grid>
     </div>
   );
 };
