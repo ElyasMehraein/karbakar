@@ -1,14 +1,15 @@
 import React from "react";
-import IndexAppBar from "./IndexAppBar";
-import Whatsup from "./Whatsup";
+import PrimaryAppBar from "./PrimaryAppBar";
+import Tabs from "./Tabs";
+import IndexDrawer from "./IndexDrawer";
 import { Box } from "@mui/material";
-import YourReq from "./temporaryComponents/YourReq"
 
 function Index() {
     return (
         <Box>
-            <IndexAppBar />
-            <Whatsup />
+            <IndexDrawer/>
+            <PrimaryAppBar />
+            <Tabs />
         </Box>
     )
 }
