@@ -258,8 +258,3 @@ h1 {
 	padding-bottom: 0px;
 }
 
-.MuiListItemText-primary {
-	background-color: #CCFF33;
-	display: flex;
-	justify-content:"flex-end"
-}
