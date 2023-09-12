@@ -16,7 +16,7 @@ import businessAvatar from "../../../assets/businessAvatar.jpg";
 import businessAvatar3 from "../../../assets/pars.jpg";
 const OthersRequestFrames = () => {
   return (
-    <div>
+    <>
       <Box
         sx={{
           display: "flex",
@@ -43,7 +43,7 @@ const OthersRequestFrames = () => {
           </Typography>
         </Box>
       </Box>
-    </div>
+    </>
   );
 };
 export default OthersRequestFrames;
