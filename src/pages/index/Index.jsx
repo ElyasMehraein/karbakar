@@ -7,7 +7,7 @@ function Index() {
   return (
     <Box>
       <DrawerAndAppBar />
-      {/* <Tabs /> */}
+      <Tabs />
     </Box>
   );
 }

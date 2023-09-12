@@ -1,41 +1,29 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
-import { Stack } from "@mui/material";
-import Grid from "@mui/material/Unstable_Grid2";
-
+import * as React from "react";
+import { styled } from "@mui/material/styles";
+import Divider from "@mui/material/Divider";
 import OthersRequestFrames from "./OthersRequestFrames";
 
-const OthersRequest = () => {
+
+
+const Root = styled("div")(({ theme }) => ({
+  width: "100%",
+  ...theme.typography.body2,
+  "& > :not(style) ~ :not(style)": {
+    marginTop: theme.spacing(2),
+  },
+}));
+
+export default function DividerText() {
+  
+
   return (
-    <div>
-
-      <Grid xs display="flex" justifyContent="right" alignItems="center" >
-        <Typography className={"text-extrabold"} sx={{ m: 2 }}>
-          درخواست هایی که تایید کردید
-        </Typography>
-      </Grid>
-
-
-      <Stack spacing={1}>
-        <OthersRequestFrames />
-      </Stack>
-
-      <Grid xs display="flex" justifyContent="center" alignItems="center">
-      <Typography sx={{ m: 2}} bgcolor="#cfd8dc">
-        درخواست هایی که درخواست اطلاعات بیشتر کردید
-      </Typography>
-      </Grid>
-
-      <Grid xs display="flex" justifyContent="center" alignItems="center">
-      <Typography sx={{ m: 2}} bgcolor="#cfd8dc">
-        درخواست های منتظر تایید
-      </Typography>
-      </Grid>
-
-
-     
-    </div>
+    <Root>
+      <Divider className={"text-extrabold"} textAlign="left">درخواست هایی که تایید کردید</Divider>
+      <OthersRequestFrames/>
+      <Divider className={"text-extrabold"} textAlign="left">درخواست هایی که درخواست اطلاعات بیشتر کردید</Divider>
+      <OthersRequestFrames/>
+      <Divider className={"text-extrabold"} textAlign="left">درخواست هایی که درخواست اطلاعات بیشتر کردید</Divider>
+            <OthersRequestFrames/>
+    </Root>
   );
-};
-
-export default OthersRequest;
+}
