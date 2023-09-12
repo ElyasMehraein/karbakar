@@ -1,61 +1,54 @@
+import * as React from "react";
 import Typography from "@mui/material/Typography";
-import Grid from '@mui/material/Unstable_Grid2/Grid2';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import Divider from "@mui/material/Divider";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
+import CardHeader from "@mui/material/CardHeader";
+import { red } from "@mui/material/colors";
+import Box from "@mui/material/Box";
 
 import businessAvatar2 from "../../../assets/businessAvatar2.jpg";
 import businessAvatar from "../../../assets/businessAvatar.jpg";
 import businessAvatar3 from "../../../assets/pars.jpg";
-const RequestFrames = () => {
+const OthersRequestFrames = () => {
   return (
     <div>
-      <Grid
-        container
+      <Box
         sx={{
-          flexGrow: 1,
-          bgcolor: "#e3f2fd",
-          border: "1px solid #64b5f6",
-          borderRadius: "22px",
-          height: 46,
-          "&:hover": {
-            backgroundColor: "#bbdefb",
-          },
+          display: "flex",
+          alignItems: "flex-start",
+          flexDirection: "row",
         }}
-        variant="outlined"
-        color="info"
       >
-        <Grid
-          xs="auto"
-          container
-          direction="row"
-          justifyContent="flex-start"
-          alignItems="flex-start"
+        
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "flex-start",
+            flexDirection: "column",
+            mr:2
+          }}
         >
-          <AvatarGroup max={4} total={24}>
+          <Typography  textAlign={"right"}>
+          تعویض روغن ماشین
+          </Typography>
+
+          <Typography   sx={{ mr: 1, fontSize: 12 }} dir="rtl" noWrap >
+            ماشینم پراید هست فیلتر میخوام شیشه شور میخوام تنظیم باد هم میخوام
+            روغن گیربکس هم باید عوض بشه ولی روغن رو خودم تهیه می کنم
+          </Typography>
+        </Box>
+        <AvatarGroup max={4} total={24}>
             <Avatar alt="Remy Sharp" src={businessAvatar} />
             <Avatar alt="Remy Sharp" src={businessAvatar2} />
             <Avatar alt="Remy Sharp" src={businessAvatar3} />
           </AvatarGroup>
-        </Grid>
-        <Grid
-          container
-          direction="column"
-          justifyContent="flex-start"
-          alignItems="flex-end"
-          xs
-        >
-          <Typography sx={{ mr: 2 }} textAlign="right">
-            تعویض روغن ماشین
-          </Typography>
-          <Grid item xs zeroMinWidth>
-            <Typography sx={{ mr: 1, fontSize: 12 }} dir="rtl" noWrap>
-              ماشینم پراید هست فیلتر میخوام شیشه شور میخوام تنظیم باد هم میخوام
-              روغن گیربکس هم باید عوض بشه ولی روغن رو خودم تهیه می کنم
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
+      </Box>
     </div>
   );
 };
-export default RequestFrames;
+export default OthersRequestFrames;
