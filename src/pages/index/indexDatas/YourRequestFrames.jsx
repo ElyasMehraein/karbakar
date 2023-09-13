@@ -42,7 +42,7 @@ const OthersRequestFrames = () => {
             روغن گیربکس هم باید عوض بشه ولی روغن رو خودم تهیه می کنم
           </Typography>
         </Box>
-        <AvatarGroup max={4} total={24}>
+        <AvatarGroup dir="ltr" max={4} total={24}>
             <Avatar alt="Remy Sharp" src={businessAvatar} />
             <Avatar alt="Remy Sharp" src={businessAvatar2} />
             <Avatar alt="Remy Sharp" src={businessAvatar3} />
