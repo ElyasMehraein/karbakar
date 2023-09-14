@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import OthersRequest from './indexDatas/OthersRequest';
 import OthersRequestFrames from './indexDatas/OthersRequestFrames';
 import YourReq from './indexDatas/YourReq';
+import Bill from './indexDatas/Bill';
 
 
 
@@ -72,7 +73,7 @@ export default function BasicTabs() {
         <OthersRequest/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <Bill/>
       </CustomTabPanel>
     </Box>
   );
