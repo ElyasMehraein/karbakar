@@ -15,7 +15,7 @@ export default function DividerText() {
   return (
     <Root>
       <Divider className={"text-extrabold"} textAlign="left">
-        درخواست هایی که تایید کردید
+        درخواست هایی که کسب و کار شما تایید کرده است
       </Divider>
       <OthersRequestFrames />
       <Divider className={"text-extrabold"} textAlign="left">
