@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import mongoose from "mongoose"
 
 const schema = new Schema({
 
@@ -8,7 +9,7 @@ const schema = new Schema({
         unique: true,
     },
 
-    mobNumbHash:{
+    phoneHash:{
         type:String,
         required: true,
         unique: true,
@@ -18,5 +19,4 @@ const schema = new Schema({
 },{ timestamps: true })
 
 const userModel = mongoose.model("User",schema)
-
 export default userModel
