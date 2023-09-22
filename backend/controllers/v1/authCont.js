@@ -1,3 +1,4 @@
+import { log } from "console";
 import userModel from "../../models/user.js";
 import { smsCheck } from "../../validators/register.js";
 import { phoneCheck } from "../../validators/register.js";
@@ -7,7 +8,7 @@ import jwt from "jsonwebtoken";
 
 const sms = async (req, res) => {
   const phonEnterValidation = smsCheck(req.body);
-  console.log("javabe validate enter phone=> ", phonEnterValidation);
+  phonEnterValidation? console.log("sms ersal shod"): console.log("shomare moshkel dare");
 };
 
 const sign = async (req, res) => {
