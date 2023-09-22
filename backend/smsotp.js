@@ -4,8 +4,10 @@ import 'dotenv/config'
 const smsuser = process.env.SMSUSER;
 const smspass = process.env.SMSPASS;
 const client = new TrezSmsClient(smsuser, smspass)
-console.log(client);
-function sendSMS(userNumber) {
+// console.log(client);
+
+
+export default function sendSMS(userNumber) {
     client.autoSendCode(userNumber, "karbakar.ir").then((messageId) => {
         console.log("Sent Message ID: " + messageId);
     })
@@ -24,4 +26,4 @@ client.checkCode("09301234567", "595783")
     .catch(error => console.log(error));
 
 
-sendSMS("09305845526")
+// sendSMS("09305845526")

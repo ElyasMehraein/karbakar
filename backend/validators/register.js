@@ -1,13 +1,20 @@
-import Validator from 'fastest-validator';
+import Validator from "fastest-validator";
+
+const v = new Validator();
+
+const smsSchema = {
+  phone: { type: "string", length: 11 },
+  $$strict: true,
+};
+const smsCheck = v.compile(smsSchema);
 
 
-const v = new Validator()
 
-const schema = {
-    phone: { type: "string" , length:11},
-    smsCode:{ type: "string" , length:6},
-    $$strict: true
-}
-const check = v.compile(schema)
+const phoneSchema = {
+  phone: { type: "string", length: 11 },
+  smsCode: { type: "string", length: 6 },
+  $$strict: true,
+};
+const phoneCheck = v.compile(phoneSchema);
 
-export default check
+export { smsCheck, phoneCheck };
