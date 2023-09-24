@@ -15,10 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-function hello() {
-    console.log("hhhheeelllooo");
-}
-// app.get("/v1/auth/sms", hello);
-app.use("/v1/auth", authRouter, hello);
+
+app.use("/v1/auth", authRouter);
 
 export default app;

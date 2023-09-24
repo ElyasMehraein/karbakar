@@ -1,29 +1,25 @@
-import TrezSmsClient from "trez-sms-client"
-import 'dotenv/config'
-
+import TrezSmsClient from "trez-sms-client";
+import "dotenv/config";
 const smsuser = process.env.SMSUSER;
 const smspass = process.env.SMSPASS;
-const client = new TrezSmsClient(smsuser, smspass)
-// console.log(client);
+const client = new TrezSmsClient(smsuser, smspass);
 
-
-export default function sendSMS(userNumber) {
-    client.autoSendCode(userNumber, "karbakar.ir").then((messageId) => {
-        console.log("Sent Message ID: " + messageId);
+function sendSMS(userNumber) {
+  console.log("message sent to ", userNumber);
+  client
+    .autoSendCode(userNumber, "karbakar.ir")
+    .then((messageId) => {
+      console.log("Sent Message ID: " + messageId);
     })
-        .catch(error => console.log(error));
-
+    .catch((error) => console.log("sms sendig catch a problem",error));
 }
-client.checkCode("09301234567", "595783")
+function checkSMS(userNumber, SMSCode) {
+  client
+    .checkCode(userNumber, SMSCode)
     .then((isValid) => {
-        if (isValid) {
-            console.log("Code 595783 for this number 09301234567 is valid and verified.");
-        }
-        else {
-            console.log("Provided code for that number is not valid!");
-        }
+     console.log(isValid)
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
+}
 
-
-// sendSMS("09305845526")
+export { sendSMS, checkSMS };

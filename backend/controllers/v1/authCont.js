@@ -1,20 +1,23 @@
-import { log } from "console";
 import userModel from "../../models/user.js";
-import { smsCheck } from "../../validators/register.js";
-import { phoneCheck } from "../../validators/register.js";
+import {
+  phoneNumberCheck,
+  phoneValidate,
+  codeValidate,
+} from "../../validators/register.js";
 import { createHash } from "crypto";
 import jwt from "jsonwebtoken";
-// import smsotp from "../../smsotp.js";
+import { sendSMS, checkSMS } from "../../smsotp.js";
+import { log } from "console";
 
-const sms = async (req, res) => {
-  const phonEnterValidation = smsCheck(req.body);
-  phonEnterValidation? console.log("sms ersal shod"): console.log("shomare moshkel dare");
+const phoneCheck = async (req, res) => {
+  let phone = req.body.phone;
+  const phonEnterValidation = phoneNumberCheck(phone) && phoneValidate(phone);
+  phonEnterValidation ? sendSMS(phone) : console.log("phone is Not fine");
 };
 
-const sign = async (req, res) => {
-  const validationResult = phoneCheck(req.body);
-  console.log("message is here=> ", validationResult);
-  if (validationResult != true) {
+const SMSCodeCheck = async (req, res) => {
+  const validationResult = codeValidate(req.body);
+  if (validationResult && checkSMS(req.body.phone, req.body.smsCode) != true) {
     return res.status(422).json(validationResult);
   }
   const { phone, smsCode } = req.body;
@@ -25,20 +28,18 @@ const sign = async (req, res) => {
   if (isPhoneHashExist) {
     // if true then the login process will proceed
     return res.status(201).json({
-      message: "کد تایید از طریق پیامک ارسال می شود",
+      message: "user exist and ready to loged in",
     });
   }
 
-  // register continuous
+  // if phoneHash is not exist so we register user from here
   let nextUserNumber = (await userModel.count()) + 1000;
 
-  if (isPhoneHashExist) {
-  }
   const user = await userModel.create({
     phoneHash,
     code: nextUserNumber,
   });
-
+  return console.log(process.env.JWT_SECRET);
   const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "30 day",
   });
@@ -50,4 +51,4 @@ const login = async (req, res) => {};
 
 const getMe = async (req, res) => {};
 
-export default { sms, login, getMe };
+export default { phoneCheck, SMSCodeCheck, getMe };
