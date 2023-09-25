@@ -17,7 +17,7 @@ function checkSMS(userNumber, SMSCode) {
   client
     .checkCode(userNumber, SMSCode)
     .then((isValid) => {
-     console.log(isValid)
+     console.log("isvalid=> ",isValid)
     })
     .catch((error) => console.log(error));
 }

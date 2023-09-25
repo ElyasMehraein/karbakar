@@ -17,5 +17,4 @@ app.use(express.urlencoded({ extended: false }));
 
 
 app.use("/v1/auth", authRouter);
-
 export default app;

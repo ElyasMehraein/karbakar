@@ -1,13 +1,12 @@
 import userModel from "../../models/user.js";
-import {
-  phoneNumberCheck,
-  phoneValidate,
-  codeValidate,
-} from "../../validators/register.js";
+import {  phoneNumberCheck,  phoneValidate,  codeValidate,} from "../../validators/register.js";
 import { createHash } from "crypto";
 import jwt from "jsonwebtoken";
 import { sendSMS, checkSMS } from "../../smsotp.js";
-import { log } from "console";
+
+
+
+
 
 const phoneCheck = async (req, res) => {
   let phone = req.body.phone;
@@ -15,31 +14,26 @@ const phoneCheck = async (req, res) => {
   phonEnterValidation ? sendSMS(phone) : console.log("phone is Not fine");
 };
 
-const SMSCodeCheck = async (req, res) => {
+//this function after the approved user then heads to log in or register
+const SMSCodeCheck = async (req, res) => { 
   const validationResult = codeValidate(req.body);
-  if (validationResult && checkSMS(req.body.phone, req.body.smsCode) != true) {
+  if (validationResult && checkSMS(req.body.phone, req.body.smsCode) != true ) {
     return res.status(422).json(validationResult);
   }
-  const { phone, smsCode } = req.body;
-
-  const phoneHash = createHash("sha256").update(phone).digest("hex");
+  //being here means user phone-number approved
+  const phoneHash = createHash("sha256").update(req.body.phone).digest("hex");
   const isPhoneHashExist = await userModel.findOne({ phoneHash });
 
   if (isPhoneHashExist) {
-    // if true then the login process will proceed
-    return res.status(201).json({
-      message: "user exist and ready to loged in",
-    });
+    return res.status(201).json({message: "user exist and ready to loged in"});
   }
 
   // if phoneHash is not exist so we register user from here
   let nextUserNumber = (await userModel.count()) + 1000;
-
   const user = await userModel.create({
     phoneHash,
     code: nextUserNumber,
   });
-  return console.log(process.env.JWT_SECRET);
   const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
     expiresIn: "30 day",
   });
