@@ -13,7 +13,7 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import phoneNumberCheck from "../../../validation/validation";
+import { phoneNumberCheck, codeCheck } from "../../../validation/validation";
 
 const steps = [
   {
@@ -29,7 +29,7 @@ const steps = [
     label: "کد تایید را وارد کنید",
     placeholder: "کد تایید پیامکی را وارد نمایید",
     description:
-      "کد تایید برای شماره موبایل 092828282828 ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید",
+     `کد تایید برای شماره موبایل شما ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید`
   },
 ];
 
@@ -38,12 +38,11 @@ function Wellcome() {
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
   const navigate = useNavigate();
-  const [textFieldError, setTextFieldError] = useState(false)
+  const [textFieldError, setTextFieldError] = useState(false);
   const [phone, setPhone] = useState("");
-  const changeSetphone = (value) => {
-    console.log("are ba");
-    setPhone(value);
-    console.log(value);
+  const [code, setCode] = useState("");
+  const changeSetValues = (value) => {
+    activeStep === 0 ? setPhone(value) : setCode(value);
   };
 
   const [show, setShow] = useState(true);
@@ -51,7 +50,7 @@ function Wellcome() {
     setShow(!show);
   };
   function phoneError() {
-    setTextFieldError(true)
+    setTextFieldError(true);
   }
   function phoneFine() {
     console.log("fine e");
@@ -59,14 +58,19 @@ function Wellcome() {
   }
 
   function handleNext() {
-    if (phoneNumberCheck(phone)) {
-      phoneFine();
-      setPhone("");
-      console.log("injam", phone);
+    if (activeStep === 0) {
+      if (phoneNumberCheck(phone)) {
+        phoneFine();
+        console.log("code vase shomare", phone, "ersal shod");
+      } else {
+        phoneError();
+      }
     } else {
-      
-      phoneError();
-
+      if (codeCheck(code)) {
+        console.log(`send ${phone} and ${code} to api and wait for register or login`);
+      }else{
+        phoneError()
+      }
     }
   }
 
@@ -110,16 +114,18 @@ function Wellcome() {
             <TextField
               error={textFieldError}
               onChange={(e) => {
-                changeSetphone(e.target.value);
-                setTextFieldError(false)
+                changeSetValues(e.target.value);
+                setTextFieldError(false);
               }}
               sx={{ width: "230px" }}
               id="outlined-textarea"
-              label={textFieldError?"شماره موبایل بدرستی وارد نشده است":steps[activeStep].label}
+              label={
+                textFieldError?activeStep===0 ? "شماره موبایل بدرستی وارد نشده":"کد تایید پیامکی اشتباه وارد شده است"
+                  : steps[activeStep].label
+              }
               placeholder={steps[activeStep].placeholder}
-              description={steps[activeStep].description}
               multiline
-              value={phone}
+              value={activeStep === 0 ? phone : code}
             />
           </Paper>
           <Box sx={{ height: 150, maxWidth: 500, width: "100%", p: 2 }}>
@@ -156,4 +162,5 @@ function Wellcome() {
     </div>
   );
 }
+
 export default Wellcome;
