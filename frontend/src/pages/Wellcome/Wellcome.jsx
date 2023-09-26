@@ -13,6 +13,7 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import phoneNumberCheck from "../../../validation/validation";
 
 const steps = [
   {
@@ -31,24 +32,40 @@ const steps = [
       "کد تایید برای شماره موبایل 092828282828 ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید",
   },
 ];
-function Wellcome() {
-  const [phone, setPhone] = useState("");
-  const [show, setShow] = useState(true);
+// useLayoutEffect(() => {}, [steps[0].label]);
 
-  const changeShow = () => {
-    setShow(!show);
-  };
+function Wellcome() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
-
   const navigate = useNavigate();
 
+  const [phone, setPhone] = useState("");
+  const changeSetphone = (value) => {
+    setPhone(value);
+  };
+
+  const [show, setShow] = useState(true);
+  const changeShow = () => {
+    setShow(!show);
+  };
+
+  const phoneError = () => {
+    steps[0].label = "شماره موبایل بدرستی وارد نشده است";
+    console.log(steps[0].label);
+  };
   const handleNext = () => {
-    activeStep === 1
-      ? navigate("/index")
-      : setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    console.log(steps[0].placeholder);
+    console.log(phone);
+    if (phoneNumberCheck(phone)) {
+      console.log("damam garm");
+      activeStep === 1
+        ? navigate("/index")
+        : setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      console.log(steps[1].placeholder);
+    } else {
+      phoneError();
+      console.log("vaysa");
+    }
   };
   const handleBack = () => {
     if (activeStep === 0) {
@@ -88,6 +105,9 @@ function Wellcome() {
             }}
           >
             <TextField
+              onChange={(e) => {
+                changeSetphone(e.target.value);
+              }}
               sx={{ width: "230px" }}
               id="outlined-textarea"
               label={steps[activeStep].label}
