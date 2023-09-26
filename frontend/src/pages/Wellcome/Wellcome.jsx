@@ -17,15 +17,6 @@ import phoneNumberCheck from "../../../validation/validation";
 
 const steps = [
   {
-    label: "شماره موبایل اشتباه است",
-    placeholder: "مثلا 09123456789",
-    description: (
-      <p>
-        انتخاب دکمه بعدی به معنی موافقت با <a href="url">قوانین سایت</a> است
-      </p>
-    ),
-  },
-  {
     label: "شماره موبایل خود را وارد کنید",
     placeholder: "مثلا 09123456789",
     description: (
@@ -40,20 +31,14 @@ const steps = [
     description:
       "کد تایید برای شماره موبایل 092828282828 ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید",
   },
-  {
-    label: "کد تایید را وارد کنید",
-    placeholder: "کد تایید پیامکی را وارد نمایید",
-    description:
-      "کد تایید برای شماره موبایل 092828282828 ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید",
-  },
 ];
 
 function Wellcome() {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
   const navigate = useNavigate();
-
+  const [textFieldError, setTextFieldError] = useState(false)
   const [phone, setPhone] = useState("");
   const changeSetphone = (value) => {
     console.log("are ba");
@@ -66,11 +51,11 @@ function Wellcome() {
     setShow(!show);
   };
   function phoneError() {
-    setActiveStep(() => 0);
+    setTextFieldError(true)
   }
   function phoneFine() {
     console.log("fine e");
-    setActiveStep(() => 2);
+    setActiveStep(() => 1);
   }
 
   function handleNext() {
@@ -79,12 +64,14 @@ function Wellcome() {
       setPhone("");
       console.log("injam", phone);
     } else {
+      
       phoneError();
+
     }
   }
 
   const handleBack = () => {
-    if (activeStep === 1) {
+    if (activeStep === 0) {
       changeShow();
       return;
     }
@@ -121,13 +108,14 @@ function Wellcome() {
             }}
           >
             <TextField
-              error={activeStep === 0 && true}
+              error={textFieldError}
               onChange={(e) => {
                 changeSetphone(e.target.value);
+                setTextFieldError(false)
               }}
               sx={{ width: "230px" }}
               id="outlined-textarea"
-              label={steps[activeStep].label}
+              label={textFieldError?"شماره موبایل بدرستی وارد نشده است":steps[activeStep].label}
               placeholder={steps[activeStep].placeholder}
               description={steps[activeStep].description}
               multiline
