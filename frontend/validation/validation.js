@@ -3,7 +3,6 @@ export const phoneNumberCheck = (phoneNumber) => {
   return phoneNumberRegex.test(phoneNumber);
 };
 export const codeCheck = (smscode) => {
-  console.log("oss");
   const codeRegex = /^\d{6}$/;
   return codeRegex.test(smscode);
 };

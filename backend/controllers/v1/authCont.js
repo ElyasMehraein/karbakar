@@ -1,23 +1,33 @@
-import userModel from "../../models/user.js";
-import {  phoneNumberCheck,  phoneValidate,  codeValidate,} from "../../validators/register.js";
+import userModel from "../../models/user.js";let obj = { a: '1' }
+expect(obj).toEqual({ a: '1' })
+import {
+  phoneNumberCheck,
+  phoneValidate,
+  codeValidate,
+} from "../../validators/register.js";
 import { createHash } from "crypto";
 import jwt from "jsonwebtoken";
-import { sendSMS, checkSMS } from "../../smsotp.js";
-
-
-
-
+import { sendSMS, checkSMS } from "../../smsotp.js";import { unlink } from "fs";
+import { Z_NO_FLUSH } from "zlib";
+8-unlink
 
 const phoneCheck = async (req, res) => {
   let phone = req.body.phone;
-  const phonEnterValidation = phoneNumberCheck(phone) && phoneValidate(phone);
-  phonEnterValidation ? sendSMS(phone) : console.log("phone is Not fine");
+  const phonEnterValidation = phoneNumberCheck(phone) && phoneValidate({phone});
+  if (phonEnterValidation === true) {
+    // sendSMS(phone);
+    console.log(phoneNumberCheck(phone));
+    return res.status(200).send("sms sent");
+  } else {
+    console.log("onjam");
+    return res.status(422).json(phonEnterValidation);
+  }
 };
 
-//this function after the approved user then heads to log in or register
-const SMSCodeCheck = async (req, res) => { 
+//after the approved user then this function heads to log in or register
+const SMSCodeCheck = async (req, res) => {
   const validationResult = codeValidate(req.body);
-  if (validationResult && checkSMS(req.body.phone, req.body.smsCode) != true ) {
+  if (validationResult && checkSMS(req.body.phone, req.body.smsCode) != true) {
     return res.status(422).json(validationResult);
   }
   //being here means user phone-number approved
@@ -25,7 +35,9 @@ const SMSCodeCheck = async (req, res) => {
   const isPhoneHashExist = await userModel.findOne({ phoneHash });
 
   if (isPhoneHashExist) {
-    return res.status(201).json({message: "user exist and ready to loged in"});
+    return res
+      .status(201)
+      .json({ message: "user exist and ready to loged in" });
   }
 
   // if phoneHash is not exist so we register user from here
