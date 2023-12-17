@@ -1,7 +1,9 @@
+"use client"
+
 import * as React from "react";
+// import "../app/page.module.css"
 import Button from "@mui/material/Button";
-import mhands from "../../assets/m-hands.png";
-import "./Wellcome.css";
+import mhands from "/public/m-hands.png";
 import { Link, Navigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
@@ -13,18 +15,9 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import phoneNumberCheck from "../../../validation/validation";
+import { phoneNumberCheck, codeCheck } from "../validation/validation"
 
 const steps = [
-  {
-    label: "شماره موبایل اشتباه است",
-    placeholder: "مثلا 09123456789",
-    description: (
-      <p>
-        انتخاب دکمه بعدی به معنی موافقت با <a href="url">قوانین سایت</a> است
-      </p>
-    ),
-  },
   {
     label: "شماره موبایل خود را وارد کنید",
     placeholder: "مثلا 09123456789",
@@ -38,27 +31,20 @@ const steps = [
     label: "کد تایید را وارد کنید",
     placeholder: "کد تایید پیامکی را وارد نمایید",
     description:
-      "کد تایید برای شماره موبایل 092828282828 ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید",
-  },
-  {
-    label: "کد تایید را وارد کنید",
-    placeholder: "کد تایید پیامکی را وارد نمایید",
-    description:
-      "کد تایید برای شماره موبایل 092828282828 ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید",
+     `کد تایید برای شماره موبایل شما ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید`
   },
 ];
 
 function Wellcome() {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(1);
+  const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
-  const navigate = useNavigate();
-
+  // const navigate = useNavigate();
+  const [textFieldError, setTextFieldError] = useState(false);
   const [phone, setPhone] = useState("");
-  const changeSetphone = (value) => {
-    console.log("are ba");
-    setPhone(value);
-    console.log(value);
+  const [code, setCode] = useState("");
+  const changeSetValues = (value) => {
+    activeStep === 0 ? setPhone(value) : setCode(value);
   };
 
   const [show, setShow] = useState(true);
@@ -66,25 +52,32 @@ function Wellcome() {
     setShow(!show);
   };
   function phoneError() {
-    setActiveStep(() => 0);
+    setTextFieldError(true);
   }
   function phoneFine() {
     console.log("fine e");
-    setActiveStep(() => 2);
+    setActiveStep(() => 1);
   }
 
   function handleNext() {
-    if (phoneNumberCheck(phone)) {
-      phoneFine();
-      setPhone("");
-      console.log("injam", phone);
+    if (activeStep === 0) {
+      if (phoneNumberCheck(phone)) {
+        phoneFine();
+        console.log("code vase shomare", phone, "ersal shod");
+      } else {
+        phoneError();
+      }
     } else {
-      phoneError();
+      if (codeCheck(code)) {
+        console.log(`send ${phone} and ${code} to api and wait for register or login`);
+      }else{
+        phoneError()
+      }
     }
   }
 
   const handleBack = () => {
-    if (activeStep === 1) {
+    if (activeStep === 0) {
       changeShow();
       return;
     }
@@ -121,17 +114,20 @@ function Wellcome() {
             }}
           >
             <TextField
-              error={activeStep === 0 && true}
+              error={textFieldError}
               onChange={(e) => {
-                changeSetphone(e.target.value);
+                changeSetValues(e.target.value);
+                setTextFieldError(false);
               }}
               sx={{ width: "230px" }}
               id="outlined-textarea"
-              label={steps[activeStep].label}
+              label={
+                textFieldError?activeStep===0 ? "شماره موبایل بدرستی وارد نشده":"کد تایید پیامکی اشتباه وارد شده است"
+                  : steps[activeStep].label
+              }
               placeholder={steps[activeStep].placeholder}
-              description={steps[activeStep].description}
               multiline
-              value={phone}
+              value={activeStep === 0 ? phone : code}
             />
           </Paper>
           <Box sx={{ height: 150, maxWidth: 500, width: "100%", p: 2 }}>
@@ -168,4 +164,5 @@ function Wellcome() {
     </div>
   );
 }
+
 export default Wellcome;
