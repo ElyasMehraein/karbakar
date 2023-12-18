@@ -2,8 +2,8 @@
 
 import * as React from "react";
 // import "../app/page.module.css"
+import Image from 'next/image'
 import Button from "@mui/material/Button";
-import mhands from "/public/m-hands.png";
 import { Link, Navigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
@@ -31,7 +31,7 @@ const steps = [
     label: "کد تایید را وارد کنید",
     placeholder: "کد تایید پیامکی را وارد نمایید",
     description:
-     `کد تایید برای شماره موبایل شما ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید`
+      `کد تایید برای شماره موبایل شما ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید`
   },
 ];
 
@@ -70,7 +70,7 @@ function Wellcome() {
     } else {
       if (codeCheck(code)) {
         console.log(`send ${phone} and ${code} to api and wait for register or login`);
-      }else{
+      } else {
         phoneError()
       }
     }
@@ -87,7 +87,12 @@ function Wellcome() {
   return (
     <div>
       <header className="wellcome-header">
-        <img src={mhands} className="wellcome-logo" alt="logo" />
+        <Image
+          src="/m-hands.png"
+          width={500}
+          height={500}
+          alt="karbakar website logo"
+          className="wellcome-logo" />
         <h1 className="text-extrablack">کارباکار</h1>
       </header>
       {show ? (
@@ -122,7 +127,7 @@ function Wellcome() {
               sx={{ width: "230px" }}
               id="outlined-textarea"
               label={
-                textFieldError?activeStep===0 ? "شماره موبایل بدرستی وارد نشده":"کد تایید پیامکی اشتباه وارد شده است"
+                textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : "کد تایید پیامکی اشتباه وارد شده است"
                   : steps[activeStep].label
               }
               placeholder={steps[activeStep].placeholder}
@@ -140,7 +145,7 @@ function Wellcome() {
             nextButton={
               <Button size="small" onClick={handleNext}>
                 بعدی
-                {}
+                { }
                 {theme.direction === "rtl" ? (
                   <KeyboardArrowLeft />
                 ) : (
