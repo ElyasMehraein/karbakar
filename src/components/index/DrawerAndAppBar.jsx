@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react";
 import { styled, useTheme, alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -20,7 +21,6 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 
 // drawer imports from here
-import { Link } from "react-router-dom";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import businessavatar from "../../assets/businessAvatar.jpg";
@@ -242,7 +242,7 @@ export default function PrimarySearchAppBar() {
         <List>
           <ListItem
             sx={{ color: "inherit", mt: 0 }}
-            component={Link}
+            // component={Link}
             to="/business"
           >
             <ListItemAvatar>
@@ -256,7 +256,7 @@ export default function PrimarySearchAppBar() {
           </ListItem>
           <ListItem
             sx={{ color: "inherit", mt: 0 }}
-            component={Link}
+            // component={Link}
             to="/business"
           >
             <ListItemAvatar>
@@ -303,7 +303,9 @@ export default function PrimarySearchAppBar() {
           </ListItem>
         </List>
         <Divider />
-        <Button component={Link} to="/" color="error" endIcon={<LogoutIcon />}>
+        <Button 
+        // component={Link} 
+        to="/" color="error" endIcon={<LogoutIcon />}>
           خروج از سایت
         </Button>
       </Drawer>
