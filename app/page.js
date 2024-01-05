@@ -20,19 +20,22 @@ import hands from "../public/m-hands.png"
 
 const steps = [
   {
-    label: "شماره موبایل خود را وارد کنید",
+    label: (<p className={styles.inputText}>شماره موبایل خود را وارد کنید</p>),
     placeholder: "مثلا 09123456789",
     description: (
-      <p>
+      <p className={styles.paragraph}>
         انتخاب دکمه بعدی به معنی موافقت با <a href="url">قوانین سایت</a> است
       </p>
     ),
   },
   {
-    label: "کد تایید را وارد کنید",
+    label: (<p className={styles.inputText}>کد تایید را وارد کنید</p>),
     placeholder: "کد تایید پیامکی را وارد نمایید",
-    description:
-      `کد تایید برای شماره موبایل شما ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید`
+    description: (
+      <p className={styles.paragraph}>
+        `کد تایید برای شماره موبایل شما ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید`
+      </p>
+    )
   },
 ];
 
@@ -86,94 +89,82 @@ function Wellcome() {
   };
 
   return (
-    <div>
-        <div className={styles.wellcomeLogoDiv} >
-          <Image className={styles.image}
-            fill
-            src={hands}
-            // priority={true}
-            // width={320}
-            // height={240}
-            alt="karbakar website logo"
-          />
-        </div>
-        <h1 className={styles.title}>کارباکار</h1>
+    <div className={styles.container}>
+      <div className={styles.wellcomeLogoDiv} >
+        <Image className={styles.image}
+          fill
+          src={hands}
+          alt="karbakar website logo"
+        />
+      </div>
+      <h1 className={styles.title}>کارباکار</h1>
 
-        {
-          show ? (
-            <div className={styles.wellcomeHeader}>
-              <h2 className={styles.aitch2}>باهم برای هم برای زندگی آزاد</h2>
-              <p className={styles.paragraph}>
-                اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد
-                و کسب و کارهای مولد
-              </p>
-              <Button onClick={changeShow} variant="contained">
-                ورود یا ثبت نام
-              </Button>
-            </div>
-          ) : (
-            <Box display={"inline-block"} sx={{ maxWidth: 500 }}>
-              <Paper
-                square
-                elevation={0}
-                sx={{
-                  alignItems: "center",
-                  height: 50,
-                  pl: 2,
-                  bgcolor: "background.default",
+      {
+        show ? (
+          <div className={styles.wellcomeHeader}>
+            <h2 className={styles.aitch2}>باهم برای هم برای زندگی آزاد</h2>
+            <p className={styles.paragraph}>
+              اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد
+              و کسب و کارهای مولد
+            </p>
+            <Button onClick={changeShow} variant="contained">
+              ورود یا ثبت نام
+            </Button>
+          </div>
+        ) : (
+          <Box display={"inline-block"} sx={{ maxWidth: 500 }}>
+            <Paper
+              square
+              elevation={0}
+              sx={{
+                alignItems: "center",
+                height: 50,
+                pl: 2,
+                bgcolor: "background.default",
+              }}
+            >
+              <TextField
+                error={textFieldError}
+                onChange={(e) => {
+                  changeSetValues(e.target.value);
+                  setTextFieldError(false);
                 }}
-              >
-                <TextField
-                  error={textFieldError}
-                  onChange={(e) => {
-                    changeSetValues(e.target.value);
-                    setTextFieldError(false);
-                  }}
-                  sx={{ width: "230px" }}
-                  id="outlined-textarea"
-                  label={
-                    textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : "کد تایید پیامکی اشتباه وارد شده است"
-                      : steps[activeStep].label
-                  }
-                  placeholder={steps[activeStep].placeholder}
-                  multiline
-                  value={activeStep === 0 ? phone : code}
-                />
-              </Paper>
-              <Box sx={{ height: 150, maxWidth: 500, width: "100%", p: 2 }}>
-                {steps[activeStep].description}
-              </Box>
-              <MobileStepper
-                steps={maxSteps}
-                position="static"
-                activeStep={activeStep}
-                nextButton={
-                  <Button size="small" onClick={handleNext}>
-                    بعدی
-                    { }
-                    {theme.direction === "rtl" ? (
-                      <KeyboardArrowLeft />
-                    ) : (
-                      <KeyboardArrowRight />
-                    )}
-                  </Button>
+                sx={{ "& input::placeholder": { fontSize: "14px"}, width: "200px" }}
+                variant="outlined"
+                size="small"
+                id="outlined-textarea"
+                label={
+                  textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : "کد تایید پیامکی اشتباه وارد شده است"
+                    : steps[activeStep].label
                 }
-                backButton={
-                  <Button size="small" onClick={handleBack}>
-                    {theme.direction === "rtl" ? (
-                      <KeyboardArrowRight />
-                    ) : (
-                      <KeyboardArrowLeft />
-                    )}
-                    بازگشت
-                  </Button>
-                }
+                placeholder={steps[activeStep].placeholder}
+                value={activeStep === 0 ? phone : code}
               />
+            </Paper>
+            <Box sx={{ height: 80, maxWidth: 400, width: "90%", p: 2 }}>
+              {steps[activeStep].description}
             </Box>
-          )
-        }
-
-    </div >
+            <MobileStepper
+              steps={maxSteps}
+              position="static"
+              activeStep={activeStep}
+              nextButton={
+                <Button size="small" onClick={handleBack}>
+                  بازگشت
+                  {<KeyboardArrowLeft />}
+                </Button>
+              }
+              backButton={
+                <Button size="small" onClick={handleNext}>
+                  {<KeyboardArrowRight />}
+                  بعدی
+                </Button>
+              }
+            />
+          </Box>
+        )
+      }
+    </div>
   );
 }
 
