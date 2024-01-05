@@ -1,14 +1,14 @@
 import Image from 'next/image'
-export default function test() {
+import hands from "../../public/m-hands.png"
 
-    return (
-
-        <Image
-            src="/m-hands.png"
-            width={500}
-            height={500}
-            alt="Picture of the author"
-        />
-    )
+export default function Page() {
+  return (
+    <div className="grid-element">
+      <Image
+        // fill
+        src={hands}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
+    </div>
+  )
 }
-

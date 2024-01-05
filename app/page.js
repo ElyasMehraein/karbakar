@@ -16,6 +16,7 @@ import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { phoneNumberCheck, codeCheck } from "../validation/validation"
+import hands from "../public/m-hands.png"
 
 const steps = [
   {
@@ -86,91 +87,92 @@ function Wellcome() {
 
   return (
     <div>
-      <header >
         <div className={styles.wellcomeLogoDiv} >
-          <Image
-            src="/m-hands.png"
-            width={320}
-            height={300}
+          <Image className={styles.image}
+            fill
+            src={hands}
+            // priority={true}
+            // width={320}
+            // height={240}
             alt="karbakar website logo"
           />
         </div>
         <h1 className={styles.title}>کارباکار</h1>
 
-      </header>
-      {
-        show ? (
-          <div className={styles.wellcomeHeader}>
-            <h2>باهم برای هم برای زندگی آزاد</h2>
-            <p>
-              اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد
-              و کسب و کارهای مولد
-            </p>
-            <Button onClick={changeShow} variant="contained">
-              ورود یا ثبت نام
-            </Button>
-          </div>
-        ) : (
-          <Box display={"inline-block"} sx={{ maxWidth: 500 }}>
-            <Paper
-              square
-              elevation={0}
-              sx={{
-                alignItems: "center",
-                height: 50,
-                pl: 2,
-                bgcolor: "background.default",
-              }}
-            >
-              <TextField
-                error={textFieldError}
-                onChange={(e) => {
-                  changeSetValues(e.target.value);
-                  setTextFieldError(false);
+        {
+          show ? (
+            <div className={styles.wellcomeHeader}>
+              <h2 className={styles.aitch2}>باهم برای هم برای زندگی آزاد</h2>
+              <p className={styles.paragraph}>
+                اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد
+                و کسب و کارهای مولد
+              </p>
+              <Button onClick={changeShow} variant="contained">
+                ورود یا ثبت نام
+              </Button>
+            </div>
+          ) : (
+            <Box display={"inline-block"} sx={{ maxWidth: 500 }}>
+              <Paper
+                square
+                elevation={0}
+                sx={{
+                  alignItems: "center",
+                  height: 50,
+                  pl: 2,
+                  bgcolor: "background.default",
                 }}
-                sx={{ width: "230px" }}
-                id="outlined-textarea"
-                label={
-                  textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : "کد تایید پیامکی اشتباه وارد شده است"
-                    : steps[activeStep].label
+              >
+                <TextField
+                  error={textFieldError}
+                  onChange={(e) => {
+                    changeSetValues(e.target.value);
+                    setTextFieldError(false);
+                  }}
+                  sx={{ width: "230px" }}
+                  id="outlined-textarea"
+                  label={
+                    textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : "کد تایید پیامکی اشتباه وارد شده است"
+                      : steps[activeStep].label
+                  }
+                  placeholder={steps[activeStep].placeholder}
+                  multiline
+                  value={activeStep === 0 ? phone : code}
+                />
+              </Paper>
+              <Box sx={{ height: 150, maxWidth: 500, width: "100%", p: 2 }}>
+                {steps[activeStep].description}
+              </Box>
+              <MobileStepper
+                steps={maxSteps}
+                position="static"
+                activeStep={activeStep}
+                nextButton={
+                  <Button size="small" onClick={handleNext}>
+                    بعدی
+                    { }
+                    {theme.direction === "rtl" ? (
+                      <KeyboardArrowLeft />
+                    ) : (
+                      <KeyboardArrowRight />
+                    )}
+                  </Button>
                 }
-                placeholder={steps[activeStep].placeholder}
-                multiline
-                value={activeStep === 0 ? phone : code}
+                backButton={
+                  <Button size="small" onClick={handleBack}>
+                    {theme.direction === "rtl" ? (
+                      <KeyboardArrowRight />
+                    ) : (
+                      <KeyboardArrowLeft />
+                    )}
+                    بازگشت
+                  </Button>
+                }
               />
-            </Paper>
-            <Box sx={{ height: 150, maxWidth: 500, width: "100%", p: 2 }}>
-              {steps[activeStep].description}
             </Box>
-            <MobileStepper
-              steps={maxSteps}
-              position="static"
-              activeStep={activeStep}
-              nextButton={
-                <Button size="small" onClick={handleNext}>
-                  بعدی
-                  { }
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowLeft />
-                  ) : (
-                    <KeyboardArrowRight />
-                  )}
-                </Button>
-              }
-              backButton={
-                <Button size="small" onClick={handleBack}>
-                  {theme.direction === "rtl" ? (
-                    <KeyboardArrowRight />
-                  ) : (
-                    <KeyboardArrowLeft />
-                  )}
-                  بازگشت
-                </Button>
-              }
-            />
-          </Box>
-        )
-      }
+          )
+        }
+
     </div >
   );
 }
