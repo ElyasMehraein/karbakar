@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react";
-import styles from '@/styles.module.css'
+import styles from '@/App/welcome/styles.module.css'
 import Image from 'next/image'
 import Button from "@mui/material/Button";
 import { Link, Navigate } from "react-router-dom";
