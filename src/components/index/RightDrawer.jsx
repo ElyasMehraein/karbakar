@@ -29,186 +29,169 @@ import MuiAppBar from '@mui/material/AppBar';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginRight: -drawerWidth,
-        ...(open && {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginRight: 0,
-        }),
-        /**
-         * This is necessary to enable the selection of content. In the DOM, the stacking order is determined
-         * by the order of appearance. Following this rule, elements appearing later in the markup will overlay
-         * those that appear earlier. Since the Drawer comes after the Main content, this adjustment ensures
-         * proper interaction with the underlying content.
-         */
-        position: 'relative',
-    }),
-);
-const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-  })(({ theme, open }) => ({
-    transition: theme.transitions.create(['margin', 'width'], {
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    marginRight: -drawerWidth,
     ...(open && {
-      width: `calc(100% - ${drawerWidth}px)`,
-      transition: theme.transitions.create(['margin', 'width'], {
+      transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.easeOut,
         duration: theme.transitions.duration.enteringScreen,
       }),
-      marginRight: drawerWidth,
+      marginRight: 0,
     }),
-  }));
+    /**
+     * This is necessary to enable the selection of content. In the DOM, the stacking order is determined
+     * by the order of appearance. Following this rule, elements appearing later in the markup will overlay
+     * those that appear earlier. Since the Drawer comes after the Main content, this adjustment ensures
+     * proper interaction with the underlying content.
+     */
+    position: 'relative',
+  }),
+);
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+  transition: theme.transitions.create(['margin', 'width'], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginRight: drawerWidth,
+  }),
+}));
 
 
 const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-start',
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-start',
 }));
 
 export default function PersistentDrawerRight() {
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
 
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
 
-    return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <AppBar position="fixed" open={open}>
-            <Toolbar>
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <CssBaseline />
+      <Drawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: drawerWidth,
+          },
+        }}
+        PaperProps={{ style: { left: "unset", right: 0 } }}
 
-                <IconButton
-                    color="inherit"
-                    aria-label="open drawer"
-                    edge="end"
-                    onClick={handleDrawerOpen}
-                    sx={{ ...(open && { display: 'none' }) }}
-                >
-                    <MenuIcon />
-                </IconButton>
-            </Toolbar>
-
-            </AppBar>
-            <Main open={open}>
-            </Main>
-            <Drawer
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    '& .MuiDrawer-paper': {
-                        width: drawerWidth,
-                    },
-                }}
-                PaperProps={{ style: { left: "unset", right: 0 } }}
-
-                variant="persistent"
-                anchor="left"
-                open={open}
-            >
-                <DrawerHeader>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === "ltr" ? (
-                            <ChevronLeftIcon />
-                        ) : (
-                            <ChevronRightIcon />
-                        )}
-                    </IconButton>
-                </DrawerHeader>
-                <Divider />
-                <Typography fontWeight="bold" align="right" marginRight={2}>
-                    کسب و کارهای من
-                </Typography>
-                <List>
-                    <ListItem
-                        sx={{ color: "inherit", mt: 0 }}
-                        // component={Link}
-                        to="/business"
-                    >
-                        <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={businessavatar} />
-                        </ListItemAvatar>
-                        <ListItemText
-                            align="right"
-                            primary="تعمیرگاه استاد جلال"
-                            secondary="کسب و کار اصلی"
-                        />
-                    </ListItem>
-                    <ListItem
-                        sx={{ color: "inherit", mt: 0 }}
-                        // component={Link}
-                        to="/business"
-                    >
-                        <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={businessavatar2} />
-                        </ListItemAvatar>
-                        <ListItemText align="right" primary="کشاورزی جلال" />
-                    </ListItem>
-                </List>
-                <Divider />
-                <List>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <AddBusinessIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                sx={{ textAlign: "right" }}
-                                dir="rtl"
-                                primary="ایجاد کسب و کار جدید"
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <DomainDisabledIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                sx={{ textAlign: "right" }}
-                                primary="استعفا از کسب و کار"
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <BusinessIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                                sx={{ textAlign: "right" }}
-                                primary="لیست تمام کسب و کارها"
-                            />
-                        </ListItemButton>
-                    </ListItem>
-                </List>
-                <Divider />
-                <Button
-                    // component={Link} 
-                    to="/" color="error" endIcon={<LogoutIcon />}>
-                    خروج از سایت
-                </Button>
-            </Drawer>
-        </Box>
-    );
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <Typography fontWeight="bold" align="right" marginRight={2}>
+          کسب و کارهای من
+        </Typography>
+        <List>
+          <ListItem
+            sx={{ color: "inherit", mt: 0 }}
+            // component={Link}
+            to="/business"
+          >
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src={businessavatar} />
+            </ListItemAvatar>
+            <ListItemText
+              align="right"
+              primary="تعمیرگاه استاد جلال"
+              secondary="کسب و کار اصلی"
+            />
+          </ListItem>
+          <ListItem
+            sx={{ color: "inherit", mt: 0 }}
+            // component={Link}
+            to="/business"
+          >
+            <ListItemAvatar>
+              <Avatar alt="Remy Sharp" src={businessavatar2} />
+            </ListItemAvatar>
+            <ListItemText align="right" primary="کشاورزی جلال" />
+          </ListItem>
+        </List>
+        <Divider />
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <AddBusinessIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ textAlign: "right" }}
+                dir="rtl"
+                primary="ایجاد کسب و کار جدید"
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <DomainDisabledIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ textAlign: "right" }}
+                primary="استعفا از کسب و کار"
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <BusinessIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ textAlign: "right" }}
+                primary="لیست تمام کسب و کارها"
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
+        <Divider />
+        <Button
+          // component={Link} 
+          to="/" color="error" endIcon={<LogoutIcon />}>
+          خروج از سایت
+        </Button>
+      </Drawer>
+    </Box>
+  );
 }

@@ -15,8 +15,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { handleDrawerOpen } from "./RightDrawer"
-
+import { Directions } from '@mui/icons-material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,7 +57,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({Drawer}) {
+export default function SearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -160,16 +159,25 @@ export default function SearchAppBar({Drawer}) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          {console.log(Drawer)}
-
-          <Box sx={{ flexGrow: 1 }} />
-
-          <Search sx={{}} dir="ltr" >
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+            <Box sx={{ flexGrow: 1 }} />
+          <Search sx={{direction:"ltr"}}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="کارباکار" inputProps={{ 'aria-label': 'search' }} />
-          </Search >
+            <StyledInputBase
+              placeholder="کارباکار"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
@@ -210,9 +218,9 @@ export default function SearchAppBar({Drawer}) {
             </IconButton>
           </Box>
         </Toolbar>
-      </AppBar >
+      </AppBar>
       {renderMobileMenu}
       {renderMenu}
-    </Box >
+    </Box>
   );
 }
