@@ -1,19 +1,20 @@
 "use client"
 import React from "react";
-import Tabs from "@/components/index/Tabs";
-import DrawerAndAppBar from "@/components/index/DrawerAndAppBar";
 import { Box } from "@mui/material";
-import PrimarySearchAppBar from "@/components/index/PrimarySearchAppBar";
-import PersistentDrawerRight from "@/components/index/PersistentDrawerRight";
+import SearchAppBar from "@/components/index/SearchAppBar";
+import RightDrawer from "@/components/index/RightDrawer";
+import Tabs from "@/components/index/Tabs";
 
 
 function Index() {
   return (
-    <Box>
-      <PrimarySearchAppBar/>
-      <PersistentDrawerRight/>
+    <>
       
-    </Box>
+      <RightDrawer/>
+      <SearchAppBar />
+      {/* <Tabs/> */}
+      
+    </>
   );
 }
 
