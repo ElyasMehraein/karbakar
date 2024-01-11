@@ -58,6 +58,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar() {
+  const hambergerMenuClick = ()=>{
+    alert("salam")
+  }
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -165,8 +168,9 @@ export default function SearchAppBar() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={hambergerMenuClick}
           >
-            <MenuIcon />
+            <MenuIcon/>
           </IconButton>
             <Box sx={{ flexGrow: 1 }} />
           <Search sx={{direction:"ltr"}}>

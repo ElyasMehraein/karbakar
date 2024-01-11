@@ -14,9 +14,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from "@mui/material/Typography";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import businessavatar from "../../assets/businessAvatar.jpg";
-import businessavatar2 from "../../assets/businessAvatar2.jpg";
+// import Avatar from "@mui/material/Avatar";
+// import businessavatar from "../../assets/businessAvatar.jpg";
+// import businessavatar2 from "../../assets/businessAvatar2.jpg";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import BusinessIcon from "@mui/icons-material/Business";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -80,7 +80,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
-export default function PersistentDrawerRight() {
+export default function DrawerRight() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -129,7 +129,7 @@ export default function PersistentDrawerRight() {
             to="/business"
           >
             <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src={businessavatar} />
+              {/* <Avatar alt="Remy Sharp" src={businessavatar} /> */}
             </ListItemAvatar>
             <ListItemText
               align="right"
@@ -143,7 +143,7 @@ export default function PersistentDrawerRight() {
             to="/business"
           >
             <ListItemAvatar>
-              <Avatar alt="Remy Sharp" src={businessavatar2} />
+              {/* <Avatar alt="Remy Sharp" src={businessavatar2} /> */}
             </ListItemAvatar>
             <ListItemText align="right" primary="کشاورزی جلال" />
           </ListItem>
