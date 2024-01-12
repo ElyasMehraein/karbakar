@@ -10,6 +10,8 @@ import OthersRequestFrames from './indexDatas/OthersRequestFrames';
 import YourReq from './indexDatas/YourReq';
 import Bill from './indexDatas/Bill';
 
+import {mainTabYourReqText} from "@/../public/typoRepo.jsx"
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -44,6 +46,8 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs() {
+  
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -60,14 +64,15 @@ export default function BasicTabs() {
           textColor="inherit"
           value={value}
           onChange={handleChange}
+          aria-label="basic tabs example"
         >
           <Tab label="درخواستهای شما" {...a11yProps(0)} />
           <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
           <Tab label="صورتحساب" {...a11yProps(2)} />
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        {/* <YourReq/> */}
+      <CustomTabPanel children={mainTabYourReqText}  value={0} index={0}>
+        {/*  */}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         {/* <OthersRequest/> */}
