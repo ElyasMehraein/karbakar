@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import SearchAppBar from "@/components/index/SearchAppBar";
 import RightDrawer from "@/components/index/RightDrawer";
 import Tabs from "@/components/index/Tabs";
+import CssBaseline from "@mui/material";
 
 
 
@@ -19,9 +20,9 @@ function Index() {
   return (
     <>
 
-      <RightDrawer open={open} handleDrawerClose={handleDrawerClose}  />
+      <RightDrawer open={open} handleDrawerClose={handleDrawerClose} />
       <SearchAppBar menuClickHandler={menuClickHandler} />
-      {/* <Tabs/> */}
+      <Tabs />
 
     </>
   );
