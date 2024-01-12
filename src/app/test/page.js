@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import hands from "../../public/m-hands.png"
+import hands from "@/../public/m-hands.png"
 
 export default function Page() {
   return (

@@ -6,8 +6,6 @@ import RightDrawer from "@/components/index/RightDrawer";
 import Tabs from "@/components/index/Tabs";
 import CssBaseline from "@mui/material";
 
-
-
 function Index() {
   const [open, setOpen] = React.useState(false);
 
@@ -19,10 +17,10 @@ function Index() {
   };
   return (
     <>
-
+{/* 
       <RightDrawer open={open} handleDrawerClose={handleDrawerClose} />
-      <SearchAppBar menuClickHandler={menuClickHandler} />
-      {/* <Tabs /> */}
+      <SearchAppBar menuClickHandler={menuClickHandler} /> */}
+      <Tabs />
 
     </>
   );

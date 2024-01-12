@@ -10,8 +10,6 @@ import OthersRequestFrames from './indexDatas/OthersRequestFrames';
 import YourReq from './indexDatas/YourReq';
 import Bill from './indexDatas/Bill';
 
-
-
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -53,28 +51,29 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box  sx={{ width: '100%' }}>
-      <Box bgcolor="primary.main"  sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs TabIndicatorProps={{
-          // style: {
-          //   backgroundColor: "#e3f2fd"
-          // },
-            sx: {
-              height: "5px !important",
-            }}} indicatorColor="secondary" sx={{ color: "white" }} textColor="inherit" value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab  label="درخواستهای شما" {...a11yProps(0)} />
+    <Box sx={{ width: '100%' }}>
+      <Box bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs
+          TabIndicatorProps={{ sx: { height: "5px !important", } }}
+          indicatorColor="secondary"
+          sx={{ color: "white" }}
+          textColor="inherit"
+          value={value}
+          onChange={handleChange}
+        >
+          <Tab label="درخواستهای شما" {...a11yProps(0)} />
           <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
           <Tab label="صورتحساب" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <YourReq/>
+        {/* <YourReq/> */}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <OthersRequest/>
+        {/* <OthersRequest/> */}
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <Bill/>
+        {/* <Bill/> */}
       </CustomTabPanel>
     </Box>
   );
