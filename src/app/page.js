@@ -22,7 +22,7 @@ function Index() {
 
       <RightDrawer open={open} handleDrawerClose={handleDrawerClose} />
       <SearchAppBar menuClickHandler={menuClickHandler} />
-      <Tabs />
+      {/* <Tabs /> */}
 
     </>
   );

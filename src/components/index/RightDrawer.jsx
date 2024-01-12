@@ -22,7 +22,6 @@ import BusinessIcon from "@mui/icons-material/Business";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
-import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 
@@ -41,7 +40,6 @@ export default function DrawerRight(props) {
   const theme = useTheme();
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
       <Drawer
         sx={{
           width: drawerWidth,
