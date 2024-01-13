@@ -10,7 +10,8 @@ import OthersRequestFrames from './indexDatas/OthersRequestFrames';
 import YourReq from './indexDatas/YourReq';
 import Bill from './indexDatas/Bill';
 
-import {mainTabYourReqText} from "@/../public/typoRepo.jsx"
+import { mainTabYourReqText } from "@/../public/typoRepo.jsx"
+import { Container } from '@mui/material';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,7 +47,7 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs() {
-  
+
 
   const [value, setValue] = React.useState(0);
 
@@ -57,29 +58,34 @@ export default function BasicTabs() {
   return (
     <Box sx={{ width: '100%' }}>
       <Box bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
-          TabIndicatorProps={{ sx: { height: "5px !important", } }}
-          indicatorColor="secondary"
-          sx={{ color: "white" }}
-          textColor="inherit"
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-        >
-          <Tab label="درخواستهای شما" {...a11yProps(0)} />
-          <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
-          <Tab label="صورتحساب" {...a11yProps(2)} />
-        </Tabs>
+        <Container>
+
+          <Tabs
+            TabIndicatorProps={{ sx: { height: "5px !important", } }}
+            indicatorColor="secondary"
+            sx={{ color: "white" }}
+            textColor="inherit"
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+          >
+            <Tab label="درخواستهای شما" {...a11yProps(0)} />
+            <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
+            <Tab label="صورتحساب" {...a11yProps(2)} />
+          </Tabs>
+        </Container>
       </Box>
-      <CustomTabPanel children={mainTabYourReqText}  value={0} index={0}>
-        {/*  */}
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        {/* <OthersRequest/> */}
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        {/* <Bill/> */}
-      </CustomTabPanel>
+      <Container>
+        <CustomTabPanel children={mainTabYourReqText} value={0} index={0}>
+          {/*  */}
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1}>
+          {/* <OthersRequest/> */}
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={2}>
+          {/* <Bill/> */}
+        </CustomTabPanel>
+      </Container>
     </Box>
   );
 }

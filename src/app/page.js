@@ -17,9 +17,9 @@ function Index() {
   };
   return (
     <>
-{/* 
+
       <RightDrawer open={open} handleDrawerClose={handleDrawerClose} />
-      <SearchAppBar menuClickHandler={menuClickHandler} /> */}
+      <SearchAppBar menuClickHandler={menuClickHandler} />
       <Tabs />
 
     </>
