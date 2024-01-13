@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="fa" dir='rtl'>
       <body>
         <ThemeProvider theme={theme}>
-          <CssBaseline />
+          <CssBaseline/>
             <AppRouterCacheProvider>
               {children}
             </AppRouterCacheProvider>
