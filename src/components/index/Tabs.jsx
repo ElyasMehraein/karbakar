@@ -9,9 +9,12 @@ import OthersRequest from './indexDatas/OthersRequest';
 import OthersRequestFrames from './indexDatas/OthersRequestFrames';
 import YourReq from './indexDatas/YourReq';
 import Bill from './indexDatas/Bill';
+import Divider from "@mui/material/Divider";
 
 import { mainTabYourReqText } from "@/../public/typoRepo.jsx"
 import { Container } from '@mui/material';
+import { useState, useEffect } from 'react'
+
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -48,20 +51,21 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
 
-
   const [value, setValue] = React.useState(0);
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
-  return (
+  return (mounted &&
     <Box sx={{ width: '100%' }}>
       <Box bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Container>
-
           <Tabs
-            TabIndicatorProps={{ sx: { height: "5px !important", } }}
+            TabIndicatorProps={{ sx: { height: "4px !important", } }}
             indicatorColor="secondary"
             sx={{ color: "white" }}
             textColor="inherit"
@@ -76,15 +80,13 @@ export default function BasicTabs() {
         </Container>
       </Box>
       <Container>
-        <CustomTabPanel children={mainTabYourReqText} value={0} index={0}>
-          {/*  */}
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          {/* <OthersRequest/> */}
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          {/* <Bill/> */}
-        </CustomTabPanel>
+        <CustomTabPanel value={value} index={0} />
+        {mainTabYourReqText}
+        <YourReq />
+        <CustomTabPanel value={value} index={1} />
+        {/* <OthersRequest/> */}
+        <CustomTabPanel value={value} index={2} />
+        {/* <Bill/> */}
       </Container>
     </Box>
   );
