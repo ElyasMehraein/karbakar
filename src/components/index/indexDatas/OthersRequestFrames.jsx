@@ -11,9 +11,9 @@ import CardHeader from "@mui/material/CardHeader";
 import { red } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 
-import businessAvatar2 from "../../../assets/businessAvatar2.jpg";
-import businessAvatar from "../../../assets/businessAvatar.jpg";
-import businessAvatar3 from "../../../assets/pars.jpg";
+// import businessAvatar2 from "@/businessAvatar2.jpg";
+// import businessAvatar from "../../../assets/businessAvatar.jpg";
+// import businessAvatar3 from "../../../assets/pars.jpg";
 const OthersRequestFrames = () => {
   return (
     <>
@@ -24,7 +24,7 @@ const OthersRequestFrames = () => {
           flexDirection: "row",
         }}
       >
-        <Avatar alt="Remy Sharp" src={businessAvatar2} />
+        {/* <Avatar alt="Remy Sharp" src={businessAvatar2} /> */}
         <Box
           sx={{
             display: "flex",

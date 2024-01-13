@@ -2,7 +2,7 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
-import OthersRequestFrames from "./OthersRequestFrames";
+// import OthersRequestFrames from "./OthersRequestFrames";
 import Typography from "@mui/material/Typography";
 import YourRequestFrames from "./YourRequestFrames";
 
@@ -23,6 +23,7 @@ export default function YourReq() {
       <Divider textAlign="left">
         "درخواست های منتظر تایید"
       </Divider>
+      <YourRequestFrames/>
       <Divider textAlign="left">
         "درخواست های تایید شده"
       </Divider>
