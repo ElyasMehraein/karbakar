@@ -19,41 +19,41 @@ import { Container } from "@mui/material";
 const YourRequestFrames = () => {
   return (
     <div>
-      <Container>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-start",
+          flexDirection: "row",
+          justifyContent: "space-between"
+        }}
+      >
         <Box
           sx={{
             display: "flex",
             alignItems: "flex-start",
-            flexDirection: "row",
+            flexDirection: "column",
+            mr: 2
           }}
         >
-
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "flex-start",
-              flexDirection: "column",
-              
-              mr: 2
-            }}
-          >
-            <Typography textAlign={"right"}>
-              تعویض روغن ماشین
-            </Typography>
-
-            <Typography sx={{ mr: 1, fontSize: 12 }} align="justify" dir="rtl" >
-              ماشینم پراید هست فیلتر میخوام شیشه شور میخوام تنظیم باد هم میخوام
-              روغن گیربکس هم باید عوض بشه ولی روغن رو خودم تهیه می کنم
-            </Typography>
-          </Box>
-          <AvatarGroup dir="ltr" max={4} total={24}>
-            <Avatar><Image src={businessAvatar} alt="karbakar website logo" sizes="auto" fill /></Avatar>
-            <Avatar><Image src={businessAvatar2} alt="karbakar website logo" sizes="auto" fill /></Avatar>
-            <Avatar><Image src={businessAvatar3} alt="karbakar website logo" sizes="auto" fill /></Avatar>
-          </AvatarGroup>
+          <Typography sx={{ fontWeight: 'bold' }} textAlign={"right"}>
+            تعویض روغن ماشین
+          </Typography>
         </Box>
-      </Container>
+        <AvatarGroup dir="ltr" max={4} total={24}>
+          <Avatar><Image src={businessAvatar} alt="karbakar website logo" sizes="auto" fill /></Avatar>
+          <Avatar><Image src={businessAvatar2} alt="karbakar website logo" sizes="auto" fill /></Avatar>
+          <Avatar><Image src={businessAvatar3} alt="karbakar website logo" sizes="auto" fill /></Avatar>
+        </AvatarGroup>
+      </Box>
+      <Typography
+        paragraph
+        // noWrap
+        sx={{ mr: 2, fontSize: 11 }} align="justify" dir="rtl" >
+        ماشینم پراید هست فیلتر میخوام شیشه شور میخوام تنظیم باد هم میخوام
+        روغن گیربکس هم باید عوض بشه ولی روغن رو خودم تهیه می کنم
+      </Typography>
+      <Divider light />
+
     </div>
   );
 };

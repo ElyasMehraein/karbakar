@@ -68,6 +68,7 @@ const iranyekan = localFont({
 
 const theme = createTheme({
   direction: 'rtl',
+  overflow: 'hidden',
   shadows: Array(25).fill('none'),
   typography: {
     fontFamily: 'iranyekan, Arial',

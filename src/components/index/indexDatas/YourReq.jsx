@@ -20,13 +20,17 @@ export default function YourReq() {
 
   return (
     <>
-      <Divider textAlign="left">
-        "درخواست های منتظر تایید"
-      </Divider>
-      <YourRequestFrames/>
-      <Divider textAlign="left">
-        "درخواست های تایید شده"
-      </Divider>
+      <Divider sx={{ fontWeight: 'bold' }} textAlign="center">درخواست های تایید شده</Divider>
+      <YourRequestFrames />
+      <YourRequestFrames />
+      <Divider sx={{ fontWeight: 'bold' }} textAlign="center">درخواست های منتظر تایید</Divider>
+      <YourRequestFrames />
+      <YourRequestFrames />
+      <YourRequestFrames />
+      <YourRequestFrames />
+      <YourRequestFrames />
+      <YourRequestFrames />
+      <YourRequestFrames />
     </>
   );
 }
