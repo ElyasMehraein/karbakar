@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { useRouter } from 'next/navigation'
+
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -25,6 +27,7 @@ import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import Toolbar from '@mui/material/Toolbar';
 import MuiAppBar from '@mui/material/AppBar';
 
+
 const drawerWidth = 240;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -37,6 +40,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function DrawerRight(props) {
+  const router = useRouter()
+
   const theme = useTheme();
   return (
     <Box sx={{ display: 'flex' }}>
@@ -132,8 +137,7 @@ export default function DrawerRight(props) {
         </List>
         <Divider />
         <Button
-          // component={Link} 
-          to="/" color="error" endIcon={<LogoutIcon />}>
+          onClick={() => router.push('/welcome')} color="error" endIcon={<LogoutIcon />}>
           خروج از سایت
         </Button>
       </Drawer>

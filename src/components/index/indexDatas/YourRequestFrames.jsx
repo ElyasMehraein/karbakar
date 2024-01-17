@@ -48,7 +48,14 @@ const YourRequestFrames = () => {
       <Typography
         paragraph
         // noWrap
-        sx={{ mr: 2, fontSize: 11 }} align="justify" dir="rtl" >
+        sx={{
+          mr: 2, fontSize: 11, 
+          //later i deside if i need to use the below code
+          // display: '-webkit-box',
+          // overflow: 'hidden',
+          // WebkitBoxOrient: 'vertical',
+          // WebkitLineClamp: 2
+        }} align="justify" dir="rtl" >
         ماشینم پراید هست فیلتر میخوام شیشه شور میخوام تنظیم باد هم میخوام
         روغن گیربکس هم باید عوض بشه ولی روغن رو خودم تهیه می کنم
       </Typography>
