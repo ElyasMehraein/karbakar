@@ -1,46 +1,45 @@
 "use client"
 import { createTheme } from '@mui/material/styles';
-
 import localFont from "next/font/local"
 const iranyekan = localFont({
   src: [
     {
-      path: '/fonts/woff/iranyekanwebbold.woff',
+      path: '../public/fonts/woff/iranyekanwebbold.woff',
       weight: 'bold',
       style: 'bold',
     },
     {
-      path: '/fonts/woff/iranyekanwebblack.woff',
+      path: '../public/fonts/woff/iranyekanwebblack.woff',
       weight: '950',
       style: 'black',
     },
     {
-      path: '/fonts/woff/iranyekanwebextrablack.woff',
+      path: '../public/fonts/woff/iranyekanwebextrablack.woff',
       weight: '900',
       style: 'extrablack',
     },
     {
-      path: '/fonts/woff/iranyekanwebextrabold.woff',
+      path: '../public/fonts/woff/iranyekanwebextrabold.woff',
       weight: '800',
       style: 'extrabold',
     },
     {
-      path: '/fonts/woff/iranyekanweblight.woff',
+      path: '../public/fonts/woff/iranyekanweblight.woff',
       weight: '500',
       style: 'light',
     },
     {
-      path: '/fonts/woff/iranyekanwebmedium.woff',
+      path: '../public/fonts/woff/iranyekanwebmedium.woff',
       weight: 'normal',
       style: 'medium',
     },
     {
-      path: '/fonts/woff/iranyekanwebregular.woff',
+      path: '../public/fonts/woff/iranyekanwebregular.woff',
       weight: '300',
       style: 'regular',
     },
     {
-      path: '/fonts/woff/iranyekanwebthin.woff',
+      path: '../public/fonts/woff/iranyekanwebthin.woff',
       weight: '100',
       style: 'thin',
     },

@@ -1,16 +1,17 @@
 "use server"
-import connectToDb from "../../../../db"
-import { codeValidate, phoneValidate, phoneNumberCheck } from "../validators/register"
-import userModel from "@/models/User"
+import UserModel from "@/models/User"
+import connectToDb from "@/configs/db"
+import { codeValidate, phoneValidate, phoneNumberCheck } from "../../../backend/validators/register"
 
 const handler = async (req, res) => {
-    res.json("hellllll")
-    console.log("yesksks");
-    if (req.methood !== "POST") {
+    // res.json("hellllll")
+    // console.log("yesksks");
+    if (req.method !== "POST") {
         return false
     }
     try {
         connectToDb()
+        console.log("yesksks");
         //validation
         const { code, phoneHash } = req.body
         if (!code.trime() || !phoneHash.trime()) {
@@ -21,7 +22,7 @@ const handler = async (req, res) => {
         //Hash Phone Number
         //Generate Token
         //Create User
-        await userModel.create({ code, phoneHash })
+        await UserModel.create({ code, phoneHash })
         return res.status(201).json({ message: "user created successfully" })
 
     } catch (err) {
