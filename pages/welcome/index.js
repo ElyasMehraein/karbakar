@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react";
-import styles from '@/App/welcome/styles.module.css'
+import styles from './styles.module.css'
 import Image from 'next/image'
 import Button from "@mui/material/Button";
 import { Link, Navigate } from "react-router-dom";
@@ -15,8 +15,8 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { phoneNumberCheck, codeCheck } from "@/../validation/validation"
-import hands from "@/../public/m-hands.png"
+import { phoneNumberCheck, codeCheck } from "@/validation/validation"
+import hands from "@/public/m-hands.png"
 
 const steps = [
   {

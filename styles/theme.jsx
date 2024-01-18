@@ -1,5 +1,4 @@
 "use client"
-import "@/fonts/global.css"
 import { createTheme } from '@mui/material/styles';
 
 import localFont from "next/font/local"

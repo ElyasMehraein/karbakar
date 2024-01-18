@@ -11,7 +11,7 @@ import YourReq from './indexDatas/YourReq';
 import Bill from './indexDatas/Bill';
 import Divider from "@mui/material/Divider";
 
-import { mainTabYourReqText } from "@/../public/typoRepo.jsx"
+import { mainTabYourReqText } from "@/public/typoRepo.jsx"
 import { Container } from '@mui/material';
 import { useState, useEffect } from 'react'
 
