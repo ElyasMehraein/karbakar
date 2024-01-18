@@ -6,7 +6,7 @@ const schema = new Schema({
     smsCode: {
         type: Number, minLength: 4, maxLength: 6,
         required: true,
-        unique: true,
+        
     },
 
     phoneHash:{

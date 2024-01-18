@@ -9,23 +9,21 @@ const handler = async (req, res) => {
     } else {
 
         try {
-            console.log("omadam");
             connectToDb()
-            console.log("yesksks");
-            //validation
             const { smsCode, phoneHash } = req.body;
-            console.log("shod",req.body);
-
-            // if (!smsCode.trime() || !phoneHash.trime()) {
-            //     console.log("nist");
-            //     return res.status(402).json({ message: "data is not valid!" })
-            // }
+            console.log(req.body,"resived");
+            //validation
+            if (!smsCode.trim() || !phoneHash.trim()) {
+                return res.status(402).json({ message: "data is not valid!" })
+            }
+            console.log("validate successfully");
 
             //is User Exist?
             //Hash Phone Number
             //Generate Token
             //Create User
             await UserModel.create({ smsCode, phoneHash })
+            console.log("user created successfully");
             return res.status(201).json({ message: "user created successfully" })
 
         } catch (err) {

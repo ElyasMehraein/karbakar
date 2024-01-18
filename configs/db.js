@@ -3,7 +3,6 @@ const { default: mongoose } = require("mongoose");
 const connectToDB = async () => {
   try {
     if (mongoose.connections[0].readyState) {
-      console.log("yeeess");
       return true;
     } else {
       await mongoose.connect("mongodb+srv://elyas:Gsk5u4yDaXosRBn5@karbakar.jevgmsf.mongodb.net/?retryWrites=true&w=majority");
