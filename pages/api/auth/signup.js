@@ -19,6 +19,7 @@ const handler = async (req, res) => {
             console.log("validate successfully");
 
             //is User Exist?
+            // const isUserExist 
             //Hash Phone Number
             //Generate Token
             //Create User
