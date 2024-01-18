@@ -1,13 +1,12 @@
-"use server"
 import UserModel from "@/models/User"
 import connectToDb from "@/configs/db"
-import { codeValidate, phoneValidate, phoneNumberCheck } from "../../../backend/validators/register"
+// import { codeValidate, phoneValidate, phoneNumberCheck } from "../../../backend/validators/register"
 
 const handler = async (req, res) => {
     // res.json("hellllll")
     // console.log("yesksks");
     if (req.method !== "POST") {
-        return false
+        res.status(200).json({ name: 'post nist' })
     }
     try {
         connectToDb()

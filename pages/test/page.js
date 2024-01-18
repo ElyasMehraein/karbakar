@@ -1,4 +1,3 @@
-"use client"
 import Image from 'next/image'
 import hands from "@/../public/m-hands.png"
 import { mainTabYourReqText } from '../../../public/typoRepo'

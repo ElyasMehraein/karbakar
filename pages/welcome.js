@@ -1,10 +1,8 @@
-"use client"
 
 import * as React from "react";
 import styles from '@/styles/welcome.module.css'
 import Image from 'next/image'
 import Button from "@mui/material/Button";
-import { Link, Navigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
 import MobileStepper from "@mui/material/MobileStepper";
@@ -14,8 +12,7 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { phoneNumberCheck, codeCheck } from "@/validation/validation"
+// import { phoneNumberCheck, codeCheck } from "@/validation/validation"
 import hands from "@/public/m-hands.png"
 
 const steps = [
