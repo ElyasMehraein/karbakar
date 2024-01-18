@@ -1,29 +1,28 @@
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter'
-import CssBaseline from '@mui/material/CssBaseline';
 import "@/styles/global.css"
-
-export const metadata = {
-  title: 'کارباکار',
-  description: 'اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد و کسب و کارهای مولد',
-}
-import { ThemeProvider } from '@mui/material';
 import theme from '../styles/theme';
-// export default function App({ Component, pageProps }) {
-//   return <Component {...pageProps} />
-// }
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material';
+import { AppCacheProvider } from '@mui/material-nextjs/v13-pagesRouter'
+import Head from 'next/head'
+
+
 
 
 export default function App({ Component, pageProps }) {
   return (
-    // <html lang="fa" dir='rtl'>
-    //   <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <AppRouterCacheProvider>
-            <Component {...pageProps} />
-          </AppRouterCacheProvider>
-        </ThemeProvider>
-    //   </body>
-    // </html>
+    <>
+      <Head>
+        <title>کارباکار</title>
+        <meta name="description" content="اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد و کسب و کارهای مولد" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <AppCacheProvider>
+          <Component {...pageProps} />
+        </AppCacheProvider>
+      </ThemeProvider>
+    </>
   );
 }
