@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 
 const schema = new Schema({
 
-    code: {
+    smsCode: {
         type: Number, minLength: 4, maxLength: 6,
         required: true,
         unique: true,
