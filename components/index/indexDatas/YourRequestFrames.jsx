@@ -12,9 +12,9 @@ import { red } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Image from 'next/image'
 
-import businessAvatar from "@/assets/businessAvatar.jpg";
-import businessAvatar2 from "@/assets/businessAvatar2.jpg";
-import businessAvatar3 from "@/assets/pars.jpg";
+import businessAvatar from "@/public/assets/businessAvatar.jpg";
+import businessAvatar2 from "@/public/assets/businessAvatar2.jpg";
+import businessAvatar3 from "@/public/assets/pars.jpg";
 import { Container } from "@mui/material";
 const YourRequestFrames = () => {
   return (

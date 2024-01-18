@@ -165,59 +165,59 @@ export default function SearchAppBar(props) {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         {/* <Container> */}
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-              onClick={props.menuClickHandler}
-            >
-              <MenuIcon />
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+            onClick={props.menuClickHandler}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Box sx={{ flexGrow: 1 }} />
+          <Search sx={{ direction: "ltr" }}>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="کارباکار"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <Box sx={{
+
+            // display: { xs: 'none', md: 'flex' } 
+          }}
+          >
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge>
             </IconButton>
-            <Box sx={{ flexGrow: 1 }} />
-            <Search sx={{ direction: "ltr" }}>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="کارباکار"
-                inputProps={{ 'aria-label': 'search' }}
-              />
-            </Search>
-            <Box sx={{ 
-              
-              // display: { xs: 'none', md: 'flex' } 
-            }}
-            >
-              <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="error">
-                  <MailIcon />
-                </Badge>
-                {/* </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
-            > */}
-                <Badge sx={{mx:2}} badgeContent={17} color="error">
-                  <NotificationsIcon />
-                </Badge>
-                {/* </IconButton>
+            >
+              <Badge sx={{ mx: 2 }} badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
             <IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              // onClick={handleProfileMenuOpen}
+              onClick={() => router.push('/welcome')}
               color="inherit"
-            > */}
-                <AccountCircle onClick={() => router.push('/welcome')} />
-              </IconButton>
-            </Box>
-            {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+          {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"
                 aria-label="show more"
@@ -229,7 +229,7 @@ export default function SearchAppBar(props) {
                 <MoreIcon />
               </IconButton>
             </Box> */}
-          </Toolbar>
+        </Toolbar>
         {/* </Container> */}
       </AppBar>
       {renderMobileMenu}
