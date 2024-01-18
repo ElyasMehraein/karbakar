@@ -2,10 +2,10 @@ import mongoose from "mongoose"
 
 const connectToDb = async () => {
     try {
-        if(mongoose.connection[0].readyState){
-            return true;    
-        }else {
-            await mongoose.connect("mongodb+srv://elyasmehraein:B0L8AT3RnfGqz5xM@cluster0.tffz0t2.mongodb.net/KarBaKar?retryWrites=true&w=majority")
+        if (mongoose.connection[0].readyState) {
+            return true;
+        } else {
+            await mongoose.connect("mongodb+srv://elyas:Gsk5u4yDaXosRBn5@karbakar.jevgmsf.mongodb.net/?retryWrites=true&w=majority")
             console.log("db connected successfully");
         }
 
