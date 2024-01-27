@@ -3,10 +3,10 @@ import mongoose from "mongoose"
 
 const schema = new Schema({
 
-    code: {
+    smsCode: {
         type: Number, minLength: 4, maxLength: 6,
         required: true,
-        unique: true,
+        
     },
 
     phoneHash:{
@@ -18,5 +18,5 @@ const schema = new Schema({
 
 },{ timestamps: true })
 
-const userModel = mongoose.model.User || mongoose.model("User",schema)
-export default userModel
+const UserModel = mongoose.models.User || mongoose.model("User",schema)
+export default UserModel
