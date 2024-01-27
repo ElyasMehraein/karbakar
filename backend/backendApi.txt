@@ -1,0 +1,6 @@
+http://localhost:3000/v1/auth/enteringPhone    for post phone number on wellcome page
+{
+    "phone":"09305845526",
+    "smsCode":"666666"
+}
+then post phone with smsCode for login on http://localhost:3000/v1/auth/enteringCode   
