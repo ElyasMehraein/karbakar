@@ -11,20 +11,25 @@ const handler = async (req, res) => {
     try {
         connectToDb()
         const { phone, code } = req.body;
-        console.log(req.body, "resived");
-        console.log(phone, code);
         //validation
         if (!phone.trim() || !code.trim()) {
             return res.status(402).json({ message: "data is not valid!" })
         }
         console.log("validate successfully");
 
+        const isUserExist = await UserModel.findOne({
+            $or: [{phoneHash: phone}]
+        })
+        if (isUserExist) {
+            return res.status(422).json({ message: "phone number is alrealy exist!" })
+
+        }
         //is User Exist?
         // const isUserExist 
         //Hash Phone Number
         //Generate Token
         //Create User
-        await UserModel.create({ smsCode:phone, phoneHash:code })
+        await UserModel.create({ phoneHash: phone, smsCode: code })
         console.log("user created successfully");
         return res.status(201).json({ message: "user created successfully" })
 
