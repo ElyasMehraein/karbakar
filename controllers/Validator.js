@@ -10,7 +10,7 @@ export function phoneNumberCheck(phoneNo) {
   return phoneNumberRegex.test(phoneNo) && v.compile(phoneSchema);
 }
 
-export function smsCodeCheck(smsode) {
+export function smsCodeCheck(smscode) {
   const codeRegex = /^\d{6}$/;
   const smsSchema = {
     smsCode: { type: "string", length: 6 },

@@ -1,24 +1,36 @@
 import UserModel from "@/models/User"
 import connectToDb from "@/configs/db"
-// import { codeValidate, phoneValidate, phoneNumberCheck } from "../../../backend/validators/register"
+import { createHash } from "crypto";
 
-const handler = async (req, res) => {
+import { phoneNumberCheck, smsCodeCheck } from "@/controllers/Validator"
+const signup = async (req, res) => {
 
     if (req.method !== "POST") {
-        res.status(200).json({ name: 'post nist' })
+        res.status(200).json({ message: 'request method must be "POST"' })
     }
 
     try {
         connectToDb()
-        const { phone, code } = req.body;
-        //validation
-        if (!phone.trim() || !code.trim()) {
-            return res.status(402).json({ message: "data is not valid!" })
+        const { phone, SMSCode } = req.body;
+        console.log(phone, SMSCode);
+        //Validate Entrance
+        if (!phone.trim() || !SMSCode.trim() ) {
+            return res.status(402).json({ message: "Entrance data is empty!" })
         }
+        console.log("Entrance data is not empty");
+
+        // if (phoneNumberCheck(phone) || smsCodeCheck(SMSCode)) {
+        //     return res.status(402).json({ message: "Entrance data is not valid!" })
+        // }
+        console.log(phoneNumberCheck(phone));
+        console.log(smsCodeCheck(SMSCode));
         console.log("validate successfully");
 
+
+        const phoneHash = createHash("sha256").update(phone).digest("hex");
+        console.log(phoneHash);
         const isUserExist = await UserModel.findOne({
-            $or: [{phoneHash: phone}]
+            $or: [{ phoneHash: phone }]
         })
         if (isUserExist) {
             return res.status(422).json({ message: "phone number is alrealy exist!" })
@@ -29,7 +41,7 @@ const handler = async (req, res) => {
         //Hash Phone Number
         //Generate Token
         //Create User
-        await UserModel.create({ phoneHash: phone, smsCode: code })
+        await UserModel.create({ phoneHash, SMSCode })
         console.log("user created successfully");
         return res.status(201).json({ message: "user created successfully" })
 
@@ -39,4 +51,4 @@ const handler = async (req, res) => {
     }
 }
 
-export default handler
+export default signup

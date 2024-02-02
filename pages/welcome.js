@@ -12,7 +12,6 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
-// import { phoneNumberCheck, codeCheck } from "@/validation/validation"
 import hands from "@/public/m-hands.png"
 
 const steps = [
@@ -43,9 +42,9 @@ function Wellcome() {
   // const navigate = useNavigate();
   const [textFieldError, setTextFieldError] = useState(false);
   const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
+  const [SMSCode, setSMSCode] = useState("");
   const changeSetValues = (value) => {
-    activeStep === 0 ? setPhone(value) : setCode(value);
+    activeStep === 0 ? setPhone(value) : setSMSCode(value);
   };
 
   const [show, setShow] = useState(true);
@@ -69,8 +68,8 @@ function Wellcome() {
         phoneError();
       }
     } else {
-      if (codeCheck(code)) {
-        console.log(`send ${phone} and ${code} to api and wait for register or login`);
+      if (codeCheck(SMSCode)) {
+        console.log(`send ${phone} and ${SMSCode} to api and wait for register or login`);
       } else {
         phoneError()
       }
@@ -135,7 +134,7 @@ function Wellcome() {
                     : steps[activeStep].label
                 }
                 placeholder={steps[activeStep].placeholder}
-                value={activeStep === 0 ? phone : code}
+                value={activeStep === 0 ? phone : SMSCode}
               />
             </Paper>
             <Box sx={{ height: 80, maxWidth: 400, width: "90%", p: 2 }}>
