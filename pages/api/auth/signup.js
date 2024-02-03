@@ -1,9 +1,11 @@
 import UserModel from "@/models/User"
 import connectToDb from "@/configs/db"
 import { createHash } from "crypto";
-import { sendSMS, checkSMS } from "@/controllers/smsotp.js"
+import { SMSOtpvalidator } from "@/controllers/smsotp.js"
+import jwt from "jsonwebtoken";
+import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"
 
-import { phoneNumberCheck, SMSCodeCheck } from "@/controllers/Validator"
+
 const signup = async (req, res) => {
 
     if (req.method !== "POST") {
@@ -14,39 +16,45 @@ const signup = async (req, res) => {
         connectToDb()
         const { phone, SMSCode } = req.body;
         console.log(phone, SMSCode);
+
         //Validate Entrance
         if (!phone.trim() || !SMSCode.trim()) {
             return res.status(402).json({ message: "Entrance data is empty!" })
         }
         console.log("Entrance data is not empty");
 
-        if (!phoneNumberCheck(phone) || !SMSCodeCheck(SMSCode)) {
+
+
+        if (!phoneFormatCheck(phone) || !SMSFormatCheck(SMSCode)) {
             return res.status(402).json({ message: "Entrance data is not valid!" })
         }
-        console.log(checkSMS(phone, SMSCode));
         console.log("phone number and smmcode format validate successfully");
-        if (!checkSMS(phone, SMSCode)) {
-            return res.status(422).json("sms otp error");
+
+
+        const isOtpSMSValid = await SMSOtpvalidator(phone, SMSCode)
+        if (!isOtpSMSValid) {
+            return res.status(422).json("SMS Code is not valid");
         }
+
+
         const phoneHash = createHash("sha256").update(phone).digest("hex");
         console.log(phoneHash);
-        const isUserExist = await UserModel.findOne({
-            $or: [{ phoneHash }]
-        })
-        if (isUserExist) {
-            return res.status(422).json({ message: "phone number is alrealy exist!" })
 
-        }
-        //is User Exist?
-        // const isUserExist 
-        //Hash Phone Number
-        //Generate Token
-        //Create User
+
+        
+        const isUserExist = await UserModel.findOne({ $or: [{ phoneHash }] })
+        if (isUserExist) { return res.status(422).json({ message: "phone number is alrealy exist!" }) }
+        
+
         let nextUserNumber = (await UserModel.countDocuments()) + 1000;
 
-        await UserModel.create({ phoneHash, code: nextUserNumber })
+
+        const user = await UserModel.create({ phoneHash, code: nextUserNumber })
         console.log("user created successfully");
-        return res.status(201).json({ message: "user created successfully" })
+
+        const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
+
+        return res.status(201).json({ accessToken, message: "user created successfully" });
 
     } catch (err) {
         console.log(err);

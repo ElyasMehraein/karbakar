@@ -4,7 +4,7 @@ const v = new Validator();
 
 
 
-export function phoneNumberCheck(phoneNo) {
+export function phoneFormatCheck(phoneNo) {
   const phoneSchema = {
     phoneNo: { type: "string", length: 11 },
     $$strict: true,
@@ -17,7 +17,7 @@ export function phoneNumberCheck(phoneNo) {
 
 
 
-export function SMSCodeCheck(SMSCode) {
+export function SMSFormatCheck(SMSCode) {
   const smsSchema = {
     SMSCode: { type: "string", length: 6 },
     $$strict: true,

@@ -3,7 +3,8 @@ import TrezSmsClient from "trez-sms-client";
 const smsuser = process.env.SMSUSER;
 const smspass = process.env.SMSPASS;
 const client = new TrezSmsClient(smsuser, smspass);
-console.log(smspass, smsuser);
+
+
 function sendSMS(userNumber) {
   console.log("message sent to ", userNumber);
   client
@@ -13,7 +14,9 @@ function sendSMS(userNumber) {
     })
     .catch((error) => console.log("sms sendig catch a problem",error));
 }
-function checkSMS(userNumber, SMSCode) {
+
+
+function SMSOtpvalidator(userNumber, SMSCode) {
   return new Promise((resolve, reject) => {
     client
       .checkCode(userNumber, SMSCode)
@@ -28,4 +31,4 @@ function checkSMS(userNumber, SMSCode) {
   });
 }
 
-export { sendSMS, checkSMS };
+export { sendSMS, SMSOtpvalidator };
