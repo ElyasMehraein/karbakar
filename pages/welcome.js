@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import styles from '@/styles/welcome.module.css'
 import Image from 'next/image'
@@ -13,6 +12,8 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import hands from "@/public/m-hands.png"
+import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator";
+import { useRouter } from "next/router";
 
 const steps = [
   {
@@ -35,7 +36,10 @@ const steps = [
   },
 ];
 
+
 function Wellcome() {
+  const router = useRouter()
+
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
@@ -51,24 +55,40 @@ function Wellcome() {
   const changeShow = () => {
     setShow(!show);
   };
+  async function sendOtpSMS(phone) {
+    await fetch('api/auth/sendsmsotp', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone })
+    })
+  }
+  async function signup(phone, SMSCode) {
+    const res = await fetch('api/auth/signup', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, SMSCode })
+    })
+    router.replace('/')
+    }
+
+
   function phoneError() {
     setTextFieldError(true);
-  }
-  function phoneFine() {
-    console.log("fine e");
-    setActiveStep(() => 1);
   }
 
   function handleNext() {
     if (activeStep === 0) {
-      if (phoneNumberCheck(phone)) {
-        phoneFine();
+      if (phoneFormatCheck(phone)) {
+        sendOtpSMS(phone)
+        console.log(phone);
+        setActiveStep(() => 1)
         console.log("code vase shomare", phone, "ersal shod");
       } else {
         phoneError();
       }
     } else {
-      if (codeCheck(SMSCode)) {
+      if (SMSFormatCheck(SMSCode)) {
+        signup(phone, SMSCode)
         console.log(`send ${phone} and ${SMSCode} to api and wait for register or login`);
       } else {
         phoneError()
@@ -125,7 +145,7 @@ function Wellcome() {
                   changeSetValues(e.target.value);
                   setTextFieldError(false);
                 }}
-                sx={{ "& input::placeholder": { fontSize: "14px"}, width: "200px" }}
+                sx={{ "& input::placeholder": { fontSize: "14px" }, width: "200px" }}
                 variant="outlined"
                 size="small"
                 id="outlined-textarea"

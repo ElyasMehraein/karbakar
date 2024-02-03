@@ -4,6 +4,7 @@ import { createHash } from "crypto";
 import { SMSOtpvalidator } from "@/controllers/smsotp.js"
 import jwt from "jsonwebtoken";
 import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"
+import { serialize } from "cookie";
 
 
 const signup = async (req, res) => {
@@ -41,10 +42,10 @@ const signup = async (req, res) => {
         console.log(phoneHash);
 
 
-        
+
         const isUserExist = await UserModel.findOne({ $or: [{ phoneHash }] })
         if (isUserExist) { return res.status(422).json({ message: "phone number is alrealy exist!" }) }
-        
+
 
         let nextUserNumber = (await UserModel.countDocuments()) + 1000;
 
@@ -54,7 +55,7 @@ const signup = async (req, res) => {
 
         const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
 
-        return res.status(201).json({ accessToken, message: "user created successfully" });
+        return res.setHeader('Set-Cookie', serialize('token', accessToken, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30 })).status(201).json({ accessToken, message: "user created successfully" });
 
     } catch (err) {
         console.log(err);
