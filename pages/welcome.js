@@ -14,6 +14,8 @@ import { useState, useEffect } from "react";
 import hands from "@/public/m-hands.png"
 import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator";
 import { useRouter } from "next/router";
+import { verifyToken } from "@/controllers/auth";
+import connectToDB from "@/configs/db";
 
 const steps = [
   {
@@ -43,10 +45,12 @@ function Wellcome() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
-  // const navigate = useNavigate();
   const [textFieldError, setTextFieldError] = useState(false);
   const [phone, setPhone] = useState("");
   const [SMSCode, setSMSCode] = useState("");
+  const [SMSOtpTextFieldErrorMessage, setSMSOtpTextFieldErrorMessage] = useState("کد پیامکی بدرستی وارد نشده است");
+
+
   const changeSetValues = (value) => {
     activeStep === 0 ? setPhone(value) : setSMSCode(value);
   };
@@ -56,11 +60,12 @@ function Wellcome() {
     setShow(!show);
   };
   async function sendOtpSMS(phone) {
-    await fetch('api/auth/sendsmsotp', {
+    const javab = await fetch('api/auth/sendsmsotp', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone })
     })
+    console.log("javab=> ", javab);
   }
   async function signup(phone, SMSCode) {
     const res = await fetch('api/auth/signup', {
@@ -68,8 +73,15 @@ function Wellcome() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone, SMSCode })
     })
-    router.replace('/')
+    if (res.status === 406) {
+      setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
+      phoneError()
+    } else if (res.status === 409) {
+      setSMSOtpTextFieldErrorMessage("hasti kako")
+      phoneError()
     }
+    // router.replace('/')
+  }
 
 
   function phoneError() {
@@ -150,7 +162,7 @@ function Wellcome() {
                 size="small"
                 id="outlined-textarea"
                 label={
-                  textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : "کد تایید پیامکی اشتباه وارد شده است"
+                  textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : SMSOtpTextFieldErrorMessage
                     : steps[activeStep].label
                 }
                 placeholder={steps[activeStep].placeholder}
@@ -182,6 +194,27 @@ function Wellcome() {
       }
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { token } = context.req.cookies;
+  connectToDB();
+
+  const tokenPayload = verifyToken(token);
+
+  if (tokenPayload) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+  return {
+    props: {
+      value:""
+      //fix it later
+    },
+  };
 }
 
 export default Wellcome;

@@ -211,7 +211,7 @@ export default function SearchAppBar(props) {
               aria-label="account of current user"
               aria-controls={menuId}
               aria-haspopup="true"
-              onClick={() => router.push('/welcome')}
+              // onClick={() => router.push('/welcome')}
               color="inherit"
             >
               <AccountCircle />

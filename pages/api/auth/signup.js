@@ -16,7 +16,6 @@ const signup = async (req, res) => {
     try {
         connectToDb()
         const { phone, SMSCode } = req.body;
-        console.log(phone, SMSCode);
 
         //Validate Entrance
         if (!phone.trim() || !SMSCode.trim()) {
@@ -34,7 +33,8 @@ const signup = async (req, res) => {
 
         const isOtpSMSValid = await SMSOtpvalidator(phone, SMSCode)
         if (!isOtpSMSValid) {
-            return res.status(422).json("SMS Code is not valid");
+            console.log(res.status);
+            return res.status(406).json("SMS Code is not valid");
         }
 
 
@@ -44,7 +44,12 @@ const signup = async (req, res) => {
 
 
         const isUserExist = await UserModel.findOne({ $or: [{ phoneHash }] })
-        if (isUserExist) { return res.status(422).json({ message: "phone number is alrealy exist!" }) }
+        console.log(isUserExist, "balaee");
+        const isPhoneHashExist = await UserModel.findOne({ phoneHash });
+        console.log("paeeni", isPhoneHashExist);
+
+
+        if (isUserExist) { return res.status(409).json({ message: "phone number is alrealy exist!" }) }
 
 
         let nextUserNumber = (await UserModel.countDocuments()) + 1000;
