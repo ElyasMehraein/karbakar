@@ -1,12 +1,12 @@
 import Image from 'next/image'
-import hands from "@/../public/m-hands.png"
-import { mainTabYourReqText } from '../../../public/typoRepo'
+// import hands from "@/../public/m-hands.png"
+// import { mainTabYourReqText } from '../../../public/typoRepo'
 import Typography from '@mui/material/Typography'
 import YourReq from '@/components/index/indexDatas/YourReq'
 export default function Page() {
   return (
     <div className="grid-element">
-      <Image
+      {/* <Image
         priority
         alt='hich'
         src={hands}
@@ -15,7 +15,7 @@ export default function Page() {
       <YourReq/>
       <Typography>
         {mainTabYourReqText}
-      </Typography>
+      </Typography> */}
     </div>
   )
 }
