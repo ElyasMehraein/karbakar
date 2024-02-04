@@ -18,6 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { Directions } from '@mui/icons-material';
 import { Container } from '@mui/material';
 import { useRouter } from 'next/navigation'
+import Button from "@mui/material/Button";
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -60,7 +61,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar(props) {
-
+  const user = props.user
+  console.log("toye appbaram", user);
   const router = useRouter()
 
 
@@ -186,37 +188,43 @@ export default function SearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Box sx={{
+          {!user ? (<Button onClick={() => router.push('/welcome')} variant="contained" color="secondary">
+            ورود یا ثبت نام
+          </Button>) :
 
-            // display: { xs: 'none', md: 'flex' } 
-          }}
-          >
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
+            <Box sx={{
+
+              // display: { xs: 'none', md: 'flex' } 
+            }}
             >
-              <Badge sx={{ mx: 2 }} badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              // onClick={() => router.push('/welcome')}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
+              <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                <Badge badgeContent={4} color="error">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+              >
+                <Badge sx={{ mx: 2 }} badgeContent={17} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                // onClick={() => router.push('/welcome')}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </Box>
+          }
+
           {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 size="large"

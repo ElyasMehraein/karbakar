@@ -15,6 +15,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.0",
     "@mui/material": "^5.15.0",
+    "@mui/material-next": "^6.0.0-alpha.120",
     "@mui/material-nextjs": "^5.15.5",
     "cookie": "^0.6.0",
     "crypto": "^1.0.1",
