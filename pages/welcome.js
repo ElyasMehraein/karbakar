@@ -76,14 +76,11 @@ function Wellcome() {
     if (res.status === 406) {
       setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
       phoneError()
-    } else if (res.status === 409) {
-      setSMSOtpTextFieldErrorMessage("hasti kako")
-      phoneError()
+    } else if (res.status === 201) {
+      router.replace('/')
+
     }
-    // router.replace('/')
   }
-
-
   function phoneError() {
     setTextFieldError(true);
   }
@@ -211,7 +208,7 @@ export async function getServerSideProps(context) {
   }
   return {
     props: {
-      value:""
+      value: ""
       //fix it later
     },
   };

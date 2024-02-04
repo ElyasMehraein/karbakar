@@ -43,24 +43,18 @@ const signup = async (req, res) => {
 
 
 
-        const isUserExist = await UserModel.findOne({ $or: [{ phoneHash }] })
-        console.log(isUserExist, "balaee");
-        const isPhoneHashExist = await UserModel.findOne({ phoneHash });
-        console.log("paeeni", isPhoneHashExist);
-
-
-        if (isUserExist) { return res.status(409).json({ message: "phone number is alrealy exist!" }) }
-
-
-        let nextUserNumber = (await UserModel.countDocuments()) + 1000;
-
-
-        const user = await UserModel.create({ phoneHash, code: nextUserNumber })
-        console.log("user created successfully");
-
+        let user = await UserModel.findOne({ phoneHash })
+        if (!user) {
+            let nextUserNumber = (await UserModel.countDocuments()) + 1000;
+            user = await UserModel.create({ phoneHash, code: nextUserNumber })
+            console.log("user created successfully");
+            return user
+        }
+        console.log(user);
         const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
-
-        return res.setHeader('Set-Cookie', serialize('token', accessToken, { httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30 })).status(201).json({ accessToken, message: "user created successfully" });
+        return res.setHeader('Set-Cookie', serialize('token', accessToken, {
+            httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30
+        })).status(201).json({ accessToken, message: "user token created successfully" });
 
     } catch (err) {
         console.log(err);
