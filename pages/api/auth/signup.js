@@ -1,37 +1,60 @@
 import UserModel from "@/models/User"
 import connectToDb from "@/configs/db"
-// import { codeValidate, phoneValidate, phoneNumberCheck } from "../../../backend/validators/register"
+import { createHash } from "crypto";
+import { SMSOtpvalidator } from "@/controllers/smsotp.js"
+import jwt from "jsonwebtoken";
+import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"
+import { serialize } from "cookie";
 
-const handler = async (req, res) => {
+
+const signup = async (req, res) => {
 
     if (req.method !== "POST") {
-        res.status(200).json({ name: 'post nist' })
+        res.status(200).json({ message: 'request method must be "POST"' })
     }
 
     try {
         connectToDb()
-        const { phone, code } = req.body;
-        //validation
-        if (!phone.trim() || !code.trim()) {
-            return res.status(402).json({ message: "data is not valid!" })
-        }
-        console.log("validate successfully");
+        const { phone, SMSCode } = req.body;
 
-        const isUserExist = await UserModel.findOne({
-            $or: [{phoneHash: phone}]
-        })
-        if (isUserExist) {
-            return res.status(422).json({ message: "phone number is alrealy exist!" })
-
+        //Validate Entrance
+        if (!phone.trim() || !SMSCode.trim()) {
+            return res.status(402).json({ message: "Entrance data is empty!" })
         }
-        //is User Exist?
-        // const isUserExist 
-        //Hash Phone Number
-        //Generate Token
-        //Create User
-        await UserModel.create({ phoneHash: phone, smsCode: code })
-        console.log("user created successfully");
-        return res.status(201).json({ message: "user created successfully" })
+        console.log("Entrance data is not empty");
+
+
+
+        if (!phoneFormatCheck(phone) || !SMSFormatCheck(SMSCode)) {
+            return res.status(402).json({ message: "Entrance data is not valid!" })
+        }
+        console.log("phone number and smmcode format validate successfully");
+
+
+        const isOtpSMSValid = await SMSOtpvalidator(phone, SMSCode)
+        if (!isOtpSMSValid) {
+            console.log(res.status);
+            return res.status(406).json("SMS Code is not valid");
+        }
+
+
+        const phoneHash = createHash("sha256").update(phone).digest("hex");
+        console.log(phoneHash);
+
+
+
+        let user = await UserModel.findOne({ phoneHash })
+        if (!user) {
+            let nextUserNumber = (await UserModel.countDocuments()) + 1000;
+            user = await UserModel.create({ phoneHash, code: nextUserNumber })
+            console.log("user created successfully");
+            return user
+        }
+        console.log(user);
+        const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
+        return res.setHeader('Set-Cookie', serialize('token', accessToken, {
+            httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30
+        })).status(201).json({ accessToken, message: "user token created successfully" });
 
     } catch (err) {
         console.log(err);
@@ -39,4 +62,4 @@ const handler = async (req, res) => {
     }
 }
 
-export default handler
+export default signup

@@ -1,4 +1,3 @@
-
 import * as React from "react";
 import styles from '@/styles/welcome.module.css'
 import Image from 'next/image'
@@ -12,8 +11,11 @@ import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
-// import { phoneNumberCheck, codeCheck } from "@/validation/validation"
 import hands from "@/public/m-hands.png"
+import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator";
+import { useRouter } from "next/router";
+import { verifyToken } from "@/controllers/auth";
+import connectToDB from "@/configs/db";
 
 const steps = [
   {
@@ -36,41 +38,67 @@ const steps = [
   },
 ];
 
+
 function Wellcome() {
+  const router = useRouter()
+
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
-  // const navigate = useNavigate();
   const [textFieldError, setTextFieldError] = useState(false);
   const [phone, setPhone] = useState("");
-  const [code, setCode] = useState("");
+  const [SMSCode, setSMSCode] = useState("");
+  const [SMSOtpTextFieldErrorMessage, setSMSOtpTextFieldErrorMessage] = useState("کد پیامکی بدرستی وارد نشده است");
+
+
   const changeSetValues = (value) => {
-    activeStep === 0 ? setPhone(value) : setCode(value);
+    activeStep === 0 ? setPhone(value) : setSMSCode(value);
   };
 
   const [show, setShow] = useState(true);
   const changeShow = () => {
     setShow(!show);
   };
+  async function sendOtpSMS(phone) {
+    const javab = await fetch('api/auth/sendsmsotp', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone })
+    })
+    console.log("javab=> ", javab);
+  }
+  async function signup(phone, SMSCode) {
+    const res = await fetch('api/auth/signup', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, SMSCode })
+    })
+    if (res.status === 406) {
+      setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
+      phoneError()
+    } else if (res.status === 201) {
+      router.replace('/')
+
+    }
+  }
   function phoneError() {
     setTextFieldError(true);
-  }
-  function phoneFine() {
-    console.log("fine e");
-    setActiveStep(() => 1);
   }
 
   function handleNext() {
     if (activeStep === 0) {
-      if (phoneNumberCheck(phone)) {
-        phoneFine();
+      if (phoneFormatCheck(phone)) {
+        sendOtpSMS(phone)
+        console.log(phone);
+        setActiveStep(() => 1)
         console.log("code vase shomare", phone, "ersal shod");
       } else {
         phoneError();
       }
     } else {
-      if (codeCheck(code)) {
-        console.log(`send ${phone} and ${code} to api and wait for register or login`);
+      if (SMSFormatCheck(SMSCode)) {
+        signup(phone, SMSCode)
+        console.log(`send ${phone} and ${SMSCode} to api and wait for register or login`);
       } else {
         phoneError()
       }
@@ -126,16 +154,16 @@ function Wellcome() {
                   changeSetValues(e.target.value);
                   setTextFieldError(false);
                 }}
-                sx={{ "& input::placeholder": { fontSize: "14px"}, width: "200px" }}
+                sx={{ "& input::placeholder": { fontSize: "14px" }, width: "200px" }}
                 variant="outlined"
                 size="small"
                 id="outlined-textarea"
                 label={
-                  textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : "کد تایید پیامکی اشتباه وارد شده است"
+                  textFieldError ? activeStep === 0 ? "شماره موبایل بدرستی وارد نشده" : SMSOtpTextFieldErrorMessage
                     : steps[activeStep].label
                 }
                 placeholder={steps[activeStep].placeholder}
-                value={activeStep === 0 ? phone : code}
+                value={activeStep === 0 ? phone : SMSCode}
               />
             </Paper>
             <Box sx={{ height: 80, maxWidth: 400, width: "90%", p: 2 }}>
@@ -163,6 +191,27 @@ function Wellcome() {
       }
     </div>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { token } = context.req.cookies;
+  connectToDB();
+
+  const tokenPayload = verifyToken(token);
+
+  if (tokenPayload) {
+    return {
+      redirect: {
+        destination: "/",
+      },
+    };
+  }
+  return {
+    props: {
+      value: ""
+      //fix it later
+    },
+  };
 }
 
 export default Wellcome;

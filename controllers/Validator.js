@@ -1,20 +1,28 @@
 import Validator from "fastest-validator";
 const v = new Validator();
 
-export function phoneNumberCheck(phoneNo) {
-  const phoneNumberRegex = /^09\d{9}$/;
+
+
+
+export function phoneFormatCheck(phoneNo) {
   const phoneSchema = {
-    phone: { type: "string", length: 11 },
+    phoneNo: { type: "string", length: 11 },
     $$strict: true,
   };
-  return phoneNumberRegex.test(phoneNo) && v.compile(phoneSchema);
+  const phoneTypeChecker = v.compile(phoneSchema);
+  const phoneNumberRegex = /^09\d{9}$/;
+  return phoneTypeChecker({ phoneNo }) && phoneNumberRegex.test(phoneNo)
 }
 
-export function smsCodeCheck(smsode) {
-  const codeRegex = /^\d{6}$/;
+
+
+
+export function SMSFormatCheck(SMSCode) {
   const smsSchema = {
-    smsCode: { type: "string", length: 6 },
+    SMSCode: { type: "string", length: 6 },
     $$strict: true,
   };
-  return codeRegex.test(smscode) && v.compile(smsSchema);
+  const SMSCodeTypeChecker = v.compile(smsSchema);
+  const SMSCodeRegex = /^\d{6}$/;
+  return SMSCodeTypeChecker({ SMSCode }) && SMSCodeRegex.test(SMSCode)
 }
