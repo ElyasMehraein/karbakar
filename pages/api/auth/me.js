@@ -1,12 +1,30 @@
-import { phoneNumberCheck, smsCodeCheck } from "@/controllers/Validator"
+import { verifyToken } from "@/controllers/auth";
 
-const num = "09305845526"
-const num2 = 584552
+async function handler(req, res) {
+    if (req.method !== "GET") {
+        return false
+    }
+    try {
 
-const handler = (req, res) => {
-    res.json("jay dorosti")
-    console.log(phoneNumberCheck(num))
-    console.log(smsCodeCheck(num2))
+        connectToDB()
+        const { token } = req.cookies;
+        const tokenPayLoad = verifyToken(token)
+        if (!token || !tokenPayLoad) {
+            return res.status(401).json({ message: "you are not logged in" })
+        }
+        const user = await UserModel.findOne(
+            { _id: tokenPayLoad.id },
+            "phoneHash"
+        )
+        return res.status(200).json({ data: user })
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ message: "server error" })
+    }
 
 }
 export default handler
+
+
+console.log(user);
+
