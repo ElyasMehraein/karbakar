@@ -45,8 +45,12 @@ export default function DrawerRight(props) {
   const theme = useTheme();
 
   const signOut = async () => {
-    const res = await fetch("/api/auth/signout")
+    const res = await fetch("/api/auth/logout")
     const data = await res.json()
+    console.log("zadi ro signout va status is==>", res.status);
+    if(res.status===200){
+      router.replace("/welcome")
+    }
     console.log(res, data);
   }
   return (
@@ -143,7 +147,7 @@ export default function DrawerRight(props) {
         </List>
         <Divider />
         <Button
-          onClick={signOut} color="error" endIcon={<LogoutIcon />}>
+           onClick={signOut} color="error" endIcon={<LogoutIcon />}>
           خروج از سایت
         </Button>
       </Drawer>

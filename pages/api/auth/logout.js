@@ -6,6 +6,6 @@ const handler=(req, res)=>{
     return res.setHeader('Set-Cookie', serialize('token', "",{
      path:"/",
      maxAge: 0
-    })).status(200).json({ message: 'user logged successfullt'})
+    })).status(200).json({ message: 'user loggedout successfullt'})
 }
 export default handler

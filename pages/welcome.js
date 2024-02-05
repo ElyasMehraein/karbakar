@@ -12,7 +12,9 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import hands from "@/public/m-hands.png"
-import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator";
+// import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"; ////uncomment after development
+const phoneFormatCheck = ()=> true //delete after development
+const SMSFormatCheck = ()=> true //delete after development
 import { useRouter } from "next/router";
 import { verifyToken } from "@/controllers/auth";
 import connectToDB from "@/configs/db";

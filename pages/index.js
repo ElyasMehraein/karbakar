@@ -9,8 +9,9 @@ import CssBaseline from "@mui/material";
 import { verifyToken } from "@/controllers/auth";
 import connectToDB from "@/configs/db";
 
-function Index({user}) {
-  console.log(user);
+function Index(props) {
+  const user = props.user
+  console.log("toye indexam=>", user);
   const [open, setOpen] = React.useState(false);
 
   const menuClickHandler = () => {
@@ -21,10 +22,10 @@ function Index({user}) {
   };
   return (
     <>
-      {user?
-      <h3 dir="ltr">you are logging with following phoneHash {user.phoneHash}</h3>:<h3 dir="ltr">you are not loged in</h3>
-    }
-      <RightDrawer user={user} open={open} handleDrawerClose={handleDrawerClose}  />
+      {user ?
+        <h3 dir="ltr">you are logging with following phoneHash {user.phoneHash} you are logging with following token {props.token}</h3> : <h3 dir="ltr">you are not loged in</h3>
+      }
+      <RightDrawer user={user} open={open} handleDrawerClose={handleDrawerClose} />
       <SearchAppBar user={user} menuClickHandler={menuClickHandler} />
       <Tabs user={user} />
 
@@ -50,7 +51,7 @@ export async function getServerSideProps(context) {
     }
   }
   return {
-    props: { user: JSON.parse(JSON.stringify(user)) }
+    props: { user: JSON.parse(JSON.stringify(user)), token }
   }
 }
 
