@@ -5,7 +5,7 @@ const handler=()=>{
     }
     return res.status(200).setHeader('Set-Cookie', serialize('token', "",{
      path:"/",
-     maxAge: 60*60*24*7
+     maxAge: 0
     })).status(422).json({ message: 'user loggd oft successfullt'})
 
 }
