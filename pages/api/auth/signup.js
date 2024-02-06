@@ -17,29 +17,31 @@ const signup = async (req, res) => {
         connectToDb()
         const { phone, SMSCode } = req.body;
 
-        //Validate Entrance
-        if (!phone.trim() || !SMSCode.trim()) {
-            return res.status(402).json({ message: "Entrance data is empty!" })
-        }
-        console.log("Entrance data is not empty");
+        //Validate Entrance 
+        //uncomment after development
+        // if (!phone.trim() || !SMSCode.trim()) {
+        //     return res.status(402).json({ message: "Entrance data is empty!" })
+        // }
+        // console.log("Entrance data is not empty");
 
 
+        //uncomment after development
 
-        if (!phoneFormatCheck(phone) || !SMSFormatCheck(SMSCode)) {
-            return res.status(402).json({ message: "Entrance data is not valid!" })
-        }
-        console.log("phone number and smmcode format validate successfully");
+        // if (!phoneFormatCheck(phone) || !SMSFormatCheck(SMSCode)) {
+        //     return res.status(402).json({ message: "Entrance data is not valid!" })
+        // }
+        // console.log("phone number and smmcode format validate successfully");
 
 
-        const isOtpSMSValid = await SMSOtpvalidator(phone, SMSCode)
-        if (!isOtpSMSValid) {
-            console.log(res.status);
-            return res.status(406).json("SMS Code is not valid");
-        }
+        // const isOtpSMSValid = await SMSOtpvalidator(phone, SMSCode)
+        // if (!isOtpSMSValid) {
+        //     console.log(res.status);
+        //     return res.status(406).json("SMS Code is not valid");
+        // }
 
 
         const phoneHash = createHash("sha256").update(phone).digest("hex");
-        console.log(phoneHash);
+        console.log("from signup=> ", phoneHash);
 
 
 
@@ -50,7 +52,7 @@ const signup = async (req, res) => {
             console.log("user created successfully");
             return user
         }
-        console.log(user);
+        console.log("from signup=> ", user);
         const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
         return res.setHeader('Set-Cookie', serialize('token', accessToken, {
             httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30
