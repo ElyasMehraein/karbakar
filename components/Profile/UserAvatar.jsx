@@ -1,4 +1,4 @@
-import UserAvatarImg from "../../assets/UserAvatarImg.jpg"
+// import UserAvatarImg from "../../assets/UserAvatarImg.jpg"
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -17,7 +17,7 @@ export default function BusinessAvatar() {
           sx={{ mr:20, width: 160, height: 80 }}>
           <Avatar
             alt="Remy Sharp"
-            src={UserAvatarImg}
+            // src={UserAvatarImg}
             sx={{ width: 80, height: 80, ml: 4.75, mt: -2 }}
           />
 

@@ -4,8 +4,8 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
-import businessAvatar from "../../assets/businessAvatar.jpg"
-import businessAvatar2 from "../../assets/businessAvatar2.jpg"
+// import businessAvatar from "../../assets/businessAvatar.jpg"
+// import businessAvatar2 from "../../assets/businessAvatar2.jpg"
 import Divider from '@mui/material/Divider';
 import { Box } from '@mui/system';
 import { Typography } from '@mui/material';
@@ -37,7 +37,7 @@ export default function UserJobs() {
                         <ListItemAvatar>
                             <Avatar
                                 alt="Remy Sharp"
-                                src={businessAvatar}
+                                // src={businessAvatar}
                             >
 
                             </Avatar>
@@ -49,7 +49,7 @@ export default function UserJobs() {
                         <ListItemAvatar>
                             <Avatar
                                 alt="Remy Sharp"
-                                src={businessAvatar2}
+                                // src={businessAvatar2}
                             >
                             </Avatar>
                         </ListItemAvatar>

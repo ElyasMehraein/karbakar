@@ -23,7 +23,7 @@ function Index(props) {
   return (
     <>
       {user ?
-        <h3 dir="ltr">you are logging with following phoneHash {user.phoneHash} you are logging with following token {props.token}</h3> : <h3 dir="ltr">you are not loged in</h3>
+        <h3 dir="ltr">you are logging with following personal code {user.code} you are logging with following token {props.token}</h3> : <h3 dir="ltr">you are not loged in</h3>
       }
       <RightDrawer user={user} open={open} handleDrawerClose={handleDrawerClose} />
       <SearchAppBar user={user} menuClickHandler={menuClickHandler} />
@@ -39,7 +39,7 @@ export async function getServerSideProps(context) {
   connectToDB()
   const user = await UserModel.findOne(
     { _id: tokenPayLoad.id },
-    "-_id phoneHash"
+    "-_id code"
   )
   console.log(user);
 
