@@ -7,10 +7,10 @@ import ProfileBio from "./ProfileBio";
 import ProfileExplain from "./ProfileExplain";
 import UserJobs from "./UserJobs";
 
-function Profile() {
+function Profile({props}) {
     return (
         <>
-            <MyAppBar />
+            <MyAppBar data={props} />
             <ProfileImg>
             </ProfileImg>
             <UserAvatar />

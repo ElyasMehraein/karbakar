@@ -11,7 +11,6 @@ import connectToDB from "@/configs/db";
 
 function Index(props) {
   const user = props.user
-  console.log("toye indexam=>", user);
   const [open, setOpen] = React.useState(false);
 
   const menuClickHandler = () => {

@@ -62,7 +62,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar(props) {
   const user = props.user
-  console.log("toye appbaram", user);
   const router = useRouter()
 
 
