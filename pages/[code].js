@@ -5,35 +5,30 @@ import { useEffect, useLayoutEffect, useState } from 'react'
 
 export default function profile() {
   const router = useRouter()
+  const pageCode = router.query.code
   const [isLogedIn, setIsLogedIn] = useState(false)
-  const [user, setUser] = useState("")
-  const [isLogedInOwnProfile, setIsLogedInOwnProfile] = useState(false)
-  console.log(router.query.code);
-  console.log(user.code);
-  console.log("toye codeam", isLogedInOwnProfile);
-  const userAuth = async () => {
-    const res = await fetch("/api/auth/me")
-    if (res.status === 200) {
-      const user = await res.json()
-      setUser(user.data)
-      if (router.query.code !== user.code) {
-        () => setIsLogedInOwnProfile(true)
-        console.log("toye codeam2", isLogedInOwnProfile);
 
+  useEffect(() => {
+    const userAuth = async () => {
+      const res = await fetch("/api/auth/me")
+      if (res.status === 200) {
+        setIsLogedIn(true)
       }
     }
-  }
-  userAuth()
-  // useEffect(() => {
-  // },[])
-
+    userAuth()
+  }, [])
+  console.log("router.query.code", pageCode);
+  console.log("isLogedIn", isLogedIn);
+  
   return (
 
 
     <>
 
-      <p>you are in {router.query.code} page</p>
-      <Profile props={isLogedInOwnProfile} />
+      {/* <p>you are in {router.query.code} page</p> */}
+      <Profile
+      // props={isLogedInOwnProfile}
+      />
     </>
 
   )

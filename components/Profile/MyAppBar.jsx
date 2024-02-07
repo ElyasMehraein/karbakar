@@ -12,7 +12,10 @@ import theme from '../../styles/theme';
 
 
 export default function MyAppBar(props) {
-  console.log(props.data);
+  const isLogedInOwnProfile=props.data
+  React.useEffect(()=>{
+    console.log(isLogedInOwnProfile);
+  },[])
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
