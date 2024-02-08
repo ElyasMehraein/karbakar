@@ -21,6 +21,7 @@ function Index(props) {
   };
   return (
     <>
+      {console.log(user)}
       {user ?
         <h3 dir="ltr">you are logging with following personal code {user.code} you are logging with following token {props.token}</h3> : <h3 dir="ltr">you are not loged in</h3>
       }
