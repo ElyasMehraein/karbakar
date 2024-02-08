@@ -25,16 +25,10 @@ export default function profile(props) {
     if (logedUserCode === whichUserProfile) {
       setIsLogedInMyOwnProfile(true)
     }
-  }, [])
+  }, [logedUserCode])
 
-  console.log(logedUserCode);
-  console.log(whichUserProfile);
-  console.log(isLogedInMyOwnProfile);
   return (
-
-
     <>
-
       <p>you are user {logedUserCode} </p>
       <p>this is user {whichUserProfile} profile</p>
       {isLogedInMyOwnProfile ? "page khodete" : "page shoma nist"}
