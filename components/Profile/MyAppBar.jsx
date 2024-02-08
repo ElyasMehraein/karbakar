@@ -12,10 +12,10 @@ import theme from '../../styles/theme';
 
 
 export default function MyAppBar(props) {
-  const isLogedInOwnProfile=props.data
-  React.useEffect(()=>{
-    console.log(isLogedInOwnProfile);
-  },[])
+  // const isLogedInOwnProfile=props.data
+  React.useEffect(() => {
+    console.log("isLogedInMyOwnProfile", props.data, );
+  }, [])
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ flexGrow: 1 }}>
@@ -33,8 +33,8 @@ export default function MyAppBar(props) {
             <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
               صفحه شخصی
             </Typography>
-            {props.data?
-            <Button color="inherit"><EditIcon />ویرایش</Button>:""
+            {props.data ?
+              <Button color="inherit"><EditIcon />ویرایش</Button> : ""
             }
           </Toolbar>
         </AppBar>

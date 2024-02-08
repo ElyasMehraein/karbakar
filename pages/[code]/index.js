@@ -33,7 +33,7 @@ export default function profile(props) {
       <p>this is user {whichUserProfile} profile</p>
       {isLogedInMyOwnProfile ? "page khodete" : "page shoma nist"}
       <Profile
-      // props={isLogedInOwnProfile}
+        props={isLogedInMyOwnProfile}
       />
     </>
 
