@@ -7,11 +7,14 @@ export default function profile() {
   const router = useRouter()
   const pageCode = router.query.code
   const [isLogedIn, setIsLogedIn] = useState(false)
+  const [userId, setUserId] = useState(null)
 
   useEffect(() => {
     const userAuth = async () => {
       const res = await fetch("/api/auth/me")
       if (res.status === 200) {
+        const user = await res.json()
+        setUserId(user.data.code)
         setIsLogedIn(true)
       }
     }
@@ -19,13 +22,13 @@ export default function profile() {
   }, [])
   console.log("router.query.code", pageCode);
   console.log("isLogedIn", isLogedIn);
-  
+
   return (
 
 
     <>
 
-      {/* <p>you are in {router.query.code} page</p> */}
+      <p>you are in {userId} page</p>
       <Profile
       // props={isLogedInOwnProfile}
       />
