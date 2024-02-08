@@ -11,13 +11,13 @@ function Profile({props}) {
     return (
         <>
             <MyAppBar data={props} />
-            <ProfileImg>
+            {/* <ProfileImg>
             </ProfileImg>
             <UserAvatar />
             <ProfileBio/>
             <ProfileCountact/>
             <ProfileExplain/>
-            <UserJobs/>
+            <UserJobs/> */}
         </>
 
     )

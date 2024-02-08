@@ -5,40 +5,39 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
-import { ThemeProvider } from '@mui/material';
-import theme from '../../styles/theme';
-
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Container } from '@mui/material';
 
 export default function MyAppBar(props) {
-  // const isLogedInOwnProfile=props.data
   React.useEffect(() => {
-    console.log("isLogedInMyOwnProfile", props.data, );
+    console.log("isLogedInMyOwnProfile", props.data,);
   }, [])
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Container>
+
           <Toolbar>
             <IconButton
               size="large"
               edge="start"
               color="inherit"
               aria-label="menu"
-              sx={{ mr: 2 }}
+              sx={{ ml: 2 }}
             >
-              <ArrowBackIcon />
+              <ArrowForwardIcon />
             </IconButton>
-            <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               صفحه شخصی
             </Typography>
-            {props.data ?
-              <Button color="inherit"><EditIcon />ویرایش</Button> : ""
-            }
+            <Button sx={{ fontSize: 20 }} color="inherit">
+              ویرایش
+              <EditIcon sx={{ mr: 2 }} />
+            </Button>
           </Toolbar>
-        </AppBar>
-      </Box>
-    </ThemeProvider>
+        </Container>
+      </AppBar>
+    </Box>
   );
 }
