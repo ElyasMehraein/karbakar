@@ -1,5 +1,6 @@
-import { Schema } from "mongoose";
 import mongoose from "mongoose"
+import { Schema } from "mongoose";
+
 
 const schema = new Schema({
     phoneHash: {
@@ -9,9 +10,11 @@ const schema = new Schema({
     },
 
     code: {
-        type: Number, minLength: 4, maxLength: 6,
+        type: Number,
         required: true,
         unique: true,
+        min: 1000, 
+        max: 999999
     }
 }, { timestamps: true })
 
