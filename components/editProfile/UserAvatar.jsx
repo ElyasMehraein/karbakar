@@ -13,7 +13,7 @@ const color = grey[900];
 export default function BusinessAvatar() {
   return (
     <Container maxWidth="md">
-      <Box sx={{justifyContent: 'flex-start'}}  display="flex">
+      <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar
           sx={{ width: 80, height: 80, mt: -5 }}
         >
@@ -30,10 +30,16 @@ export default function BusinessAvatar() {
           />
         </Avatar>
         <IconButton
-          sx={{mr:-2, bgcolor: color }}>
+          sx={{ mr: -2, bgcolor: color }}>
           <AddAPhotoIcon sx={{ color: 'white' }} />
         </IconButton>
+        <Box style={{ flexGrow: 1 }}></Box>
+
+        <Typography display="inline" variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+          سابقه فعالیت : 3 سال
+        </Typography>
       </Box>
+
     </Container>
   );
 }

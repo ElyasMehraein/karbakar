@@ -6,6 +6,7 @@ import ProfileCountact from './ProfileCountact'
 import ProfileBio from "./ProfileBio";
 import ProfileExplain from "./ProfileExplain";
 import UserJobs from "./UserJobs";
+import UserName from "./UserName";
 
 function Profile({props}) {
     return (
@@ -13,6 +14,7 @@ function Profile({props}) {
             <MyAppBar data={props} />
             <ProfileImg/>
             <UserAvatar />
+            <UserName/>
             <ProfileBio/>
             <ProfileCountact/>
             <ProfileExplain/>
