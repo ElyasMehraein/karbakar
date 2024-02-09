@@ -16,24 +16,24 @@ export default function MyAppBar(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-            // sx={{ ml: 1 }}
-            >
-              <ArrowForwardIcon />
-            </IconButton>
-            <Typography sx={{ flexGrow: 2 }} component="div" >
+        <Toolbar >
+          <Button
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+          >
+            <ArrowForwardIcon />
+            <Typography component="div" >
               صفحه شخصی
             </Typography>
-            <Button color="inherit">
-              ویرایش
-              <EditIcon />
-            </Button>
-          </Toolbar>
+          </Button>
+          <Box style={{ flexGrow: 1 }}></Box>
+          <Button color="inherit">
+            ویرایش
+            <EditIcon />
+          </Button>
+        </Toolbar>
       </AppBar>
     </Box>
   );
