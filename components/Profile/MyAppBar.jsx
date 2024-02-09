@@ -25,7 +25,7 @@ export default function MyAppBar(props) {
           >
             <ArrowForwardIcon />
             <Typography component="div" >
-              صفحه شخصی
+              صفحه اصلی
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>

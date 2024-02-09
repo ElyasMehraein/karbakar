@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import * as React from 'react';
 import profileHeader from "@/public/assets/profileHeader.jpg"
-import { Box } from '@mui/material';
-
-
+import IconButton from '@mui/material/IconButton';
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { Box, Button, Icon } from '@mui/material';
 
 export default function Background() {
   return (
@@ -25,6 +26,13 @@ export default function Background() {
           objectFit: 'cover',
         }}
       />
+      <IconButton sx={{ bgcolor: 'text.primary' }}
+      >
+        <AddAPhotoIcon sx={{ color:'text.disabled',fontSize: 40 }} />
+      </IconButton>
+
+
+
     </div>
   )
 }
