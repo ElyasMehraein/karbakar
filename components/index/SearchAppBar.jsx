@@ -15,8 +15,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Directions } from '@mui/icons-material';
-import { Container } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import Button from "@mui/material/Button";
 
@@ -61,9 +59,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar(props) {
-  const user = props.user
+  const userCode = props.user.code
   const router = useRouter()
-
+  const goToProfile = () => {
+    router.replace(`/${userCode}`)
+  }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -165,7 +165,6 @@ export default function SearchAppBar(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        {/* <Container> */}
         <Toolbar>
           <IconButton
             size="large"
@@ -187,7 +186,7 @@ export default function SearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          {!user ? (<Button onClick={() => router.push('/welcome')} variant="contained" color="secondary">
+          {!userCode ? (<Button onClick={() => router.push('/welcome')} variant="contained" color="secondary">
             ورود یا ثبت نام
           </Button>) :
 
@@ -216,8 +215,8 @@ export default function SearchAppBar(props) {
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                // onClick={() => router.push('/welcome')}
                 color="inherit"
+                onClick={goToProfile}
               >
                 <AccountCircle />
               </IconButton>

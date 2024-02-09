@@ -2,7 +2,6 @@ import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
 
 function UserName(props) {
-    console.log("UserName=> ", props);
     return (
         <Container maxWidth="md">
             <Box display="flex" flexDirection="column">
