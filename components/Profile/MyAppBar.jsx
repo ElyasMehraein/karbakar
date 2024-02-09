@@ -29,10 +29,12 @@ export default function MyAppBar(props) {
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>
+          {props.data?
           <Button color="inherit">
             ویرایش
             <EditIcon />
           </Button>
+          :""}
         </Toolbar>
       </AppBar>
     </Box>
