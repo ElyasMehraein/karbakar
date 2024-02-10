@@ -11,7 +11,7 @@ const ProfileExplain = () => {
                 sx={{
 
                     my: 1,
-                    '& .MuiTextField-root': { width: '40ch' },
+                    // '& .MuiTextField-root': { width: '40ch' },
                 }}
             >
                 <TextField
@@ -21,6 +21,7 @@ const ProfileExplain = () => {
                     label="معرفی 300 کارکتری"
                     multiline
                     rows={4}
+                    fullWidth 
                 />
             </Box>
         </Container>

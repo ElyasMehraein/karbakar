@@ -4,23 +4,24 @@ import React from 'react'
 const ProfileBio = () => {
     return (
         <Container maxWidth="md">
-        <Box
-            display="flex"
-            // justifyContent='center'
-            sx={{ my: 1 }}
-        >
-
-            <TextField
+            <Box
                 display="flex"
-                align='center'
-                defaultValue=""
-                id="outlined-multiline-static"
-                label="معرفی 150 کارکتری"
-                multiline
-                rows={4}
-            />
+                // justifyContent='center'
+                sx={{ my: 1 }}
+            >
 
-        </Box>
+                <TextField
+                    fullWidth
+                    display="flex"
+                    align='center'
+                    defaultValue=""
+                    id="outlined-multiline-static"
+                    label="معرفی 150 کارکتری"
+                    multiline
+                    rows={2}
+                />
+
+            </Box>
         </Container>
     )
 }
