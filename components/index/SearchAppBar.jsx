@@ -17,6 +17,8 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useRouter } from 'next/navigation'
 import Button from "@mui/material/Button";
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -59,10 +61,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar(props) {
-  const userCode = props.user.code
+  const user = props.user
+  console.log("props.user is", props.user);
+  const userCode = (props) => {
+    if (props.user.code) {
+      return props.user.code
+    }
+  }
+  // console.log("res to userCode(props) in appbar is",userCode(props));
+  // useEffect(() => {
+
+  // }, [userCode])
+
   const router = useRouter()
   const goToProfile = () => {
-    router.replace(`/${userCode}`)
+    router.replace(`/${userCode(props)}`)
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -186,7 +199,7 @@ export default function SearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          {!userCode ? (<Button onClick={() => router.push('/welcome')} variant="contained" color="secondary">
+          {!user ? (<Button onClick={() => router.push('/welcome')} variant="contained" color="secondary">
             ورود یا ثبت نام
           </Button>) :
 

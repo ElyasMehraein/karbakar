@@ -1,13 +1,18 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Container, TextField, Typography } from '@mui/material'
 import React from 'react'
 
 function UserName(props) {
     return (
         <Container maxWidth="md">
-            <Box display="flex" flexDirection="column">
-                <Typography sx={{ fontWeight: 'bold' }}>
-                    جلال شوقی
-                </Typography>
+            <Box
+                sx={{
+                    '& .MuiTextField-root': { width: '20ch' },
+                }}
+                display="flex" flexDirection="column">
+                <TextField
+                    defaultValue="جلال شوقی"
+                    variant="standard"
+                />
             </Box>
         </Container>
     )

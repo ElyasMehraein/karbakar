@@ -8,10 +8,20 @@ import Tabs from "@/components/index/Tabs";
 import CssBaseline from "@mui/material";
 import { verifyToken } from "@/controllers/auth";
 import connectToDB from "@/configs/db";
+import { useEffect } from "react";
 
 function Index(props) {
-  const user = props.user
-  const [open, setOpen] = React.useState(false);
+  // const user = props.user
+  const [user, setUser] = useState(false);
+  console.log("user in index is ", user);
+  useEffect(() => {
+    if (props.user) {
+      setUser(props.user)
+    }
+
+  }, [user])
+
+  const [open, setOpen] = useState(false);
 
   const menuClickHandler = () => {
     setOpen(true);
@@ -40,17 +50,17 @@ export async function getServerSideProps(context) {
     { _id: tokenPayLoad.id },
     "-_id code"
   )
-  console.log(user);
-
-
   if (!token || !tokenPayLoad) {
     console.log("there is no valid token");
     return {
       props: { tokenPayLoad }
     }
-  }
-  return {
-    props: { user: JSON.parse(JSON.stringify(user)), token }
+  } else {
+    console.log("there is a valid token");
+    console.log(user);
+    return {
+      props: { user: JSON.parse(JSON.stringify(user)), token }
+    }
   }
 }
 
