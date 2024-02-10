@@ -12,25 +12,25 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-export default function MyAppBar(props) {
-  const [logedUserCode, setlogedUserCode] = useState(null)
+export default function MyAppBar({ logedUserCode, whichUserProfile }) {
   const router = useRouter()
+  const [isLogedInMyOwnProfile, setIsLogedInMyOwnProfile] = useState(false)
   useEffect(() => {
-    const userAuth = async () => {
-      const res = await fetch("/api/auth/me")
-      if (res.status === 200) {
-        const user = await res.json()
-        setlogedUserCode(user.data.code)
-      }
-      userAuth()
-
+    if (logedUserCode === whichUserProfile) {
+      setIsLogedInMyOwnProfile(true)
     }
+
   }, [logedUserCode])
+  console.log("logedUserCode", logedUserCode);
+  console.log("whichUserProfile", whichUserProfile);
+  console.log("isLogedInMyOwnProfile", isLogedInMyOwnProfile);
+
+
   const goToIndex = () => {
     router.replace("/")
   }
   const goToEdit = () => {
-    router.replace(`"/${logedUserCode}"`)
+    router.replace(`${whichUserProfile}/edit`)
   }
 
   return (
@@ -50,7 +50,7 @@ export default function MyAppBar(props) {
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>
-          {props.data ?
+          {isLogedInMyOwnProfile ?
             <Button
               color="inherit"
               onClick={goToEdit}

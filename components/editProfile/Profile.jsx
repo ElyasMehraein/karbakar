@@ -5,20 +5,19 @@ import UserAvatar from "./UserAvatar";
 import ProfileCountact from './ProfileCountact'
 import ProfileBio from "./ProfileBio";
 import ProfileExplain from "./ProfileExplain";
-import UserJobs from "./UserJobs";
 import UserName from "./UserName";
 
-function Profile({props}) {
+function Profile({ logedUserCode, whichUserProfile }) {
+    console.log("inja chie", whichUserProfile);
     return (
         <>
-            <MyAppBar data={props} />
-            <ProfileImg/>
+            <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
+            <ProfileImg />
             <UserAvatar />
-            <UserName/>
-            <ProfileBio/>
-            <ProfileCountact/>
-            <ProfileExplain/>
-            <UserJobs/>
+            <UserName />
+            <ProfileBio />
+            <ProfileCountact />
+            <ProfileExplain />
         </>
 
     )

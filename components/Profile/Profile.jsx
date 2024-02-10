@@ -8,10 +8,10 @@ import ProfileExplain from "./ProfileExplain";
 import UserJobs from "./UserJobs";
 import UserName from "./UserName";
 
-function Profile({props}) {
+function Profile({logedUserCode, whichUserProfile}) {
     return (
         <>
-            <MyAppBar data={props} />
+            <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
             <ProfileImg/>
             <UserAvatar />
             <UserName/>
