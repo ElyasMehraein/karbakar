@@ -33,11 +33,6 @@ export default function BusinessAvatar() {
           sx={{ mr: -2, bgcolor: color }}>
           <AddAPhotoIcon sx={{ color: 'white' }} />
         </IconButton>
-        <Box style={{ flexGrow: 1 }}></Box>
-
-        <Typography display="inline" variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-          سابقه فعالیت : 3 سال
-        </Typography>
       </Box>
 
     </Container>

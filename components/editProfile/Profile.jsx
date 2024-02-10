@@ -16,8 +16,8 @@ function Profile({ logedUserCode, whichUserProfile }) {
             <UserAvatar />
             <UserName />
             <ProfileBio />
-            <ProfileCountact />
             <ProfileExplain />
+            <ProfileCountact />
         </>
 
     )
