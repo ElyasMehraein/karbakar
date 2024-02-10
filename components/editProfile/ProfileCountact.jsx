@@ -21,40 +21,55 @@ const ProfileCountact = () => {
                 <Box
                     sx={{ mb: 1 }}
                 >
-                    <Box display="flex" alignItems="center" align='center'>
+                    <Box
+                        sx={{ '& .MuiTextField-root': { width: '25ch' } }}
+                        display="flex" alignItems="center" align='center'>
+
                         <Box><AddIcCallIcon fontSize="large" /></Box>
                         <Box sx={{ width: '7ch', mx: 3 }}><Typography >تماس</Typography></Box>
-                        <TextField 
+                        <TextField
+                            InputLabelProps={{ sx: { fontSize: "14px" } }}
+                            size="small"
                             id="outlined-helperText"
                             label="مثال 09123456789"
                         />
 
                     </Box>
                     <Box
-                        display="flex" alignItems="center" align='center' >
+                        sx={{ '& .MuiTextField-root': { width: '25ch' } }}
+                        display="flex" alignItems="center" align='center'  >
                         <Box><EmailIcon fontSize="large" /></Box>
-                        <Box sx={{width: '7ch', mx: 3 }}><Typography >ایمیل</Typography></Box>
+                        <Box sx={{ width: '7ch', mx: 3 }}><Typography >ایمیل</Typography></Box>
                         <TextField
                             id="outlined-helperText"
-                            label="مثال 09123456789"
+                            InputLabelProps={{ sx: { fontSize: "14px" } }}
+                            label="مثال karbakar@gmail.com"
                         />
 
                     </Box>
-                    <Box display="flex" alignItems="center" align='center'>
+                    <Box
+                        sx={{ '& .MuiTextField-root': { width: '25ch' } }}
+                        display="flex" alignItems="center" align='center'>
                         <Box><ComputerIcon fontSize="large" /></Box>
-                        <Box sx={{ width: '7ch',mx: 3 }}><Typography >صفحه شخصی</Typography></Box>
+                        <Box sx={{ width: '7ch', mx: 3 }}><Typography >صفحه شخصی</Typography></Box>
                         <TextField
                             id="outlined-helperText"
-                            label="مثال 09123456789"
+                            label="مثال karbakar.ir"
+                            InputLabelProps={{ sx: { fontSize: "14px" } }}
+
                         />
 
                     </Box>
-                    <Box display="flex" alignItems="center" align='center'>
+                    <Box
+                        sx={{ '& .MuiTextField-root': { width: '25ch' } }}
+                        display="flex" alignItems="center" align='center'>
                         <Box><InstagramIcon fontSize="large" /></Box>
-                        <Box sx={{width: '7ch', mx: 3 }}><Typography >اینستاگرام</Typography></Box>
+                        <Box sx={{ width: '7ch', mx: 3 }}><Typography >اینستاگرام</Typography></Box>
                         <TextField
                             id="outlined-helperText"
-                            label="مثال 09123456789"
+                            label="مثال instagram.com/karbakar.ir"
+                            InputLabelProps={{ sx: { fontSize: "14px" } }}
+
                         />
 
                     </Box>
