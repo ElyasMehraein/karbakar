@@ -26,7 +26,7 @@ const ProfileCountact = () => {
                         display="flex" alignItems="center" align='center'>
 
                         <Box><AddIcCallIcon fontSize="large" /></Box>
-                        <Box sx={{ width: '7ch', mx: 3 }}><Typography >تماس</Typography></Box>
+                        <Box sx={{ width: '7ch', mx: 3 }}><Typography sx={{ fontSize: "14px" }}>تماس</Typography></Box>
                         <TextField
                             InputLabelProps={{ sx: { fontSize: "14px" } }}
                             size="small"
@@ -39,7 +39,7 @@ const ProfileCountact = () => {
                         sx={{ '& .MuiTextField-root': { width: '25ch' } }}
                         display="flex" alignItems="center" align='center'  >
                         <Box><EmailIcon fontSize="large" /></Box>
-                        <Box sx={{ width: '7ch', mx: 3 }}><Typography >ایمیل</Typography></Box>
+                        <Box sx={{ width: '7ch', mx: 3 }}><Typography sx={{ fontSize: "14px" }}>ایمیل</Typography></Box>
                         <TextField
                             id="outlined-helperText"
                             InputLabelProps={{ sx: { fontSize: "14px" } }}
@@ -51,7 +51,7 @@ const ProfileCountact = () => {
                         sx={{ '& .MuiTextField-root': { width: '25ch' } }}
                         display="flex" alignItems="center" align='center'>
                         <Box><ComputerIcon fontSize="large" /></Box>
-                        <Box sx={{ width: '7ch', mx: 3 }}><Typography >صفحه شخصی</Typography></Box>
+                        <Box sx={{ width: '7ch', mx: 3 }}><Typography sx={{ fontSize: "14px" }}>صفحه شخصی</Typography></Box>
                         <TextField
                             id="outlined-helperText"
                             label="مثال karbakar.ir"
@@ -64,7 +64,7 @@ const ProfileCountact = () => {
                         sx={{ '& .MuiTextField-root': { width: '25ch' } }}
                         display="flex" alignItems="center" align='center'>
                         <Box><InstagramIcon fontSize="large" /></Box>
-                        <Box sx={{ width: '7ch', mx: 3 }}><Typography >اینستاگرام</Typography></Box>
+                        <Box sx={{ width: '7ch', mx: 3 }}><Typography sx={{ fontSize: "14px" }}>اینستاگرام</Typography></Box>
                         <TextField
                             id="outlined-helperText"
                             label="مثال instagram.com/karbakar.ir"

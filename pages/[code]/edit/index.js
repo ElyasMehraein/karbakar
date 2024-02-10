@@ -21,9 +21,9 @@ export default function profile(props) {
 
   return (
     <>
-      <p>you are user {logedUserCode} </p>
+      {/* <p>you are user {logedUserCode} </p>
       <p>this is user {pageCode} profile</p>
-      {logedUserCode === pageCode? "page khodete" : "page shoma nist"}
+      {logedUserCode === pageCode? "page khodete" : "page shoma nist"} */}
       <Profile
         logedUserCode={logedUserCode} whichUserProfile={pageCode} />
     </>
