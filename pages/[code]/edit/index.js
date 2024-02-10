@@ -1,53 +1,49 @@
 import Profile from '@/components/editProfile/Profile'
 import connectToDB from '@/configs/db'
+import { verifyToken } from '@/controllers/auth'
 import UserModel from '@/models/User'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-// import profileImg from "@/public/m-hands.png"
 
 export default function profile(props) {
-  const whichUserProfile = props.user.code
+  const logedUserCode = props.user.code
   const router = useRouter()
   const pageCode = router.query.code
-  const [isLogedIn, setIsLogedIn] = useState(false)
-  const [logedUserCode, setlogedUserCode] = useState(null)
-  const [isLogedInMyOwnProfile, setIsLogedInMyOwnProfile] = useState(false)
+  let isLogedInMyOwnProfile = false
   useEffect(() => {
-    const userAuth = async () => {
-      const res = await fetch("/api/auth/me")
-      if (res.status === 200) {
-        const user = await res.json()
-        setlogedUserCode(user.data.code)
-        setIsLogedIn(true)
-      }
+    if (logedUserCode == pageCode) {
+      isLogedInMyOwnProfile = true
+    }else{
+      router.replace("/403")
     }
-    userAuth()
-    if (logedUserCode === whichUserProfile) {
-      setIsLogedInMyOwnProfile(true)
-    }
-  }, [logedUserCode])
+  }, [])
+
 
   return (
     <>
       <p>you are user {logedUserCode} </p>
-      <p>this is user {whichUserProfile} profile</p>
-      {isLogedInMyOwnProfile ? "page khodete" : "page shoma nist"}
+      <p>this is user {pageCode} profile</p>
+      {logedUserCode === pageCode? "page khodete" : "page shoma nist"}
       <Profile
-        logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
+        logedUserCode={logedUserCode} whichUserProfile={pageCode} />
     </>
 
   )
 }
 
 export async function getServerSideProps(context) {
-  connectToDB()
-  if (isNaN(context.params.code)) {
+  const { token } = context.req.cookies;
+  const tokenPayLoad = verifyToken(token);
+  if (!tokenPayLoad) {
     return {
-      notFound: true
-    }
+      redirect: {
+        destination: "/",
+      },
+    };
   }
+  connectToDB()
   const user = await UserModel.findOne(
-    { code: context.params.code },
+    { _id: tokenPayLoad.id },
     "code"
   )
   if (!user) {
