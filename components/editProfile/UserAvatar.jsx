@@ -19,7 +19,7 @@ export default function BusinessAvatar() {
         >
           <Image
             alt="profile picture"
-            src={UserAvatarImg}
+            // src={UserAvatarImg}
             placeholder="blur"
             quality={100}
             fill
