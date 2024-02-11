@@ -40,12 +40,26 @@ export default function Background() {
         <IconButton sx={{ ml: 5, mb: 5, bgcolor: color }}>
           <AddAPhotoIcon sx={{ color: 'white' }} />
         </IconButton>
-
-
-
       </Box    >
     ) :
-      <DefaultHeader />
+
+      <Box
+        display="flex" alignItems="flex-end" justifyContent="left"
+        style={{
+          // use relative position for the parent Box
+
+          position: "relative",
+          width: "100vw",
+          height: "30vh",
+        }}
+        sx={{ bgcolor: '#cfe8fc', width: "100vw", height: "30vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
+      >
+        <IconButton sx={{ ml: 5, mb: 5, bgcolor: color }}>
+          <AddAPhotoIcon sx={{ color: 'white' }} />
+        </IconButton>
+
+      </Box    >
+
     }
   </div>
   )
