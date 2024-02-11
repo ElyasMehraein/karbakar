@@ -68,10 +68,13 @@ export default function SearchAppBar(props) {
       return props.user.code
     }
   }
-  // console.log("res to userCode(props) in appbar is",userCode(props));
-  // useEffect(() => {
-
-  // }, [userCode])
+  const signOut = async () => {
+    const res = await fetch("/api/auth/logout")
+    if(res.status===200){
+      console.log("token wasent ok so you get loged out");
+    }
+    router.push('/welcome')
+  }
 
   const router = useRouter()
   const goToProfile = () => {
@@ -199,7 +202,7 @@ export default function SearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          {!user ? (<Button onClick={() => router.push('/welcome')} variant="contained" color="secondary">
+          {!user ? (<Button onClick={signOut} variant="contained" color="secondary">
             ورود یا ثبت نام
           </Button>) :
 

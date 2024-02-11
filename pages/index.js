@@ -11,7 +11,7 @@ import connectToDB from "@/configs/db";
 import { useEffect } from "react";
 
 function Index(props) {
-  // const user = props.user
+
   const [user, setUser] = useState(false);
   console.log("user in index is ", user);
   useEffect(() => {

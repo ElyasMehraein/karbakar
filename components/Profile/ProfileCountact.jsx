@@ -5,12 +5,12 @@ import EmailIcon from '@mui/icons-material/Email';
 import WebIcon from '@mui/icons-material/Web';
 import ComputerIcon from '@mui/icons-material/Computer';
 import Box from '@mui/material/Box'
-import { Container, Typography } from '@mui/material';
+import { Button, Container, Icon, IconButton, Link, Typography } from '@mui/material';
 
 
 
 const ProfileCountact = ({ user }) => {
-    const { phone, email, personalPage, Instagram } = user
+    const { phone, email, personalPage, instagram } = user
     return (
         <Box>
             <Container maxWidth="md">
@@ -21,35 +21,38 @@ const ProfileCountact = ({ user }) => {
                     display="flex"
                     justifyContent="space-evenly"
                 >
-                    <Box display="flex" flexDirection="column" align='center'>
+                    {phone ? <Box display="flex" flexDirection="column" align='center'>
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
                             color="inherit" href={`tel:${phone}`}>
                             <Box><AddIcCallIcon fontSize="large" /></Box>
                             <Box><Typography >تماس</Typography></Box>
                         </a>
-                    </Box>
-                    <Box sx={{ pr: 2 }}
-                        display="flex" flexDirection="column" align='center'>
+                    </Box> : ""}
+                    {email ? <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
-                            color="inherit" href={`tel:${email}`}>
+                            color="inherit" key="Email" href={`mailto:${email}`}>
                             <Box><EmailIcon fontSize="large" /></Box>
                             <Box><Typography >ایمیل</Typography></Box>
+
                         </a>
-                    </Box>
-                    <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
+                    </Box> : ""}
+                    {personalPage ? <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
-                            color="inherit" href={`tel:${personalPage}`}>
+                            color="inherit" target="_blank" href={personalPage}>
                             <Box><ComputerIcon fontSize="large" /></Box>
                             <Box><Typography >صفحه شخصی</Typography></Box>
+
                         </a>
-                    </Box>
-                    <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
+                    </Box> : ""}
+                    {instagram ? <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
-                            color="inherit" href={`tel:${Instagram}`}>
+                            color="inherit" target="_blank" href={instagram}>
                             <Box><InstagramIcon fontSize="large" /></Box>
                             <Box><Typography >اینستاگرام</Typography></Box>
+
                         </a>
-                    </Box>
+                    </Box> : ""}
+                    
                 </Box>
             </Container >
         </Box >
