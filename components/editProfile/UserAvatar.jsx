@@ -1,9 +1,8 @@
-import UserAvatarImg from "@/public/assets/UserAvatarImg.jpg"
+import UserAvatarImg from "@/public/assets/default/default-avatar.svg"
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import Typography from '@mui/material/Typography';
 import Image from "next/image";
 import { grey } from '@mui/material/colors';
 import { Container, IconButton } from "@mui/material";
@@ -19,8 +18,7 @@ export default function BusinessAvatar() {
         >
           <Image
             alt="profile picture"
-            // src={UserAvatarImg}
-            placeholder="blur"
+            src={UserAvatarImg}
             quality={100}
             fill
             sizes="100vw"

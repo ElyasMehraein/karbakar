@@ -7,13 +7,11 @@ import ProfileBio from "./ProfileBio";
 import ProfileExplain from "./ProfileExplain";
 import UserJobs from "./UserJobs";
 import UserName from "./UserName";
-import DefaultHeader from "@/public/assets/default/DefaultHeader"
 function Profile({logedUserCode, whichUserProfile}) {
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
-            {/* <ProfileImg/> */}
-            <DefaultHeader/>
+            <ProfileImg/>
             <UserAvatar />
             <UserName/>
             <ProfileBio/>
