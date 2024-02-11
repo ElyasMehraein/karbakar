@@ -19,10 +19,11 @@ const schema = new Schema({
     },
     userName: {
         type: String,
-        minlength: 4,
-        maxlength: 30,
+        // minlength: 4,
+        // maxlength: 30,
     },
     avatar: { type: String },
+
     header: {
         type: String,
 

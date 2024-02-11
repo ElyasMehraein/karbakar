@@ -7,12 +7,10 @@ import ComputerIcon from '@mui/icons-material/Computer';
 import Box from '@mui/material/Box'
 import { Container, Typography } from '@mui/material';
 
-const phone = "09305845526"
-const email = "aa@bb.com"
-const personalPage = "google.com"
-const Instagram = "instagram.com"
 
-const ProfileCountact = () => {
+
+const ProfileCountact = ({ user }) => {
+    const { phone, email, personalPage, Instagram } = user
     return (
         <Box>
             <Container maxWidth="md">

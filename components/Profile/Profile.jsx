@@ -7,17 +7,17 @@ import ProfileBio from "./ProfileBio";
 import ProfileExplain from "./ProfileExplain";
 import UserJobs from "./UserJobs";
 import UserName from "./UserName";
-function Profile({logedUserCode, whichUserProfile}) {
+function Profile({user ,logedUserCode, whichUserProfile}) {
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
-            <ProfileImg/>
-            <UserAvatar />
-            <UserName/>
-            <ProfileBio/>
-            <ProfileCountact/>
-            <ProfileExplain/>
-            <UserJobs/>
+            <ProfileImg  user={user}/>
+            <UserAvatar user={user} />
+            <UserName user={user}/>
+            <ProfileBio user={user}/>
+            <ProfileCountact user={user}/>
+            <ProfileExplain user={user}/>
+            <UserJobs user={user}/>
         </>
 
     )

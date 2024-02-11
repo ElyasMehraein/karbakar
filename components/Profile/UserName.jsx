@@ -1,12 +1,14 @@
 import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
 
-function UserName(props) {
+function UserName({ user }) {
+    const { userName } = user
+    console.log("userName",user);
     return (
         <Container maxWidth="md">
             <Box display="flex" flexDirection="column">
                 <Typography sx={{ fontWeight: 'bold' }}>
-                    جلال شوقی
+                    {userName}
                 </Typography>
             </Box>
         </Container>

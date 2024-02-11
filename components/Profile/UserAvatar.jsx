@@ -6,10 +6,11 @@ import Typography from '@mui/material/Typography';
 import Image from "next/image";
 import { grey } from '@mui/material/colors';
 import { Container } from "@mui/material";
-
-const color = grey[900];
-const createdAt = "10 days"
-export default function BusinessAvatar() {
+import TimeDiff from "@/controllers/timeDiff";
+export default function BusinessAvatar({user}) {
+  const createdAt = "11"
+  TimeDiff("2024-02-11T14:09:29.869+00:00","2024-03-11T14:09:29.869+00:00")
+  
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">

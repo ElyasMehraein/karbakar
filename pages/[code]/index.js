@@ -5,8 +5,8 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 // import profileImg from "@/public/m-hands.png"
 
-export default function profile(props) {
-  const whichUserProfile = props.user.code
+export default function profile({user}) {
+  const whichUserProfile = user.code
   const router = useRouter()
   const pageCode = router.query.code
   const [isLogedIn, setIsLogedIn] = useState(false)
@@ -32,7 +32,7 @@ export default function profile(props) {
       {/* <p>you are user {logedUserCode} </p>
       <p>this is user {whichUserProfile} profile</p>
       {isLogedInMyOwnProfile ? "page khodete" : "page shoma nist"} */}
-      <Profile
+      <Profile user={user}
         logedUserCode={logedUserCode} whichUserProfile={whichUserProfile}
       />
     </>
@@ -49,7 +49,6 @@ export async function getServerSideProps(context) {
   }
   const user = await UserModel.findOne(
     { code: context.params.code },
-    "code"
   )
   if (!user) {
     return {
