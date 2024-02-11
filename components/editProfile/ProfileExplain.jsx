@@ -17,7 +17,7 @@ const ProfileExplain = () => {
                     display="flex"
                     defaultValue=""
                     id="outlined-multiline-static"
-                    label="معرفی 300 کارکتری"
+                    label="توضیحات 300 کارکتری"
                     multiline
                     rows={4}
                     fullWidth
