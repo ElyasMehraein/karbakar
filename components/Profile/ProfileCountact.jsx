@@ -5,12 +5,17 @@ import EmailIcon from '@mui/icons-material/Email';
 import WebIcon from '@mui/icons-material/Web';
 import ComputerIcon from '@mui/icons-material/Computer';
 import Box from '@mui/material/Box'
+import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 import { Button, Container, Icon, IconButton, Link, Typography } from '@mui/material';
 
 
-
 const ProfileCountact = ({ user }) => {
-    const { phone, email, personalPage, instagram } = user
+    const phone = "aa"
+    const email = "aa"
+    const personalPage = "aa"
+    const instagram = "aa"
+    // const { phone, email, personalPage, instagram } = user
+    const geoLink = "aa"
     return (
         <Box>
             <Container maxWidth="md">
@@ -52,7 +57,15 @@ const ProfileCountact = ({ user }) => {
 
                         </a>
                     </Box> : ""}
-                    
+                    {geoLink ? <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
+                        <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
+                            color="inherit" target="_blank" href={geoLink}>
+                            <Box><PersonPinCircleIcon fontSize="large" /></Box>
+                            <Box><Typography >اینستاگرام</Typography></Box>
+
+                        </a>
+                    </Box> : ""}
+
                 </Box>
             </Container >
         </Box >
