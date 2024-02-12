@@ -37,7 +37,7 @@ const schema = new Schema({
         maxlength: 300,
     },
     phone: {
-        type: Number,
+        type: String,
         maxlength: 10,
     },
     email: {

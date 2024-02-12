@@ -34,7 +34,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function DrawerRight(props) {
   const router = useRouter()
-
+  const goToBusiness = () => {
+    router.replace(`/${brand(props)}`)
+  }
   const theme = useTheme();
 
   const signOut = async () => {
@@ -86,6 +88,7 @@ export default function DrawerRight(props) {
               align="right"
               primary="تعمیرگاه استاد جلال"
               secondary="کسب و کار اصلی"
+              onClick={goToBusiness}
             />
           </ListItem>
           <ListItem

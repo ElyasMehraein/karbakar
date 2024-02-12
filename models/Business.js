@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose"
 
 const schema = new Schema({
-    businessName: {
+    brand: {
         type: String,
         required: true,
         unique: true,
@@ -22,7 +22,7 @@ const schema = new Schema({
         maxlength: 300,
     },
     phone: {
-        type: Number,
+        type: String,
         maxlength: 10,
     },
     email: {
@@ -37,15 +37,17 @@ const schema = new Schema({
         type: String, maxlength: 30,
 
     },
-    businesses: {
+    
+    latitude: {
         type: String, maxlength: 30,
-
     },
-    primeJob: {
+    longitude: {
         type: String, maxlength: 30,
-
+    },
+    user: {
+        type: mongoose.Types.ObjectId
     },
 }, { timestamps: true })
 
-const UserModel = mongoose.models.business || mongoose.model("User", schema)
+const UserModel = mongoose.models.Business || mongoose.model("User", schema)
 export default UserModel
