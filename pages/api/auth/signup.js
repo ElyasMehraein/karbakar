@@ -48,7 +48,22 @@ const signup = async (req, res) => {
         let user = await UserModel.findOne({ phoneHash })
         if (!user) {
             let nextUserNumber = (await UserModel.countDocuments()) + 1000;
-            user = await UserModel.create({ phoneHash, code: nextUserNumber })
+            user = await UserModel.create({
+                phoneHash,
+                code: nextUserNumber,
+                userName: "",
+                avatar: "",
+                header:"",
+                bio:"",
+                explain:"",
+                phone:"",
+                email:"",
+                personalPage:"",
+                instagram:"",
+                businesses:"",
+                primeJob:"",
+
+            })
             console.log("user created successfully");
             return user
         }

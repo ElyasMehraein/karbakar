@@ -1,13 +1,11 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation'
-
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
@@ -16,16 +14,11 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Typography from "@mui/material/Typography";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-// import Avatar from "@mui/material/Avatar";
-// import businessavatar from "../../assets/businessAvatar.jpg";
-// import businessavatar2 from "../../assets/businessAvatar2.jpg";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import BusinessIcon from "@mui/icons-material/Business";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
-import Toolbar from '@mui/material/Toolbar';
-import MuiAppBar from '@mui/material/AppBar';
 
 
 const drawerWidth = 240;
@@ -47,11 +40,9 @@ export default function DrawerRight(props) {
   const signOut = async () => {
     const res = await fetch("/api/auth/logout")
     const data = await res.json()
-    console.log("zadi ro signout va status is==>", res.status);
     if(res.status===200){
       router.replace("/welcome")
     }
-    console.log(res, data);
   }
   return (
     <Box sx={{ display: 'flex' }}>

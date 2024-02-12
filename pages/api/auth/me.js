@@ -1,4 +1,6 @@
+import connectToDB from "@/configs/db";
 import { verifyToken } from "@/controllers/auth";
+import UserModel from "@/models/User";
 
 async function handler(req, res) {
     if (req.method !== "GET") {
@@ -14,7 +16,7 @@ async function handler(req, res) {
         }
         const user = await UserModel.findOne(
             { _id: tokenPayLoad.id },
-            "phoneHash"
+            
         )
         return res.status(200).json({ data: user })
     } catch (err) {
@@ -24,7 +26,3 @@ async function handler(req, res) {
 
 }
 export default handler
-
-
-console.log(user);
-

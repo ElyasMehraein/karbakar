@@ -13,8 +13,8 @@ import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import hands from "@/public/m-hands.png"
 // import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"; ////uncomment after development
-const phoneFormatCheck = ()=> true //delete after development
-const SMSFormatCheck = ()=> true //delete after development
+const phoneFormatCheck = () => true //delete after development
+const SMSFormatCheck = () => true //delete after development
 import { useRouter } from "next/router";
 import { verifyToken } from "@/controllers/auth";
 import connectToDB from "@/configs/db";
@@ -62,12 +62,12 @@ function Wellcome() {
     setShow(!show);
   };
   async function sendOtpSMS(phone) {
-    const javab = await fetch('api/auth/sendsmsotp', {
+    const SMSAnswer = await fetch('api/auth/sendsmsotp', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone })
     })
-    console.log("javab=> ", javab);
+    console.log("SMSAnswer=> ", SMSAnswer);
   }
   async function signup(phone, SMSCode) {
     const res = await fetch('api/auth/signup', {
@@ -75,10 +75,12 @@ function Wellcome() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone, SMSCode })
     })
+    console.log("response to sending sms is =>",res);
     if (res.status === 406) {
       setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
       phoneError()
     } else if (res.status === 201) {
+      console.log("sabte nam ok shod hala bayad auto beri '/' ");
       router.replace('/')
 
     }
@@ -199,9 +201,9 @@ export async function getServerSideProps(context) {
   const { token } = context.req.cookies;
   connectToDB();
 
-  const tokenPayload = verifyToken(token);
+  const tokenPayLoad = verifyToken(token);
 
-  if (tokenPayload) {
+  if (tokenPayLoad) {
     return {
       redirect: {
         destination: "/",
@@ -209,10 +211,7 @@ export async function getServerSideProps(context) {
     };
   }
   return {
-    props: {
-      value: ""
-      //fix it later
-    },
+    props: { tokenPayLoad }
   };
 }
 

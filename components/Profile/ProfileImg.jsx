@@ -1,22 +1,39 @@
+import Image from 'next/image';
 import * as React from 'react';
-import Box from '@mui/material/Box';
-// import profileHeader from "../../assets/profileHeader.jpg"
+import profileHeader from "@/public/assets/profileHeader.jpg"
+import { Box } from '@mui/material';
+import DefaultHeader from "@/public/assets/default/DefaultHeader"
+
+const isUserprofileHeaderExist = false
 
 
-export default function ProfileImg() {
+export default function Background() {
   return (
-    <Box
-      sx={{
-        // backgroundImage: `url(${profileHeader})`,
-        display: "flex",
-        justifyContent: "center",
-        backgroundPosition: "center",
-        height: "300px",
-        width: "100%",
-        backgroundSize: "cover"
-      }} />
+    <div>
 
-  );
+      {isUserprofileHeaderExist ? (
+        <div
+          style={{
+            // use relative position for the parent div
+            position: "relative",
+            width: "100vw",
+            height: "40vh",
+          }}>
+          <Image
+            alt="profile picture"
+            src={profileHeader}
+            placeholder="blur"
+            quality={100}
+            fill
+            sizes="100vw"
+            style={{
+              objectFit: 'cover',
+            }}
+          />
+        </div>
+      ) :
+        <DefaultHeader />
+      }
+    </div>
+  )
 }
-
-

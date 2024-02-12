@@ -15,10 +15,10 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import { Directions } from '@mui/icons-material';
-import { Container } from '@mui/material';
 import { useRouter } from 'next/navigation'
 import Button from "@mui/material/Button";
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -62,9 +62,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar(props) {
   const user = props.user
-  console.log("toye appbaram", user);
-  const router = useRouter()
+  console.log("props.user is", props.user);
+  const userCode = (props) => {
+    if (props.user.code) {
+      return props.user.code
+    }
+  }
+  const signOut = async () => {
+    const res = await fetch("/api/auth/logout")
+    if(res.status===200){
+      console.log("token wasent ok so you get loged out");
+    }
+    router.push('/welcome')
+  }
 
+  const router = useRouter()
+  const goToProfile = () => {
+    router.replace(`/${userCode(props)}`)
+  }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -166,7 +181,6 @@ export default function SearchAppBar(props) {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        {/* <Container> */}
         <Toolbar>
           <IconButton
             size="large"
@@ -188,7 +202,7 @@ export default function SearchAppBar(props) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          {!user ? (<Button onClick={() => router.push('/welcome')} variant="contained" color="secondary">
+          {!user ? (<Button onClick={signOut} variant="contained" color="secondary">
             ورود یا ثبت نام
           </Button>) :
 
@@ -217,8 +231,8 @@ export default function SearchAppBar(props) {
                 aria-label="account of current user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                // onClick={() => router.push('/welcome')}
                 color="inherit"
+                onClick={goToProfile}
               >
                 <AccountCircle />
               </IconButton>

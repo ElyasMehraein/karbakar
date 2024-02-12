@@ -1,7 +1,9 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-const ProfileExplain = () => {
+const ProfileExplain = ({user}) => {
+    const { explain } = user
+
     return (
         <Box
             display="flex"
@@ -14,11 +16,7 @@ const ProfileExplain = () => {
                 align='center'
                 sx={{ maxWidth: { xs: 300, md: 800 }, p: 1 }}
             >
-           
-                لورم ایپسه در ستون و سطرآنچنانی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای
-                تعمیر انواع خودرو سواری خارجی
-                موتور گیربکس و لوازم برقی
-
+                {explain}
             </Typography>
         </Box>
     )

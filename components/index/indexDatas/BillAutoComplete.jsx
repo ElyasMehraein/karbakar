@@ -5,9 +5,8 @@ import FormControl from "@mui/material/FormControl";
 
 const filter = createFilterOptions();
 
-export default function BillAutoComplete(chiza) {
+export default function BillAutoComplete() {
   const [value, setValue] = React.useState(null);
-    console.log(chiza);
   return (
     <FormControl sx={{ mt: 2 }}>
       <Autocomplete
