@@ -16,7 +16,7 @@ async function handler(req, res) {
         }
         const user = await UserModel.findOne(
             { _id: tokenPayLoad.id },
-            "_id code"
+            
         )
         return res.status(200).json({ data: user })
     } catch (err) {

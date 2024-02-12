@@ -5,40 +5,62 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import EditIcon from '@mui/icons-material/Edit';
-import { ThemeProvider } from '@mui/material';
-import theme from '../../styles/theme';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { Container } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useEffect } from 'react';
+
+export default function MyAppBar({ logedUserCode, whichUserProfile }) {
+  const router = useRouter()
+  const [isLogedInMyOwnProfile, setIsLogedInMyOwnProfile] = useState(false)
+  useEffect(() => {
+    if (logedUserCode === whichUserProfile) {
+      setIsLogedInMyOwnProfile(true)
+    }
+
+  }, [logedUserCode])
+  console.log("logedUserCode", logedUserCode);
+  console.log("whichUserProfile", whichUserProfile);
+  console.log("isLogedInMyOwnProfile", isLogedInMyOwnProfile);
 
 
-export default function MyAppBar(props) {
-  const isLogedInOwnProfile=props.data
-  React.useEffect(()=>{
-    console.log(isLogedInOwnProfile);
-  },[])
+  const goToIndex = () => {
+    router.replace("/")
+  }
+  const goToEdit = () => {
+    router.replace(`${whichUserProfile}/edit`)
+  }
+
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <ArrowBackIcon />
-            </IconButton>
-            <Typography variant="p" component="div" sx={{ flexGrow: 1 }}>
-              صفحه شخصی
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar >
+          <Button
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            onClick={goToIndex}
+          >
+            <ArrowForwardIcon />
+            <Typography component="div" >
+              صفحه اصلی
             </Typography>
-            {props.data?
-            <Button color="inherit"><EditIcon />ویرایش</Button>:""
-            }
-          </Toolbar>
-        </AppBar>
-      </Box>
-    </ThemeProvider>
+          </Button>
+          <Box style={{ flexGrow: 1 }}></Box>
+          {isLogedInMyOwnProfile ?
+            <Button
+              color="inherit"
+              onClick={goToEdit}
+            >
+              ویرایش
+              <EditIcon />
+            </Button>
+            : ""}
+        </Toolbar>
+      </AppBar>
+    </Box>
   );
 }
