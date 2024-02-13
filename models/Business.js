@@ -2,7 +2,7 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose"
 
 const schema = new Schema({
-    brand: {
+    businessName: {
         type: String,
         required: true,
         unique: true,
@@ -44,10 +44,13 @@ const schema = new Schema({
     longitude: {
         type: String, maxlength: 30,
     },
-    user: {
-        type: mongoose.Types.ObjectId
+    agentCode: {
+        type: String, maxlength: 30,
+    },
+    workers: {
+        
     },
 }, { timestamps: true })
 
-const UserModel = mongoose.models.Business || mongoose.model("User", schema)
-export default UserModel
+const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)
+export default BusinessModel

@@ -14,7 +14,8 @@ export default function profile(props) {
     if (logedUserCode == pageCode) {
       isLogedInMyOwnProfile = true
     }else{
-      router.replace("/403")
+      console.log("akhe chera");
+      // router.replace("/403")
     }
   }, [])
 
