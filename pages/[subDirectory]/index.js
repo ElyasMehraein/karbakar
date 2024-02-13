@@ -6,36 +6,32 @@ import { useEffect, useState } from 'react'
 import Business from '@/components/business/business'
 
 export default function subDirectory(sub) {
-  if (sub.user) {
-    const whichUserProfile = sub.user.code
-    const [logedUserCode, setlogedUserCode] = useState(null)
-    useEffect(() => {
-      const userAuth = async () => {
-        const res = await fetch("/api/auth/me")
-        if (res.status === 200) {
-          const user = await res.json()
-          setlogedUserCode(user.data.code)
-        }
+  const whichUserProfile = sub.user.code
+  const [logedUserCode, setlogedUserCode] = useState(null)
+  useEffect(() => {
+    const userAuth = async () => {
+      const res = await fetch("/api/auth/me")
+      if (res.status === 200) {
+        const user = await res.json()
+        setlogedUserCode(user.data.code)
       }
-      userAuth()
-    }, [logedUserCode])
+    }
+    userAuth()
+  }, [logedUserCode])
 
+
+
+  if (sub.user) {
     return (
-      <>
-        <Profile user={sub.user}
-          logedUserCode={logedUserCode} whichUserProfile={whichUserProfile}
-        />
-      </>
-
+      <Profile user={sub.user}
+        logedUserCode={logedUserCode} whichUserProfile={whichUserProfile}
+      />
     )
   } else if (sub.business) {
     return (
-      <>
-        <Business business={sub.business}
-          logedUserCode={logedUserCode} whichUserProfile={whichUserProfile}
-        />
-      </>
-
+      <Business business={sub.business}
+      logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} // need to pass business agent
+      />
     )
   }
 }

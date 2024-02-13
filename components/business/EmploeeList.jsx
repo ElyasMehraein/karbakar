@@ -2,11 +2,11 @@ import React from 'react'
 import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-import avatar1 from "../../assets/1.jpg"
-import avatar2 from "../../assets/2.jpg"
-import avatar3 from "../../assets/3.jpg"
-import avatar4 from "../../assets/4.jpg"
-import avatar5 from "../../assets/5.jpg"
+import avatar1 from "@/public/assets/1.jpg"
+import avatar2 from "@/public/assets/2.jpg"
+import avatar3 from "@/public/assets/3.jpg"
+import avatar4 from "@/public/assets/4.jpg"
+import avatar5 from "@/public/assets/5.jpg"
 import { Box, Paper } from '@mui/material';
 import { grey, blue } from '@mui/material/colors';
 import Divider from '@mui/material/Divider';

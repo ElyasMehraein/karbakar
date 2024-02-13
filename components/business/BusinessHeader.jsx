@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import BHeader from "../../assets/businessHeader.jpg"
+import BHeader from "@/public/assets/businessHeader.jpg"
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
