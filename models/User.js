@@ -52,10 +52,12 @@ const schema = new Schema({
         type: String, maxlength: 30,
 
     },
-    businesses: {
-        type: String, maxlength: 30,
-
-    },
+    businesses: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Business"
+        }
+      ],
     primeJob: {
         type: String, maxlength: 30,
 

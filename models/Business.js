@@ -37,7 +37,7 @@ const schema = new Schema({
         type: String, maxlength: 30,
 
     },
-    
+
     latitude: {
         type: String, maxlength: 30,
     },
@@ -45,11 +45,15 @@ const schema = new Schema({
         type: String, maxlength: 30,
     },
     agentCode: {
-        type: String, maxlength: 30,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
     },
-    workers: {
-        
-    },
+    workers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
 }, { timestamps: true })
 
 const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)
