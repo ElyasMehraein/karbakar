@@ -1,52 +1,38 @@
+import UserAvatarImg from "@/public/assets/default/default-avatar.svg"
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import businessAvatar from "@/public/assets/businessAvatar.jpg"
-import Typography from '@mui/material/Typography';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import Image from "next/image";
+import { grey } from '@mui/material/colors';
+import { Container, IconButton } from "@mui/material";
 
+const color = grey[900];
 
 export default function BusinessAvatar() {
   return (
-    <Box>
-
-      <Box display="flex"
-        justifyContent="space-around"
-      >
-        <Box display="flex"
-          flexDirection="column"
-
-          sx={{  width: 160, height: 140, mt: -5 }}>
-
-          <Avatar
-
-            alt="Remy Sharp"
-            src={businessAvatar}
-
-            sx={{ width: 80, height: 80, ml: 4.75 }}
-          />
-          <Typography align='center' sx={{ fontWeight: 'bold' }}>
-            تعمیرگاه استاد جلال            </Typography>
-          <Typography align='left' sx={{ fontWeight: 'bold' }}>
-            @JalalVehicleRepairs </Typography>
-        </Box>
-        {/* right content */}
-        <Box
-        
-          align='right'
-          sx={{width: 180 }}
+    <Container maxWidth="md">
+      <Box sx={{ justifyContent: 'flex-start' }} display="flex">
+        <Avatar
+          sx={{ width: 80, height: 80, mt: -5 }}
         >
-
-          <Typography display="inline" align='right' variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-            سابقه فعالیت : 3 سال
-          </Typography>
-          <Typography align='right' variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-            صنف: تعمیرکاران </Typography>
-          <Typography align='right' variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-            آدرس: تهران خیابان ولی عصر کوچه اول پلاک 20 </Typography>
-        </Box>
+          <Image
+            alt="business brand"
+            src={UserAvatarImg}
+            quality={100}
+            fill
+            sizes="100vw"
+            style={{
+              objectFit: 'cover',
+            }}
+          />
+        </Avatar>
+        <IconButton
+          sx={{ mr: -2, bgcolor: color }}>
+          <AddAPhotoIcon sx={{ color: 'white' }} />
+        </IconButton>
       </Box>
-    
-    </Box>
 
+    </Container>
   );
 }

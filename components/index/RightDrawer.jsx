@@ -113,7 +113,7 @@ export default function DrawerRight(props) {
                 dir="rtl"
                 primary="ایجاد کسب و کار جدید"
                 type="button"
-                onClick={()=> router.replace("/CreateBusiness")}
+                onClick={()=> router.push("/CreateBusiness")}
               />
             </ListItemButton>
           </ListItem>

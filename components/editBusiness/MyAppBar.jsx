@@ -27,10 +27,10 @@ export default function MyAppBar({ business, logedUserCode, whichUserProfile }) 
 
 
   const goToIndex = () => {
-    router.replace("/")
+    router.push("/")
   }
   const goToEdit = () => {
-    router.replace(`${business}/edit`)
+    router.push(`${business}/edit`)
   }
 
   return (
@@ -50,15 +50,7 @@ export default function MyAppBar({ business, logedUserCode, whichUserProfile }) 
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>
-          {isLogedInMyOwnProfile ?
-            <Button
-              color="inherit"
-              onClick={goToEdit}
-            >
-              ویرایش
-              <EditIcon />
-            </Button>
-            : ""}
+
         </Toolbar>
       </AppBar>
     </Box>

@@ -4,22 +4,33 @@ import CardMedia from '@mui/material/CardMedia';
 import BHeader from "@/public/assets/businessHeader.jpg"
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Image from 'next/image';
+import profileHeader from "@/public/assets/profileHeader.jpg"
+import IconButton from '@mui/material/IconButton';
+import DefaultHeader from "@/public/assets/default/DefaultHeader"
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { Button, Icon } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
+const color = grey[900];
 
 export default function BusinessHeader() {
   return (
     <Box
-      sx={{
-        backgroundImage: `url(${BHeader})`,
-        display: "flex",
-        justifyContent: "center",
-        backgroundPosition: "center",
-        height: "300px",
-        width: "100%",
-        backgroundSize: "cover"
-      }} />
-
-  );
+      display="flex" alignItems="flex-end" justifyContent="left"
+      style={{
+        position: "relative",
+        width: "100vw",
+        height: "30vh",
+      }}
+      sx={{ bgcolor: '#cfe8fc', width: "100vw", height: "30vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
+    >
+      <IconButton sx={{ ml: 5, mb: 5, bgcolor: color }}>
+        <AddAPhotoIcon sx={{ color: 'white' }} />
+      </IconButton>
+    </Box>
+  )
 }
+
 
 

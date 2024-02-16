@@ -9,7 +9,7 @@ import { Container, IconButton } from "@mui/material";
 
 const color = grey[900];
 
-export default function BusinessAvatar() {
+export default function UserAvatar() {
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">

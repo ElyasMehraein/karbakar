@@ -5,11 +5,14 @@ import { verifyToken } from '@/controllers/auth'
 import MyAppBar from '@/components/editBusiness/MyAppBar'
 import BusinessHeader from '@/components/editBusiness/BusinessHeader'
 import BusinessAvatar from '@/components/editBusiness/BusinessAvatar'
-import BusinessBio from '@/components/editBusiness/businessBio'
-import CountactBusiness from '@/components/editBusiness/CountactBusiness'
-import TableBusiness from '@/components/editBusiness/TableBusiness'
+import BioEdit from '@/components/common/BioEdit'
+import Guild from '@/components/common/Guild'
+import ExplainEdit from '@/components/common/ExplainEdit'
+import CountactEdit from '@/components/common/CountactEdit'
+import MakePrimary from '@/components/editBusiness/MakePrimary'
 import EmploeeList from '@/components/editBusiness/EmploeeList'
 import WhatBusinessGet from '@/components/editBusiness/WhatBusinessGet'
+import NameEdit from '@/components/common/NameEdit'
 
 export default function createBusiness({ user }) {
 
@@ -22,11 +25,12 @@ export default function createBusiness({ user }) {
             <MyAppBar />
             <BusinessHeader />
             <BusinessAvatar />
-            <BusinessBio />
-            <CountactBusiness />
-            <TableBusiness />
-            <EmploeeList />
-            <WhatBusinessGet />
+            <NameEdit/>
+            <Guild/>
+            <BioEdit/>
+            <ExplainEdit/>
+            <MakePrimary/>
+            <CountactEdit />
         </>
     )
 

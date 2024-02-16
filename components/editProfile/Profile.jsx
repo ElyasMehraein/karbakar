@@ -2,10 +2,10 @@ import React from "react";
 import MyAppBar from "./MyAppBar";
 import ProfileImg from "./ProfileImg"
 import UserAvatar from "./UserAvatar";
-import ProfileCountact from './ProfileCountact'
-import ProfileBio from "./ProfileBio";
-import ProfileExplain from "./ProfileExplain";
-import UserName from "./UserName";
+import CountactEdit from '../common/CountactEdit'
+import BioEdit from "../common/BioEdit";
+import ExplainEdit from "../common/ExplainEdit";
+import NameEdit from "../common/NameEdit";
 
 function Profile({ logedUserCode, whichUserProfile }) {
     console.log("inja chie", whichUserProfile);
@@ -14,10 +14,10 @@ function Profile({ logedUserCode, whichUserProfile }) {
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
             <ProfileImg />
             <UserAvatar />
-            <UserName />
-            <ProfileBio />
-            <ProfileExplain />
-            <ProfileCountact />
+            <NameEdit />
+            <BioEdit />
+            <ExplainEdit />
+            <CountactEdit />
         </>
 
     )

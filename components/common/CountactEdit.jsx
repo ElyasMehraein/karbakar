@@ -8,7 +8,7 @@ import { Container, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import DoneIcon from '@mui/icons-material/Done';
-import MyLocation from './MyLocation';
+import MyLocation from '../editProfile/MyLocation';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 
 

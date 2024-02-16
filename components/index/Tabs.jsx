@@ -10,7 +10,7 @@ import YourReq from './indexDatas/YourReq';
 import Bill from './indexDatas/Bill';
 import Divider from "@mui/material/Divider";
 
-import { mainTabYourReqText } from "@/public/typoRepo.jsx"
+import { mainTabYourReqText } from "@/components/typoRepo.jsx"
 import { Container } from '@mui/material';
 import { useState, useEffect } from 'react'
 
@@ -85,7 +85,7 @@ export default function BasicTabs() {
         <CustomTabPanel value={value} index={1} />
         {/* <OthersRequest/> */}
         <CustomTabPanel value={value} index={2} />
-        {/* <Bill/> */}
+        <Bill/>
       </Container>
     </Box>
   );
