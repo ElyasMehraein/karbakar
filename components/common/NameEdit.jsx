@@ -7,18 +7,22 @@ function NameEdit(props) {
             <Box
                 sx={{
                     '& .MuiTextField-root': { width: '20ch' },
-                    mt:3
+                    mt: 3
                 }}
                 display="flex" flexDirection="column">
                 <TextField
-                    defaultValue="یک نام انتخاب کنید"
+                    InputLabelProps={{
+                        dir: 'rtl',
+                    }}
                     variant="standard"
+                    label="نام"
                 />
+
             </Box>
             <Box
                 sx={{
                     '& .MuiTextField-root': { width: '20ch' },
-                    mt:3
+                    mt: 3
                 }}
                 display="flex" flexDirection="column">
                 <TextField
