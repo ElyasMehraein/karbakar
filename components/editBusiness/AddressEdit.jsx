@@ -5,12 +5,10 @@ import React from 'react'
 
 function NameEdit({ defaultValue, label }) {
     return (
+
         <Container maxWidth="md" >
             <Box
-                sx={{
-                    '& .MuiTextField-root': { width: '20ch' },
-                    mt: 3
-                }}
+                sx={{ my: 1 }}
                 display="flex" flexDirection="column">
                 <TextField
                     defaultValue={defaultValue}

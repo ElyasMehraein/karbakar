@@ -11,6 +11,7 @@ import ExplainEdit from '@/components/common/ExplainEdit'
 import CountactEdit from '@/components/common/CountactEdit'
 import MakePrimary from '@/components/editBusiness/MakePrimary'
 import EmploeeList from '@/components/editBusiness/EmploeeList'
+import AddressEdit from '@/components/editBusiness/AddressEdit'
 import WhatBusinessGet from '@/components/editBusiness/WhatBusinessGet'
 import NameEdit from '@/components/common/NameEdit'
 
@@ -25,7 +26,8 @@ export default function createBusiness({ user }) {
             <MyAppBar />
             <BusinessHeader />
             <BusinessAvatar />
-            <NameEdit/>
+            <NameEdit defaultValue={"کسب و کار"} label={"نام کسب و کار شما"}/>
+            <AddressEdit defaultValue={"کسب و کار"} label={"آدرس محل کسب و کار شما"}/>
             <Guild/>
             <BioEdit/>
             <ExplainEdit/>

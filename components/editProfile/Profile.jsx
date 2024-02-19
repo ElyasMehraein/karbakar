@@ -14,7 +14,7 @@ function Profile({ logedUserCode, whichUserProfile }) {
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
             <ProfileImg />
             <UserAvatar />
-            <NameEdit />
+            <NameEdit defaultValue={"پروفایل"} label={"label"} />
             <BioEdit />
             <ExplainEdit />
             <CountactEdit />
