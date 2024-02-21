@@ -36,7 +36,7 @@ export default function BillAutoComplete() {
           if (inputValue !== "" && !isExisting) {
             filtered.push({
               inputValue,
-              title: chiza.props.productAdd + inputValue
+              // title: chiza.props.productAdd + inputValue
             });
           }
 
@@ -46,7 +46,7 @@ export default function BillAutoComplete() {
         clearOnBlur
         handleHomeEndKeys
         id="free-solo-with-text-demo"
-        options={chiza.props.productSearch}
+        // options={chiza.props.productSearch}
         getOptionLabel={(option) => {
           // Value selected with enter, right from the input
           if (typeof option === "string") {
@@ -62,7 +62,7 @@ export default function BillAutoComplete() {
         renderOption={(props, option) => <li {...props}>{option.title}</li>}
         sx={{ width: 205 }}
         freeSolo
-        renderInput={(params) => <TextField {...params} label={chiza.props.productLable} />}
+        // brand={(params) => <TextField {...params} label={chiza.props.productLable} />}
       />
     </FormControl>
   );

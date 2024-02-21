@@ -7,7 +7,7 @@ export default function Document(props) {
         <DocumentHeadTags {...props} />
         
       </Head>
-      <body>
+      <body dir="rtl">
         <Main />
         <NextScript />
       </body>

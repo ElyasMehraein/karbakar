@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useRouter } from 'next/navigation'
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -19,6 +18,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
+import { useRouter } from 'next/router';
 
 
 const drawerWidth = 240;
@@ -34,7 +34,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function DrawerRight(props) {
   const router = useRouter()
-
+  const goToBusiness = () => {
+    router.replace(`/${brand(props)}`)
+  }
   const theme = useTheme();
 
   const signOut = async () => {
@@ -86,12 +88,12 @@ export default function DrawerRight(props) {
               align="right"
               primary="تعمیرگاه استاد جلال"
               secondary="کسب و کار اصلی"
+              onClick={goToBusiness}
             />
           </ListItem>
           <ListItem
             sx={{ color: "inherit", mt: 0 }}
-            // component={Link}
-            to="/business"
+
           >
             <ListItemAvatar>
               {/* <Avatar alt="Remy Sharp" src={businessavatar2} /> */}
@@ -110,6 +112,8 @@ export default function DrawerRight(props) {
                 sx={{ textAlign: "right" }}
                 dir="rtl"
                 primary="ایجاد کسب و کار جدید"
+                type="button"
+                onClick={()=> router.push("/CreateBusiness")}
               />
             </ListItemButton>
           </ListItem>

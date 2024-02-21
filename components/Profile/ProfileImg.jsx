@@ -4,7 +4,7 @@ import profileHeader from "@/public/assets/profileHeader.jpg"
 import { Box } from '@mui/material';
 import DefaultHeader from "@/public/assets/default/DefaultHeader"
 
-const isUserprofileHeaderExist = false
+const isUserprofileHeaderExist = true
 
 
 export default function Background() {

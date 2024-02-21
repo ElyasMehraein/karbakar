@@ -22,7 +22,7 @@ const schema = new Schema({
         maxlength: 300,
     },
     phone: {
-        type: Number,
+        type: String,
         maxlength: 10,
     },
     email: {
@@ -37,15 +37,24 @@ const schema = new Schema({
         type: String, maxlength: 30,
 
     },
-    businesses: {
-        type: String, maxlength: 30,
 
-    },
-    primeJob: {
+    latitude: {
         type: String, maxlength: 30,
-
     },
+    longitude: {
+        type: String, maxlength: 30,
+    },
+    agentCode: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    workers: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
 }, { timestamps: true })
 
-const UserModel = mongoose.models.business || mongoose.model("User", schema)
-export default UserModel
+const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)
+export default BusinessModel

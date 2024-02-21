@@ -1,22 +1,25 @@
 import { Box, Container, TextField, Typography } from '@mui/material'
 import React from 'react'
 
-function UserName(props) {
+
+
+function NameEdit({ defaultValue, label }) {
     return (
-        <Container maxWidth="md">
+        <Container maxWidth="md" >
             <Box
                 sx={{
-                    '& .MuiTextField-root': { width: '20ch' },
-                    mt:3
+                    '& .MuiTextField-root': { width: '30ch' },
+                    mt: 3
                 }}
                 display="flex" flexDirection="column">
                 <TextField
-                    defaultValue="جلال شوقی"
-                    variant="standard"
+                    defaultValue={defaultValue}
+                    variant="outlined"
+                    label={label}
                 />
             </Box>
         </Container>
     )
 }
 
-export default UserName
+export default NameEdit

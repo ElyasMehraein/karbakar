@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-export default function MyAppBar({ logedUserCode, whichUserProfile }) {
+export default function MyAppBar({ business, logedUserCode, whichUserProfile }) {
   const router = useRouter()
   const [isLogedInMyOwnProfile, setIsLogedInMyOwnProfile] = useState(false)
   useEffect(() => {
@@ -22,11 +22,13 @@ export default function MyAppBar({ logedUserCode, whichUserProfile }) {
 
   }, [logedUserCode])
 
+
+
   const goToIndex = () => {
-    router.replace("/")
+    router.push("/")
   }
   const goToEdit = () => {
-    router.replace(`${whichUserProfile}/edit`)
+    router.push(`${business}/edit`)
   }
 
   return (
@@ -42,19 +44,11 @@ export default function MyAppBar({ logedUserCode, whichUserProfile }) {
           >
             <ArrowForwardIcon />
             <Typography component="div" >
-              صفحه اصلی
+              بازگشت به صفحه اصلی
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>
-          {isLogedInMyOwnProfile ?
-            <Button
-              color="inherit"
-              onClick={goToEdit}
-            >
-              ویرایش
-              <EditIcon />
-            </Button>
-            : ""}
+
         </Toolbar>
       </AppBar>
     </Box>

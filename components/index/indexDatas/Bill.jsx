@@ -6,7 +6,7 @@ import NativeSelect from "@mui/material/NativeSelect";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-import BillAutoComplete from "./BillAutoComplete";
+// import BillAutoComplete from "./BillAutoComplete";
 import Button from '@mui/material/Button';
 
 
@@ -45,11 +45,11 @@ export default function NativeSelectDemo() {
       <Typography sx={{ mt: 2 }}>
         هر محصول جدیدی ارائه می دهید به فهرست محصولات شما اضافه می شود
       </Typography>
-      <BillAutoComplete props={dataa} />
+      {/* <BillAutoComplete props={dataa} /> */}
       <br />
       <TextField sx={{ mt: 2 }} id="standard-basic" label="مقدار" variant="outlined" />
       <br />
-      <BillAutoComplete props={diameter} />
+      {/* <BillAutoComplete props={diameter} /> */}
       <br />
       <Button sx={{ mt: 2 }} variant="contained">اضافه نمودن به فاکتور</Button>
 

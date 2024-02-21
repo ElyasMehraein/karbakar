@@ -37,7 +37,7 @@ const schema = new Schema({
         maxlength: 300,
     },
     phone: {
-        type: Number,
+        type: String,
         maxlength: 10,
     },
     email: {
@@ -52,10 +52,12 @@ const schema = new Schema({
         type: String, maxlength: 30,
 
     },
-    businesses: {
-        type: String, maxlength: 30,
-
-    },
+    businesses: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Business"
+        }
+      ],
     primeJob: {
         type: String, maxlength: 30,
 

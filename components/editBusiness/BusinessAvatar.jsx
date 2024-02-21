@@ -5,11 +5,11 @@ import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Image from "next/image";
 import { grey } from '@mui/material/colors';
-import { Container, IconButton } from "@mui/material";
+import { Container, IconButton, Typography } from "@mui/material";
 
 const color = grey[900];
 
-export default function UserAvatar() {
+export default function BusinessAvatar() {
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
@@ -17,7 +17,7 @@ export default function UserAvatar() {
           sx={{ width: 80, height: 80, mt: -5 }}
         >
           <Image
-            alt="profile picture"
+            alt="business brand"
             src={UserAvatarImg}
             quality={100}
             fill
@@ -32,7 +32,6 @@ export default function UserAvatar() {
           <AddAPhotoIcon sx={{ color: 'white' }} />
         </IconButton>
       </Box>
-
     </Container>
   );
 }
