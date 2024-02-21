@@ -8,7 +8,7 @@ function NameEdit({ defaultValue, label }) {
         <Container maxWidth="md" >
             <Box
                 sx={{
-                    '& .MuiTextField-root': { width: '20ch' },
+                    '& .MuiTextField-root': { width: '30ch' },
                     mt: 3
                 }}
                 display="flex" flexDirection="column">

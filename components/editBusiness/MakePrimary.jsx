@@ -26,7 +26,7 @@ export default function ControlledCheckbox() {
                     inputProps={{ 'aria-label': 'controlled' }}
                 />
             </Box>
-            <Typography sx={{py:1, textAlign:"center"}}>{createBusiness_selectAsPrimary}</Typography>
+            {createBusiness_selectAsPrimary()}
 
         </Container>
     );

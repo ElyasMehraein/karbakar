@@ -21,10 +21,6 @@ export default function MyAppBar({ business, logedUserCode, whichUserProfile }) 
     }
 
   }, [logedUserCode])
-  console.log("logedUserCode", logedUserCode);
-  console.log("whichUserProfile", whichUserProfile);
-  console.log("isLogedInMyOwnProfile", isLogedInMyOwnProfile);
-
 
   const goToIndex = () => {
     router.replace("/")

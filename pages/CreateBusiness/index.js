@@ -23,6 +23,7 @@ export default function createBusiness({ user }) {
             <BusinessHeader />
             <BusinessAvatar />
             <NameEdit defaultValue={"کسب و کار"} label={"نام کسب و کار شما"}/>
+            <NameEdit defaultValue={"بنیانگذار"} label={"سمت و مسئولیت شما در این کسب و کار"}/>
             <AddressEdit defaultValue={"کسب و کار"} label={"آدرس محل کسب و کار شما"}/>
             <Guild/>
             <BioEdit/>

@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Image from "next/image";
 import { grey } from '@mui/material/colors';
-import { Container, IconButton } from "@mui/material";
+import { Container, IconButton, Typography } from "@mui/material";
 
 const color = grey[900];
 
@@ -32,7 +32,6 @@ export default function BusinessAvatar() {
           <AddAPhotoIcon sx={{ color: 'white' }} />
         </IconButton>
       </Box>
-
     </Container>
   );
 }

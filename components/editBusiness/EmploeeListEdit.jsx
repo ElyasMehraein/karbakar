@@ -2,22 +2,23 @@ import * as React from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import EmploeeList from "@/components/common/EmploeeList"
-import { Container } from '@mui/material';
+import SearchInEmploeeList from "@/components/common/SearchInEmploeeList"
+import { Container, Typography } from '@mui/material';
 const EmploeeListEdit = () => {
   return (
     <Container maxWidth="md">
 
       <List
-        sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-        component="nav"
-        aria-labelledby="nested-list-subheader"
         subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
+          <ListSubheader>
             کارکنان کسب و کارکنان
           </ListSubheader>
         }
       >
+        <SearchInEmploeeList/>
         <EmploeeList/>
+        <Typography sx={{ py:1, textAlign: "center" }}>برای افرادی که اضافه می نمایید یک درخواست ارسال می شود</Typography>
+
       </List>
     </Container>
   )
