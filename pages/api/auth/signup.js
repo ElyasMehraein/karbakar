@@ -41,7 +41,6 @@ const signup = async (req, res) => {
 
 
         const phoneHash = createHash("sha256").update(phone).digest("hex");
-        console.log("from signup=> ", phoneHash);
 
 
 
@@ -53,21 +52,20 @@ const signup = async (req, res) => {
                 code: nextUserNumber,
                 userName: "",
                 avatar: "",
-                header:"",
-                bio:"",
-                explain:"",
-                phone:"",
-                email:"",
-                personalPage:"",
-                instagram:"",
-                businesses:"",
-                primeJob:"",
+                header: "",
+                bio: "",
+                explain: "",
+                phone: "",
+                email: "",
+                personalPage: "",
+                instagram: "",
+                // businesses:"",
+                primeJob: "",
 
             })
-            console.log("user created successfully");
-            return user
+            console.log("user created successfully", user);
+            user = user
         }
-        console.log("from signup=> ", user);
         const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
         return res.setHeader('Set-Cookie', serialize('token', accessToken, {
             httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30
