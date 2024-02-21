@@ -28,7 +28,7 @@ const ProfileCountact = () => {
             <Container maxWidth="md">
 
                 <Box
-                    sx={{ mb: 1 }}
+                    sx={{py:1, mb: 1 }}
                 >
                     <Box
                         sx={{ '& .MuiTextField-root': { width: '25ch' } }}

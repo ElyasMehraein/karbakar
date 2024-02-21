@@ -1,6 +1,8 @@
 import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
+import {createBusiness_selectAsPrimary} from "@/components/typoRepo"
+
 
 export default function ControlledCheckbox() {
     const [checked, setChecked] = React.useState(true);
@@ -11,12 +13,21 @@ export default function ControlledCheckbox() {
 
     return (
         <Container maxWidth="md">
-            <Typography>انتخاب بعنوان کسب و کار اصلی</Typography>
-            <Checkbox
-                checked={checked}
-                onChange={handleChange}
-                inputProps={{ 'aria-label': 'controlled' }}
-            />
+            <Box display="flex"
+                flexDirection="row"
+                justifyContent="center"
+                alignItems="center"
+                >
+
+                <Typography>انتخاب بعنوان کسب و کار اصلی</Typography>
+                <Checkbox
+                    checked={checked}
+                    onChange={handleChange}
+                    inputProps={{ 'aria-label': 'controlled' }}
+                />
+            </Box>
+            <Typography sx={{py:1, textAlign:"center"}}>{createBusiness_selectAsPrimary}</Typography>
+
         </Container>
     );
 }

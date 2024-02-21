@@ -1,10 +1,23 @@
-export const mainTabYourReqText=`
+import { Typography } from "@mui/material"
+
+export const mainTabYourReqText = `
 هر چیزی لازم داری با زدن دکمه درخواست جدید اعلام کن هر چقدر کارهای
 بیشتری از درخواست های دیگران انجام بدی دیگران هم درخواست های بیشتری برای
 شما انجام خواهند داد
 `
-export const selectGuild=`
+export const selectGuild = `
 کسب و کاری که ثبت می کنید با چه صنفی مرتبط است؟ اگر صنف آن در لیست نیست می توانید صنف جدیدی بسازید
 
 `
+export const createBusiness_selectAsPrimary = () => {
+    <>
+        <Typography>
+            داشتن چند شغل و عضویت در چند کسب و کار مختلف تا سقف 3 عدد مجاز است اما محصولاتی که دریافت می کنید به حساب کسب و کار اصلی شما منظور می شود
+        </Typography>
+        <Typography>
+            تغییر کسب و کار اصلی تنها هر 14 روز یکبار امکانپذیر است
+        </Typography>
+    </>
+}
+
 

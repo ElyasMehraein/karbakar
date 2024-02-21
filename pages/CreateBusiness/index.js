@@ -10,16 +10,12 @@ import Guild from '@/components/common/Guild'
 import ExplainEdit from '@/components/common/ExplainEdit'
 import CountactEdit from '@/components/common/CountactEdit'
 import MakePrimary from '@/components/editBusiness/MakePrimary'
-import EmploeeList from '@/components/editBusiness/EmploeeList'
+import EmploeeListEdit from '@/components/editBusiness/EmploeeListEdit'
 import AddressEdit from '@/components/editBusiness/AddressEdit'
 import WhatBusinessGet from '@/components/editBusiness/WhatBusinessGet'
 import NameEdit from '@/components/common/NameEdit'
 
 export default function createBusiness({ user }) {
-
-
-
-
 
     return (
         < >
@@ -33,6 +29,7 @@ export default function createBusiness({ user }) {
             <ExplainEdit/>
             <MakePrimary/>
             <CountactEdit />
+            <EmploeeListEdit/>
         </>
     )
 
