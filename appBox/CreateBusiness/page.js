@@ -1,5 +1,5 @@
 import connectToDB from '@/configs/db'
-import UserModel from '@/models/User'
+import UserModel from '@/appBox/models/User'
 // import BusinessModel from '@/models/Business'
 import { verifyToken } from '@/controllers/auth'
 import MyAppBar from '@/components/editBusiness/MyAppBar'

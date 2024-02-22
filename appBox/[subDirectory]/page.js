@@ -1,7 +1,7 @@
 import Profile from '@/components/Profile/Profile'
 import connectToDB from '@/configs/db'
-import UserModel from '@/models/User'
-import BusinessModel from '@/models/Business'
+import UserModel from '@/appBox/models/User'
+import BusinessModel from '@/appBox/models/Business'
 import { useEffect, useState } from 'react'
 import Business from '@/components/business/business'
 

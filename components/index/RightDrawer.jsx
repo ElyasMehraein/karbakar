@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,7 +19,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 const drawerWidth = 240;

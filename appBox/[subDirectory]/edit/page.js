@@ -1,7 +1,7 @@
 import Profile from '@/components/editProfile/Profile'
 import connectToDB from '@/configs/db'
 import { verifyToken } from '@/controllers/auth'
-import UserModel from '@/models/User'
+import UserModel from '@/appBox/models/User'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 

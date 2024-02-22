@@ -1,4 +1,4 @@
-import BusinessModel from "@/models/Business"
+import BusinessModel from "@/appBox/models/Business"
 import connectToDb from "@/configs/db"
 import { createHash } from "crypto";
 import { SMSOtpvalidator } from "@/controllers/smsotp.js"

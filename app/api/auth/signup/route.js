@@ -1,4 +1,4 @@
-import UserModel from "@/models/User"
+import UserModel from "@/appBox/models/User"
 import connectToDb from "@/configs/db"
 import { createHash } from "crypto";
 import { SMSOtpvalidator } from "@/controllers/smsotp.js"
