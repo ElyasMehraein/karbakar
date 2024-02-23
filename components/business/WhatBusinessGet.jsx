@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import Typography from '@mui/material/Typography';
 import ToggleButton from '@mui/material/ToggleButton';

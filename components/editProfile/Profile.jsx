@@ -8,7 +8,6 @@ import ExplainEdit from "../common/ExplainEdit";
 import NameEdit from "../common/NameEdit";
 
 function Profile({ logedUserCode, whichUserProfile }) {
-    console.log("inja chie", whichUserProfile);
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />

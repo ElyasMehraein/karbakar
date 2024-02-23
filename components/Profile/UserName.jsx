@@ -3,7 +3,6 @@ import React from 'react'
 
 function UserName({ user }) {
     const { userName } = user
-    console.log("userName",user);
     return (
         <Container maxWidth="md">
             <Box display="flex" flexDirection="column">

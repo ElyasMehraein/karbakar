@@ -13,15 +13,12 @@ export default function MyLocation() {
     useEffect(() => {
 
         navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Latitude is :", position.coords.latitude);
-            console.log("Longitude is :", position.coords.longitude);
+
             setLatitude(position.coords.latitude)
             setLongitude(position.coords.longitude)
             if (latitude && longitude) {
                 setGeoLink(`https://maps.google.com/?q=${latitude},${longitude}`)
-                console.log("geoLink updated");
             } else {
-                console.log("cant get latitude && longitude");
             }
         });
     })

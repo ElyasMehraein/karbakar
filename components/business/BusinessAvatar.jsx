@@ -5,7 +5,7 @@ import businessAvatar from "@/public/assets/businessAvatar.jpg"
 import Typography from '@mui/material/Typography';
 
 
-export default function BusinessAvatar() {
+export default function BusinessAvatar({business}) {
   return (
     <Box>
 
@@ -25,9 +25,8 @@ export default function BusinessAvatar() {
             sx={{ width: 80, height: 80, ml: 4.75 }}
           />
           <Typography align='center' sx={{ fontWeight: 'bold' }}>
-            تعمیرگاه استاد جلال            </Typography>
-          <Typography align='left' sx={{ fontWeight: 'bold' }}>
-            @JalalVehicleRepairs </Typography>
+            {business.businessName}           </Typography>
+
         </Box>
         {/* right content */}
         <Box

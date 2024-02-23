@@ -1,8 +1,16 @@
+import Header from "@/components/common/Header";
+import MyAppBar from "@/components/common/MyAppBar";
+
 export default function RootLayout({ children }) {
     return (
         <>
-            <h1>salam az layout</h1>
-                {children}
+            <MyAppBar>
+                <Header>
+
+                    {children}
+
+                </Header>
+            </MyAppBar>
         </>
 
     );

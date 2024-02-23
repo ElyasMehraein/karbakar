@@ -1,6 +1,6 @@
 import React from "react";
 import MyAppBar from "./MyAppBar";
-import ProfileImg from "./ProfileImg"
+import Header from "../common/Header"
 import UserAvatar from "./UserAvatar";
 import ProfileCountact from './ProfileCountact'
 import Bio from "../common/Bio";
@@ -11,7 +11,7 @@ function Profile({user ,logedUserCode, whichUserProfile}) {
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
-            <ProfileImg  user={user}/>
+            <Header  user={user}/>
             <UserAvatar user={user} />
             <UserName user={user}/>
             <Bio user={user}/>

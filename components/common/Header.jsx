@@ -4,10 +4,10 @@ import profileHeader from "@/public/assets/profileHeader.jpg"
 import { Box } from '@mui/material';
 import DefaultHeader from "@/public/assets/default/DefaultHeader"
 
-const isUserprofileHeaderExist = true
+const isUserprofileHeaderExist = false
 
 
-export default function Background() {
+export default function Header() {
   return (
     <div>
 

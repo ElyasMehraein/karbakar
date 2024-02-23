@@ -14,7 +14,7 @@ import avatar4 from "@/public/assets/4.jpg"
 import avatar5 from "@/public/assets/5.jpg"
 import Image from 'next/image';
 
-export default function EmploeeList() {
+export default function EmploeeList({business}) {
     return (
         <List  sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <ListItem alignItems="flex-start">
@@ -31,7 +31,7 @@ export default function EmploeeList() {
                                 variant="body2"
                                 color="text.primary"
                             >
-                                Ali Connors
+                                {business.workers}
                             </Typography>
                             {" — I'll be in your neighborhood doing errands this…"}
                         </React.Fragment>

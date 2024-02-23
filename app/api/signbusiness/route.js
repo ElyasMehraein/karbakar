@@ -1,5 +1,5 @@
 import BusinessModel from "@/models/Business"
-import connectToDb from "@/configs/db"
+import connectToDB from "@/configs/db"
 import { verifyToken } from "@/controllers/auth";
 import connectToDB from '@/configs/db';
 import UserModel from '@/models/User';
@@ -47,7 +47,6 @@ export async function POST(req) {
                 workers: [user._id]
 
             })
-            console.log("business created successfully", business);
             business = business
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {
@@ -56,7 +55,6 @@ export async function POST(req) {
         }
 
     } catch (err) {
-        console.log("toye signbusiness api hastam", err);
         return Response.json({ message: "server error" }, { status: 500 })
     }
 }
