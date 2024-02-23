@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react";
 import styles from '@/styles/welcome.module.css'
 import Image from 'next/image'
@@ -41,7 +43,7 @@ const steps = [
 ];
 
 
-function Wellcome() {
+export default function Wellcome() {
   const router = useRouter()
 
   const theme = useTheme();
@@ -197,22 +199,4 @@ function Wellcome() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { token } = context.req.cookies;
-  connectToDB();
 
-  const tokenPayLoad = verifyToken(token);
-
-  if (tokenPayLoad) {
-    return {
-      redirect: {
-        destination: "/",
-      },
-    };
-  }
-  return {
-    props: { tokenPayLoad }
-  };
-}
-
-export default Wellcome;

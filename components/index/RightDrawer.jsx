@@ -33,7 +33,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
-export default function DrawerRight(props) {
+export default function DrawerRight({ user, open, handleDrawerClose }) {
   const router = useRouter()
   const goToBusiness = () => {
     router.replace(`/${brand(props)}`)
@@ -42,8 +42,7 @@ export default function DrawerRight(props) {
 
   const signOut = async () => {
     const res = await fetch("/api/auth/logout")
-    const data = await res.json()
-    if(res.status===200){
+    if (res.status === 200) {
       router.replace("/welcome")
     }
   }
@@ -61,10 +60,10 @@ export default function DrawerRight(props) {
 
         variant="persistent"
         anchor="left"
-        open={props.open}
+        open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={props.handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
             ) : (
@@ -114,7 +113,7 @@ export default function DrawerRight(props) {
                 dir="rtl"
                 primary="ایجاد کسب و کار جدید"
                 type="button"
-                onClick={()=> router.push("/CreateBusiness")}
+                onClick={() => router.push("/CreateBusiness")}
               />
             </ListItemButton>
           </ListItem>
@@ -143,7 +142,7 @@ export default function DrawerRight(props) {
         </List>
         <Divider />
         <Button
-           onClick={signOut} color="error" endIcon={<LogoutIcon />}>
+          onClick={signOut} color="error" endIcon={<LogoutIcon />}>
           خروج از سایت
         </Button>
       </Drawer>
