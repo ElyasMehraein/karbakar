@@ -45,8 +45,7 @@ const schema = new Schema({
         type: String, maxlength: 30,
     },
     agentCode: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        type: String, maxlength: 30,
     },
     workers: [
         {

@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -18,7 +19,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 
 const drawerWidth = 240;
@@ -32,7 +33,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
-export default function DrawerRight(props) {
+export default function DrawerRight({ user, open, handleDrawerClose }) {
   const router = useRouter()
   const goToBusiness = () => {
     router.replace(`/${brand(props)}`)
@@ -40,10 +41,9 @@ export default function DrawerRight(props) {
   const theme = useTheme();
 
   const signOut = async () => {
-    const res = await fetch("/api/auth/logout")
-    const data = await res.json()
-    if(res.status===200){
-      router.replace("/welcome")
+    const res = await fetch("/api/auth/logout", { method: "POST" });
+    if (res.status === 200) {
+      router.push("/welcome");
     }
   }
   return (
@@ -60,10 +60,10 @@ export default function DrawerRight(props) {
 
         variant="persistent"
         anchor="left"
-        open={props.open}
+        open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={props.handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
             ) : (
@@ -113,7 +113,7 @@ export default function DrawerRight(props) {
                 dir="rtl"
                 primary="ایجاد کسب و کار جدید"
                 type="button"
-                onClick={()=> router.push("/CreateBusiness")}
+                onClick={() => router.push("/CreateBusiness")}
               />
             </ListItemButton>
           </ListItem>
@@ -142,7 +142,7 @@ export default function DrawerRight(props) {
         </List>
         <Divider />
         <Button
-           onClick={signOut} color="error" endIcon={<LogoutIcon />}>
+          onClick={signOut} color="error" endIcon={<LogoutIcon />}>
           خروج از سایت
         </Button>
       </Drawer>

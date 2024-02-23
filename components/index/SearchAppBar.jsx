@@ -60,25 +60,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar(props) {
-  const user = props.user
-  console.log("props.user is", props.user);
-  const userCode = (props) => {
-    if (props.user.code) {
-      return props.user.code
+export default function SearchAppBar({ user ,menuClickHandler}) {
+
+  const userCode = (user) => {
+    if (user.code) {
+      return user.code
     }
+  }
+  
+  const router = useRouter()
+  const goToProfile = () => {
+    router.push(`/${userCode(user)}`)
   }
   const signOut = async () => {
     const res = await fetch("/api/auth/logout")
-    if(res.status===200){
-      console.log("token wasent ok so you get loged out");
+    if (res.status === 200) {
+      router.push('/welcome')
     }
-    router.push('/welcome')
-  }
-
-  const router = useRouter()
-  const goToProfile = () => {
-    router.replace(`/${userCode(props)}`)
   }
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -188,7 +186,7 @@ export default function SearchAppBar(props) {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
-            onClick={props.menuClickHandler}
+            onClick={menuClickHandler}
           >
             <MenuIcon />
           </IconButton>

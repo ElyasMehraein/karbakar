@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react";
 import styles from '@/styles/welcome.module.css'
 import Image from 'next/image'
@@ -12,12 +14,11 @@ import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import hands from "@/public/m-hands.png"
+import { useRouter } from "next/navigation";
 // import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"; ////uncomment after development
 const phoneFormatCheck = () => true //delete after development
 const SMSFormatCheck = () => true //delete after development
-import { useRouter } from "next/router";
-import { verifyToken } from "@/controllers/auth";
-import connectToDB from "@/configs/db";
+
 
 const steps = [
   {
@@ -41,7 +42,7 @@ const steps = [
 ];
 
 
-function Wellcome() {
+export default function Wellcome() {
   const router = useRouter()
 
   const theme = useTheme();
@@ -197,22 +198,4 @@ function Wellcome() {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { token } = context.req.cookies;
-  connectToDB();
 
-  const tokenPayLoad = verifyToken(token);
-
-  if (tokenPayLoad) {
-    return {
-      redirect: {
-        destination: "/",
-      },
-    };
-  }
-  return {
-    props: { tokenPayLoad }
-  };
-}
-
-export default Wellcome;

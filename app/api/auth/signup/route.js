@@ -4,23 +4,20 @@ import { createHash } from "crypto";
 import { SMSOtpvalidator } from "@/controllers/smsotp.js"
 import jwt from "jsonwebtoken";
 import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"
-import { serialize } from "cookie";
+import { cookies } from 'next/headers'
 
 
-const signup = async (req, res) => {
-
-    if (req.method !== "POST") {
-        res.status(200).json({ message: 'request method must be "POST"' })
-    }
+export async function POST(req, res) {
 
     try {
         connectToDb()
-        const { phone, SMSCode } = req.body;
+        const body = await req.json()
+        const { phone, SMSCode } = body;
 
         //Validate Entrance 
         //uncomment after development
         // if (!phone.trim() || !SMSCode.trim()) {
-        //     return res.status(402).json({ message: "Entrance data is empty!" })
+        //     return Response.json({ message: "Entrance data is empty!" },{status:402})
         // }
         // console.log("Entrance data is not empty");
 
@@ -28,7 +25,7 @@ const signup = async (req, res) => {
         //uncomment after development
 
         // if (!phoneFormatCheck(phone) || !SMSFormatCheck(SMSCode)) {
-        //     return res.status(402).json({ message: "Entrance data is not valid!" })
+        //     return Response.json({ message: "Entrance data is not valid!" },{status:402})
         // }
         // console.log("phone number and smmcode format validate successfully");
 
@@ -36,7 +33,7 @@ const signup = async (req, res) => {
         // const isOtpSMSValid = await SMSOtpvalidator(phone, SMSCode)
         // if (!isOtpSMSValid) {
         //     console.log(res.status);
-        //     return res.status(406).json("SMS Code is not valid");
+        //     return Response.json({ message: "SMS Code is not valid" },{status:406})
         // }
 
 
@@ -59,7 +56,7 @@ const signup = async (req, res) => {
                 email: "",
                 personalPage: "",
                 instagram: "",
-                // businesses:"",
+                businesses:[],
                 primeJob: "",
 
             })
@@ -67,14 +64,18 @@ const signup = async (req, res) => {
             user = user
         }
         const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
-        return res.setHeader('Set-Cookie', serialize('token', accessToken, {
-            httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30
-        })).status(201).json({ accessToken, message: "user token created successfully" });
+        cookies().set({
+            name: 'token',
+            value: accessToken,
+            httpOnly: true,
+            path: '/',
+            maxAge: 60 * 60 * 24 * 30
+          })
+        return Response.json({ message: "user token created successfully" }, { status: 201 })
+
+
 
     } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "server error" })
+        return Response.json({ message: "server error" }, { status: 500 })
     }
 }
-
-export default signup

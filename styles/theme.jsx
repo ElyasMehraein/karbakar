@@ -1,3 +1,4 @@
+"use client"
 import { createTheme } from '@mui/material/styles';
 import localFont from "next/font/local"
 const iranyekan = localFont({

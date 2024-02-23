@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -7,10 +8,9 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { Container } from '@mui/material';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function MyAppBar({ business, logedUserCode, whichUserProfile }) {
   const router = useRouter()

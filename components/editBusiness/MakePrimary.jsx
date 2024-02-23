@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import { Box, Container, Typography } from '@mui/material';
