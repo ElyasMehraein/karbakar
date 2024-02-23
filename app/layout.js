@@ -2,7 +2,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter'
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material';
 import theme from '@/styles/theme';
-
+import './global.css'
 export default function RootLayout({ children }) {
     return (
         <html lang="fa" dir='rtl'>

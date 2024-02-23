@@ -1,5 +1,5 @@
 import React from "react";
-import MyAppBar from "./MyAppBar";
+import MyAppBar from "../common/MyAppBar";
 import BusinessHeader from "./BusinessHeader"
 import BusinessAvatar from "./BusinessAvatar";
 import BusinessBio from './businessBio'

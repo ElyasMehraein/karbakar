@@ -1,32 +1,52 @@
-import MyAppBar from '@/components/createBusiness/MyAppBar'
-import BusinessHeader from '@/components/createBusiness/BusinessHeader'
-import BusinessAvatar from '@/components/createBusiness/BusinessAvatar'
-import BioEdit from '@/components/common/BioEdit'
-import Guild from '@/components/common/Guild'
-import ExplainEdit from '@/components/common/ExplainEdit'
-import CountactEdit from '@/components/common/CountactEdit'
-import MakePrimary from '@/components/createBusiness/MakePrimary'
-import EmploeeListEdit from '@/components/createBusiness/EmploeeListEdit'
-import AddressEdit from '@/components/createBusiness/AddressEdit'
-import WhatBusinessGet from '@/components/createBusiness/WhatBusinessGet'
-import NameEdit from '@/components/common/NameEdit'
+"use client"
+import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import MyAppBar from '../common/MyAppBar'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+
 
 export default function createBusiness() {
+    const router = useRouter()
+    const [businessName, setBusinessName] = useState("")
 
+    async function createThisBusiness(businessName) {
+        const res = await fetch('api/signbusiness', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ businessName })
+        })
+        console.log("response to sending sms is =>", res);
+        if (res.status === 406) {
+            setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
+            phoneError()
+        } else if (res.status === 201) {
+            console.log("sabte nam ok shod hala bayad auto beri '/' ");
+            router.push('/')
+
+        }
+    }
     return (
-        < >
-            <MyAppBar />
-            <BusinessHeader />
-            <BusinessAvatar />
-            <NameEdit defaultValue={"کسب و کار"} label={"نام کسب و کار شما"}/>
-            <NameEdit defaultValue={"بنیانگذار"} label={"سمت و مسئولیت شما در این کسب و کار"}/>
-            <AddressEdit defaultValue={"کسب و کار"} label={"آدرس محل کسب و کار شما"}/>
-            <Guild/>
-            <BioEdit/>
-            <ExplainEdit/>
-            <MakePrimary/>
-            <CountactEdit />
-            <EmploeeListEdit/>
+        <>
+            <MyAppBar business={null} logedUserCode={null} whichUserProfile={null} />
+            <Container maxWidth="md">
+                <Box className='inMiddle'
+                    sx={{
+                        '& .MuiTextField-root': { width: '30ch' },
+                        my: 3
+                    }}
+                    display="flex" flexDirection="column">
+                    <Typography >یک نام برای کسب و کار خودانتخاب کنید</Typography>
+                    <TextField
+                        sx={{ my: 3 }}
+                        placeholder='حداکثر 30 کارکتر' variant="outlined"
+                        label="نام کسب و کار"
+                        onChange={(e) => setBusinessName(e.target.value)}
+                    />
+                    <Button onClick={() => createThisBusiness(businessName)} variant="contained">
+                        ایجاد کسب و کار
+                    </Button>
+                </Box>
+            </Container>
         </>
     )
 

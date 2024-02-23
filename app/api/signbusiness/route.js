@@ -1,18 +1,14 @@
-import UserModel from "@/models/User"
+import BusinessModel from "@/models/Business"
 import connectToDb from "@/configs/db"
-import { createHash } from "crypto";
-import { SMSOtpvalidator } from "@/controllers/smsotp.js"
-import jwt from "jsonwebtoken";
-import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"
-import { cookies } from 'next/headers'
 
 
-export async function POST(req, res) {
+
+export async function POST(req) {
 
     try {
         connectToDb()
         const body = await req.json()
-        const { phone, SMSCode } = body;
+        const { businessName } = body;
 
         //Validate Entrance 
         //uncomment after development
@@ -37,17 +33,11 @@ export async function POST(req, res) {
         // }
 
 
-        const phoneHash = createHash("sha256").update(phone).digest("hex");
-
-
-
-        let user = await UserModel.findOne({ phoneHash })
-        if (!user) {
-            let nextUserNumber = (await UserModel.countDocuments()) + 1000;
-            user = await UserModel.create({
-                phoneHash,
-                code: nextUserNumber,
-                userName: "",
+        let business = await BusinessModel.findOne({ businessName })
+        if (!business) {
+            
+            business = await BusinessModel.create({
+                businessName: businessName,
                 avatar: "",
                 header: "",
                 bio: "",
@@ -56,26 +46,19 @@ export async function POST(req, res) {
                 email: "",
                 personalPage: "",
                 instagram: "",
-                businesses:[],
-                primeJob: "",
+                latitude: "",
+                longitude: "",
+                agentCode: "",
+                workers: []
 
             })
-            console.log("user created successfully", user);
-            user = user
+            console.log("business created successfully", business);
+            business = business
+            return Response.json({ message: "business created successfully" }, { status: 201 })
         }
-        const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
-        cookies().set({
-            name: 'token',
-            value: accessToken,
-            httpOnly: true,
-            path: '/',
-            maxAge: 60 * 60 * 24 * 30
-          })
-        return Response.json({ message: "user token created successfully" }, { status: 201 })
-
-
 
     } catch (err) {
+        console.log("toye signbusiness api hastam", err);
         return Response.json({ message: "server error" }, { status: 500 })
     }
 }
