@@ -41,9 +41,9 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
   const theme = useTheme();
 
   const signOut = async () => {
-    const res = await fetch("/api/auth/logout")
+    const res = await fetch("/api/auth/logout", { method: "POST" });
     if (res.status === 200) {
-      router.replace("/welcome")
+      router.push("/welcome");
     }
   }
   return (

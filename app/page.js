@@ -4,6 +4,7 @@ import { verifyToken } from "@/controllers/auth";
 import connectToDB from '@/configs/db';
 import UserModel from '@/models/User';
 import { cookies } from "next/headers";
+import { redirect } from 'next/navigation'
 
 export default async function page() {
   const token = cookies().get("token")?.value;

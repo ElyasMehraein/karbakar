@@ -1,9 +1,10 @@
-import UserModel from "@/appBox/models/User"
+import UserModel from "@/models/User"
 import connectToDb from "@/configs/db"
 import { createHash } from "crypto";
 import { SMSOtpvalidator } from "@/controllers/smsotp.js"
 import jwt from "jsonwebtoken";
 import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"
+import { cookies } from 'next/headers'
 
 
 export async function POST(req, res) {
@@ -63,11 +64,18 @@ export async function POST(req, res) {
             user = user
         }
         const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
-        return Response.json({ accessToken, message: "user token created successfully" }, { status: 201, headers: { 'Set-Cookie': `token: accessToken` } }, {
-            httpOnly: true, path: "/", maxAge: 60 * 60 * 24 * 30
-        })
+        cookies().set({
+            name: 'token',
+            value: accessToken,
+            httpOnly: true,
+            path: '/',
+            maxAge: 60 * 60 * 24 * 30
+          })
+        return Response.json({ message: "user token created successfully" }, { status: 201 })
+
+
 
     } catch (err) {
-        return Response.json({ message: "server error" },{ status: 500 })
+        return Response.json({ message: "server error" }, { status: 500 })
     }
 }
