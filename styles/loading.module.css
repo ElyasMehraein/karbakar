@@ -1,0 +1,33 @@
+.Loading {
+  text-align: center;
+}
+
+.LoadingLogo {
+  /* height: 20vmin; */
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .LoadingLogo {
+    animation: Hands-logo-spin infinite 3s linear;
+  }
+}
+
+.loadnigHeader {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+@keyframes Hands-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
