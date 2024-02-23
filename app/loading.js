@@ -4,7 +4,6 @@ import styles from '@/styles/loading.module.css'
 
 export default function page() {
   return (
-    <div className={styles.Loading}>
       <header className={styles.loadnigHeader}>
         <Image 
           className={styles.LoadingLogo}
@@ -13,7 +12,6 @@ export default function page() {
         />
 
       </header>
-    </div>
   );
 }
 
