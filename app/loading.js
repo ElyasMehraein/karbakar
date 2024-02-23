@@ -1,4 +1,4 @@
-import hands from "@/public/m-hands.png"
+import hands from "@/public/s-hands.png"
 import Image from "next/image";
 import styles from '@/styles/loading.module.css'
 

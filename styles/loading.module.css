@@ -1,9 +1,4 @@
-.Loading {
-  text-align: center;
-}
-
 .LoadingLogo {
-  /* height: 20vmin; */
   pointer-events: none;
 }
 
@@ -16,10 +11,8 @@
 .loadnigHeader {
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-
 }
 
 

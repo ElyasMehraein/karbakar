@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+"use client"
+
+import React from 'react'
 import InstagramIcon from '@mui/icons-material/Instagram';
 import AddIcCallIcon from '@mui/icons-material/AddIcCall';
 import EmailIcon from '@mui/icons-material/Email';
