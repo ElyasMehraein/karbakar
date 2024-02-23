@@ -10,9 +10,9 @@ export default function Custom404() {
           src={notFoundImg}
           alt="karbakar not-found logo"
           priority
+          width={300}
         />
         <h1>صفحه مورد نظر یافت نشد</h1>
-        <h2>گشتم نبود نگرد نیست😅</h2>
       </div>
     </>
   )
