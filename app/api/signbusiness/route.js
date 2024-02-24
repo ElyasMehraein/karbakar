@@ -1,7 +1,6 @@
 import BusinessModel from "@/models/Business"
 import connectToDB from "@/configs/db"
 import { verifyToken } from "@/controllers/auth";
-import connectToDB from '@/configs/db';
 import UserModel from '@/models/User';
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation'
@@ -48,6 +47,7 @@ export async function POST(req) {
 
             })
             business = business
+            await UserModel.findByIdAndUpdate(user._id,{$push:{businesses: business._id}})
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {
             return Response.json({ message: "business already exist" }, { status: 409 })

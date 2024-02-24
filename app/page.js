@@ -17,7 +17,7 @@ export default async function page() {
   const user = JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },
     "-_id code"
-  )))
+  ).populate("businesses")))
   return (
     <Index user={user} token={token}/>
   )

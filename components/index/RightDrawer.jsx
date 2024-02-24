@@ -34,6 +34,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function DrawerRight({ user, open, handleDrawerClose }) {
+  console.log(user);
   const router = useRouter()
   const goToBusiness = () => {
     router.replace(`/${brand(props)}`)
@@ -76,30 +77,28 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
           کسب و کارهای من
         </Typography>
         <List>
-          <ListItem
-            sx={{ color: "inherit", mt: 0 }}
-            // component={Link}
-            to="/business"
-          >
-            <ListItemAvatar>
-              {/* <Avatar alt="Remy Sharp" src={businessavatar} /> */}
-            </ListItemAvatar>
-            <ListItemText
-              align="right"
-              primary="تعمیرگاه استاد جلال"
-              secondary="کسب و کار اصلی"
-              onClick={goToBusiness}
-            />
-          </ListItem>
-          <ListItem
-            sx={{ color: "inherit", mt: 0 }}
+          {user.businesses.map(
+            (business) => {
+              const isAgent = (user.code == business.agentCode)
+              return (
+                  <ListItem
+                    key={business._id}
+                    sx={{ color: "inherit", mt: 0 }}
+                  >
+                    <ListItemAvatar>
+                      {/* <Avatar alt="Remy Sharp" src={businessavatar} /> */}
+                    </ListItemAvatar>
+                    <ListItemText
+                      align="right"
+                      primary={business.businessName}
+                      secondary={isAgent?"کسب و کار اصلی":"کسب و کار فرعی"}
+                      onClick={goToBusiness}
+                    />
+                  </ListItem>
+                )
+            }
+          )}
 
-          >
-            <ListItemAvatar>
-              {/* <Avatar alt="Remy Sharp" src={businessavatar2} /> */}
-            </ListItemAvatar>
-            <ListItemText align="right" primary="کشاورزی جلال" />
-          </ListItem>
         </List>
         <Divider />
         <List>

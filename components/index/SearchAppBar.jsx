@@ -60,20 +60,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ user ,menuClickHandler}) {
+export default function SearchAppBar({ user, menuClickHandler }) {
 
   const userCode = (user) => {
     if (user.code) {
       return user.code
     }
   }
-  
+
   const router = useRouter()
   const goToProfile = () => {
     router.push(`/${userCode(user)}`)
   }
   const signOut = async () => {
-    const res = await fetch("/api/auth/logout")
+    const res = await fetch("/api/auth/logout", { method: "POST" })
     if (res.status === 200) {
       router.push('/welcome')
     }
