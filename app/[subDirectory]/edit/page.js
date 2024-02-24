@@ -1,59 +1,60 @@
-import Profile from '@/components/editProfile/Profile'
 import connectToDB from '@/configs/db'
-import { verifyToken } from '@/controllers/auth'
-import UserModel from '@/appBox/models/User'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { cookies } from "next/headers";
+import { verifyToken } from "@/controllers/auth";
+import { notFound } from 'next/navigation'
+import BusinessModel from '@/models/Business'
 
-export default function profile(props) {
-  const logedUserCode = props.user.code
-  const router = useRouter()
-  const pageCode = router.query.code
-  let isLogedInMyOwnProfile = false
-  useEffect(() => {
-    if (logedUserCode == pageCode) {
-      isLogedInMyOwnProfile = true
-    }else{
-      // router.replace("/403")
-    }
-  }, [])
+import EditBusiness from '@/components/EditBusiness/EditBusiness'
+import UserModel from '@/models/User'
+import Profile from '@/components/Profile/Profile'
 
 
-  return (
-    <>
-      {/* <p>you are user {logedUserCode} </p>
-      <p>this is user {pageCode} profile</p>
-      {logedUserCode === pageCode? "page khodete" : "page shoma nist"} */}
-      <Profile
-        logedUserCode={logedUserCode} whichUserProfile={pageCode} />
-    </>
+export default async function edit({ params }) {
 
-  )
-}
-
-export async function getServerSideProps(context) {
-  const { token } = context.req.cookies;
+  const token = cookies().get("token")?.value;
   const tokenPayLoad = verifyToken(token);
+
   if (!tokenPayLoad) {
-    return {
-      redirect: {
-        destination: "/",
-      },
-    };
+    return redirect("/welcome");
   }
   connectToDB()
-  const user = await UserModel.findOne(
+  const logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },
-    "code"
-  )
+    "-_id code"
+  ))).code;
+
+  if (isNaN(params.subDirectory)) {
+    console.log("params.subDirectory", params.subDirectory);
+
+    const business = await BusinessModel.findOne({ businessName: params.subDirectory })
+    if (!business) {
+      console.log("business not found in DB");
+      notFound()
+    }
+    console.log("params.subDirectory", params.subDirectory);
+    return (
+      <EditBusiness business={business}
+        logedUserCode={logedUserCode}
+      />
+    )
+  }
+
+
+
+  const user = JSON.parse(JSON.stringify(await UserModel.findOne(
+    { code: params.subDirectory },
+  )))
+
   if (!user) {
-    return {
-      notFound: true
-    }
+    console.log("user not found in DB");
+    notFound()
   }
-  return {
-    props: {
-      user: JSON.parse(JSON.stringify(user))
-    }
-  }
+
+  return (
+    <h1>inside profile edit</h1>
+    // <Profile user={user}
+    //   logedUserCode={logedUserCode}
+    // />
+  )
 }
+

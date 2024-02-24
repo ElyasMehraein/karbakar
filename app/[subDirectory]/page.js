@@ -21,22 +21,25 @@ export default async function subDirectory({ params }) {
   const logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },
     "-_id code"
-  ))).code
+  ))).code;
 
   if (isNaN(params.subDirectory)) {
+    console.log("params.subDirectory", params.subDirectory);
 
     const business = await BusinessModel.findOne({ businessName: params.subDirectory })
     if (!business) {
       console.log("business not found in DB");
       notFound()
     }
+    console.log("params.subDirectory", params.subDirectory);
     return (
-      <Business business={JSON.parse(JSON.stringify(business))}
+      <Business business={business}
         logedUserCode={logedUserCode}
       />
     )
-
   }
+
+
 
   const user = JSON.parse(JSON.stringify(await UserModel.findOne(
     { code: params.subDirectory },

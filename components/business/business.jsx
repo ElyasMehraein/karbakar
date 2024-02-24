@@ -10,18 +10,17 @@ import { Box } from "@mui/material";
 import EmploeeList from "../common/EmploeeList";
 import WhatBusinessGet from "./WhatBusinessGet";
 
-function Business({ business, logedUserCode, whichUserProfile }) {
-
+function Business({ business, logedUserCode }) {
     return (
         <Box >
-            <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
-            <BusinessHeader business={business} />
+            <MyAppBar logedUserCode={logedUserCode} business={business} />
+            {/* <BusinessHeader business={business} />
             <BusinessAvatar business={business} />
             <Bio business={business} />
             <CountactBusiness business={business} />
             <TableBusiness business={business} />
             <EmploeeList business={business} />
-            <WhatBusinessGet business={business} />
+            <WhatBusinessGet business={business} /> */}
         </Box>
 
     )

@@ -7,7 +7,7 @@ import DefaultHeader from "@/public/assets/default/DefaultHeader"
 const isUserprofileHeaderExist = false
 
 
-export default function Header() {
+export default function Header({user}) {
   return (
     <div>
 

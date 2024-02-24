@@ -77,9 +77,9 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
           کسب و کارهای من
         </Typography>
         <List>
-          {user.businesses.map(
+          {user?.businesses.map(
             (business) => {
-              const isAgent = (user.code == business.agentCode)
+              const isAgent = (user?.code == business.agentCode)
               return (
                   <ListItem
                     key={business._id}

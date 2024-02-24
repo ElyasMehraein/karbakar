@@ -1,23 +1,23 @@
 import React from "react";
-import MyAppBar from "./MyAppBar";
-import Header from "../common/Header"
-import UserAvatar from "./UserAvatar";
+import MyAppBar from "@/components/common/MyAppBar";
+import Header from "@/components/common/Header"
+import PageAvatar from "@/components/common/PageAvatar";
 import ProfileCountact from './ProfileCountact'
 import Bio from "../common/Bio";
 import ProfileExplain from "./ProfileExplain";
 import UserJobs from "./UserJobs";
 import UserName from "./UserName";
-function Profile({user ,logedUserCode, whichUserProfile}) {
+function Profile({ user, logedUserCode }) {
     return (
         <>
-            <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
-            <Header  user={user}/>
-            <UserAvatar user={user} />
-            <UserName user={user}/>
-            <Bio user={user}/>
-            <ProfileCountact user={user}/>
-            <ProfileExplain user={user}/>
-            <UserJobs user={user}/>
+            <MyAppBar user={user} logedUserCode={logedUserCode}  />
+            <Header user={user} />
+            <PageAvatar user={user} />
+            {/* <UserName user={user} />
+            <Bio user={user} />
+            <ProfileCountact user={user} />
+            <ProfileExplain user={user} />
+            <UserJobs user={user} /> */}
         </>
 
     )

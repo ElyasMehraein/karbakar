@@ -8,25 +8,21 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useState } from 'react';
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-export default function MyAppBar({ business, logedUserCode, whichUserProfile }) {
-  const router = useRouter()
-  const [isLogedInMyOwnProfile, setIsLogedInMyOwnProfile] = useState(false)
-  useEffect(() => {
-    if (logedUserCode === whichUserProfile) {
-      setIsLogedInMyOwnProfile(true)
-    }
+export default function MyAppBar({ user, logedUserCode, business }) {
 
-  }, [logedUserCode])
+  const router = useRouter()
+  const isAauthorizedToEdit = user ? (logedUserCode === user.code) : (logedUserCode == business.agentCode)
+  console.log("isato", isAauthorizedToEdit);
+  console.log("user", user);
+  console.log("business", business);
 
   const goToIndex = () => {
     router.replace("/")
   }
   const goToEdit = () => {
-    router.replace(`${business}/edit`)
+    router.replace(`${business || logedUserCode}/edit`)
   }
 
   return (
@@ -46,7 +42,7 @@ export default function MyAppBar({ business, logedUserCode, whichUserProfile }) 
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>
-          {isLogedInMyOwnProfile ?
+          {isAauthorizedToEdit ?
             <Button
               color="inherit"
               onClick={goToEdit}

@@ -7,7 +7,7 @@ import BioEdit from "../common/BioEdit";
 import ExplainEdit from "../common/ExplainEdit";
 import NameEdit from "../common/NameEdit";
 
-function Profile({ logedUserCode, whichUserProfile }) {
+export default function EditProfile({ logedUserCode, whichUserProfile }) {
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
@@ -22,6 +22,3 @@ function Profile({ logedUserCode, whichUserProfile }) {
     )
 
 }
-
-
-export default Profile;
