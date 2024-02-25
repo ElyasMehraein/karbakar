@@ -7,7 +7,7 @@ const schema = new Schema({
         required: true,
         unique: true,
     },
-    avatar: { type: String },
+    brand: { type: String },
 
     header: {
         type: String,

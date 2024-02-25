@@ -9,6 +9,8 @@ import EmploeeList from "../common/EmploeeList";
 import WhatBusinessGet from "./WhatBusinessGet";
 
 function Business({ business, logedUserCode }) {
+
+    console.log("toye business ", business);
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} business={business} />

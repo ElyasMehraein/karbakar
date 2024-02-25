@@ -7,19 +7,15 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import avatar1 from "@/public/assets/1.jpg"
-import avatar2 from "@/public/assets/2.jpg"
-import avatar3 from "@/public/assets/3.jpg"
-import avatar4 from "@/public/assets/4.jpg"
-import avatar5 from "@/public/assets/5.jpg"
 import Image from 'next/image';
+
 
 export default function EmploeeList({business}) {
     return (
         <List  sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar><Image src={avatar1} alt="karbakar website logo" sizes="auto" fill /></Avatar>
+                    {/* <Avatar><Image src={avatar1} alt="karbakar website logo" sizes="auto" fill /></Avatar> */}
                 </ListItemAvatar>
                 <ListItemText
                     primary="Brunch this weekend?"
@@ -41,7 +37,7 @@ export default function EmploeeList({business}) {
             <Divider variant="inset" component="li" />
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                <Avatar><Image src={avatar3} alt="karbakar website logo" sizes="auto" fill /></Avatar>
+                {/* <Avatar><Image src={avatar3} alt="karbakar website logo" sizes="auto" fill /></Avatar> */}
                 </ListItemAvatar>
                 <ListItemText
                     primary="Summer BBQ"
@@ -63,7 +59,7 @@ export default function EmploeeList({business}) {
             <Divider variant="inset" component="li" />
             <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                <Avatar><Image src={avatar2} alt="karbakar website logo" sizes="auto" fill /></Avatar>
+                {/* <Avatar><Image src={avatar2} alt="karbakar website logo" sizes="auto" fill /></Avatar> */}
                 </ListItemAvatar>
                 <ListItemText
                     primary="Oui Oui"

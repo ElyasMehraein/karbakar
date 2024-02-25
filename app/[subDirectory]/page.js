@@ -24,7 +24,6 @@ export default async function subDirectory({ params }) {
   ))).code;
 
   if (isNaN(params.subDirectory)) {
-    console.log("params.subDirectory", params.subDirectory);
 
     const business = await BusinessModel.findOne({ businessName: params.subDirectory })
     if (!business) {
@@ -33,7 +32,7 @@ export default async function subDirectory({ params }) {
     }
     console.log("params.subDirectory", params.subDirectory);
     return (
-      <Business business={business}
+      <Business business={JSON.parse(JSON.stringify(business))}
         logedUserCode={logedUserCode}
       />
     )
