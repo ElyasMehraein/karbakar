@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
@@ -13,16 +12,13 @@ import { useRouter } from 'next/navigation';
 export default function MyAppBar({ user, logedUserCode, business }) {
 
   const router = useRouter()
-  const isAauthorizedToEdit = user ? (logedUserCode === user.code) : (logedUserCode == business.agentCode)
-  console.log("isato", isAauthorizedToEdit);
-  console.log("user", user);
-  console.log("business", business);
+  const isAauthorizedToEdit = user ? (logedUserCode === user.code) : (logedUserCode == business?.agentCode)
 
   const goToIndex = () => {
-    router.replace("/")
+    router.push("/")
   }
   const goToEdit = () => {
-    router.replace(`${business || logedUserCode}/edit`)
+    router.push(`${business.businessName || logedUserCode}/edit`)
   }
 
   return (

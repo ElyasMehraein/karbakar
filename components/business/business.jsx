@@ -1,28 +1,25 @@
 import React from "react";
-import MyAppBar from "../common/MyAppBar";
-import BusinessHeader from "./BusinessHeader"
-import BusinessAvatar from "./BusinessAvatar";
+import MyAppBar from "@/components/common/MyAppBar";
+import Header from "@/components/common/Header";
+import PageAvatar from "@/components/common/PageAvatar";
 import Bio from '@/components/common/Bio'
 import CountactBusiness from './CountactBusiness'
 import TableBusiness from './TableBusiness'
-
-import { Box } from "@mui/material";
 import EmploeeList from "../common/EmploeeList";
 import WhatBusinessGet from "./WhatBusinessGet";
 
 function Business({ business, logedUserCode }) {
     return (
-        <Box >
+        <>
             <MyAppBar logedUserCode={logedUserCode} business={business} />
-            {/* <BusinessHeader business={business} />
-            <BusinessAvatar business={business} />
+            <Header business={business} />
+            <PageAvatar business={business} />
             <Bio business={business} />
             <CountactBusiness business={business} />
             <TableBusiness business={business} />
             <EmploeeList business={business} />
-            <WhatBusinessGet business={business} /> */}
-        </Box>
-
+            <WhatBusinessGet business={business} />
+        </>
     )
 
 }

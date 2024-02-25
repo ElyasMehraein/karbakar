@@ -6,7 +6,7 @@ import BusinessModel from '@/models/Business'
 
 import EditBusiness from '@/components/EditBusiness/EditBusiness'
 import UserModel from '@/models/User'
-import Profile from '@/components/Profile/Profile'
+import EditProfile from '@/components/EditProfile/EditProfile'
 
 
 export default async function edit({ params }) {
@@ -24,8 +24,6 @@ export default async function edit({ params }) {
   ))).code;
 
   if (isNaN(params.subDirectory)) {
-    console.log("params.subDirectory", params.subDirectory);
-
     const business = await BusinessModel.findOne({ businessName: params.subDirectory })
     if (!business) {
       console.log("business not found in DB");
@@ -33,9 +31,8 @@ export default async function edit({ params }) {
     }
     console.log("params.subDirectory", params.subDirectory);
     return (
-      <EditBusiness business={business}
-        logedUserCode={logedUserCode}
-      />
+      // <h1>hello edit business</h1>
+      <EditBusiness business={business} logedUserCode={logedUserCode} />
     )
   }
 
@@ -51,10 +48,8 @@ export default async function edit({ params }) {
   }
 
   return (
-    <h1>inside profile edit</h1>
-    // <Profile user={user}
-    //   logedUserCode={logedUserCode}
-    // />
+    // <h1>hello edit profile</h1>
+    <EditProfile user={user} logedUserCode={logedUserCode} />
   )
 }
 

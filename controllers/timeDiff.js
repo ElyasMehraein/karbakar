@@ -33,7 +33,6 @@ function TimeDiff(date1, date2) {
     }
 
     // Output the time difference in the desired unit
-    console.log(`The time difference is ${timeDiff} dd ${timeUnit}.`);
     return timeUnit
 
 }

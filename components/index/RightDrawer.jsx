@@ -34,7 +34,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function DrawerRight({ user, open, handleDrawerClose }) {
-  console.log(user);
   const router = useRouter()
   const goToBusiness = () => {
     router.replace(`/${brand(props)}`)

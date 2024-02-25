@@ -1,5 +1,5 @@
 import React from "react";
-// import MyAppBar from "./MyAppBar";
+// import MyAppBar from "@/components/common/MyAppBar";
 // import ProfileImg from "./ProfileImg"
 // import UserAvatar from "./UserAvatar";
 // import CountactEdit from '../common/CountactEdit'
@@ -10,7 +10,7 @@ import React from "react";
 export default function EditProfile({ logedUserCode, whichUserProfile }) {
     return (
         <>
-        <h1>edit business</h1>
+        {/* <h1>edit business</h1> */}
             {/* <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
             <ProfileImg />
             <UserAvatar />

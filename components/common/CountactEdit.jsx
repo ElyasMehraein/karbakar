@@ -10,7 +10,7 @@ import { Container, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import DoneIcon from '@mui/icons-material/Done';
-import MyLocation from '../editProfile/MyLocation';
+import MyLocation from '../EditProfile/MyLocation';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 
 

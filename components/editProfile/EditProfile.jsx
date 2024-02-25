@@ -1,5 +1,5 @@
 import React from "react";
-import MyAppBar from "./MyAppBar";
+import MyAppBar from "@/components/common/MyAppBar";
 import ProfileImg from "./ProfileImg"
 import UserAvatar from "./UserAvatar";
 import CountactEdit from '../common/CountactEdit'
