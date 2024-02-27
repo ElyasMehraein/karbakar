@@ -1,7 +1,6 @@
-// import mongoose from "mongoose"
 import * as mongoose from 'mongoose';
 import { Schema } from "mongoose";
-
+import BusinessModel from './Business';
 
 const schema = new Schema({
     phoneHash: {
