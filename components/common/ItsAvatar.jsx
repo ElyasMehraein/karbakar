@@ -2,8 +2,7 @@ import Image from 'next/image'
 
 
 
-export default function itsAvatar({ userCodeOrBusinessBrand, alt }) {
-console.log("userCodeOrBusinessBrand",userCodeOrBusinessBrand);
+export default function itsAvatar({ userCodeOrBusinessBrand }) {
 
     let avatarOrBrand = ""
     if (isNaN(userCodeOrBusinessBrand)) {
@@ -11,7 +10,12 @@ console.log("userCodeOrBusinessBrand",userCodeOrBusinessBrand);
     } else {
         avatarOrBrand = "avatars"
     }
-    
-    console.log(avatarOrBrand ,userCodeOrBusinessBrand , alt)
-    return <Image src={`/${avatarOrBrand}/${userCodeOrBusinessBrand}.jpg`} alt={alt} width="64" height="64" />
+
+    return <Image
+        src={`/${avatarOrBrand}/${userCodeOrBusinessBrand}.jpg`}
+        alt={userCodeOrBusinessBrand} quality={100}
+        fill
+        sizes="100vw"
+        style={{ objectFit: 'cover' }}
+    />
 }

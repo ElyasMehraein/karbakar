@@ -10,12 +10,11 @@ import WhatBusinessGet from "./WhatBusinessGet";
 
 function Business({ business, logedUserCode }) {
 
-    console.log("toye business ", business);
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} business={business} />
             <Header business={business} />
-            <PageAvatar business={business} />
+            <PageAvatar user={null} business={business} />
             <Bio business={business} />
             <CountactBusiness business={business} />
             <TableBusiness business={business} />
