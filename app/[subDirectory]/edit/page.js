@@ -21,7 +21,7 @@ export default async function edit({ params }) {
   const logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },
     "-_id code"
-  ))).code;
+  ))).code
 
   if (isNaN(params.subDirectory)) {
     const business = await BusinessModel.findOne({ businessName: params.subDirectory })
@@ -29,9 +29,10 @@ export default async function edit({ params }) {
       console.log("business not found in DB");
       notFound()
     }
-    console.log("params.subDirectory", params.subDirectory);
+    if(Number(business.agentCode) !== logedUserCode){
+      return <h1 className='inMiddle'> 403 دسترسی غیر مجاز</h1>
+    }
     return (
-      // <h1>hello edit business</h1>
       <EditBusiness business={business} logedUserCode={logedUserCode} />
     )
   }
