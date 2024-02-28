@@ -223,17 +223,17 @@ export default function SearchAppBar({ user, menuClickHandler }) {
               </IconButton>
 
               <IconButton
-              sx={{ width: 70, height: 70 }}
+              sx={{ m:0 ,width: 70, height: 70 }}
                 size="large"
                 edge="end"
                 aria-label="account of current user"
                 aria-controls={menuId}
-                aria-haspopup="true"
+                // aria-haspopup="true"
                 color="inherit"
                 onClick={goToProfile}
               >{user.avatar ?
                 <Avatar sx={{ width: 40, height: 40 }} >
-                  <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
+                  <ItsAvatar userCodeOrBusinessBrand={user?.code} />
                 </Avatar> :
                 <AccountCircle />}
               </IconButton>

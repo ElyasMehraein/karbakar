@@ -10,7 +10,7 @@ export default function EditProfile({ business, logedUserCode }) {
         <>
             {/* <h1>edit business</h1> */}
             <MyAppBar />
-            <NameEdit defaultValue={"پروفایل"} label={"label"} />
+            <NameEdit defaultValue={business.businessName} label={"نام کسب و کار"} />
             <BioEdit />
             <ExplainEdit />
             <CountactEdit />

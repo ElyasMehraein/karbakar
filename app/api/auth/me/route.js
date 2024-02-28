@@ -1,28 +1,34 @@
 import connectToDB from "@/configs/db";
 import { verifyToken } from "@/controllers/auth";
-import UserModel from "@/appBox/models/User";
+import UserModel from "@/models/User";
+import { cookies } from "next/headers";
 
-async function GET(req, res) {
-    if (req.method !== "GET") {
-        return false
-    }
+export async function GET(req, res) {
     try {
+        const token = cookies().get("token")?.value;
+        const tokenPayLoad = verifyToken(token);
 
-        connectToDB()
-        const { token } = req.cookies;
-        const tokenPayLoad = verifyToken(token)
-        if (!token || !tokenPayLoad) {
-            return res.status(401).json({ message: "you are not logged in" })
+        if (!tokenPayLoad) {
+            return <h1 className='inMiddle'> 403 دسترسی غیر مجاز</h1>
         }
+        connectToDB()
         const user = await UserModel.findOne(
             { _id: tokenPayLoad.id },
-            
-        )
-        return res.status(200).json({ data: user })
-    } catch (err) {
-        console.log(err);
-        return res.status(500).json({ message: "server error" })
-    }
 
+        )
+        return Response.json(user, { status: 200 })
+    } catch (err) {
+        return Response.json({ message: err }, { status: 500 })
+    }
 }
-export default handler
+
+
+// wana get this in clinet components?
+// useEffect(() => {
+//     const user = async () => {
+//         const response = await fetch("/api/auth/me");
+//         const user = await response.json()
+//     };
+
+//     user();
+// }, []);
