@@ -19,6 +19,8 @@ import { useRouter } from 'next/navigation'
 import Button from "@mui/material/Button";
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { Avatar } from '@mui/material';
+import ItsAvatar from "@/components/common/ItsAvatar"
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -61,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ user, menuClickHandler }) {
-
+  console.log("user.avatar", user);
   const userCode = (user) => {
     if (user.code) {
       return user.code
@@ -204,26 +206,24 @@ export default function SearchAppBar({ user, menuClickHandler }) {
             ورود یا ثبت نام
           </Button>) :
 
-            <Box sx={{
-
-              // display: { xs: 'none', md: 'flex' } 
-            }}
-            >
-              <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <IconButton sx={{ width: 70, height: 70 }} size="large" aria-label="show 4 new mails" color="inherit">
                 <Badge badgeContent={4} color="error">
                   <MailIcon />
                 </Badge>
               </IconButton>
-              <IconButton
+              <IconButton sx={{ width: 70, height: 70 }}
                 size="large"
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
-                <Badge sx={{ mx: 2 }} badgeContent={17} color="error">
+                <Badge badgeContent={17} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+
               <IconButton
+              sx={{ width: 70, height: 70 }}
                 size="large"
                 edge="end"
                 aria-label="account of current user"
@@ -231,24 +231,27 @@ export default function SearchAppBar({ user, menuClickHandler }) {
                 aria-haspopup="true"
                 color="inherit"
                 onClick={goToProfile}
-              >
-                <AccountCircle />
+              >{user.avatar ?
+                <Avatar sx={{ width: 40, height: 40 }} >
+                  <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
+                </Avatar> :
+                <AccountCircle />}
               </IconButton>
             </Box>
           }
 
-          {/* <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                size="large"
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </Box> */}
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
         </Toolbar>
         {/* </Container> */}
       </AppBar>
