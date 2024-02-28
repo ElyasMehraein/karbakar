@@ -1,13 +1,16 @@
 import Image from 'next/image';
 import * as React from 'react';
-import profileHeader from "@/public/assets/profileHeader.jpg"
-import { Box } from '@mui/material';
 import DefaultHeader from "@/public/assets/default/DefaultHeader"
 
-const isUserprofileHeaderExist = false
 
-
-export default function Header({user}) {
+export default function Header({ user, business }) {
+  const userCodeOrBusinessBrand = user?.code || business?.businessName
+  const isUserprofileHeaderExist = user?.header || business?.header
+  if(isUserprofileHeaderExist){
+    console.log(`toye header true /headers/${userCodeOrBusinessBrand}.jpg`);
+  }else{
+    console.log("toye header false ");
+  }
   return (
     <div>
 
@@ -20,9 +23,8 @@ export default function Header({user}) {
             height: "40vh",
           }}>
           <Image
-            alt="profile picture"
-            src={profileHeader}
-            placeholder="blur"
+            alt={`${userCodeOrBusinessBrand} header`}
+            src={`/headers/${userCodeOrBusinessBrand}.jpg`}
             quality={100}
             fill
             sizes="100vw"

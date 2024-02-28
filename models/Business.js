@@ -7,12 +7,9 @@ const schema = new Schema({
         required: true,
         unique: true,
     },
-    brand: { type: String },
+    brand: Boolean,
 
-    header: {
-        type: String,
-
-    },
+    header: Boolean,
     bio: {
         type: String,
         maxlength: 150,

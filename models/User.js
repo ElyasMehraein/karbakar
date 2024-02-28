@@ -21,12 +21,9 @@ const schema = new Schema({
         // minlength: 4,
         // maxlength: 30,
     },
-    avatar: { type: String },
+    avatar: Boolean,
 
-    header: {
-        type: String,
-
-    },
+    header: Boolean,
     bio: {
         type: String,
         maxlength: 150,
@@ -53,10 +50,10 @@ const schema = new Schema({
     },
     businesses: [
         {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Business"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Business"
         }
-      ],
+    ],
     primeJob: {
         type: String, maxlength: 30,
 
