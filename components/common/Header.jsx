@@ -13,11 +13,9 @@ export default function Header({ user, business }) {
   }
   return (
     <div>
-
       {isUserprofileHeaderExist ? (
         <div
           style={{
-            // use relative position for the parent div
             position: "relative",
             width: "100vw",
             height: "40vh",
@@ -25,6 +23,7 @@ export default function Header({ user, business }) {
           <Image
             alt={`${userCodeOrBusinessBrand} header`}
             src={`/headers/${userCodeOrBusinessBrand}.jpg`}
+            priority
             quality={100}
             fill
             sizes="100vw"

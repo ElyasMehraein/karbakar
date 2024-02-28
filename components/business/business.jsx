@@ -16,10 +16,10 @@ function Business({ business, logedUserCode }) {
             <Header business={business} />
             <PageAvatar user={null} business={business} />
             <Bio business={business} />
-            <CountactBusiness business={business} />
+            {/* <CountactBusiness business={business} />
             <TableBusiness business={business} />
             <EmploeeList business={business} />
-            <WhatBusinessGet business={business} />
+            <WhatBusinessGet business={business} /> */}
         </>
     )
 

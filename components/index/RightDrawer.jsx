@@ -20,6 +20,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import { useRouter } from 'next/navigation';
+import ItsAvatar from "@/components/common/ItsAvatar"
+import { Avatar } from '@mui/material';
 
 
 const drawerWidth = 240;
@@ -35,9 +37,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function DrawerRight({ user, open, handleDrawerClose }) {
   const router = useRouter()
-  const goToBusiness = () => {
-    router.replace(`/${brand(props)}`)
-  }
   const theme = useTheme();
 
   const signOut = async () => {
@@ -52,53 +51,37 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-          },
+          '& .MuiDrawer-paper': { width: drawerWidth },
         }}
         PaperProps={{ style: { left: "unset", right: 0 } }}
-
         variant="persistent"
         anchor="left"
         open={open}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
+            {theme.direction === "ltr" ? (<ChevronLeftIcon />) : (<ChevronRightIcon />)}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <Typography fontWeight="bold" align="right" marginRight={2}>
-          کسب و کارهای من
-        </Typography>
-        <List>
-          {user?.businesses.map(
-            (business) => {
-              const isAgent = (user?.code == business.agentCode)
-              return (
-                  <ListItem
-                    key={business._id}
-                    sx={{ color: "inherit", mt: 0 }}
-                  >
-                    <ListItemAvatar>
-                      {/* <Avatar alt="Remy Sharp" src={businessavatar} /> */}
-                    </ListItemAvatar>
-                    <ListItemText
-                      align="right"
-                      primary={business.businessName}
-                      secondary={isAgent?"کسب و کار اصلی":"کسب و کار فرعی"}
-                      onClick={goToBusiness}
-                    />
-                  </ListItem>
-                )
-            }
-          )}
-
-        </List>
+        {user.businesses[0] ?
+          <Typography fontWeight="bold" align="right" marginRight={2}>
+            کسب و کارهای من
+          </Typography> : ""}
+        {user.businesses.map((business) => {
+          return (<List>
+            <ListItem key={business._id} sx={{ color: "inherit", mt: 0 }} >
+              <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
+                <ListItemAvatar>
+                  <Avatar sx={{ width: 40, height: 40 }} >
+                    <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText align="right" primary={business.businessName} />
+              </ListItemButton>
+            </ListItem>
+          </List>)
+        })}
         <Divider />
         <List>
           <ListItem disablePadding>

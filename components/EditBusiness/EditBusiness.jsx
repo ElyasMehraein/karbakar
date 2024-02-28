@@ -10,7 +10,7 @@ import React from "react";
 export default function EditProfile({ logedUserCode, whichUserProfile }) {
     return (
         <>
-        {/* <h1>edit business</h1> */}
+        <h1>edit business</h1>
             {/* <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
             <ProfileImg />
             <UserAvatar />

@@ -18,7 +18,7 @@ export default function MyAppBar({ user, logedUserCode, business }) {
     router.push("/")
   }
   const goToEdit = () => {
-    router.push(`${business.businessName || logedUserCode}/edit`)
+    router.push(`${business?.businessName || logedUserCode}/edit`)
   }
 
   return (
