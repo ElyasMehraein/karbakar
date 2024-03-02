@@ -2,7 +2,7 @@ import React from "react";
 import MyAppBar from "@/components/common/MyAppBar";
 import ProfileImg from "./ProfileImg"
 import UserAvatar from "./UserAvatar";
-import CountactEdit from '../common/CountactEdit'
+import CountactEdit from '../common/ContactEdit'
 import BioEdit from "../common/BioEdit";
 import ExplainEdit from "../common/ExplainEdit";
 import NameEdit from "../common/NameEdit";

@@ -9,12 +9,9 @@ import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 import { Button, Container, Icon, IconButton, Link, Typography } from '@mui/material';
 
 
-const ProfileCountact = ({ user }) => {
-    const phone = "aa"
-    const email = "aa"
-    const personalPage = "aa"
-    const instagram = "aa"
-    // const { phone, email, personalPage, instagram } = user
+export default function contact({ user, business }) {
+    const { phone, email, personalPage, instagram } = user || business
+
     const geoLink = "aa"
     return (
         <Box>
@@ -71,5 +68,3 @@ const ProfileCountact = ({ user }) => {
         </Box >
     )
 }
-
-export default ProfileCountact

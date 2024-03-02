@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-const ProfileBio = ({ user }) => {
-    // const { bio } = user
+const ProfileBio = ({ user , business}) => {
+    const { bio } = user || business
     return (
         <Box
             display="flex"
@@ -15,7 +15,7 @@ const ProfileBio = ({ user }) => {
                 align='center'
                 sx={{ maxWidth: { xs: 300, md: 800 }, pb: 2 }}
             >
-                {/* {bio} */}
+                {bio}
             </Typography>
         </Box>
     )

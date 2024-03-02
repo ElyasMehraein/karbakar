@@ -1,17 +1,16 @@
 import { Box, Container, Typography } from '@mui/material'
 import React from 'react'
 
-function UserName({ user }) {
-    const { userName } = user
+export default function Name({ user , business}) {
+    const name  = user?.userName || business.businessName
     return (
         <Container maxWidth="md">
-            <Box display="flex" flexDirection="column">
+            <Box sx={{width:160}} textAlign={"center"}>
                 <Typography sx={{ fontWeight: 'bold' }}>
-                    {userName}
+                    {name}
                 </Typography>
             </Box>
         </Container>
     )
 }
 
-export default UserName

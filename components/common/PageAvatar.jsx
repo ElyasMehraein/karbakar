@@ -13,7 +13,7 @@ export default function PageAvatar({ user, business }) {
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
-        <Avatar sx={{ width: 80, height: 80, mt: -5 }} >
+        <Avatar sx={{ width: 80, height: 80, mt: -5,mr:5 }} >
           <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
         </Avatar>
         <Box style={{ flexGrow: 1 }}></Box>
