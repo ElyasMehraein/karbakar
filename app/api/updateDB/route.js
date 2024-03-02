@@ -1,16 +1,26 @@
+import UserModel from '@/models/User';
 import BusinessModel from '@/models/Business';
 
 
 export async function PUT(req) {
     const body = await req.json()
-    console.log("body", body);
-    const { BusinessId, fieldName, newValue } = body
+    // console.log("body", body);
+    let { model, id, fieldName, newValue } = body
+    // console.log("aslan inja mirese?", model, id, fieldName, newValue);
+    switch (model) {
+        case "UserModel":
+            model = UserModel;
+            break;
+        case "BusinessModel":
+            model = BusinessModel;
+            break;
+    }
+
+    // console.log("hala model chie?", model);
     try {
-        console.log("aslan inja mirese?", BusinessId, fieldName, newValue);
         const updateQuery = {};
         updateQuery[fieldName] = newValue;
-        console.log("updateQuery", updateQuery);
-        await BusinessModel.updateOne({ _id: BusinessId }, { $set: updateQuery });
+        await model.updateOne({ _id: id }, { $set: updateQuery });
         console.log(`${fieldName} updated successfully.`);
         return Response.json(
             { message: `${fieldName} updated successfully.` },
@@ -23,16 +33,3 @@ export async function PUT(req) {
             { status: 500 })
     }
 }
-
-
-
-
-// const { id } = params;
-// const { title, description, price } = await request.json();
-// await connectMongoDB();
-// await Products.findByIdAndUpdate(id, { title, description, price });
-// return NextResponse.json(
-//     { message: "Product updated successfully" },
-//     { status: 200 }
-// );
-// }

@@ -22,17 +22,16 @@ export default function NameEdit({ business, label }) {
         setNewBusinessName(e.target.value);
     };
     const saveHandler = async () => {
-        console.log("bego khob");
         const res = await fetch("/api/updateDB", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                BusinessId: business._id, fieldName: "businessName", newValue: newBusinessName
+                model: "BusinessModel", id: business._id, fieldName: "businessName", newValue: newBusinessName
             }),
         });
-        if(res.status === 200 ){router.push(`/${newBusinessName}/edit`)}
+        if (res.status === 200) { router.push(`/${newBusinessName}/edit`) }
     }
 
     return (
