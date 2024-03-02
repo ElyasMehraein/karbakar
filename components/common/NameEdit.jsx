@@ -10,36 +10,30 @@ import {
 } from '@mui/material';
 import React, { useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
-// import BusinessModel from '@/models/Business';
-// import connectToDB from '@/configs/db';
+import { useRouter } from 'next/navigation';
 
-export default function NameEdit({ defaultValue, label }) {
-    console.log("business.businessName", defaultValue);
+export default function NameEdit({ business, label }) {
+    const router = useRouter()
     const [newBusinessName, setNewBusinessName] = useState(null);
     const [expanded, setExpanded] = useState(false);
-    // connectToDB()
-    const handleClick = async () => {
-        return true
-    }
-    // const handleClick = async () => {
-    //     try {
-    //         const updatedBusiness = await BusinessModel.findByIdAndUpdate(
-    //             business._id,
-    //             { businessName: newBusinessName },
-    //             { new: true }
-    //         );
-
-    //         console.log('businessName updated successfully', updatedBusiness);
-    //         setExpanded(false);
-    //     } catch (error) {
-    //         console.error('Error updating businessName:', error);
-    //     }
-    // };
 
     const changeHandler = (e) => {
         setExpanded(true);
         setNewBusinessName(e.target.value);
     };
+    const saveHandler = async () => {
+        console.log("bego khob");
+        const res = await fetch("/api/updateDB", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                BusinessId: business._id, fieldName: "businessName", newValue: newBusinessName
+            }),
+        });
+        if(res.status === 200 ){router.push(`/${newBusinessName}/edit`)}
+    }
 
     return (
         <Container maxWidth="md">
@@ -47,7 +41,7 @@ export default function NameEdit({ defaultValue, label }) {
                 <Accordion expanded={expanded}>
                     <AccordionSummary>
                         <TextField
-                            defaultValue={defaultValue}
+                            defaultValue={business.businessName}
                             variant="outlined"
                             onChange={changeHandler}
                             label={label}
@@ -57,7 +51,7 @@ export default function NameEdit({ defaultValue, label }) {
                         <Chip
                             label="ذخیره"
                             sx={{ mt: 1, direction: 'ltr' }}
-                            onClick={handleClick}
+                            onClick={saveHandler}
                             icon={<DoneIcon />}
                         />
                     </AccordionDetails>

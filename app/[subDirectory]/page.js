@@ -25,14 +25,14 @@ export default async function subDirectory({ params }) {
 
   if (isNaN(params.subDirectory)) {
 
-    const business = await BusinessModel.findOne({ businessName: params.subDirectory })
+    const business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ businessName: params.subDirectory })))
     if (!business) {
       console.log("business not found in DB");
       notFound()
     }
     console.log("params.subDirectory", params.subDirectory);
     return (
-      <Business business={JSON.parse(JSON.stringify(business))}
+      <Business business={business}
         logedUserCode={logedUserCode}
       />
     )

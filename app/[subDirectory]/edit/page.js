@@ -24,7 +24,7 @@ export default async function edit({ params }) {
   ))).code
 
   if (isNaN(params.subDirectory)) {
-    const business = await BusinessModel.findOne({ businessName: params.subDirectory })
+    const business = JSON.parse(JSON.stringify( await BusinessModel.findOne({ businessName: params.subDirectory })))
     if (!business) {
       console.log("business not found in DB");
       notFound()
@@ -50,7 +50,7 @@ export default async function edit({ params }) {
 
   return (
     // <h1>hello edit profile</h1>
-    <EditProfile user={user} logedUserCode={logedUserCode} />
+    <EditProfile user={user} logedUserCode={logedUserCode} updateNameEdit={updateNameEdit} />
   )
 }
 
