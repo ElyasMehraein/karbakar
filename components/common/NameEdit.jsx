@@ -14,39 +14,39 @@ import { useRouter } from 'next/navigation';
 
 export default function NameEdit({ user, business, label }) {
     const router = useRouter()
-    const [newBusinessName, setNewBusinessName] = useState(null);
+    const [newValue, setNewValue] = useState(null);
     const [expanded, setExpanded] = useState(false);
 
     const changeHandler = (e) => {
         setExpanded(true);
-        setNewBusinessName(e.target.value);
+        setNewValue(e.target.value);
     };
     const saveHandler = async () => {
         let model = user ? "UserModel" : "BusinessModel"
+        let id = user ? user._id : business._id
+        let fieldName = user? "userName": "businessName"
         const res = await fetch("/api/updateDB", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                model , id: business._id, fieldName: "businessName", newValue: newBusinessName
+                model, id, fieldName, newValue
             }),
         });
-        if (res.status === 200) { router.push(`/${newBusinessName}/edit`) }
+        if (res.status === 200) { router.push(`/${newValue}/edit`) }
     }
 
     return (
         <Container maxWidth="md">
             <Box sx={{ '& .MuiTextField-root': { width: '30ch' }, mt: 3 }} display="flex" flexDirection="column">
                 <Accordion expanded={expanded}>
-                    <AccordionSummary>
                         <TextField
-                            defaultValue={business.businessName}
+                            defaultValue={user ? user.userName : business.businessName}
                             variant="outlined"
                             onChange={changeHandler}
                             label={label}
                         />
-                    </AccordionSummary>
                     <AccordionDetails>
                         <Chip
                             label="ذخیره"
