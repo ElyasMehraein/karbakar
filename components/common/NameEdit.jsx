@@ -12,7 +12,7 @@ import React, { useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import { useRouter } from 'next/navigation';
 
-export default function NameEdit({ business, label }) {
+export default function NameEdit({ user, business, label }) {
     const router = useRouter()
     const [newBusinessName, setNewBusinessName] = useState(null);
     const [expanded, setExpanded] = useState(false);
@@ -22,13 +22,14 @@ export default function NameEdit({ business, label }) {
         setNewBusinessName(e.target.value);
     };
     const saveHandler = async () => {
+        let model = user ? "UserModel" : "BusinessModel"
         const res = await fetch("/api/updateDB", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                model: "BusinessModel", id: business._id, fieldName: "businessName", newValue: newBusinessName
+                model , id: business._id, fieldName: "businessName", newValue: newBusinessName
             }),
         });
         if (res.status === 200) { router.push(`/${newBusinessName}/edit`) }
