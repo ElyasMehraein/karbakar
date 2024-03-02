@@ -7,15 +7,16 @@ import CountactBusiness from './CountactBusiness'
 import TableBusiness from './TableBusiness'
 import EmploeeList from "../common/EmploeeList";
 import WhatBusinessGet from "./WhatBusinessGet";
+import Explain from "../common/Explain";
 
 function Business({ business, logedUserCode }) {
-
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} business={business} />
             <Header business={business} />
             <PageAvatar user={null} business={business} />
             <Bio business={business} />
+            <Explain business={business} />
             {/* <CountactBusiness business={business} />
             <TableBusiness business={business} />
             <EmploeeList business={business} />

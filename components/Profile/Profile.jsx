@@ -4,7 +4,7 @@ import Header from "@/components/common/Header"
 import PageAvatar from "@/components/common/PageAvatar";
 import ProfileCountact from './ProfileCountact'
 import Bio from "../common/Bio";
-import ProfileExplain from "./ProfileExplain";
+import Explain from "../common/Explain";
 import UserJobs from "./UserJobs";
 import UserName from "./UserName";
 function Profile({ user, logedUserCode }) {

@@ -1,9 +1,8 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 
-const ProfileExplain = ({user}) => {
-    const { explain } = user
-
+export default function Explain({ user, business }) {
+    const { explain } = user || business
     return (
         <Box
             display="flex"
@@ -16,10 +15,10 @@ const ProfileExplain = ({user}) => {
                 align='center'
                 sx={{ maxWidth: { xs: 300, md: 800 }, p: 1 }}
             >
-                {explain}
+                {explain} 
             </Typography>
         </Box>
     )
 }
 
-export default ProfileExplain
+

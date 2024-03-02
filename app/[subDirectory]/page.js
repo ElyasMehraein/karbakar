@@ -30,7 +30,6 @@ export default async function subDirectory({ params }) {
       console.log("business not found in DB");
       notFound()
     }
-    console.log("params.subDirectory", params.subDirectory);
     return (
       <Business business={business}
         logedUserCode={logedUserCode}

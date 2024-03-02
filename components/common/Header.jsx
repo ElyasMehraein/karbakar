@@ -6,11 +6,6 @@ import DefaultHeader from "@/public/assets/default/DefaultHeader"
 export default function Header({ user, business }) {
   const userCodeOrBusinessBrand = user?.code || business?.businessName
   const isUserprofileHeaderExist = user?.header || business?.header
-  if(isUserprofileHeaderExist){
-    console.log(`toye header true /headers/${userCodeOrBusinessBrand}.jpg`);
-  }else{
-    console.log("toye header false ");
-  }
   return (
     <div>
       {isUserprofileHeaderExist ? (

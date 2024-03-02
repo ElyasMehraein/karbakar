@@ -12,7 +12,7 @@ export default function EditProfile({ business, logedUserCode }) {
             <MyAppBar />
             <NameEdit business={business} label={"نام کسب و کار"}  />
             <BioEdit business={business}/>
-            <ExplainEdit />
+            <ExplainEdit business={business} />
             <CountactEdit />
         </>
 
