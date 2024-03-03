@@ -6,13 +6,16 @@ import { cookies } from "next/headers";
 
 export default async function page() {
   const token = cookies().get("token")?.value;
+  if (!token) {
+    return (
+      <Wellcome />
+    )
+  }
   const tokenPayLoad = verifyToken(token);
   if (tokenPayLoad) {
     redirect('/')
   }
 
-  return (
-    <Wellcome />
-  )
+
 }
 

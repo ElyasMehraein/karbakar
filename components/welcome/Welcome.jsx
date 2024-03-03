@@ -76,7 +76,7 @@ export default function Wellcome() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone, SMSCode })
     })
-    console.log("response to sending sms is =>",res);
+    console.log("response to sending sms is =>", res);
     if (res.status === 406) {
       setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
       phoneError()
@@ -123,8 +123,10 @@ export default function Wellcome() {
       <div className={styles.wellcomeLogoDiv} >
         <Image className={styles.image}
           fill
+          priority
           src={hands}
           alt="karbakar website logo"
+          sizes="100vw"
         />
       </div>
       <h1 className={styles.title}>کارباکار</h1>

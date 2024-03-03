@@ -1,10 +1,10 @@
 import { sendSMS } from "@/controllers/smsotp"
-export default function sendsmsotp(req, res) {
-    if (req.method === "POST") {
+
+export default function POST(req, res) {
+    try {
         const { phone } = req.body
         sendSMS(phone)
-        return res.status(200).json("otpSms sent")
-
-    } else { res.status(200).json({ message: 'request method must be "POST"' }) }
+        return Response.json({ message: 'sms sent' }, { status: 200 })
+    } catch (err) { Response.json({ message: 'smsotp error', smsotp }, { status: 500 }) }
 
 }
