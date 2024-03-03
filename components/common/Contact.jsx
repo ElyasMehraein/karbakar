@@ -58,7 +58,7 @@ export default function contact({ user, business }) {
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
                             color="inherit" target="_blank" href={geoLink}>
                             <Box><PersonPinCircleIcon fontSize="large" /></Box>
-                            <Box><Typography >اینستاگرام</Typography></Box>
+                            <Box><Typography >لوکیشن</Typography></Box>
 
                         </a>
                     </Box> : ""}

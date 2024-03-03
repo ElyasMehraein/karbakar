@@ -14,7 +14,12 @@ import { Container } from "@mui/material";
 const filter = createFilterOptions();
 
 export default function NativeSelectDemo({ user }) {
-  const [value, setValue] = React.useState(null);
+  const [theBusiness, setTheBusiness] = React.useState(user.businesses[0]);
+  console.log(theBusiness);
+  const selectedBusiness = (e) => {
+    setTheBusiness(e.target.value)
+  }
+
   return (
     <Box sx={{ minWidth: 200, maxWidth: 600 }} display="flex" flexDirection="column" align='center'>
       {user ? <>
@@ -31,7 +36,9 @@ export default function NativeSelectDemo({ user }) {
             <InputLabel variant="standard" htmlFor="uncontrolled-native">
               کسب و کاری که با آن محصول ارائه نموده اید
             </InputLabel>
-            <NativeSelect sx={{}}>
+            <NativeSelect
+              onChange={selectedBusiness}
+            >
               {user.businesses.map(business => (
                 <option key={business._id}>{business.businessName}</option>
               ))}
@@ -43,14 +50,13 @@ export default function NativeSelectDemo({ user }) {
               انتخاب محصول
             </InputLabel>
             <NativeSelect sx={{ minWidth: 300 }}>
-              {user.businesses.map(business => (
-                <option key={business._id}>{business.businessName}</option>
+              {theBusiness.products?.map(product => (
+                <option key={product}>{product}</option>
               ))}
             </NativeSelect>
           </FormControl>
           <TextField sx={{ mt: 2 }} id="standard-basic" label="مقدار" variant="outlined" />
-          <br />
-          <br />
+
           <Button sx={{ mt: 2 }} variant="contained">اضافه نمودن به فاکتور</Button>
         </>
           : <Typography color="error">

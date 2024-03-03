@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "@/controllers/auth";
 import { notFound } from 'next/navigation'
 import BusinessModel from '@/models/Business'
-
+import { redirect } from 'next/navigation'
 import EditBusiness from '@/components/EditBusiness/EditBusiness'
 import UserModel from '@/models/User'
 import EditProfile from '@/components/EditProfile/EditProfile'
@@ -15,8 +15,9 @@ export default async function edit({ params }) {
   const tokenPayLoad = verifyToken(token);
 
   if (!tokenPayLoad) {
-    return redirect("/welcome");
+    redirect("/welcome");
   }
+
   connectToDB()
   const logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },

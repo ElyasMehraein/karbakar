@@ -15,19 +15,23 @@ export default function PageAvatar({ user, business }) {
   const timeDifference = currentDate.getTime() - createdAt.getTime();
   const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
 
-    return (
+  return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 80, height: 80, mt: -5, mr: 5 }} >
           <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
         </Avatar>
         <Box style={{ flexGrow: 1 }}></Box>
-        <Typography display="inline" variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-          قدمت صفحه: {daysPassed} روز
-        </Typography>
-        <Typography display="inline" variant="subtitle2" sx={{ fontWeight: 'bold' }}>
-          {/* صنف: {createdAt} */}
-        </Typography>
+        <Box display={"flex"} flexDirection={"column"}>
+          <Typography display="inline" variant="subtitle2" >
+            قدمت صفحه: {daysPassed} روز
+          </Typography>
+          {business ?
+            <Typography display="inline" variant="subtitle2">
+              صنف: {business.guildname}
+            </Typography> : ""
+          }
+        </Box>
       </Box>
 
     </Container>
