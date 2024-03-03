@@ -64,11 +64,11 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        {user.businesses[0] ?
+        {user?.businesses[0] ?
           <Typography fontWeight="bold" align="right" marginRight={2}>
             کسب و کارهای من
           </Typography> : ""}
-        {user.businesses.map((business) => {
+        {user?.businesses.map((business) => {
           return (<List key={business._id}> 
             <ListItem  sx={{ color: "inherit", mt: 0 }} >
               <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>

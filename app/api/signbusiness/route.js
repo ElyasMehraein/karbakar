@@ -43,8 +43,9 @@ export async function POST(req) {
                 latitude: "",
                 longitude: "",
                 agentCode: user.code,
-                workers: [user._id]
-
+                workers: [user._id],
+                guildname:"تعمیر خودرو",
+                products: []
             })
             business = business
             await UserModel.findByIdAndUpdate(user._id,{$push:{businesses: business._id}})

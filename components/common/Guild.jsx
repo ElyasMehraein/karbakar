@@ -7,30 +7,15 @@ import { selectGuild } from '../typoRepo';
 
 const filter = createFilterOptions();
 
-export default function FreeSoloCreateOption() {
-  const [value, setValue] = React.useState(null);
-
+export default function FreeSoloCreateOption({ updateGuildname }) {
   return (
     <Container maxWidth="md" >
-      <Typography sx={{ py:1, textAlign: "center" }}>{selectGuild}</Typography>
+      <Typography sx={{ py: 1, textAlign: "center" }}>{selectGuild}</Typography>
 
       <Autocomplete
-      className="inMiddle"
-        value={value}
-        onChange={(event, newValue) => {
-          if (typeof newValue === 'string') {
-            setValue({
-              title: newValue,
-            });
-          } else if (newValue && newValue.inputValue) {
-            // Create a new value from the user input
-            setValue({
-              title: newValue.inputValue,
-            });
-          } else {
-            setValue(newValue);
-          }
-        }}
+        className="inMiddle"
+        // value={value}
+        onChange={(event, newValue) => { updateGuildname(newValue) }}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
@@ -40,7 +25,7 @@ export default function FreeSoloCreateOption() {
           if (inputValue !== '' && !isExisting) {
             filtered.push({
               inputValue,
-              title: `Add "${inputValue}"`,
+              title: `ایحاد صنف جدید "${inputValue}"`,
             });
           }
 
@@ -64,7 +49,7 @@ export default function FreeSoloCreateOption() {
           return option.title;
         }}
         renderOption={(props, option) => <li {...props}>{option.title}</li>}
-        sx={{py:3, width: 300 }}
+        sx={{ py: 3, width: 300 }}
         freeSolo
         renderInput={(params) => (
           <TextField {...params} label="انتخاب صنف" />

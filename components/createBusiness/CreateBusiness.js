@@ -8,6 +8,10 @@ import Guild from "@/components/common/Guild"
 export default function createBusiness() {
     const router = useRouter()
     const [businessName, setBusinessName] = useState("")
+    const [guildname, setGuildName] = useState("")
+    const updateGuildname = (newGuildname) => {
+        setGuildName(newGuildname);
+    };
 
     async function createThisBusiness(businessName) {
         const res = await fetch('api/signbusiness', {
@@ -39,7 +43,7 @@ export default function createBusiness() {
                         label="نام کسب و کار"
                         onChange={(e) => setBusinessName(e.target.value)}
                     />
-                    <Guild />
+                    <Guild updateGuildname={updateGuildname} />
                     <Button onClick={() => createThisBusiness(businessName)} variant="contained">
                         ایجاد کسب و کار
                     </Button>

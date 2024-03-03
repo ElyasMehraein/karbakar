@@ -51,7 +51,12 @@ const schema = new Schema({
         }
     ],
     guildname: { type: String, required: true },
-
+    products: [
+        {
+            productName: { type: String, maxlength: 30 },
+            unitOfMeasurement: { type: String, maxlength: 20 }
+        }
+    ]
 }, { timestamps: true })
 
 const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)

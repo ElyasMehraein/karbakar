@@ -60,9 +60,9 @@ export default function BasicTabs({user}) {
   }, [])
 
   return (mounted &&
-    <Box sx={{ width: '100%' }}>
-      <Box bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Container>
+    <Box  sx={{ width: '100%' }}>
+      <Box  bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Container >
           <Tabs
             TabIndicatorProps={{ sx: { height: "4px !important", } }}
             indicatorColor="secondary"
@@ -71,6 +71,7 @@ export default function BasicTabs({user}) {
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
+            
           >
             <Tab label="درخواستهای شما" {...a11yProps(0)} />
             <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
@@ -78,7 +79,7 @@ export default function BasicTabs({user}) {
           </Tabs>
         </Container>
       </Box>
-      <Container>
+      <Container >
         <CustomTabPanel value={value} index={0} />
         {/* {mainTabYourReqText} */}
         {/* <YourReq /> */}
