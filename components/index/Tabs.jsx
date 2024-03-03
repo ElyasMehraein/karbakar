@@ -48,7 +48,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs() {
+export default function BasicTabs({user}) {
 
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
@@ -80,12 +80,12 @@ export default function BasicTabs() {
       </Box>
       <Container>
         <CustomTabPanel value={value} index={0} />
-        {mainTabYourReqText}
-        <YourReq />
+        {/* {mainTabYourReqText} */}
+        {/* <YourReq /> */}
         <CustomTabPanel value={value} index={1} />
         {/* <OthersRequest/> */}
         <CustomTabPanel value={value} index={2} />
-        <Bill/>
+        <Bill user={user}/>
       </Container>
     </Box>
   );

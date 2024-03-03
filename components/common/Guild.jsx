@@ -11,10 +11,11 @@ export default function FreeSoloCreateOption() {
   const [value, setValue] = React.useState(null);
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" >
       <Typography sx={{ py:1, textAlign: "center" }}>{selectGuild}</Typography>
 
       <Autocomplete
+      className="inMiddle"
         value={value}
         onChange={(event, newValue) => {
           if (typeof newValue === 'string') {
@@ -63,7 +64,7 @@ export default function FreeSoloCreateOption() {
           return option.title;
         }}
         renderOption={(props, option) => <li {...props}>{option.title}</li>}
-        sx={{ width: 300 }}
+        sx={{py:3, width: 300 }}
         freeSolo
         renderInput={(params) => (
           <TextField {...params} label="انتخاب صنف" />

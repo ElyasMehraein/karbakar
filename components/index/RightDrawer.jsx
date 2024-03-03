@@ -69,8 +69,8 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
             کسب و کارهای من
           </Typography> : ""}
         {user.businesses.map((business) => {
-          return (<List>
-            <ListItem key={business._id} sx={{ color: "inherit", mt: 0 }} >
+          return (<List key={business._id}> 
+            <ListItem  sx={{ color: "inherit", mt: 0 }} >
               <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                 <ListItemAvatar>
                   <Avatar sx={{ width: 40, height: 40 }} >

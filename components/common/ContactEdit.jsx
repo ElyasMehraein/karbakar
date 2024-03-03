@@ -48,7 +48,6 @@ export default function contactEdit({ user, business }) {
                 <Box
                     sx={{ py: 1, mb: 1 }}
                 >
-
                     <Box
                         sx={{ my: 2, '& .MuiTextField-root': { width: '25ch' } }}
                         display="flex" alignItems="center" align='center'>

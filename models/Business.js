@@ -50,6 +50,8 @@ const schema = new Schema({
             ref: "User"
         }
     ],
+    guildname: { type: String, required: true },
+
 }, { timestamps: true })
 
 const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)

@@ -12,10 +12,10 @@ import Button from '@mui/material/Button';
 
 const filter = createFilterOptions();
 
-export default function NativeSelectDemo() {
+export default function NativeSelectDemo({ user }) {
   const [value, setValue] = React.useState(null);
   return (
-    <Box sx={{ minWidth: 120 }}>
+    <Box >
       <Typography>
         لحظه ای که محصولات خود را به دیگران تحویل می دهید برایشان فاکتور صادر
         نمایید و از مشتری بخواهید همان لحظه آن را بررسی و تایید نماید
@@ -25,21 +25,13 @@ export default function NativeSelectDemo() {
         آید
       </Typography>
       <FormControl sx={{ mt: 4 }}>
-        <InputLabel variant="standard" htmlFor="uncontrolled-native">
+        <InputLabel  variant="standard" htmlFor="uncontrolled-native">
           کسب و کار خود را که با آن محصول ارائه نموده اید را انتخاب کنید
         </InputLabel>
-        <NativeSelect
-          defaultValue={10}
-          inputProps={{
-            name: "age",
-            id: "uncontrolled-native",
-          }}
-        >
-          <option value={10}>تعمیرگاه فورد</option>
-          <option value={20}>صنایع دستی الیاس</option>
-          <option value={30}>
-            باشگاه ورزشی پیشکسوتان شهر زیبای نیویورک و حومه و اینور اونور
-          </option>
+        <NativeSelect sx={{ minWidth: 400 }}>
+          {user.businesses.map(business => (
+            <option key={business._id}>{business.businessName}</option>
+          ))}
         </NativeSelect>
       </FormControl>
       <Typography sx={{ mt: 2 }}>
@@ -66,11 +58,11 @@ const dataa = {
   productLable: "انتخاب محصول",
 };
 const diameter = {
-    productSearch: [
-      { title: "کیلوگرم", },
-      { title: "سرویس", },
-      { title: "عدد", },
-    ],
-    productAdd: "اضافه نمودن واحد جدید: ",
-    productLable: "واحد اندازه گیری",
-  };
+  productSearch: [
+    { title: "کیلوگرم", },
+    { title: "سرویس", },
+    { title: "عدد", },
+  ],
+  productAdd: "اضافه نمودن واحد جدید: ",
+  productLable: "واحد اندازه گیری",
+};

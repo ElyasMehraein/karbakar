@@ -63,7 +63,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ user, menuClickHandler }) {
-  console.log("user.avatar", user);
   const userCode = (user) => {
     if (user.code) {
       return user.code

@@ -3,7 +3,7 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material'
 import MyAppBar from '../common/MyAppBar'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-
+import Guild from "@/components/common/Guild"
 
 export default function createBusiness() {
     const router = useRouter()
@@ -13,16 +13,13 @@ export default function createBusiness() {
         const res = await fetch('api/signbusiness', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessName })
+            body: JSON.stringify({ businessName, guildname })
         })
         console.log("response to sending sms is =>", res);
         if (res.status === 406) {
-            setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
             phoneError()
         } else if (res.status === 201) {
-            console.log("sabte nam ok shod hala bayad auto beri '/' ");
             router.push('/')
-
         }
     }
     return (
@@ -42,6 +39,7 @@ export default function createBusiness() {
                         label="نام کسب و کار"
                         onChange={(e) => setBusinessName(e.target.value)}
                     />
+                    <Guild />
                     <Button onClick={() => createThisBusiness(businessName)} variant="contained">
                         ایجاد کسب و کار
                     </Button>
