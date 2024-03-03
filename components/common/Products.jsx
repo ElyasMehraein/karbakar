@@ -7,15 +7,25 @@ import { selectGuild } from '../typoRepo';
 
 const filter = createFilterOptions();
 
-export default function Products({ updateGuildname }) {
+export default function Products({ selectedBusiness }) {
+  if(!selectedBusiness.Products){
+
+  }
+  const [selectedProduct, setSelectedProduct] = React.useState([
+    { title: 'The Shawshank Redemption', year: 1994 },
+    { title: 'The Godfather', year: 1972 },]);
+  console.log(selectedProduct);
+
+  const productSelector = (e) => {
+    setSelectedProduct(e.target.value)
+  }
   return (
     <Container maxWidth="md" >
       <Typography sx={{ py: 1, textAlign: "center" }}>{selectGuild}</Typography>
 
       <Autocomplete
         className="inMiddle"
-        // value={value}
-        onChange={(event, newValue) => { updateGuildname(newValue) }}
+        onChange={(event, newValue) => { productSelector(newValue) }}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 
@@ -25,7 +35,7 @@ export default function Products({ updateGuildname }) {
           if (inputValue !== '' && !isExisting) {
             filtered.push({
               inputValue,
-              title: `ایحاد صنف جدید "${inputValue}"`,
+              title: `ایجاد محصول جدید "${inputValue}"`,
             });
           }
 
@@ -35,7 +45,7 @@ export default function Products({ updateGuildname }) {
         clearOnBlur
         handleHomeEndKeys
         id="free-solo-with-text-demo"
-        options={top100Films}
+        options={selectedBusiness.Products}
         getOptionLabel={(option) => {
           // Value selected with enter, right from the input
           if (typeof option === 'string') {
@@ -52,7 +62,7 @@ export default function Products({ updateGuildname }) {
         sx={{ py: 3, width: 300 }}
         freeSolo
         renderInput={(params) => (
-          <TextField {...params} label="انتخاب صنف" />
+          <TextField {...params} label="انتخاب محصول" />
         )}
       />
     </Container>

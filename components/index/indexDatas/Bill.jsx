@@ -9,17 +9,17 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 // import BillAutoComplete from "./BillAutoComplete";
 import Button from '@mui/material/Button';
 import { Container } from "@mui/material";
+import Products from "@/components/common/Products";
 
 
 const filter = createFilterOptions();
 
 export default function NativeSelectDemo({ user }) {
-  const [theBusiness, setTheBusiness] = React.useState(user.businesses[0]);
-  console.log(theBusiness);
-  const selectedBusiness = (e) => {
-    setTheBusiness(e.target.value)
-  }
+  const [selectedBusiness, setSelectedBusiness] = React.useState(user.businesses[0]);
 
+  const businessSelector = (e) => {
+    setSelectedBusiness(e.target.value)
+  }
   return (
     <Box sx={{ minWidth: 200, maxWidth: 600 }} display="flex" flexDirection="column" align='center'>
       {user ? <>
@@ -37,24 +37,14 @@ export default function NativeSelectDemo({ user }) {
               کسب و کاری که با آن محصول ارائه نموده اید
             </InputLabel>
             <NativeSelect
-              onChange={selectedBusiness}
+              onChange={businessSelector}
             >
               {user.businesses.map(business => (
                 <option key={business._id}>{business.businessName}</option>
               ))}
             </NativeSelect>
           </FormControl>
-
-          <FormControl sx={{ mt: 4 }}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              انتخاب محصول
-            </InputLabel>
-            <NativeSelect sx={{ minWidth: 300 }}>
-              {theBusiness.products?.map(product => (
-                <option key={product}>{product}</option>
-              ))}
-            </NativeSelect>
-          </FormControl>
+          <Products selectedBusiness={selectedBusiness}/>
           <TextField sx={{ mt: 2 }} id="standard-basic" label="مقدار" variant="outlined" />
 
           <Button sx={{ mt: 2 }} variant="contained">اضافه نمودن به فاکتور</Button>

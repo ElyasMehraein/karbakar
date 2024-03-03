@@ -7,14 +7,12 @@ import { selectGuild } from '../typoRepo';
 
 const filter = createFilterOptions();
 
-export default function FreeSoloCreateOption({ updateGuildname }) {
+export default function Guild({ updateGuildname }) {
   return (
     <Container maxWidth="md" >
       <Typography sx={{ py: 1, textAlign: "center" }}>{selectGuild}</Typography>
-
       <Autocomplete
         className="inMiddle"
-        // value={value}
         onChange={(event, newValue) => { updateGuildname(newValue) }}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
