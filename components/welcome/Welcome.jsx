@@ -82,7 +82,7 @@ export default function Wellcome() {
       phoneError()
     } else if (res.status === 201) {
       console.log("sabte nam ok shod hala bayad auto beri '/' ");
-      router.replace('/')
+      router.push('/')
 
     }
   }
@@ -126,7 +126,7 @@ export default function Wellcome() {
           priority
           src={hands}
           alt="karbakar website logo"
-          sizes="100vw"
+          sizes
         />
       </div>
       <h1 className={styles.title}>کارباکار</h1>

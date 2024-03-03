@@ -1,6 +1,6 @@
 import { sendSMS } from "@/controllers/smsotp"
 
-export default function POST(req, res) {
+export function POST(req, res) {
     try {
         const { phone } = req.body
         sendSMS(phone)
