@@ -1,51 +1,98 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
-import NativeSelect from "@mui/material/NativeSelect";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
-// import BillAutoComplete from "./BillAutoComplete";
 import Button from '@mui/material/Button';
-import { Container } from "@mui/material";
-import Products from "@/components/common/Products";
-
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 
 const filter = createFilterOptions();
 
-export default function NativeSelectDemo({ user }) {
-  const [selectedBusiness, setSelectedBusiness] = React.useState(user.businesses[0]);
-
-  const businessSelector = (e) => {
-    setSelectedBusiness(e.target.value)
-  }
+export default function Bill({ user }) {
+  const [value, setValue] = React.useState(null);
+  console.log('====================================');
+  console.log(value);
+  console.log('====================================');
+  const userBusinesses = user.businesses.map(business => business.businessName)
+  const [userBusiness, setUserBusiness] = React.useState(null)
+  const products = userBusiness?.products
   return (
     <Box sx={{ minWidth: 200, maxWidth: 600 }} display="flex" flexDirection="column" align='center'>
       {user ? <>
-        <Typography>
-          لحظه ای که محصولات خود را به دیگران تحویل می دهید برایشان فاکتور صادر
-          نمایید و از مشتری بخواهید همان لحظه آن را بررسی و تایید نماید
-        </Typography>
-        <Typography color="error">
-          * محصولاتی را که ارائه می نمایید در صفحه کسب و کار شما به نمایش در می
-          آید
-        </Typography>
-        {user.businesses ? <>
-          <FormControl sx={{ mt: 4 }}>
-            <InputLabel variant="standard" htmlFor="uncontrolled-native">
-              کسب و کاری که با آن محصول ارائه نموده اید
-            </InputLabel>
-            <NativeSelect
-              onChange={businessSelector}
-            >
-              {user.businesses.map(business => (
-                <option key={business._id}>{business.businessName}</option>
-              ))}
-            </NativeSelect>
-          </FormControl>
-          <Products selectedBusiness={selectedBusiness}/>
-          <TextField sx={{ mt: 2 }} id="standard-basic" label="مقدار" variant="outlined" />
+        {user.businesses[0] ? <>
+          <Typography>
+            لحظه ای که محصولات خود را به دیگران تحویل می دهید برایشان فاکتور صادر
+            نمایید و از مشتری بخواهید همان لحظه آن را بررسی و تایید نماید
+          </Typography>
+          <Typography color="error">
+            * محصولاتی را که ارائه می نمایید در صفحه کسب و کار شما به نمایش در می
+            آید
+          </Typography>
+
+          <Autocomplete
+            blurOnSelect
+            id="combo-box-demo"
+            options={userBusinesses}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
+          />
+          <Autocomplete
+            value={value}
+            onChange={(event, newValue) => {
+              if (typeof newValue === 'string') {
+                setValue({
+                  productName: newValue,
+                });
+              } else if (newValue && newValue.inputValue) {
+                // Create a new value from the user input
+                setValue({
+                  productName: newValue.inputValue,
+                });
+              } else {
+                setValue(newValue);
+              }
+            }}
+            filterOptions={(options, params) => {
+              const filtered = filter(options, params);
+
+              const { inputValue } = params;
+              // Suggest the creation of a new value
+              const isExisting = options.some((option) => inputValue === option.productName);
+              if (inputValue !== '' && !isExisting) {
+                filtered.push({
+                  inputValue,
+                  productName: `Add "${inputValue}"`,
+                });
+              }
+
+              return filtered;
+            }}
+            selectOnFocus
+            clearOnBlur
+            handleHomeEndKeys
+            id="free-solo-with-text-demo"
+            options={userBusiness}
+            getOptionLabel={(option) => {
+              // Value selected with enter, right from the input
+              if (typeof option === 'string') {
+                return option;
+              }
+              // Add "xxx" option created dynamically
+              if (option.inputValue) {
+                return option.inputValue;
+              }
+              // Regular option
+              return option.productName;
+            }}
+            renderOption={(props, option) => <li {...props} key={option.productName}>{option.productName}</li>}
+            sx={{ width: 300 }}
+            freeSolo
+            renderInput={(params) => (
+              <TextField {...params} label={products ? "انتخاب محصول" : "اولین محصول کسب و کار را تعریف کنید"} />
+            )}
+          />
+
+
+          {/* <TextField sx={{ mt: 2 }} id="standard-basic" label="مقدار" variant="outlined" /> */}
 
           <Button sx={{ mt: 2 }} variant="contained">اضافه نمودن به فاکتور</Button>
         </>
@@ -61,21 +108,3 @@ export default function NativeSelectDemo({ user }) {
     </Box>
   );
 }
-const dataa = {
-  productSearch: [
-    { title: "آچارکشی موتور", },
-    { title: "تعمیر کولر", },
-    { title: "تعویض لنت", },
-  ],
-  productAdd: "اضافه نمودن محصول جدید: ",
-  productLable: "انتخاب محصول",
-};
-const diameter = {
-  productSearch: [
-    { title: "کیلوگرم", },
-    { title: "سرویس", },
-    { title: "عدد", },
-  ],
-  productAdd: "اضافه نمودن واحد جدید: ",
-  productLable: "واحد اندازه گیری",
-};

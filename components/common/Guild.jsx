@@ -46,7 +46,7 @@ export default function Guild({ updateGuildname }) {
           // Regular option
           return option.title;
         }}
-        renderOption={(props, option) => <li {...props}>{option.title}</li>}
+        renderOption={(props, option) => <li {...props}key={option.title}>{option.title}</li>}
         sx={{ py: 3, width: 300 }}
         freeSolo
         renderInput={(params) => (

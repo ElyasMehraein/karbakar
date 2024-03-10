@@ -32,7 +32,7 @@ export async function POST(req) {
 
             business = await BusinessModel.create({
                 businessName: businessName,
-                businessBrand:"",
+                businessBrand: "",
                 brand: true,
                 header: true,
                 bio: "",
@@ -45,11 +45,13 @@ export async function POST(req) {
                 longitude: "",
                 agentCode: user.code,
                 workers: [user._id],
-                guildname:"تعمیر خودرو",
-                products: []
+                guildname: "تعمیر خودرو",
+                products: [
+                    // { productName: "havij", unitOfMeasurement: "kg" }, { productName: "sib", unitOfMeasurement: "kg" }
+                ]
             })
             business = business
-            await UserModel.findByIdAndUpdate(user._id,{$push:{businesses: business._id}})
+            await UserModel.findByIdAndUpdate(user._id, { $push: { businesses: business._id } })
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {
             return Response.json({ message: "business already exist" }, { status: 409 })

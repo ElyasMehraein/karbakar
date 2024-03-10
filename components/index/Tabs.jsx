@@ -80,12 +80,12 @@ export default function BasicTabs({user}) {
         </Container>
       </Box>
       <Container >
-        <CustomTabPanel value={value} index={0} />
-        {/* {mainTabYourReqText} */}
-        {/* <YourReq /> */}
+        {/* <CustomTabPanel value={value} index={0} />
+        {mainTabYourReqText}
+        <YourReq />
         <CustomTabPanel value={value} index={1} />
-        {/* <OthersRequest/> */}
-        <CustomTabPanel value={value} index={2} />
+        <OthersRequest/>
+        <CustomTabPanel value={value} index={2} /> */}
         <Bill user={user}/>
       </Container>
     </Box>
