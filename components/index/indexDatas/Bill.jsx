@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
-import CommonAutocomplete from "@/components/common/Autocomplete";
+import CommonAutocomplete from "@/components/common/CommonAutocomplete";
 import DoneIcon from '@mui/icons-material/Done';
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import BillFrame from "./BillFrame";
@@ -24,8 +24,8 @@ export default function Bill({ user }) {
   const [amount, setAmount] = React.useState("")
 
   const [bills, setbills] = React.useState([])
-  
-  const [userCode, setUserCode] = React.useState([])
+
+  const [customerCode, setCustomerCode] = React.useState([])
 
   const addToBills = () => {
     setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
@@ -37,19 +37,18 @@ export default function Bill({ user }) {
     setbills((bills.filter(bill => bill.id !== id)))
   }
 
-  const sendBillToCustomer = async () => {
-    let model = "BillModel"
-    let id = bill._id
-    await fetch("/api/updateDB", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            model, id, fieldName: "bio", newValue
-        }),
-    });
-    setExpanded(false);
+  async function createThisBill(selectedBusiness, customerCode, bills) {
+    const res = await fetch('api/createBill', {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({selectedBusiness, customerCode, bills })
+    })
+    console.log("response to create bill is =>", res);
+    if (res.status === 406) {
+        console.log("nashod bill");
+    } else if (res.status === 201) {
+        router.push('/')
+    }
 }
 
   const [expanded, setExpanded] = React.useState(false);
@@ -134,17 +133,17 @@ export default function Bill({ user }) {
                         })
                         }
                         <TextField
-                      value={userCode}
-                      placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
-                      label=" کد کاربری مشتری"
-                      onChange={(e) => setUserCode(e.target.value)}
-                      sx={{ mt: 2, width: 300 }}
-                    />
+                          value={customerCode}
+                          placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
+                          label=" کد کاربری مشتری"
+                          onChange={(e) => setCustomerCode(e.target.value)}
+                          sx={{ mt: 2, width: 300 }}
+                        />
                         < Button
                           sx={{ mt: 2 }}
                           children={"ارسال صورتحساب"}
                           variant="contained"
-                          onClick={sendBillToCustomer}
+                          onClick={createThisBill}
                         />
                       </>
                       : ""

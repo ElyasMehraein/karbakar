@@ -11,7 +11,7 @@ const schema = new Schema({
     },
     to: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Business"
+        ref: "User"
     },
     products: [
         {
