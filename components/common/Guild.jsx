@@ -2,15 +2,13 @@
 import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
-import { Container, Typography } from '@mui/material';
-import { selectGuild } from '../typoRepo';
+import { Container } from '@mui/material';
 
 const filter = createFilterOptions();
 
 export default function Guild({ updateGuildname }) {
   return (
     <Container maxWidth="md" >
-      <Typography sx={{ py: 1, textAlign: "center" }}>{selectGuild}</Typography>
       <Autocomplete
         className="inMiddle"
         onChange={(event, newValue) => { updateGuildname(newValue) }}

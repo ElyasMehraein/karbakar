@@ -4,6 +4,8 @@ import MyAppBar from '../common/MyAppBar'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Guild from "@/components/common/Guild"
+import { selectGuild } from '../typoRepo';
+
 
 export default function createBusiness() {
     const router = useRouter()
@@ -43,6 +45,8 @@ export default function createBusiness() {
                         label="نام کسب و کار"
                         onChange={(e) => setBusinessName(e.target.value)}
                     />
+                    <Typography sx={{ py: 1, textAlign: "center" }}>{selectGuild}</Typography>
+
                     <Guild updateGuildname={updateGuildname} />
                     <Button onClick={() => createThisBusiness(businessName)} variant="contained">
                         ایجاد کسب و کار

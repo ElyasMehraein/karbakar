@@ -58,7 +58,11 @@ const schema = new Schema({
     products: [
         {
             productName: { type: String, maxlength: 30 },
-            unitOfMeasurement: { type: String, maxlength: 20 }
+            unitOfMeasurement: { type: String, maxlength: 20 },
+            totalDelivered: { type: Number, min: 1, max: 9999 },
+            lastYearDelivered: { type: Number, min: 1, max: 9999 },
+            thisYearDelivered: { type: Number, min: 1, max: 9999 },
+            uniqueCustomer: { type: Number, min: 1, max: 9999 },
         }
     ]
 }, { timestamps: true })
