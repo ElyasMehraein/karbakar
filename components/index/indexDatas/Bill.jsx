@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
-import CommonAutocomplete from "@/components/common/CommonAutocomplete";
+import CommonAutocomplete from "@/components/common/Autocomplete";
 import DoneIcon from '@mui/icons-material/Done';
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import BillFrame from "./BillFrame";
@@ -24,6 +24,8 @@ export default function Bill({ user }) {
   const [amount, setAmount] = React.useState("")
 
   const [bills, setbills] = React.useState([])
+  
+  const [userCode, setUserCode] = React.useState([])
 
   const addToBills = () => {
     setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
@@ -32,13 +34,28 @@ export default function Bill({ user }) {
     setAmount("")
   }
   const deleteFrame = (id) => {
-    console.log("eee", id);
     setbills((bills.filter(bill => bill.id !== id)))
   }
+
+  const sendBillToCustomer = async () => {
+    let model = "BillModel"
+    let id = bill._id
+    await fetch("/api/updateDB", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            model, id, fieldName: "bio", newValue
+        }),
+    });
+    setExpanded(false);
+}
+
   const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md">
-      <Box sx={{ my: 3, minWidth: 200, maxWidth: 600 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
+      <Box sx={{ my: 1, minWidth: 200, maxWidth: 600 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?
           <>
             {user.businesses[0] ?
@@ -66,7 +83,7 @@ export default function Bill({ user }) {
                   blurOnSelect
                   id="combo-box-demo"
                   options={userBusinesses}
-                  sx={{ m: 3, width: 300 }}
+                  sx={{ m: 2, width: 300 }}
                   renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
                   onChange={(e) => setSelectedBusiness(userBusinesses[e.target.value])}
                 />
@@ -91,7 +108,7 @@ export default function Bill({ user }) {
                           placeholder="مثلا کیلوگرم یا عدد" variant="outlined"
                           label="واحد اندازه گیری"
                           onChange={(e) => setUnitOfMeasurement(e.target.value)}
-                          sx={{ mt: 3, width: 300 }}
+                          sx={{ mt: 2, width: 300 }}
                         />
                       </>
                     }
@@ -100,21 +117,37 @@ export default function Bill({ user }) {
                       placeholder="مثلا 5" variant="outlined"
                       label="مقدار"
                       onChange={(e) => setAmount(e.target.value)}
-                      sx={{ mt: 3, width: 300 }}
+                      sx={{ mt: 2, width: 300 }}
                     />
 
                     <Button
-                      sx={{ mt: 3 }}
+                      sx={{ mt: 2 }}
                       children={"اضافه نمودن به فاکتور"}
                       variant="contained"
                       onClick={addToBills}
                     />
                     {bills[0] ?
-                      bills.map((bill) => {
-                        return <BillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
+                      <>
+                        {bills.map(bill => {
+                          return <BillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
 
-                      }) : ""
-
+                        })
+                        }
+                        <TextField
+                      value={userCode}
+                      placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
+                      label=" کد کاربری مشتری"
+                      onChange={(e) => setUserCode(e.target.value)}
+                      sx={{ mt: 2, width: 300 }}
+                    />
+                        < Button
+                          sx={{ mt: 2 }}
+                          children={"ارسال صورتحساب"}
+                          variant="contained"
+                          onClick={sendBillToCustomer}
+                        />
+                      </>
+                      : ""
                     }
 
                   </>
