@@ -8,23 +8,33 @@ import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
 import CommonAutocomplete from "@/components/common/CommonAutocomplete";
 import DoneIcon from '@mui/icons-material/Done';
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+import BillFrame from "./BillFrame";
 
 
 export default function Bill({ user }) {
 
   const userBusinesses = user.businesses.map(business => business.businessName)
-  console.log("userBusinesses", userBusinesses);
 
-  const [selectedBusiness, setSelectedBusiness] = React.useState(null)
-  console.log("selectedBusiness", selectedBusiness);
+  const [selectedBusiness, setSelectedBusiness] = React.useState("")
 
-  const [selectedProduct, setSelectedProduct] = React.useState(null)
-  console.log("selectedProduct", selectedProduct);
+  const [selectedProduct, setSelectedProduct] = React.useState("")
 
-  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState(null)
-  console.log("unitOfMeasurement", unitOfMeasurement);
+  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
 
+  const [amount, setAmount] = React.useState("")
 
+  const [bills, setbills] = React.useState([])
+
+  const addToBills = () => {
+    setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
+    setSelectedProduct("")
+    setUnitOfMeasurement("")
+    setAmount("")
+  }
+  const deleteFrame = (id) => {
+    console.log("eee", id);
+    setbills((bills.filter(bill => bill.id !== id)))
+  }
   const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md">
@@ -68,12 +78,16 @@ export default function Bill({ user }) {
                       :
                       <>
                         <TextField
+                          value={selectedProduct}
+
                           placeholder='حداکثر 30 کارکتر' variant="outlined"
                           label="محصولی که ارائه نموده اید"
                           onChange={(e) => setSelectedProduct(e.target.value)}
                           sx={{ width: 300 }}
                         />
                         <TextField
+                          value={unitOfMeasurement}
+
                           placeholder="مثلا کیلوگرم یا عدد" variant="outlined"
                           label="واحد اندازه گیری"
                           onChange={(e) => setUnitOfMeasurement(e.target.value)}
@@ -82,14 +96,26 @@ export default function Bill({ user }) {
                       </>
                     }
                     <TextField
+                      value={amount}
                       placeholder="مثلا 5" variant="outlined"
                       label="مقدار"
-                      onChange={(e) => setUnitOfMeasurement(e.target.value)}
+                      onChange={(e) => setAmount(e.target.value)}
                       sx={{ mt: 3, width: 300 }}
                     />
 
-                    <Button sx={{ mt: 3 }} variant="contained">اضافه نمودن به فاکتور</Button>
+                    <Button
+                      sx={{ mt: 3 }}
+                      children={"اضافه نمودن به فاکتور"}
+                      variant="contained"
+                      onClick={addToBills}
+                    />
+                    {bills[0] ?
+                      bills.map((bill) => {
+                        return <BillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
 
+                      }) : ""
+
+                    }
 
                   </>
                   :

@@ -1,0 +1,26 @@
+import * as mongoose from 'mongoose';
+import { Schema } from "mongoose";
+import BusinessModel from './Business';
+import UserModel from './User';
+
+const schema = new Schema({
+    from:
+    {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Business"
+    },
+    to: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Business"
+    },
+    products: [
+        {
+            productName: { type: String, maxlength: 30 },
+            unitOfMeasurement: { type: String, maxlength: 20 },
+            amount: { type: Number, min: 1, max: 9999 },
+        }
+    ],
+}, { timestamps: true })
+
+const BillModel = mongoose.models.Bill || mongoose.model("Bill", schema)
+export default BillModel

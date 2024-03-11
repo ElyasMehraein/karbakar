@@ -65,6 +65,11 @@ const iranyekan = localFont({
 // const MorabbaMedium = localFont({ src: './fonts/Morabba-Medium.woff2', variable: '--font-MorabbaMedium' })
 
 const theme = createTheme({
+  // palette: {
+  //   background: {
+  //     default: "#fafafa"
+  //   }
+  // },
   direction: 'rtl',
   overflow: 'hidden',
   shadows: Array(25).fill('none'),
