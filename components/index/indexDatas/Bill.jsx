@@ -38,18 +38,19 @@ export default function Bill({ user }) {
   }
 
   async function createThisBill(selectedBusiness, customerCode, bills) {
+    console.log("clickeddd");
     const res = await fetch('api/createBill', {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({selectedBusiness, customerCode, bills })
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ selectedBusiness, customerCode, bills })
     })
     console.log("response to create bill is =>", res);
-    if (res.status === 406) {
-        console.log("nashod bill");
+    if (res.status === 500) {
+      console.log("nashod bill");
     } else if (res.status === 201) {
-        router.push('/')
+      console.log("okeye");
     }
-}
+  }
 
   const [expanded, setExpanded] = React.useState(false);
   return (
@@ -143,7 +144,7 @@ export default function Bill({ user }) {
                           sx={{ mt: 2 }}
                           children={"ارسال صورتحساب"}
                           variant="contained"
-                          onClick={createThisBill}
+                          onClick={() => createThisBill(selectedBusiness, customerCode, bills)}
                         />
                       </>
                       : ""
