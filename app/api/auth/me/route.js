@@ -21,14 +21,3 @@ export async function GET(req, res) {
         return Response.json({ message: err }, { status: 500 })
     }
 }
-
-
-// wana get this in clinet components?
-// useEffect(() => {
-//     const user = async () => {
-//         const response = await fetch("/api/auth/me");
-//         const user = await response.json()
-//     };
-
-//     user();
-// }, []);

@@ -4,18 +4,21 @@ import { verifyToken } from "@/controllers/auth";
 import UserModel from '@/models/User';
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation'
+import {GET} from "@/app/api/auth/me/route"
 
 export async function POST(req) {
+    console.log("usereeeer ");
+
     try {
         const user = async () => {
-            const response = await fetch("/api/auth/me");
-            const user = await response.json()
-            console.log("usereeeer", user);
+            const response = await GET(req)
+
+            console.log("usereeeer", response);
         };
         console.log("usereeeer out", user());
 
-        const body = await req.json()
-        const { selectedBusiness, customerCode, bills } = body;
+    //     const body = await req.json()
+    //     const { selectedBusiness, customerCode, bills } = body;
 
         // if (!businessName.trim()) {
         //     return Response.json({ message: "Entrance data is empty!" }, { status: 402 })

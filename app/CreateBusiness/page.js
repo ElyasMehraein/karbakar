@@ -1,4 +1,4 @@
-import CreateBusiness from "@/components/createBusiness/CreateBusiness";
+import CreateBusiness from "@/components/templates/createBusiness/CreateBusiness";
 import { verifyToken } from "@/controllers/auth";
 import { redirect } from 'next/navigation'
 import { cookies } from "next/headers";

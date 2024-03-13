@@ -1,11 +1,10 @@
 "use client"
 import { Box, Button, Container, TextField, Typography } from '@mui/material'
-import MyAppBar from '../modules/MyAppBar'
+import MyAppBar from '@/components/modules/MyAppBar'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Guild from "@/components/modules/Guild"
-import { selectGuild } from '../typoRepo';
-
+import { selectGuild } from '@/components/typoRepo';
 
 export default function createBusiness() {
     const router = useRouter()
