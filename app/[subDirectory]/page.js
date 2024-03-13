@@ -4,9 +4,9 @@ import { verifyToken } from "@/controllers/auth";
 import { notFound } from 'next/navigation'
 
 import BusinessModel from '@/models/Business'
-import Business from '@/components/business/business'
+import Business from '@/components/templates/business/business'
 import UserModel from '@/models/User'
-import Profile from '@/components/Profile/Profile'
+import Profile from '@/components/templates/Profile/Profile'
 
 
 export default async function subDirectory({ params }) {
@@ -47,7 +47,7 @@ export default async function subDirectory({ params }) {
     console.log("user not found in DB");
     notFound()
   }
-
+console.log("user is", user);
   return (
     <Profile user={user}
       logedUserCode={logedUserCode}

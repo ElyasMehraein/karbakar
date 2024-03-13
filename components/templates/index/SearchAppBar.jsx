@@ -20,7 +20,7 @@ import Button from "@mui/material/Button";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Avatar } from '@mui/material';
-import ItsAvatar from "@/components/common/ItsAvatar"
+import ItsAvatar from "@/components/modules/ItsAvatar"
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',

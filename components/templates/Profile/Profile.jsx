@@ -1,12 +1,12 @@
 import React from "react";
-import MyAppBar from "@/components/common/MyAppBar";
-import Header from "@/components/common/Header"
-import PageAvatar from "@/components/common/PageAvatar";
-import contact from '@/components/common/Contact'
-import Bio from "../common/Bio";
-import Explain from "../common/Explain";
-import UserJobs from "./UserJobs";
-import Name from "../common/Name";
+import MyAppBar from "@/components/modules/MyAppBar";
+import Header from "@/components/modules/Header"
+import PageAvatar from "@/components/modules/PageAvatar";
+import contact from '@/components/modules/Contact'
+import Bio from "@/components/modules/Bio";
+import Explain from "@/components/modules/Explain";
+import UserJobs from "@/components/templates/Profile/UserJobs";
+import Name from "@/components/modules/Name";
 function Profile({ user, logedUserCode }) {
     return (
         <>

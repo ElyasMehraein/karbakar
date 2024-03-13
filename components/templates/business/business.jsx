@@ -1,14 +1,14 @@
 import React from "react";
-import MyAppBar from "@/components/common/MyAppBar";
-import Header from "@/components/common/Header";
-import PageAvatar from "@/components/common/PageAvatar";
-import Bio from '@/components/common/Bio'
-import Contact from '@/components/common/Contact'
-import TableBusiness from './TableBusiness'
-import EmploeeList from "../common/EmploeeList";
-import WhatBusinessGet from "./WhatBusinessGet";
-import Explain from "../common/Explain";
-import Name from "../common/Name";
+import MyAppBar from "@/components/modules/MyAppBar";
+import Header from "@/components/modules/Header";
+import PageAvatar from "@/components/modules/PageAvatar";
+import Bio from '@/components/modules/Bio'
+import Contact from '@/components/modules/Contact'
+import TableBusiness from '@/components/templates/business/TableBusiness'
+import EmploeeList from "@/components/modules/EmploeeList";
+import WhatBusinessGet from "@/components/templates/business/WhatBusinessGet";
+import Explain from "@/components/modules/Explain";
+import Name from "@/components/modules/Name";
 
 function Business({ business, logedUserCode }) {
     return (

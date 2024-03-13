@@ -6,7 +6,7 @@ import { Container } from '@mui/material';
 
 const filter = createFilterOptions();
 
-export default function CommonAutocomplete({ optionsArray, label, addMessage, onChangeHandler }) {
+export default function modulesAutocomplete({ optionsArray, label, addMessage, onChangeHandler }) {
     return (
         <Container maxWidth="md" >
             <Autocomplete

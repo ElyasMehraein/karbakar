@@ -1,9 +1,9 @@
 "use client"
 import { Box, Button, Container, TextField, Typography } from '@mui/material'
-import MyAppBar from '../common/MyAppBar'
+import MyAppBar from '../modules/MyAppBar'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Guild from "@/components/common/Guild"
+import Guild from "@/components/modules/Guild"
 import { selectGuild } from '../typoRepo';
 
 

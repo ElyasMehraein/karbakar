@@ -1,11 +1,11 @@
 import React from "react";
-import MyAppBar from "@/components/common/MyAppBar";
+import MyAppBar from "@/components/modules/MyAppBar";
 import ProfileImg from "./ProfileImg"
 import UserAvatar from "./UserAvatar";
-import CountactEdit from '../common/ContactEdit'
-import BioEdit from "../common/BioEdit";
-import ExplainEdit from "../common/ExplainEdit";
-import NameEdit from "../common/NameEdit";
+import CountactEdit from '../modules/ContactEdit'
+import BioEdit from "../modules/BioEdit";
+import ExplainEdit from "../modules/ExplainEdit";
+import NameEdit from "../modules/NameEdit";
 
 export default function EditProfile({ logedUserCode, whichUserProfile }) {
     return (

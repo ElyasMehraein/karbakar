@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Image from "next/image";
 import { grey } from '@mui/material/colors';
 import { Container } from "@mui/material";
-import ItsAvatar from "@/components/common/ItsAvatar"
+import ItsAvatar from "@/components/modules/ItsAvatar"
 
 
 export default function PageAvatar({ user, business }) {

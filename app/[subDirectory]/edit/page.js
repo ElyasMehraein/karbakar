@@ -4,9 +4,9 @@ import { verifyToken } from "@/controllers/auth";
 import { notFound } from 'next/navigation'
 import BusinessModel from '@/models/Business'
 import { redirect } from 'next/navigation'
-import EditBusiness from '@/components/EditBusiness/EditBusiness'
+import EditBusiness from '@/components/templates/EditBusiness/EditBusiness'
 import UserModel from '@/models/User'
-import EditProfile from '@/components/EditProfile/EditProfile'
+import EditProfile from '@/components/templates/EditProfile/EditProfile'
 
 
 export default async function edit({ params }) {

@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
-import CommonAutocomplete from "@/components/common/CommonAutocomplete";
+import modulesAutocomplete from "@/components/modules/modulesAutocomplete";
 import DoneIcon from '@mui/icons-material/Done';
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import BillFrame from "./BillFrame";
@@ -91,7 +91,7 @@ export default function Bill({ user }) {
                   <>
                     {selectedBusiness.products ?
 
-                      <CommonAutocomplete optionsArray={products} label={"انتخاب محصول"} addMessage={"ایجاد محصول جدید"} onChangeHandler={(inputValue) => setSelectedProduct(inputValue)} />
+                      <modulesAutocomplete optionsArray={products} label={"انتخاب محصول"} addMessage={"ایجاد محصول جدید"} onChangeHandler={(inputValue) => setSelectedProduct(inputValue)} />
                       :
                       <>
                         <TextField

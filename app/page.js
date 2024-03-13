@@ -1,5 +1,5 @@
 import React from 'react'
-import Index from '@/components/index/Index'
+import Index from '@/components/templates/index/Index'
 import { verifyToken } from "@/controllers/auth";
 import connectToDB from '@/configs/db';
 import UserModel from '@/models/User';

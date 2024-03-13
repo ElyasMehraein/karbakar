@@ -1,9 +1,9 @@
 "use client"
 
 import React, { useState } from "react";
-import SearchAppBar from "@/components/index/SearchAppBar";
-import RightDrawer from "@/components/index/RightDrawer";
-import Tabs from "@/components/index/Tabs";
+import SearchAppBar from "@/components/templates/index/SearchAppBar";
+import RightDrawer from "@/components/templates/index/RightDrawer";
+import Tabs from "@/components/templates/index/Tabs";
 
 
 export default function Index({user, token}) {

@@ -20,7 +20,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import { useRouter } from 'next/navigation';
-import ItsAvatar from "@/components/common/ItsAvatar"
+import ItsAvatar from "@/components/modules/ItsAvatar"
 import { Avatar } from '@mui/material';
 
 

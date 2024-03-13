@@ -1,8 +1,8 @@
 import * as React from 'react';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
-import EmploeeList from "@/components/common/EmploeeList"
-import SearchInEmploeeList from "@/components/common/SearchInEmploeeList"
+import EmploeeList from "@/components/modules/EmploeeList"
+import SearchInEmploeeList from "@/components/modules/SearchInEmploeeList"
 import { Container, Typography } from '@mui/material';
 const EmploeeListEdit = () => {
   return (
