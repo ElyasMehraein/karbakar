@@ -11,15 +11,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteForeverOutlinedIcon from '@mui/icons-material/DeleteForeverOutlined';
 import IconButton from '@mui/material/IconButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Avatar from '@mui/material/Avatar';
+import ItsAvatar from "@/components/modules/ItsAvatar"
 
-export default function BillFrame({ id, productName, unitOfMeasurement, amount, deleteFrame }) {
+export default function BillFrame({ user }) {
     return (
         <Box sx={{ m: 1, direction: "rtl", width: '100%', maxWidth: 360, bgcolor: '#eeeeee' }}>
             <List dense={true}>
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                        <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
                     </ListItemAvatar>
                     <ListItemText
                         primary="Brunch this weekend?"
