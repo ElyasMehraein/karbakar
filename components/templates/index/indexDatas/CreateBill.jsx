@@ -13,7 +13,7 @@ import BillFrame from "./BillFrame";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
 
-export default function Bill({ user }) {
+export default function CreateBill({ user }) {
 
   const userBusinesses = user.businesses.map(business => {
     if (business.agentCode == user.code) {
@@ -42,12 +42,35 @@ export default function Bill({ user }) {
     setbills((bills.filter(bill => bill.id !== id)))
   }
 
-  const [snackbarAccept, setSnackbarAccept] = React.useState(false);
-  const [snackbarReject, setSnackbarReject] = React.useState(false);
-  const [expanded, setExpanded] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleShowSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
+  async function createThisBill(selectedBusiness, customerCode, bills) {
+    console.log("clickeddd");
+    const res = await fetch('api/createBill', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ selectedBusiness, customerCode, bills })
+    })
+    if (res.status === 500) {
+      console.log("server error");
+    } else if (res.status === 201) {
+      console.log("okeye");
+      handleShowSnackbar()
+    }
+  }
+  const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md">
+
+
       <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
         <Chip
           label="راهنمایی"
@@ -57,29 +80,27 @@ export default function Bill({ user }) {
         />
         <AccordionDetails>
           <Typography>
-            این صورتحساب ها توسط کسب و کارهایی که از آنها محصول یا خدمات دریافت کرده اید ارسال شده است
+            لحظه ای که محصولات خود را به دیگران تحویل می دهید برایشان فاکتور صادر
+            نمایید و از مشتری بخواهید همان لحظه آن را بررسی و تایید نماید
           </Typography>
           <Typography sx={{ my: 2 }} color="error">
-            تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
+            * محصولاتی را که ارائه می نمایید پس از تایید این صورتحساب در صفحه کسب و کار شما به نمایش در می
+            آیند
           </Typography>
         </AccordionDetails>
       </Accordion>
       <CustomSnackbar
-        open={snackbarAccept}
-        onClose={()=>setSnackbarAccept(false)}
-        message="دریافت محصولات و خدمات صورتحساب تایید شد"
-      />
-      <CustomSnackbar
-        open={snackbarReject}
-        onClose={()=>setSnackbarReject(false)}
-        message="صورتحساب لغو گردید"
+        open={openSnackbar}
+        onClose={handleSnackbarClose}
+        message="صورتحساب جهت تایید برای مشتری ارسال شد"
       />
       <Box sx={{ p: 5, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?
           <>
             {user.businesses[0] ?
               <>
-                <Typography sx={{ m: 1 }}>مشاهده صورتحساب</Typography>
+                <Typography sx={{ m: 1 }}>ایجاد صورتحساب</Typography>
+
                 <Autocomplete
                   blurOnSelect
                   id="combo-box-demo"

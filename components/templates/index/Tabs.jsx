@@ -14,13 +14,13 @@ import { mainTabYourReqText } from "@/components/typoRepo.jsx"
 import { Container } from '@mui/material';
 import { useState, useEffect } from 'react'
 import { Accordion, AccordionDetails, Chip } from "@mui/material";
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { blue, green } from '@mui/material/colors';
+import CreateBill from './indexDatas/CreateBill';
 
 function CustomTabPanel(props) {
 
@@ -46,6 +46,7 @@ const fabStyle = {
   position: "absolute",
   bottom: 16,
   right: 16,
+
 };
 
 const fabGreenStyle = {
@@ -80,7 +81,7 @@ export default function BasicTabs({ user }) {
   useEffect(() => {
     setMounted(true)
   }, [])
-  const [expanded, setExpanded] = React.useState(false);
+
   const transitionDuration = {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
@@ -99,6 +100,7 @@ export default function BasicTabs({ user }) {
       sx: fabStyle,
       icon: <AddIcon />,
       label: 'Add',
+      children: 'ایجاد درخواست جدید'
     },
     {
       color: 'secondary',
@@ -109,8 +111,9 @@ export default function BasicTabs({ user }) {
     {
       color: 'inherit',
       sx: { ...fabStyle, ...fabGreenStyle },
-      icon: <UpIcon />,
+      icon: <EditIcon />,
       label: 'Expand',
+      children: "ایجاد صورتحساب"
     },
   ];
   return (mounted &&
@@ -146,29 +149,18 @@ export default function BasicTabs({ user }) {
           Item Two
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
-          <Accordion sx={{boxShadow: 0}} expanded={expanded}>
-            <Chip
-              label="راهنمایی"
-              sx={{ direction: 'ltr' }}
-              onClick={() => setExpanded(!expanded)}
-              icon={<QuestionMarkOutlinedIcon />}
-            />
-            <AccordionDetails>
-              <Typography>
-                لحظه ای که محصولات خود را به دیگران تحویل می دهید برایشان فاکتور صادر
-                نمایید و از مشتری بخواهید همان لحظه آن را بررسی و تایید نماید
-              </Typography>
-              <Typography sx={{ my: 2 }} color="error">
-                * محصولاتی را که ارائه می نمایید پس از تایید این صورتحساب در صفحه کسب و کار شما به نمایش در می
-                آیند
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          {fabIndex === 2 && <Bill user={user} />}
+
+          {
+            fabIndex === 2 ?
+              <CreateBill user={user} />
+              :
+              <Bill user={user} />
+          }
         </CustomTabPanel>
         {/* <Box sx={}> */}
 
         {fabs.map((fab, index) => (
+          value !== 1 &&
           <Zoom
             key={fab.color}
             in={value === index}
@@ -179,7 +171,8 @@ export default function BasicTabs({ user }) {
             unmountOnExit
             onClick={fabHandler}
           >
-            <Fab sx={fab.sx} aria-label={fab.label} color={fab.color}>
+            <Fab variant="extended" size="medium" sx={fab.sx} aria-label={fab.label} color={fab.color}>
+              {fab.children}
               {fab.icon}
             </Fab>
           </Zoom>
