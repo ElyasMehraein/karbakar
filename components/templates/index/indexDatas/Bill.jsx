@@ -7,7 +7,7 @@ import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
 import modulesAutocomplete from "@/components/modules/modulesAutocomplete";
 import DoneIcon from '@mui/icons-material/Done';
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+
 import BillFrame from "./BillFrame";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
@@ -66,37 +66,19 @@ export default function Bill({ user }) {
     }
   }
 
-  const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md">
       <CustomSnackbar
         open={openSnackbar}
         onClose={handleSnackbarClose}
-        message="عملیات با موفقیت انجام شد"
+        message="صورتحساب جهت تایید برای مشتری ارسال شد"
       />
-      <Box sx={{ my: 1, minWidth: 200, maxWidth: 600 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
+      <Box sx={{p:5, my: 1, minWidth: 200, maxWidth: 600, bgcolor:"#f5f5f5",boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?
           <>
             {user.businesses[0] ?
               <>
-                <Accordion expanded={expanded}>
-                  <Chip
-                    label="راهنمایی"
-                    sx={{ direction: 'ltr' }}
-                    onClick={() => setExpanded(!expanded)}
-                    icon={<QuestionMarkOutlinedIcon />}
-                  />
-                  <AccordionDetails>
-                    <Typography>
-                      لحظه ای که محصولات خود را به دیگران تحویل می دهید برایشان فاکتور صادر
-                      نمایید و از مشتری بخواهید همان لحظه آن را بررسی و تایید نماید
-                    </Typography>
-                    <Typography sx={{ my: 2 }} color="error">
-                      * محصولاتی را که ارائه می نمایید پس از تایید این صورتحساب در صفحه کسب و کار شما به نمایش در می
-                      آیند
-                    </Typography>
-                  </AccordionDetails>
-                </Accordion>
+                <Typography sx={{m:1}}>ایجاد صورتحساب</Typography>
 
                 <Autocomplete
                   blurOnSelect
