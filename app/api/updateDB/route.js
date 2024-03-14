@@ -4,9 +4,7 @@ import BusinessModel from '@/models/Business';
 
 export async function PUT(req) {
     const body = await req.json()
-    // console.log("body", body);
     let { model, id, fieldName, newValue } = body
-    // console.log("aslan inja mirese?", model, id, fieldName, newValue);
     switch (model) {
         case "UserModel":
             model = UserModel;
@@ -16,7 +14,6 @@ export async function PUT(req) {
             break;
     }
 
-    // console.log("hala model chie?", model);
     try {
         const updateQuery = {};
         updateQuery[fieldName] = newValue;

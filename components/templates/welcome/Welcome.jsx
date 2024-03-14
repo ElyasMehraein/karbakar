@@ -126,7 +126,6 @@ export default function Wellcome() {
           priority
           src={hands}
           alt="karbakar website logo"
-          sizes
         />
       </div>
       <h1 className={styles.title}>کارباکار</h1>

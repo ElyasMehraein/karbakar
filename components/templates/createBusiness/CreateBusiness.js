@@ -14,7 +14,7 @@ export default function createBusiness() {
         setGuildName(newGuildname);
     };
 
-    async function createThisBusiness(businessName) {
+    async function createThisBusiness(businessName, guildname) {
         const res = await fetch('api/signbusiness', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -47,7 +47,7 @@ export default function createBusiness() {
                     <Typography sx={{ py: 1, textAlign: "center" }}>{selectGuild}</Typography>
 
                     <Guild updateGuildname={updateGuildname} />
-                    <Button onClick={() => createThisBusiness(businessName)} variant="contained">
+                    <Button onClick={() => createThisBusiness(businessName, guildname)} variant="contained">
                         ایجاد کسب و کار
                     </Button>
                 </Box>

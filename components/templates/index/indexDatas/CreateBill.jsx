@@ -53,7 +53,6 @@ export default function CreateBill({ user }) {
   };
 
   async function createThisBill(selectedBusiness, customerCode, bills) {
-    console.log("clickeddd");
     const res = await fetch('api/createBill', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
@@ -62,7 +61,7 @@ export default function CreateBill({ user }) {
     if (res.status === 500) {
       console.log("server error");
     } else if (res.status === 201) {
-      console.log("okeye");
+      console.log("bill signed successfully");
       handleShowSnackbar()
     }
   }

@@ -10,9 +10,8 @@ export async function POST(req) {
     try {
 
         const body = await req.json()
-        const { businessName } = body;
-
-        if (!businessName.trim()) {
+        const { businessName , guildname} = body;
+        if (!businessName.trim() && !guildname.trim()) {
             return Response.json({ message: "Entrance data is empty!" }, { status: 402 })
         }
 
@@ -45,7 +44,7 @@ export async function POST(req) {
                 longitude: "",
                 agentCode: user.code,
                 workers: [user._id],
-                guildname: "تعمیر خودرو",
+                guildname:guildname.title,
                 products: [
                     // { productName: "havij", unitOfMeasurement: "kg" }, { productName: "sib", unitOfMeasurement: "kg" }
                 ]

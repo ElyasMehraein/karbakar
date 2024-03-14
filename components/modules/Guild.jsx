@@ -11,7 +11,7 @@ export default function Guild({ updateGuildname }) {
     <Container maxWidth="md" >
       <Autocomplete
         className="inMiddle"
-        onChange={(event, newValue) => { updateGuildname(newValue) }}
+        onChange={(event, newValue) => updateGuildname(newValue) }
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
 

@@ -69,7 +69,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ user }) {
+export default function BasicTabs({ user , bills}) {
 
   const [value, setValue] = React.useState(0);
 
@@ -87,7 +87,6 @@ export default function BasicTabs({ user }) {
     exit: theme.transitions.duration.leavingScreen,
   };
   const [fabIndex, setFabIndex] = React.useState(10);
-  console.log(fabIndex);
 
   const fabHandler = () => {
     fabIndex == value ?
@@ -155,12 +154,12 @@ export default function BasicTabs({ user }) {
             fabIndex === 2 ?
               <CreateBill user={user} />
               :
-              <Bill user={user} />
+              <Bill bills={bills} user={user} />
           }
         </CustomTabPanel>
 
 
-        {user && fabs.map((fab, index) => (
+        {user.businesses[0] && fabs.map((fab, index) => (
           value !== 1 &&
           <Zoom
             key={fab.color}

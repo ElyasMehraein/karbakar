@@ -12,19 +12,17 @@ export default async function page() {
   const tokenPayLoad = verifyToken(token);
 
   if (!tokenPayLoad) {
-    return redirect("/welcome");
+    return <Index />
   }
   connectToDB()
-  const user = JSON.parse(JSON.stringify(await UserModel.findOne(
+  const user = await JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },
-    "-_id code avatar"
+    "code avatar"
   ).populate("businesses")))
 
-  const bills = JSON.parse(JSON.stringify(await BillModel.find({
-    to: user?._id
+  const bills = await JSON.parse(JSON.stringify(await BillModel.find({
+    to: user._id
   })))
-
-  console.log("bills", bills);
   return (
     <Index user={user} bills={bills} token={token} />
   )

@@ -14,7 +14,7 @@ import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
 
 export default function Bill({ user, bills }) {
-
+  console.log("user.business", bills);
   // const userBusinesses = user.businesses.map(business => {
   //   if (business.agentCode == user.code) {
   //     return business.businessName
@@ -49,122 +49,46 @@ export default function Bill({ user, bills }) {
 
   return (
     <Container maxWidth="md">
-      {bills &&
-        <>
-          <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-            <Chip
-              label="راهنمایی"
-              sx={{ direction: 'ltr' }}
-              onClick={() => setExpanded(!expanded)}
-              icon={<QuestionMarkOutlinedIcon />}
-            />
-            <AccordionDetails>
-              <Typography>
-                این صورتحساب ها توسط کسب و کارهایی که از آنها محصول یا خدمات دریافت کرده اید ارسال شده است
-              </Typography>
-              <Typography sx={{ my: 2 }} color="error">
-                * تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-          <CustomSnackbar
-            open={snackbarAccept}
-            onClose={() => setSnackbarAccept(false)}
-            message="دریافت محصولات و خدمات صورتحساب تایید شد"
-          />
-          <CustomSnackbar
-            open={snackbarReject}
-            onClose={() => setSnackbarReject(false)}
-            message="صورتحساب لغو گردید"
-          />
-
-          <Box sx={{ p: 5, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
-            <>
-              {bills[0] ?
-                <>
-                  <Typography sx={{ m: 1 }}>مشاهده صورتحساب</Typography>
-                  <Autocomplete
-                    blurOnSelect
-                    id="combo-box-demo"
-                    options={userBusinesses}
-                    sx={{ m: 2, width: 300 }}
-                    renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
-                    onChange={(e) => setSelectedBusiness(userBusinesses[e.target.value])}
-                  />
-                  {selectedBusiness &&
-                    <>
-                      {selectedBusiness.products ?
-
-                        <modulesAutocomplete optionsArray={products} label={"انتخاب محصول"} addMessage={"ایجاد محصول جدید"} onChangeHandler={(inputValue) => setSelectedProduct(inputValue)} />
-                        :
-                        <>
-                          <TextField
-                            value={selectedProduct}
-
-                            placeholder='حداکثر 30 کارکتر' variant="outlined"
-                            label="محصولی که ارائه نموده اید"
-                            onChange={(e) => setSelectedProduct(e.target.value)}
-                            sx={{ width: 300 }}
-                          />
-                          <TextField
-                            value={unitOfMeasurement}
-
-                            placeholder="مثلا کیلوگرم یا عدد" variant="outlined"
-                            label="واحد اندازه گیری"
-                            onChange={(e) => setUnitOfMeasurement(e.target.value)}
-                            sx={{ mt: 2, width: 300 }}
-                          />
-                        </>
-                      }
-                      <TextField
-                        value={amount}
-                        placeholder="مثلا 5" variant="outlined"
-                        label="مقدار"
-                        onChange={(e) => setAmount(e.target.value)}
-                        sx={{ mt: 2, width: 300 }}
-                      />
-
-                      <Button
-                        sx={{ mt: 2 }}
-                        children={"اضافه نمودن به فاکتور"}
-                        variant="contained"
-                        onClick={addToBills}
-                      />
-                      {bills[0] &&
-                        <>
-                          {bills.map(bill => {
-                            return <BillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
-
-                          })
-                          }
-                          <TextField
-                            value={customerCode}
-                            placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
-                            label=" کد کاربری مشتری"
-                            onChange={(e) => setCustomerCode(e.target.value)}
-                            sx={{ mt: 2, width: 300 }}
-                          />
-                          < Button
-                            sx={{ mt: 2 }}
-                            children={"ارسال صورتحساب"}
-                            variant="contained"
-                            onClick={() => createThisBill(selectedBusiness, customerCode, bills)}
-                          />
-
-                        </>
-                      }
-                    </>
-                  }
-                </>
-                :
-                <Typography color="error">
-                  هیچ صورتحسابی برای شما ارسال نشده است
+      {!user.businesses[0] ?
+        <Typography color="error">
+          برای دریافت صورتحساب بایستی حداقل عضو یک کسب و کار باشید
+        </Typography>
+          : !bills ?
+          <Typography color="error">
+            هیچ صورتحسابی برای شما ارسال نشده است
+          </Typography>
+          :
+          <>
+            <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
+              <Chip
+                label="راهنمایی"
+                sx={{ direction: 'ltr' }}
+                onClick={() => setExpanded(!expanded)}
+                icon={<QuestionMarkOutlinedIcon />}
+              />
+              <AccordionDetails>
+                <Typography>
+                  این صورتحساب ها توسط کسب و کارهایی که از آنها محصول یا خدمات دریافت می کنید ارسال می شود
                 </Typography>
-              }
-            </>
+                <Typography sx={{ my: 2 }} color="error">
+                  * تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+            <CustomSnackbar
+              open={snackbarAccept}
+              onClose={() => setSnackbarAccept(false)}
+              message="دریافت محصولات و خدمات صورتحساب تایید شد"
+            />
+            <CustomSnackbar
+              open={snackbarReject}
+              onClose={() => setSnackbarReject(false)}
+              message="صورتحساب لغو گردید"
+            />
 
-          </Box>
-        </>}
+
+          </>
+          }
     </Container>
   );
 }

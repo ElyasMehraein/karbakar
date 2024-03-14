@@ -18,7 +18,6 @@ export async function POST(req) {
         if (Number(Business.agentCode) !== user.code) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
         }
-        console.log("customer", customer);
         await BillModel.create({
             from: Business._id,
             to: customer._id,
