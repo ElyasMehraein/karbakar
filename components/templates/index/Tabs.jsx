@@ -129,9 +129,9 @@ export default function BasicTabs({ user }) {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="درخواستهای شما" {...a11yProps(0)} />
+            {user && <Tab label="درخواستهای شما" {...a11yProps(0)} />}
             <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
-            <Tab label="صورتحساب" {...a11yProps(2)} />
+            {user && <Tab label="صورتحساب" {...a11yProps(2)} />}
           </Tabs>
         </Container>
       </Box>
@@ -148,6 +148,7 @@ export default function BasicTabs({ user }) {
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
           Item Two
         </CustomTabPanel>
+
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
 
           {
@@ -157,9 +158,9 @@ export default function BasicTabs({ user }) {
               <Bill user={user} />
           }
         </CustomTabPanel>
-        {/* <Box sx={}> */}
 
-        {fabs.map((fab, index) => (
+
+        {user && fabs.map((fab, index) => (
           value !== 1 &&
           <Zoom
             key={fab.color}
@@ -177,7 +178,6 @@ export default function BasicTabs({ user }) {
             </Fab>
           </Zoom>
         ))}
-        {/* </Box> */}
       </Container>
     </Box>
   );

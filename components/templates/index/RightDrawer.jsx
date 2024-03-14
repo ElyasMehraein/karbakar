@@ -69,8 +69,8 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
             کسب و کارهای من
           </Typography> : ""}
         {user?.businesses.map((business) => {
-          return (<List key={business._id}> 
-            <ListItem  sx={{ color: "inherit", mt: 0 }} >
+          return (<List key={business._id}>
+            <ListItem sx={{ color: "inherit", mt: 0 }} >
               <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                 <ListItemAvatar>
                   <Avatar sx={{ width: 40, height: 40 }} >
@@ -84,7 +84,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
         })}
         <Divider />
         <List>
-          <ListItem disablePadding>
+        {user && <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <AddBusinessIcon />
@@ -97,8 +97,8 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                 onClick={() => router.push("/CreateBusiness")}
               />
             </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
+          </ListItem>}
+          {user && <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <DomainDisabledIcon />
@@ -108,7 +108,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                 primary="استعفا از کسب و کار"
               />
             </ListItemButton>
-          </ListItem>
+          </ListItem>}
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>

@@ -9,7 +9,7 @@ import modulesAutocomplete from "@/components/modules/modulesAutocomplete";
 import DoneIcon from '@mui/icons-material/Done';
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 
-import BillFrame from "./BillFrame";
+import CreateBillFrame from "./CreateBillFrame";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
 
@@ -151,7 +151,7 @@ export default function CreateBill({ user }) {
                     {bills[0] &&
                       <>
                         {bills.map(bill => {
-                          return <BillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
+                          return <CreateBillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
 
                         })
                         }

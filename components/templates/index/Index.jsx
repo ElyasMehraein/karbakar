@@ -6,7 +6,7 @@ import RightDrawer from "@/components/templates/index/RightDrawer";
 import Tabs from "@/components/templates/index/Tabs";
 
 
-export default function Index({user, token}) {
+export default function Index({user,bills, token}) {
   const [open, setOpen] = useState(false);
 
   const menuClickHandler = () => {
@@ -28,7 +28,7 @@ export default function Index({user, token}) {
         user={user}
         menuClickHandler={menuClickHandler} />
       <Tabs
-       user={user} 
+       user={user} bills={bills}
       />
 
     </>

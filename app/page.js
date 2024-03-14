@@ -5,6 +5,7 @@ import connectToDB from '@/configs/db';
 import UserModel from '@/models/User';
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation'
+import BillModel from '@/models/Bill';
 
 export default async function page() {
   const token = cookies().get("token")?.value;
@@ -18,8 +19,14 @@ export default async function page() {
     { _id: tokenPayLoad.id },
     "-_id code avatar"
   ).populate("businesses")))
+
+  const bills = JSON.parse(JSON.stringify(await BillModel.find({
+    to: user?._id
+  })))
+
+  console.log("bills", bills);
   return (
-    <Index user={user} token={token}/>
+    <Index user={user} bills={bills} token={token} />
   )
 }
 
