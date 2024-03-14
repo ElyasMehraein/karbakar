@@ -14,7 +14,6 @@ export async function GET(req, res) {
         connectToDB()
         const user = await UserModel.findOne(
             { _id: tokenPayLoad.id },
-
         )
         return Response.json(user, { status: 200 })
     } catch (err) {

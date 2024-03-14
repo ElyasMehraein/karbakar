@@ -13,8 +13,11 @@ import BillFrame from "./BillFrame";
 
 export default function Bill({ user }) {
 
-  const userBusinesses = user.businesses.map(business => business.businessName)
-
+  const userBusinesses = user.businesses.map(business => {
+    if(business.agentCode == user.code){
+     return business.businessName
+    }
+  })
   const [selectedBusiness, setSelectedBusiness] = React.useState("")
 
   const [selectedProduct, setSelectedProduct] = React.useState("")
@@ -157,7 +160,7 @@ export default function Bill({ user }) {
               </>
               :
               <Typography color="error">
-                برای ارسال صورتحساب ابتدا بایستی عضو یک کسب و کار باشید
+                ارسال صورتحساب تنها توسط نماینده کسب و کار امکانپذیر است
               </Typography>
             }
           </>
