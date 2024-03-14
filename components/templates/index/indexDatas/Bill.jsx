@@ -9,13 +9,14 @@ import modulesAutocomplete from "@/components/modules/modulesAutocomplete";
 import DoneIcon from '@mui/icons-material/Done';
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import BillFrame from "./BillFrame";
+import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
 
 export default function Bill({ user }) {
 
   const userBusinesses = user.businesses.map(business => {
-    if(business.agentCode == user.code){
-     return business.businessName
+    if (business.agentCode == user.code) {
+      return business.businessName
     }
   })
   const [selectedBusiness, setSelectedBusiness] = React.useState("")
@@ -40,6 +41,16 @@ export default function Bill({ user }) {
     setbills((bills.filter(bill => bill.id !== id)))
   }
 
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+
+  const handleSnackbarClose = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleShowSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
   async function createThisBill(selectedBusiness, customerCode, bills) {
     console.log("clickeddd");
     const res = await fetch('api/createBill', {
@@ -47,17 +58,22 @@ export default function Bill({ user }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ selectedBusiness, customerCode, bills })
     })
-    console.log("response to create bill is =>", res);
     if (res.status === 500) {
-      console.log("nashod bill");
+      console.log("server error");
     } else if (res.status === 201) {
       console.log("okeye");
+      handleShowSnackbar()
     }
   }
 
   const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md">
+      <CustomSnackbar
+        open={openSnackbar}
+        onClose={handleSnackbarClose}
+        message="عملیات با موفقیت انجام شد"
+      />
       <Box sx={{ my: 1, minWidth: 200, maxWidth: 600 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?
           <>
@@ -90,7 +106,7 @@ export default function Bill({ user }) {
                   renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
                   onChange={(e) => setSelectedBusiness(userBusinesses[e.target.value])}
                 />
-                {selectedBusiness ?
+                {selectedBusiness &&
                   <>
                     {selectedBusiness.products ?
 
@@ -129,7 +145,7 @@ export default function Bill({ user }) {
                       variant="contained"
                       onClick={addToBills}
                     />
-                    {bills[0] ?
+                    {bills[0] &&
                       <>
                         {bills.map(bill => {
                           return <BillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
@@ -149,13 +165,10 @@ export default function Bill({ user }) {
                           variant="contained"
                           onClick={() => createThisBill(selectedBusiness, customerCode, bills)}
                         />
-                      </>
-                      : ""
-                    }
 
+                      </>
+                    }
                   </>
-                  :
-                  ""
                 }
               </>
               :
