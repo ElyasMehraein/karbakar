@@ -22,11 +22,11 @@ export default function CreateBill({ user }) {
   })
   const [selectedBusiness, setSelectedBusiness] = React.useState("")
 
-  const [selectedProduct, setSelectedProduct] = React.useState("")
+  const [selectedProduct, setSelectedProduct] = React.useState("سیب زمینی")
 
-  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
+  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("کیلوگرم")
 
-  const [amount, setAmount] = React.useState("")
+  const [amount, setAmount] = React.useState("500")
 
   const [bills, setbills] = React.useState([])
 
@@ -68,8 +68,6 @@ export default function CreateBill({ user }) {
   const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md">
-
-
       <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
         <Chip
           label="راهنمایی"
@@ -93,7 +91,7 @@ export default function CreateBill({ user }) {
         onClose={handleSnackbarClose}
         message="صورتحساب جهت تایید برای مشتری ارسال شد"
       />
-      <Box sx={{ p: 5, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
+      <Box sx={{ py:1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?
           <>
             {user.businesses[0] ?

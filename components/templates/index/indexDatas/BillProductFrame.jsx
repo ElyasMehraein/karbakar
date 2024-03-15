@@ -13,19 +13,14 @@ import IconButton from '@mui/material/IconButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
-export default function CreateBillFrame({ id, productName, unitOfMeasurement, amount, deleteFrame }) {
+export default function BillProductFrame({ id, productName, unitOfMeasurement, amount, deleteFrame }) {
     return (
         <Box  >
-            <List dense={true}>
-                <ListItem sx={{ p: 2, width: '100%', minWidth: 300, bgcolor: '#e0e0e0' }} >
-                    <ListItemText primary={amount} />
-                    <ListItemText primary={unitOfMeasurement} />
+            <List sx={{direction:"ltr"}} dense={true}>
+                <ListItem sx={{ width: '100%', minWidth: 300, bgcolor: '#e0e0e0' }} >
                     <ListItemText primary={productName} />
-
-                    <IconButton onClick={() => deleteFrame(id)}>
-                        <DeleteIcon />
-                    </IconButton>
-
+                    <ListItemText primary={unitOfMeasurement} />
+                    <ListItemText primary={amount} />
                 </ListItem>
             </List>
         </Box>

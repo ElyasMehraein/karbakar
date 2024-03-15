@@ -35,7 +35,7 @@ function CustomTabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ py: 3 }}>
           {children}
         </Box>
       )}
@@ -71,7 +71,7 @@ function a11yProps(index) {
 
 export default function BasicTabs({ user , bills}) {
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(2);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -116,7 +116,7 @@ export default function BasicTabs({ user , bills}) {
     },
   ];
   return (mounted &&
-    <Box sx={{ width: '100%', height: "100vh" }}>
+    <Box sx={{ width: '100%', height: "100vh"}}>
       <Box bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Container >
           <Tabs
