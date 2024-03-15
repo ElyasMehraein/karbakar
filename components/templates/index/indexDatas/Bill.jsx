@@ -93,7 +93,7 @@ export default function Bill({ user, bills }) {
               </Accordion>
             </Box>
             {bills.map(bill => {
-              return <BillFrame user={user} key={bill.id} bill={bill} />
+              return <BillFrame user={user} key={bill._id} bill={bill} />
 
             })
             }

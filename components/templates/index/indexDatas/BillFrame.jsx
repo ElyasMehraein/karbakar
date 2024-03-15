@@ -14,18 +14,16 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import BillProductFrame from './BillProductFrame';
 
-
-
 export default function BillFrame({ user, bill }) {
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
+    const [snackbarServerError, setSnackbarServerError] = React.useState(false);
 
     const saveHandler = async (newValue) => {
-        console.log("newValue", newValue);
         let model = "BillModel"
         let id = bill._id
         let fieldName = "isAccept"
-        await fetch("/api/updateDB", {
+        const res = await fetch("/api/updateDB", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -34,6 +32,25 @@ export default function BillFrame({ user, bill }) {
                 model, id, fieldName, newValue
             }),
         });
+        console.log("res", res);
+        location.reload()
+        res.status === 200 ? setSnackbarAccept(true) : setSnackbarServerError(true)
+    }
+
+    const deleteHandler = async () => {
+        console.log("id", bill._id);
+        const res = await fetch("/api/deleteDocument", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: bill._id
+            }),
+        });
+        console.log("res", res);
+        location.reload()
+        res.status === 200 ? setSnackbarReject(true) : setSnackbarServerError(true)
     }
 
     return (
@@ -54,21 +71,17 @@ export default function BillFrame({ user, bill }) {
 
                         <CardContent >
                             {bill.products.map(product => {
-                                return <BillProductFrame key={bill.id} {...product} />
+                                return <BillProductFrame key={product.productName} {...product} />
                             })
                             }
                             <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
                                 <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
-                                    onClick={() => deleteHandler}>
+                                    onClick={() => deleteHandler()}>
                                     لغو
                                 </Button>
                                 <Box style={{ flexGrow: 1 }}></Box>
                                 <Button color="success" variant="outlined" endIcon={<SendIcon />}
-                                    onClick={() => {
-                                        saveHandler(true)
-                                        setSnackbarAccept(true)
-                                    }}>
-
+                                    onClick={() => saveHandler(true)}>
                                     تایید
                                 </Button>
                             </Stack>
@@ -85,9 +98,16 @@ export default function BillFrame({ user, bill }) {
                 message="دریافت محصولات و خدمات صورتحساب تایید شد"
             />
             <CustomSnackbar
+                open={snackbarServerError}
+                onClose={() => setSnackbarServerError(false)}
+                message="خطا در اتصال به سرور"
+                severity="error"
+                />
+            <CustomSnackbar
                 open={snackbarReject}
                 onClose={() => setSnackbarReject(false)}
                 message="صورتحساب لغو گردید"
+                severity="info"
             />
         </Box>
     );
