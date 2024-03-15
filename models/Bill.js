@@ -4,6 +4,7 @@ import BusinessModel from './Business';
 import UserModel from './User';
 
 const schema = new Schema({
+    guild:{ type: String, required: true },
     from:
     {
         type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +21,7 @@ const schema = new Schema({
             amount: { type: Number, min: 1, max: 9999 },
         }
     ],
+    isAccept:Boolean
 }, { timestamps: true })
 
 const BillModel = mongoose.models.Bill || mongoose.model("Bill", schema)

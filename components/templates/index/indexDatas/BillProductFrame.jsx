@@ -13,14 +13,14 @@ import IconButton from '@mui/material/IconButton';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 
-export default function BillProductFrame({ id, productName, unitOfMeasurement, amount, deleteFrame }) {
+export default function BillProductFrame({ productName, unitOfMeasurement, amount }) {
     return (
         <Box  >
             <List sx={{direction:"ltr"}} dense={true}>
                 <ListItem sx={{ width: '100%', minWidth: 300, bgcolor: '#e0e0e0' }} >
-                    <ListItemText primary={productName} />
-                    <ListItemText primary={unitOfMeasurement} />
-                    <ListItemText primary={amount} />
+                    <ListItemText sx={{display:"flex", justifyContent:"center"}} primary={productName} />
+                    <ListItemText  sx={{display:"flex", justifyContent:"center"}} primary={unitOfMeasurement} />
+                    <ListItemText  sx={{display:"flex", justifyContent:"center"}} primary={amount} />
                 </ListItem>
             </List>
         </Box>

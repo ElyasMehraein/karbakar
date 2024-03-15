@@ -1,5 +1,6 @@
 import UserModel from '@/models/User';
 import BusinessModel from '@/models/Business';
+import BillModel from '@/models/Bill';
 
 
 export async function PUT(req) {
@@ -11,6 +12,9 @@ export async function PUT(req) {
             break;
         case "BusinessModel":
             model = BusinessModel;
+            break;
+        case "BillModel":
+            model = BillModel;
             break;
     }
 

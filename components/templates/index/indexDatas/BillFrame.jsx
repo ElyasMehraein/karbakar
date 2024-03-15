@@ -20,6 +20,22 @@ export default function BillFrame({ user, bill }) {
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
 
+    const saveHandler = async (newValue) => {
+        console.log("newValue", newValue);
+        let model = "BillModel"
+        let id = bill._id
+        let fieldName = "isAccept"
+        await fetch("/api/updateDB", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                model, id, fieldName, newValue
+            }),
+        });
+    }
+
     return (
         <Box >
             <Container maxWidth="md">
@@ -42,11 +58,18 @@ export default function BillFrame({ user, bill }) {
                             })
                             }
                             <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
-                                <Button variant="outlined" color="error" startIcon={<DeleteIcon />}>
-                                    نادرست است
+                                <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
+                                    onClick={() => deleteHandler}>
+                                    لغو
                                 </Button>
-                                <Button color="success" variant="outlined" endIcon={<SendIcon />}>
-                                    تایید صورتحساب
+                                <Box style={{ flexGrow: 1 }}></Box>
+                                <Button color="success" variant="outlined" endIcon={<SendIcon />}
+                                    onClick={() => {
+                                        saveHandler(true)
+                                        setSnackbarAccept(true)
+                                    }}>
+
+                                    تایید
                                 </Button>
                             </Stack>
                         </CardContent>

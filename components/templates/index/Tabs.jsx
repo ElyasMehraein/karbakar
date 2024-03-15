@@ -76,11 +76,6 @@ export default function BasicTabs({ user , bills}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const transitionDuration = {
     enter: theme.transitions.duration.enteringScreen,
@@ -115,7 +110,7 @@ export default function BasicTabs({ user , bills}) {
       children: "ایجاد صورتحساب"
     },
   ];
-  return (mounted &&
+  return (
     <Box sx={{ width: '100%', height: "100vh"}}>
       <Box bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Container >
@@ -159,7 +154,7 @@ export default function BasicTabs({ user , bills}) {
         </CustomTabPanel>
 
 
-        {user.businesses[0] && fabs.map((fab, index) => (
+        {user?.businesses[0] && fabs.map((fab, index) => (
           value !== 1 &&
           <Zoom
             key={fab.color}

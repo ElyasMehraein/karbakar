@@ -57,7 +57,7 @@ export default function Bill({ user, bills }) {
 
   return (
     <Container maxWidth="md" >
-      {!user.businesses[0] ?
+      {!user?.businesses[0] ?
         <Typography color="error">
           برای دریافت صورتحساب بایستی حداقل عضو یک کسب و کار باشید
         </Typography>

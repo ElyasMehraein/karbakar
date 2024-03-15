@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchAppBar from "@/components/templates/index/SearchAppBar";
 import RightDrawer from "@/components/templates/index/RightDrawer";
 import Tabs from "@/components/templates/index/Tabs";
@@ -8,6 +8,7 @@ import Tabs from "@/components/templates/index/Tabs";
 
 export default function Index({ user, bills, token }) {
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const menuClickHandler = () => {
     setOpen(true);
@@ -15,7 +16,10 @@ export default function Index({ user, bills, token }) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  return (
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+  return (mounted &&
     <>
       {/* {user ?
         <h3 dir="ltr">you are logging with following personal code {user.code} you are logging with following token {token}</h3> : <h3 dir="ltr">you are not loged in</h3>

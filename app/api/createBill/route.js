@@ -19,9 +19,11 @@ export async function POST(req) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
         }
         await BillModel.create({
+            guild:Business.guildname,
             from: Business._id,
             to: customer._id,
             products: bills,
+            isAccept: false
         })
 
         return Response.json({ message: "business created successfully" }, { status: 201 })
