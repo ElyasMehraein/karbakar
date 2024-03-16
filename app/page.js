@@ -22,7 +22,7 @@ export default async function page() {
   ).populate("businesses")))
 
   const bills = await JSON.parse(JSON.stringify(await BillModel.find({
-    to: user._id
+    to: user._id, isAccept : false
   }).populate("from")))
   return (
     <Index user={user} bills={bills} token={token} />
