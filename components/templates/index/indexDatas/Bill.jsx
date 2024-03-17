@@ -13,48 +13,7 @@ import BillFrame from "./BillFrame";
 
 export default function Bill({ user, bills }) {
 
-  // const businesses = async () => {
-  //   await fetch("/api/updateDB", {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       model, id, fieldName: "bio", newValue
-  //     }),
-  //   })
-  // }
-  // const userBusinesses = user.businesses.map(business => {
-  //   if (business.agentCode == user.code) {
-  //     return business.businessName
-  //   }
-  // })
-  // const [selectedBusiness, setSelectedBusiness] = React.useState("")
-
-  // const [selectedProduct, setSelectedProduct] = React.useState("")
-
-  // const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
-
-  // const [amount, setAmount] = React.useState("")
-
-  // const [bills, setbills] = React.useState([])
-
-  // const [customerCode, setCustomerCode] = React.useState([])
-
-  // const addToBills = () => {
-  //   setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
-  //   setSelectedProduct("")
-  //   setUnitOfMeasurement("")
-  //   setAmount("")
-  // }
-  // const deleteFrame = (id) => {
-  //   setbills((bills.filter(bill => bill.id !== id)))
-  // }
-
-
   const [expanded, setExpanded] = React.useState(false);
-
-
   return (
     <Container maxWidth="md" >
       {!user?.businesses[0] ?
@@ -92,11 +51,9 @@ export default function Bill({ user, bills }) {
                 </AccordionDetails>
               </Accordion>
             </Box>
-            {bills.map(bill => {
+            {bills.map((bill) => {
               return <BillFrame user={user} key={bill._id} bill={bill} />
-
-            })
-            }
+            })}
           </Box>
       }
     </Container>
