@@ -21,11 +21,13 @@
     "crypto": "^1.0.1",
     "fastest-validator": "^1.17.0",
     "jsonwebtoken": "^9.0.2",
+    "leaflet": "^1.9.4",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.4",
     "next": "14.0.4",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
     "trez-sms-client": "^1.0.4"
   }
 }

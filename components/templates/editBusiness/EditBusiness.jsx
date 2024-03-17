@@ -1,9 +1,9 @@
 import React from "react";
 import MyAppBar from "@/components/modules/MyAppBar";
-import CountactEdit from '../modules/ContactEdit'
-import BioEdit from "../modules/BioEdit";
-import ExplainEdit from "../modules/ExplainEdit";
-import NameEdit from "../modules/NameEdit";
+import CountactEdit from '@/components/modules/ContactEdit'
+import BioEdit from "@/components/modules/BioEdit";
+import ExplainEdit from "@/components/modules/ExplainEdit";
+import NameEdit from "@/components/modules/NameEdit";
 
 export default function EditProfile({ business, logedUserCode }) {
     return (

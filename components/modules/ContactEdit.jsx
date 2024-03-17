@@ -10,7 +10,7 @@ import { Container, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import DoneIcon from '@mui/icons-material/Done';
-import MyLocation from '../EditProfile/MyLocation';
+import MyLocation from "@/components/modules/MyLocation";
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 import { Accordion, AccordionDetails } from '@mui/material';
 
@@ -23,6 +23,7 @@ export default function contactEdit({ user, business }) {
     const [expandedEmail, setExpandedEmail] = useState(false);
     const [expandedPersonalPage, setExpandedPersonalPage] = useState(false);
     const [expandedInstagram, setExpandedInstagram] = useState(false);
+    const [expandeMyLocation, setExpandedMyLocation] = useState(false);
 
     const changeHandler = (e) => {
         setNewValue(e.target.value);
@@ -150,7 +151,7 @@ export default function contactEdit({ user, business }) {
                             />
                         </Accordion>
                     </Box>
-                    {/* <Accordion expanded={expanded}>
+                    <Accordion expanded={expandeMyLocation}>
                         <Box
                             sx={{ '& .MuiTextField-root': { width: '25ch' } }}
                             display="flex" alignItems="center" align='center'>
@@ -160,11 +161,11 @@ export default function contactEdit({ user, business }) {
                             <Chip
                                 label="بروزرسانی موقعیت مکانی"
                                 sx={{ direction: 'ltr' }}
-                                onClick={handleClick}
+                                onClick={() => { saveHandler("location"); setExpandedMyLocation(false)}}
                                 icon={<DoneIcon />}
                             />
                         </Box>
-                    </Accordion> */}
+                    </Accordion>
                 </Box>
 
             </Container >
