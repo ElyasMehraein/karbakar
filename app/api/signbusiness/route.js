@@ -40,12 +40,8 @@ export async function POST(req) {
                 email: "",
                 personalPage: "",
                 instagram: "",
-                location: [
-                    {
-                        longitude: "",
-                        latitude: "",
-                    }
-                ],
+                longitude: "",
+                latitude: "",
                 agentCode: user.code,
                 workers: [user._id],
                 guildname: guildname.title,

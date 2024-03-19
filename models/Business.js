@@ -38,12 +38,8 @@ const schema = new Schema({
         type: String, maxlength: 30,
 
     },
-    location: [
-        {
-            longitude: { type: String, maxlength: 30, },
-            latitude: { type: String, maxlength: 30, },
-        }
-    ],
+    longitude: { type: String, maxlength: 30, },
+    latitude: { type: String, maxlength: 30, },
     agentCode: { type: String, maxlength: 30, },
     workers: [
         {

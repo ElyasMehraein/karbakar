@@ -4,6 +4,7 @@ import CountactEdit from '@/components/modules/ContactEdit'
 import BioEdit from "@/components/modules/BioEdit";
 import ExplainEdit from "@/components/modules/ExplainEdit";
 import NameEdit from "@/components/modules/NameEdit";
+import EditLocation from "./EditLocation";
 
 export default function EditProfile({ business, logedUserCode }) {
     return (
@@ -14,6 +15,7 @@ export default function EditProfile({ business, logedUserCode }) {
             <BioEdit business={business}/>
             <ExplainEdit business={business} />
             <CountactEdit  business={business} />
+            <EditLocation/>
         </>
 
     )

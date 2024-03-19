@@ -12,7 +12,7 @@ import { Button, Container, Icon, IconButton, Link, Typography } from '@mui/mate
 export default function contact({ user, business }) {
     const { phone, email, personalPage, instagram } = user || business
 
-    const geoLink = "aa"
+    const geoLink = ""
     return (
         <Box>
             <Container maxWidth="md">
