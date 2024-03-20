@@ -22,7 +22,7 @@ export default function NameEdit({ user, business, label }) {
     };
     const saveHandler = async () => {
         let model = user ? "UserModel" : "BusinessModel"
-        let id = user ? user._id : business._id
+        let id = user ? user._id : business?._id
         let fieldName = user? "userName": "businessBrand"
         await fetch("/api/updateDB", {
             method: "PUT",
@@ -41,7 +41,7 @@ export default function NameEdit({ user, business, label }) {
             <Box sx={{ '& .MuiTextField-root': { width: '30ch' }, mt: 3 }} display="flex" flexDirection="column">
                 <Accordion expanded={expanded}>
                         <TextField
-                            defaultValue={user ? user.userName : business.businessBrand}
+                            defaultValue={user ? user.userName : business?.businessBrand}
                             variant="outlined"
                             onChange={changeHandler}
                             label={label}

@@ -41,7 +41,7 @@ export default function ExplainEdit({ user, business }) {
                     >
                         <TextField
                             display="flex"
-                            defaultValue={user ? user.explain : business.explain}
+                            defaultValue={user ? user.explain : business?.explain}
                             id="outlined-multiline-static"
                             label="توضیحات 300 کارکتری"
                             multiline

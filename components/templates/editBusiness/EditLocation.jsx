@@ -6,18 +6,17 @@ import { green } from '@mui/material/colors';
 import Button from '@mui/material/Button';
 import Fab from '@mui/material/Fab';
 import CheckIcon from '@mui/icons-material/Check';
-import SaveIcon from '@mui/icons-material/Save';
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
-import { Chip, Container, Typography } from '@mui/material';
-import DoneIcon from '@mui/icons-material/Done';
+import { Alert, Container } from '@mui/material';
+import { useEffect } from 'react';
+import Snackbar from '@mui/material/Snackbar';
 
-export default function EditLocation() {
+export default function EditLocation({ business }) {
     const [latitude, setLatitude] = React.useState("")
     const [longitude, setLongitude] = React.useState("")
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
-    const timer = React.useRef();
-
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const buttonSx = {
         ...(success && {
             bgcolor: green[500],
@@ -27,40 +26,49 @@ export default function EditLocation() {
         }),
     };
 
-    React.useEffect(() => {
-        return () => {
-            clearTimeout(timer.current);
-        };
-    }, []);
-
-    const handleButtonClick = () => {
-        if (!loading) {
+    function getGeolocation() {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+            console.log("one");
+        });
+    }
+    async function saveState() {
+        const position = await getGeolocation();
+        if (latitude === "") {
             setSuccess(false);
             setLoading(true);
-            timer.current = setTimeout(() => {
-                setSuccess(true);
-                setLoading(false);
-            }, 2000);
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+        } else {
+            console.log("two");
+            setSuccess(true);
+            setLoading(false);
+            setSnackbarOpen(true)
         }
-    };
-
-    function getGeolocation() {
-        try {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                console.log("position.coords", position.coords.longitude, position.coords.latitude);
-                setLatitude(position.coords.latitude)
-                setLongitude(position.coords.longitude)
-                saveHandler("latitude")
-                saveHandler("longitude")
-
-            })
-        } catch (error) {
-            console.log("error while adding geolocation to DB", error);
+    }
+    async function handleButtonClick() {
+        if (!loading) {
+            try {
+                await saveState()
+                console.log("three");
+            } catch (error) {
+                console.error(error);
+            }
         }
-    };
-    const saveHandler = async (fieldName) => {
-        let model = user ? "UserModel" : "BusinessModel"
-        let id = user ? user._id : business._id
+    }
+
+    useEffect(() => {
+        if (latitude && longitude) {
+            saveHandler("latitude", latitude);
+            saveHandler("longitude", longitude);
+            setSuccess(true);
+            setLoading(false);
+        }
+    }, [latitude, longitude]);
+
+    const saveHandler = async (fieldName, newValue) => {
+        let model = "BusinessModel"
+        let id = business._id
         const res = await fetch("/api/updateDB", {
             method: "PUT",
             headers: {
@@ -81,7 +89,7 @@ export default function EditLocation() {
                         sx={buttonSx}
                         onClick={handleButtonClick}
                     >
-                        {success ? <CheckIcon /> : <SaveIcon />}
+                        {success ? <CheckIcon /> : <PersonPinCircleIcon />}
                     </Fab>
                     {loading && (
                         <CircularProgress
@@ -103,7 +111,7 @@ export default function EditLocation() {
                         disabled={loading}
                         onClick={handleButtonClick}
                     >
-                        Accept terms
+                        {success ? "موقعیت شما بروزرسانی شد" : "بروزرسانی موقعیت مکانی"}
                     </Button>
                     {loading && (
                         <CircularProgress
@@ -120,18 +128,17 @@ export default function EditLocation() {
                     )}
                 </Box>
 
-                <Box sx={{ '& .MuiTextField-root': { width: '25ch' } }}
-                    display="flex" alignItems="center" align='center'>
-                    <PersonPinCircleIcon fontSize="large" /></Box>
-                <Box sx={{ width: '7ch', mx: 3 }}><Typography sx={{ fontSize: "14px" }}>موقعیت مکانی</Typography></Box>
-                <Chip
-                    label="بروزرسانی موقعیت مکانی"
-                    sx={{ direction: 'ltr' }}
-                    onClick={() => { getGeolocation(); setExpandedMyLocation(false) }}
-                    icon={<DoneIcon />}
-                />
-
             </Box>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={2000}
+                onClose={() => setSnackbarOpen(false)}
+            >
+                <Alert variant="filled" icon={<CheckIcon fontSize="inherit" />} severity="success">
+                    موقعیت شما به روز است
+                </Alert>
+            </Snackbar>
+
         </Container >
     )
 }

@@ -8,14 +8,19 @@ import Button from '@mui/material/Button';
 import EditIcon from '@mui/icons-material/Edit';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
+
+
+
+
 
 export default function MyAppBar({ user, logedUserCode, business }) {
-
+  const pathname = usePathname();
   const router = useRouter()
   const isAauthorizedToEdit = user ? (logedUserCode === user.code) : (logedUserCode == business?.agentCode)
 
   const goToIndex = () => {
-    router.push("/")
+    router.push(pathname.slice(0, pathname.lastIndexOf('/')))
   }
   const goToEdit = () => {
     router.push(`${business?.businessName || logedUserCode}/edit`)
@@ -33,12 +38,12 @@ export default function MyAppBar({ user, logedUserCode, business }) {
             onClick={goToIndex}
           >
             <ArrowForwardIcon />
-            <Typography component="div" >
-              بازگشت به صفحه اصلی
+            <Typography sx={{mx:1}} component="div" >
+                بازگشت  
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>
-          {isAauthorizedToEdit ?
+          {isAauthorizedToEdit && !pathname.endsWith('/edit') &&
             <Button
               color="inherit"
               onClick={goToEdit}
@@ -46,7 +51,7 @@ export default function MyAppBar({ user, logedUserCode, business }) {
               ویرایش
               <EditIcon />
             </Button>
-            : ""}
+          }
         </Toolbar>
       </AppBar>
     </Box>

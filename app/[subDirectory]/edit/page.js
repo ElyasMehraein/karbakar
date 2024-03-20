@@ -50,8 +50,7 @@ export default async function edit({ params }) {
   }
 
   return (
-    // <h1>hello edit profile</h1>
-    <EditProfile user={user} logedUserCode={logedUserCode} updateNameEdit={updateNameEdit} />
+    <EditProfile user={user} logedUserCode={logedUserCode} />
   )
 }
 

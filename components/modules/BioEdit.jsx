@@ -42,7 +42,7 @@ export default function BioEdit({ user, business }) {
                 >
                     <TextField
                         display="flex"
-                        defaultValue={user ? user.bio : business.bio}
+                        defaultValue={user ? user.bio : business?.bio}
                         id="outlined-multiline-static"
                         label="معرفی 150 کارکتری"
                         multiline

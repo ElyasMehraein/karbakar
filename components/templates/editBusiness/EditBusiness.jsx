@@ -15,7 +15,7 @@ export default function EditProfile({ business, logedUserCode }) {
             <BioEdit business={business}/>
             <ExplainEdit business={business} />
             <CountactEdit  business={business} />
-            <EditLocation/>
+            <EditLocation business={business}/>
         </>
 
     )

@@ -7,16 +7,16 @@ import BioEdit from "@/components/modules/BioEdit";
 import ExplainEdit from "@/components/modules/ExplainEdit";
 import NameEdit from "@/components/modules/NameEdit";
 
-export default function EditProfile({ logedUserCode, whichUserProfile }) {
+export default function EditProfile({user, logedUserCode, whichUserProfile }) {
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
-            <ProfileImg />
-            <UserAvatar />
-            <NameEdit defaultValue={"پروفایل"} label={"label"} />
-            <BioEdit />
-            <ExplainEdit />
-            <CountactEdit />
+            <ProfileImg user={user}/>
+            <UserAvatar user={user} />
+            <NameEdit defaultValue={"پروفایل"} label={"نام و نشان"} />
+            <BioEdit user={user} />
+            <ExplainEdit user={user} />
+            <CountactEdit user={user}/>
         </>
 
     )
