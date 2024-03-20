@@ -13,7 +13,7 @@ export default function EditProfile({user, logedUserCode, whichUserProfile }) {
             <MyAppBar logedUserCode={logedUserCode} whichUserProfile={whichUserProfile} />
             <ProfileImg user={user}/>
             <UserAvatar user={user} />
-            <NameEdit defaultValue={"پروفایل"} label={"نام و نشان"} />
+            <NameEdit user={user}  defaultValue={"پروفایل"} label={"نام و نشان"} />
             <BioEdit user={user} />
             <ExplainEdit user={user} />
             <CountactEdit user={user}/>

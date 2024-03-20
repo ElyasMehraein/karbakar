@@ -16,11 +16,12 @@ import { usePathname } from 'next/navigation';
 
 export default function MyAppBar({ user, logedUserCode, business }) {
   const pathname = usePathname();
+  const modifiedUrl = pathname.split('/').slice(0, -1).join('/') + '/';
   const router = useRouter()
   const isAauthorizedToEdit = user ? (logedUserCode === user.code) : (logedUserCode == business?.agentCode)
-
+  console.log("pathname", pathname);
   const goToIndex = () => {
-    router.push(pathname.slice(0, pathname.lastIndexOf('/')))
+    router.push(modifiedUrl)
   }
   const goToEdit = () => {
     router.push(`${business?.businessName || logedUserCode}/edit`)
@@ -38,8 +39,8 @@ export default function MyAppBar({ user, logedUserCode, business }) {
             onClick={goToIndex}
           >
             <ArrowForwardIcon />
-            <Typography sx={{mx:1}} component="div" >
-                بازگشت  
+            <Typography sx={{ mx: 1 }} component="div" >
+              بازگشت
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>
