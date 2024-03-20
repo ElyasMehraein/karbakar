@@ -19,7 +19,6 @@ export default function MyAppBar({ user, logedUserCode, business }) {
   const modifiedUrl = pathname.split('/').slice(0, -1).join('/') + '/';
   const router = useRouter()
   const isAauthorizedToEdit = user ? (logedUserCode === user.code) : (logedUserCode == business?.agentCode)
-  console.log("pathname", pathname);
   const goToIndex = () => {
     router.push(modifiedUrl)
   }

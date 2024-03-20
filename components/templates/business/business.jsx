@@ -18,11 +18,11 @@ function Business({ business, logedUserCode }) {
             <PageAvatar user={null} business={business} />
             <Name business={business}/>
             <Bio business={business} />
-            <Explain business={business} />
             <Contact business={business} />
-            {/* <TableBusiness business={business} />
+            <Explain business={business} />
+            <TableBusiness business={business} />
             <EmploeeList business={business} />
-            <WhatBusinessGet business={business} /> */}
+            <WhatBusinessGet business={business} />
         </>
     )
 
