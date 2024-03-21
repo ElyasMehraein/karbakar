@@ -22,6 +22,7 @@ import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import { useRouter } from 'next/navigation';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import { Avatar } from '@mui/material';
+import Link from 'next/link';
 
 
 const drawerWidth = 240;
@@ -84,7 +85,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
         })}
         <Divider />
         <List>
-        {user && <ListItem disablePadding>
+          {user && <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <AddBusinessIcon />
@@ -94,8 +95,9 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                 dir="rtl"
                 primary="ایجاد کسب و کار جدید"
                 type="button"
-                onClick={() => router.push("/CreateBusiness")}
               />
+              <Link href="/CreateBusiness">
+              </Link>
             </ListItemButton>
           </ListItem>}
           {user && <ListItem disablePadding>

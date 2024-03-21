@@ -82,8 +82,7 @@ export default function Wellcome() {
       phoneError()
     } else if (res.status === 201) {
       console.log("sabte nam ok shod hala bayad auto beri '/' ");
-      router.push('/')
-
+      router.refresh()
     }
   }
   function phoneError() {
