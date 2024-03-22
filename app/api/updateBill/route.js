@@ -5,35 +5,20 @@ import { GET } from "@/app/api/auth/me/route"
 
 export async function PUT(req) {
     const body = await req.json()
-    let {requesterId, id, fieldName, newValue } = body
+    let { billId, fieldName, newValue } = body
     const response = await GET(req)
     const user = await response.json()
-    if (requesterId !== user._id) {
-        Response.json(
-            { message: `You are not authorized to update ${fieldName} ` },
-            { status: 403 })
-    }
-    switch (model) {
-        case "UserModel":
-            model = UserModel;
-            break;
-        case "BusinessModel":
-            model = BusinessModel;
-            break;
-        case "BillModel":
-            model = BillModel;
-            break;
-    }
-    if (model === BillModel) {
-
-        
-        
-    }
 
     try {
-        const doc = await model.findById(id);
+        const doc = await BillModel.findById(billId);
         if (!doc) {
             throw new Error('Document not found');
+        }
+        if (doc.to !== user._id) {
+            Response.json(
+                { message: `You are not authorized to update ${fieldName} ` },
+                { status: 403 }
+            )
         }
         doc[fieldName] = newValue;
         await doc.save();

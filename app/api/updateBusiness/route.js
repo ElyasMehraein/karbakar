@@ -5,7 +5,14 @@ import { GET } from "@/app/api/auth/me/route"
 
 export async function PUT(req) {
     const body = await req.json()
-    let { model, id, fieldName, newValue } = body
+    let {requesterId, model, id, fieldName, newValue } = body
+    const response = await GET(req)
+    const user = await response.json()
+    if (requesterId !== user._id) {
+        Response.json(
+            { message: `You are not authorized to update ${fieldName} ` },
+            { status: 403 })
+    }
     switch (model) {
         case "UserModel":
             model = UserModel;
@@ -18,14 +25,8 @@ export async function PUT(req) {
             break;
     }
     if (model === BillModel) {
-        let { requesterId } = body
-        const response = await GET(req)
-        const user = await response.json()
-        if (requesterId !== user._id) {
-            Response.json(
-                { message: `You are not authorized to update ${fieldName} ` },
-                { status: 403 })
-        }
+
+        
         
     }
 

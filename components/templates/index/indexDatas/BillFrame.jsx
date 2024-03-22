@@ -20,16 +20,15 @@ export default function BillFrame({ user, bill }) {
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
 
     const saveHandler = async (newValue) => {
-        let model = "BillModel"
-        let id = bill._id
+        let billId = bill._id
         let fieldName = "isAccept"
-        const res = await fetch("/api/updateDB", {
+        const res = await fetch("/api/updateBill", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                model, id, fieldName, newValue
+                billId, fieldName, newValue
             }),
         });
         console.log("res", res);
