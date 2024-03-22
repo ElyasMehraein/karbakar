@@ -37,14 +37,13 @@ export default function BillFrame({ user, bill }) {
     }
 
     const deleteHandler = async () => {
-        console.log("id", bill._id);
-        const res = await fetch("/api/deleteDocument", {
+        const res = await fetch("/api/billDelete", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                id: bill._id
+                billId: bill._id
             }),
         });
         console.log("res", res);
