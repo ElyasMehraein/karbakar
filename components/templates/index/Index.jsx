@@ -21,9 +21,6 @@ export default function Index({ user, bills, token }) {
   }, [])
   return (mounted &&
     <>
-      {/* {user ?
-        <h3 dir="ltr">you are logging with following personal code {user.code} you are logging with following token {token}</h3> : <h3 dir="ltr">you are not loged in</h3>
-      } */}
       <RightDrawer
         user={user}
         open={open}

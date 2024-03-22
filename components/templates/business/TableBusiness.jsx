@@ -16,8 +16,13 @@ import Paper from '@mui/material/Paper';
 
 
 const columns = [
-  { id: 'name', label: 'مشتری غیرتکراری', minWidth: 100 },
-  { id: 'code', label: 'محصول', minWidth: 120 },
+  {
+    id: 'size',
+    label: 'مقدار',
+    minWidth: 17,
+    align: 'right',
+    format: (value) => value.toLocaleString('en-US'),
+  },
   {
     id: 'population',
     label: 'واحد اندازه گیری',
@@ -25,13 +30,8 @@ const columns = [
     align: 'right',
     format: (value) => value.toLocaleString('en-US'),
   },
-  {
-    id: 'size',
-    label: 'مقدار',
-    minWidth: 170,
-    align: 'right',
-    format: (value) => value.toLocaleString('en-US'),
-  },
+  { id: 'code', label: 'محصول', minWidth: 120 },
+  { id: 'name', label: 'مشتری غیرتکراری', minWidth: 100 },
 
 ];
 
@@ -51,8 +51,13 @@ const rows = [
 ];
 
 
-export default function TableBusiness() {
-  const [alignment, setAlignment] = React.useState('web');
+export default function TableBusiness({ business, bills }) {
+  console.log("bills", bills, "business", business);
+
+
+  const [alignment, setAlignment] = React.useState('one');
+
+
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
@@ -69,7 +74,14 @@ export default function TableBusiness() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
-
+  const ToggleButtonSx = {
+    mb: 1, backgroundColor: grey[50],
+    "&.MuiToggleButtonGroup-grouped": {
+      borderRadius: "4px !important",
+      mx: .1,
+      border: "2px solid lightgrey !important"
+    }
+  }
 
   return (
     <Box
@@ -79,40 +91,33 @@ export default function TableBusiness() {
         display: 'flex',
         flexWrap: 'wrap',
         '& > :not(style)': {
-
           width: "100%",
           maxWidth: 700,
           height: 480,
-
         },
       }}
     >
       <Paper
-
         sx={{ backgroundColor: grey[200], borderRadius: '30px' }}>
         <Typography sx={{ variant: "subtitle2", m: 1, fontWeight: 'bold' }}>
           محصولاتی که این کسب و کار به دیگران تحویل داده
         </Typography>
         <Box
           display="flex"
-
           justifyContent="space-around"
         >
 
           <ToggleButtonGroup
             color="primary"
-            sx={{ mb: 1, borderRadius: '20px !important', backgroundColor: grey[50] }}
             value={alignment}
             exclusive
             onChange={handleChange}
             aria-label="Platform"
-
-
           >
-            <ToggleButton sx={{ borderBottomLeftRadius: 20, borderTopLeftRadius: 20 }} value="one">از ابتدای تاسیس</ToggleButton>
-            <ToggleButton value="two">یکسال گذشته</ToggleButton>
-            <ToggleButton value="three">یکماه گذشته</ToggleButton>
-            <ToggleButton sx={{ borderBottomRightRadius: 20, borderTopRightRadius: 20 }} value="four">جدیدترین</ToggleButton>
+            <ToggleButton sx={ToggleButtonSx} value="one">از ابتدای تاسیس</ToggleButton>
+            <ToggleButton sx={ToggleButtonSx} value="two">سال گذشته</ToggleButton>
+            <ToggleButton sx={ToggleButtonSx} value="three">سال جاری</ToggleButton>
+            <ToggleButton sx={ToggleButtonSx} value="four">جدیدترین</ToggleButton>
           </ToggleButtonGroup>
         </Box>
         <Paper sx={{ m: 1, overflow: 'hidden' }}>
@@ -180,9 +185,6 @@ export default function TableBusiness() {
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
         </Paper>
-
-
-
       </Paper>
     </Box>
   );

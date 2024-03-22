@@ -2,7 +2,7 @@ import connectToDB from '@/configs/db'
 import { cookies } from "next/headers";
 import { verifyToken } from "@/controllers/auth";
 import { notFound } from 'next/navigation'
-
+import BillModel from '@/models/Bill';
 import BusinessModel from '@/models/Business'
 import Business from '@/components/templates/business/business'
 import UserModel from '@/models/User'
@@ -30,9 +30,14 @@ export default async function subDirectory({ params }) {
       console.log("business not found in DB");
       notFound()
     }
+    const bills = await JSON.parse(JSON.stringify(await BillModel.find({
+      from: business._id,
+      isAccept: true
+    }).populate("to")))
     return (
       <Business business={business}
         logedUserCode={logedUserCode}
+        bills={bills}
       />
     )
   }
@@ -47,7 +52,7 @@ export default async function subDirectory({ params }) {
     console.log("user not found in DB");
     notFound()
   }
-console.log("user is", user);
+  console.log("user is", user);
   return (
     <Profile user={user}
       logedUserCode={logedUserCode}
