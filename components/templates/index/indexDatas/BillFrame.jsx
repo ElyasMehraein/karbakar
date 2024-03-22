@@ -19,20 +19,19 @@ export default function BillFrame({ user, bill }) {
     const [snackbarReject, setSnackbarReject] = React.useState(false);
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
 
-    const saveHandler = async (newValue) => {
+    const saveHandler = async () => {
         let billId = bill._id
-        let fieldName = "isAccept"
-        const res = await fetch("/api/updateBill", {
+        const res = await fetch("/api/AcceptBill", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                billId, fieldName, newValue
+                billId,
             }),
         });
         console.log("res", res);
-        location.reload()
+        // location.reload()
         res.status === 200 ? setSnackbarAccept(true) : setSnackbarServerError(true)
     }
 
