@@ -13,17 +13,26 @@ export default function Guild({ updateGuildname, distinctGuilds }) {
     <Container maxWidth="md" >
       <Autocomplete
         className="inMiddle"
-        onChange={(event, newValue) => updateGuildname(newValue)}
+        onChange={(event, newValue) => {
+          if (typeof newValue === 'string') {
+            // Create a new value from the user input
+            updateGuildname(newValue);
+          } else if (newValue && newValue.inputValue) {
+            // Create a new value from the user input
+            updateGuildname(newValue.inputValue);
+          } else {
+            updateGuildname(newValue);
+          }
+        }}
         filterOptions={(options, params) => {
           const filtered = filter(options, params);
-
           const { inputValue } = params;
           // Suggest the creation of a new value
           const isExisting = options.some((option) => inputValue === option);
           if (inputValue !== '' && !isExisting) {
             filtered.push({
               inputValue,
-          
+              title: `ایجاد صنف جدید "${inputValue}"`,
             });
           }
 
@@ -46,7 +55,7 @@ export default function Guild({ updateGuildname, distinctGuilds }) {
           // Regular option
           return option;
         }}
-        renderOption={(props, option) => <li {...props} key={option}>{option}</li>}
+        renderOption={(props, option) => <li {...props} key={option}>{option.title ? option.title : option}</li>}
         sx={{ py: 3, width: 300 }}
         freeSolo
         renderInput={(params) => (
