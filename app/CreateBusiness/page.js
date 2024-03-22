@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from "next/headers";
 import connectToDB from "@/configs/db";
 import UserModel from "@/models/User";
-
+import BillModel from "@/models/Bill";
 
 
 export default async function page() {
@@ -26,8 +26,31 @@ export default async function page() {
             }
         }
     }
+    let distinctGuilds = []
+    await BillModel.find({ isAccept: true })
+        .then(docs => {
+            if (docs.length > 0) {
+                const guilds = docs.map(doc => doc.guild);
+                distinctGuilds = [...new Set(guilds)];
+
+            } else {
+                console.log('No documents found where isAccept is true.');
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+
+    console.log("distinctGuilds", distinctGuilds);
+
+    // BillModel.distinct("guild")
+    //     .exec()
+    //     .then(result => {
+    //         console.log(result);
+    //     });
+
     return (
-        <CreateBusiness />
+        <CreateBusiness distinctGuilds={distinctGuilds} />
     )
 
 }

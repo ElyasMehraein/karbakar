@@ -73,7 +73,7 @@ export default function TableBusiness() {
 
   return (
     <Box
-    justifyContent='center'
+      justifyContent='center'
       sx={{
         p: 1,
         display: 'flex',
@@ -81,7 +81,7 @@ export default function TableBusiness() {
         '& > :not(style)': {
 
           width: "100%",
-          maxWidth:700,
+          maxWidth: 700,
           height: 480,
 
         },
@@ -123,9 +123,9 @@ export default function TableBusiness() {
               <TableHead
                 sx={{
                   "& th": {
-                    p:0,
+                    p: 0,
                     fontSize: ".75rem",
-                    textAlign:"center",
+                    textAlign: "center",
                     backgroundColor: grey[200],
                   }
 
@@ -154,10 +154,10 @@ export default function TableBusiness() {
                         {columns.map((column) => {
                           const value = row[column.id];
                           return (
-                            <TableCell 
-                            sx={{p:1 ,textAlign:"center"}}
+                            <TableCell
+                              sx={{ p: 1, textAlign: "center" }}
 
-                            key={column.id} align={column.align}>
+                              key={column.id} align={column.align}>
                               {column.format && typeof value === 'number'
                                 ? column.format(value)
                                 : value}

@@ -6,10 +6,11 @@ import { useRouter } from 'next/navigation'
 import Guild from "@/components/modules/Guild"
 import { selectGuild } from '@/components/typoRepo';
 
-export default function createBusiness() {
+export default function createBusiness({distinctGuilds}) {
     const router = useRouter()
     const [businessName, setBusinessName] = useState("")
     const [guildname, setGuildName] = useState("")
+    
     const updateGuildname = (newGuildname) => {
         setGuildName(newGuildname);
     };
@@ -20,10 +21,8 @@ export default function createBusiness() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ businessName, guildname })
         })
-        console.log("response to sending sms is =>", res);
-        if (res.status === 406) {
-            phoneError()
-        } else if (res.status === 201) {
+        console.log("response to creating new business is =>", res);
+        if (res.status === 201) {
             router.push('/')
         }
     }
@@ -46,7 +45,7 @@ export default function createBusiness() {
                     />
                     <Typography sx={{ py: 1, textAlign: "center" }}>{selectGuild}</Typography>
 
-                    <Guild updateGuildname={updateGuildname} />
+                    <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} />
                     <Button onClick={() => createThisBusiness(businessName, guildname)} variant="contained">
                         ایجاد کسب و کار
                     </Button>

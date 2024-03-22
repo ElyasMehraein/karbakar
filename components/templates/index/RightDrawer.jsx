@@ -22,7 +22,6 @@ import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import { useRouter } from 'next/navigation';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import { Avatar } from '@mui/material';
-import Link from 'next/link';
 
 
 const drawerWidth = 240;
@@ -44,6 +43,8 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
     const res = await fetch("/api/auth/logout", { method: "POST" });
     if (res.status === 200) {
       router.push("/welcome");
+    } else {
+      console.log("res", res);
     }
   }
   return (
@@ -95,9 +96,9 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                 dir="rtl"
                 primary="ایجاد کسب و کار جدید"
                 type="button"
+                onClick={() => router.push("/CreateBusiness")}
               />
-              <Link href="/CreateBusiness">
-              </Link>
+
             </ListItemButton>
           </ListItem>}
           {user && <ListItem disablePadding>
