@@ -6,7 +6,7 @@ import { Container } from '@mui/material';
 
 const filter = createFilterOptions();
 
-export default function Guild({ updateGuildname, distinctGuilds }) {
+export default function Guild({ updateGuildname, distinctGuilds ,snackbarError}) {
 
 
   return (
@@ -59,7 +59,7 @@ export default function Guild({ updateGuildname, distinctGuilds }) {
         sx={{ py: 3, width: 300 }}
         freeSolo
         renderInput={(params) => (
-          <TextField {...params} label="انتخاب صنف" />
+          <TextField required error={snackbarError} {...params} label="انتخاب صنف" />
         )}
       />
     </Container>

@@ -51,7 +51,7 @@ export default function CreateBill({ user }) {
   const handleShowSnackbar = () => {
     setOpenSnackbar(true);
   };
-
+  console.log("selectedBusiness", selectedBusiness);
   async function createThisBill(selectedBusiness, customerCode, bills) {
     const res = await fetch('api/createBill', {
       method: "POST",
@@ -91,20 +91,19 @@ export default function CreateBill({ user }) {
         onClose={handleSnackbarClose}
         message="صورتحساب جهت تایید برای مشتری ارسال شد"
       />
-      <Box sx={{ py:1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
+      <Box sx={{ py: 1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?
           <>
             {user.businesses[0] ?
               <>
                 <Typography sx={{ m: 1 }}>ایجاد صورتحساب</Typography>
-
                 <Autocomplete
                   blurOnSelect
                   id="combo-box-demo"
                   options={userBusinesses}
                   sx={{ m: 2, width: 300 }}
                   renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
-                  onChange={(e) => setSelectedBusiness(userBusinesses[e.target.value])}
+                  onChange={(e, value) => setSelectedBusiness(value)}
                 />
                 {selectedBusiness &&
                   <>

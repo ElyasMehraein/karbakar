@@ -11,8 +11,12 @@ export async function POST(req) {
 
         const body = await req.json()
         const { businessName, guildname } = body;
-        if (!businessName.trim() && !guildname.trim()) {
-            return Response.json({ message: "Entrance data is empty!" }, { status: 402 })
+        if (!businessName.trim() || !guildname.trim()) {
+            return Response.json({ message: "Entrance data is empty!" }, { status: 400 })
+        }
+        const englishLetters = /^[A-Za-z]+$/;
+        if (!businessName.match(englishLetters)) {
+            return Response.json({ message: "Business name must only contain English letters!" }, { status: 406 })
         }
 
         let business = await BusinessModel.findOne({ businessName })
@@ -44,7 +48,7 @@ export async function POST(req) {
                 latitude: "",
                 agentCode: user.code,
                 workers: [user._id],
-                guildname: guildname.title,
+                guildname: guildname,
                 products: []
             })
             business = business

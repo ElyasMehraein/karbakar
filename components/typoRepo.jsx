@@ -6,7 +6,7 @@ export const mainTabYourReqText = `
 شما انجام خواهند داد
 `
 export const selectGuild = `
-کسب و کاری که ثبت می کنید با چه صنفی مرتبط است؟ اگر صنف آن در لیست نیست می توانید صنف جدیدی بسازید
+کسب و کاری که ثبت می کنید با چه صنفی مرتبط است؟
 
 `
 export const createBusiness_selectAsPrimary = () => {
