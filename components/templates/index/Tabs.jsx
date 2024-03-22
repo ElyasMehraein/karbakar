@@ -71,7 +71,7 @@ function a11yProps(index) {
 
 export default function BasicTabs({ user , bills}) {
 
-  const [value, setValue] = React.useState(2);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -142,9 +142,7 @@ export default function BasicTabs({ user , bills}) {
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
           Item Two
         </CustomTabPanel>
-
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
-
           {
             fabIndex === 2 ?
               <CreateBill user={user} />

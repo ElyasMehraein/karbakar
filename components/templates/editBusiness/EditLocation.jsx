@@ -14,8 +14,6 @@ import Snackbar from '@mui/material/Snackbar';
 export default function EditLocation({ business }) {
     const [latitude, setLatitude] = React.useState("")
     const [longitude, setLongitude] = React.useState("")
-    console.log("latitude", latitude);
-    console.log("longitude", longitude);
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -31,7 +29,6 @@ export default function EditLocation({ business }) {
     function getGeolocation() {
         return new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject);
-            console.log("one");
         });
     }
     async function saveState() {
@@ -41,7 +38,6 @@ export default function EditLocation({ business }) {
             setLoading(true);
             setLatitude(position.coords.latitude);
             setLongitude(position.coords.longitude);
-            console.log("two");
         } else {
             setSuccess(true);
             setLoading(false);
@@ -52,7 +48,6 @@ export default function EditLocation({ business }) {
         if (!loading) {
             try {
                 await saveState()
-                console.log("three");
             } catch (error) {
                 console.error(error);
             }

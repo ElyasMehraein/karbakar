@@ -46,6 +46,7 @@ export async function POST(req) {
                 instagram: "",
                 longitude: "",
                 latitude: "",
+                mapDetail: "",
                 agentCode: user.code,
                 workers: [user._id],
                 guildname: guildname,

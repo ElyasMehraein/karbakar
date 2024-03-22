@@ -8,53 +8,46 @@ import {
     AccordionDetails,
     AccordionSummary,
 } from '@mui/material';
+import saveHandler from '@/utils/saveHandler';
 
-export default function ExplainEdit({ user, business }) {
+export default function ExplainEdit({ user, business, maxLengthError }) {
     const [newValue, setNewValue] = useState(null);
     const [expanded, setExpanded] = useState(false);
 
     const changeHandler = (e) => {
         setExpanded(true);
         setNewValue(e.target.value);
+        if (e.target.value.length > 299) {
+            maxLengthError()
+            setExpanded(false)
+        }
     };
-    const saveHandler = async () => {
-        let model = user ? "UserModel" : "BusinessModel"
-        let id = user ? user._id : business._id
-        await fetch("/api/updateDB", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                model, id, fieldName:"explain", newValue
-            }),
-        });
-        setExpanded(false);
-    }
     return (
         <Container maxWidth="md">
-             <Accordion expanded={expanded}>
-                    <Box
+            <Accordion expanded={expanded}>
+                <Box
+                    display="flex"
+                    justifyContent='center'
+                    sx={{ my: 1 }}
+                >
+                    <TextField
+                        inputProps={{ maxLength: 300 }}
+
                         display="flex"
-                        justifyContent='center'
-                        sx={{ my: 1 }}
-                    >
-                        <TextField
-                            display="flex"
-                            defaultValue={user ? user.explain : business?.explain}
-                            id="outlined-multiline-static"
-                            label="توضیحات 300 کارکتری"
-                            multiline
-                            rows={4}
-                            fullWidth
-                            onChange={changeHandler}
-                        />
-                    </Box>
-                <AccordionDetails> 
+                        defaultValue={user ? user.explain : business?.explain}
+                        id="outlined-multiline-static"
+                        label="توضیحات 300 کارکتری"
+                        multiline
+                        rows={4}
+                        fullWidth
+                        onChange={changeHandler}
+                    />
+                </Box>
+                <AccordionDetails>
                     <Chip
                         label="ذخیره"
                         sx={{ mt: 1, direction: 'ltr' }}
-                        onClick={saveHandler}
+                        onClick={() => saveHandler(user, business, "explain", newValue, setExpanded)}
                         icon={<DoneIcon />}
                     />
                 </AccordionDetails>

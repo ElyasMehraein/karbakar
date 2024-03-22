@@ -3,35 +3,21 @@ import { Box, Container, TextField, } from '@mui/material'
 import React, { useState } from 'react'
 import Chip from '@mui/material/Chip';
 import DoneIcon from '@mui/icons-material/Done';
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-} from '@mui/material';
-
-export default function BioEdit({ user, business }) {
+import { Accordion, AccordionDetails, } from '@mui/material';
+import saveHandler from '@/utils/saveHandler';
+export default function BioEdit({ user, business, maxLengthError }) {
     const [newValue, setNewValue] = useState(null);
     const [expanded, setExpanded] = useState(false);
 
     const changeHandler = (e) => {
+        if (e.target.value.length > 149) {
+            maxLengthError()
+            setExpanded(false)
+        }
         setExpanded(true);
         setNewValue(e.target.value);
     };
-    const saveHandler = async () => {
-        let model = user ? "UserModel" : "BusinessModel"
-        let id = user ? user._id : business._id
-        await fetch("/api/updateDB", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                model, id, fieldName: "bio", newValue
-            }),
-        });
-        setExpanded(false);
 
-    }
     return (
         <Container maxWidth="md">
             <Accordion expanded={expanded}>
@@ -47,6 +33,7 @@ export default function BioEdit({ user, business }) {
                         label="معرفی 150 کارکتری"
                         multiline
                         rows={2}
+                        inputProps={{ maxLength: 150 }}
                         fullWidth
                         onChange={changeHandler}
                     />
@@ -55,7 +42,7 @@ export default function BioEdit({ user, business }) {
                     <Chip
                         label="ذخیره"
                         sx={{ mt: 1, direction: 'ltr' }}
-                        onClick={saveHandler}
+                        onClick={() => saveHandler(user, business, "bio", newValue, setExpanded)}
                         icon={<DoneIcon />}
                     />
                 </AccordionDetails>

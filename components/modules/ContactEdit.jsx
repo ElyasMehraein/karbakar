@@ -12,7 +12,7 @@ import Chip from '@mui/material/Chip';
 import DoneIcon from '@mui/icons-material/Done';
 import { Accordion, AccordionDetails } from '@mui/material';
 
-export default function contactEdit({ user, business }) {
+export default function contactEdit({ user, business, maxLengthError }) {
 
     const { phone, email, personalPage, instagram } = user || business
     const [newValue, setNewValue] = useState(null);
@@ -22,9 +22,19 @@ export default function contactEdit({ user, business }) {
     const [expandedPersonalPage, setExpandedPersonalPage] = useState(false);
     const [expandedInstagram, setExpandedInstagram] = useState(false);
 
+    const phoneChangeHandler = (e) => {
+        if (e.target.value.length === 11) {
+            if (/^09\d*$/.test(e.target.value)) {
+                setNewValue(e.target.value);
+                setExpandedPhone(true)
+            } else {
+                maxLengthError("شماره تماس بایستی متشکل از اعداد باشد و با 09 شروع شود")
+            }
+        }
+    };
     const changeHandler = (e) => {
         setNewValue(e.target.value);
-    };
+    }
 
     const saveHandler = async (fieldName) => {
         let model = user ? "UserModel" : "BusinessModel"
@@ -53,14 +63,17 @@ export default function contactEdit({ user, business }) {
                         <Box sx={{ width: '7ch', mx: 3 }}><Typography sx={{ fontSize: "14px" }}>تماس</Typography></Box>
                         <Accordion expanded={expandedPhone}>
                             <TextField
+                                inputProps={{
+                                    inputMode: 'numeric',
+                                    maxLength: 11,
+                                }}
                                 size="small"
                                 id="outlined-helperText"
                                 InputLabelProps={{ sx: { fontSize: "14px" } }}
                                 label="مثال 09123456789"
                                 defaultValue={phone}
                                 onChange={(e) => {
-                                    changeHandler(e);
-                                    setExpandedPhone(true)
+                                    phoneChangeHandler(e);
                                 }}
                             />
                             <AccordionDetails>

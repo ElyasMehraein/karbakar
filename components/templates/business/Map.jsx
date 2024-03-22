@@ -19,7 +19,7 @@ export default function Map({ business }) {
                         />
                         <Marker position={position}>
                             <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
+                               {business?.mapDetail || "برای این آدرس جزئیاتی وارد نشده است"}
                             </Popup>
                         </Marker>
                     </MapContainer>

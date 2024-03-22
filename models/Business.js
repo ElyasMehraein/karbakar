@@ -6,6 +6,7 @@ const schema = new Schema({
         type: String,
         required: true,
         unique: true,
+        maxlength: 30,
     },
     businessBrand: {
         type: String,
@@ -24,7 +25,7 @@ const schema = new Schema({
     },
     phone: {
         type: String,
-        maxlength: 10,
+        maxlength: 11,
     },
     email: {
         type: String,
@@ -40,6 +41,7 @@ const schema = new Schema({
     },
     longitude: { type: String, maxlength: 30, },
     latitude: { type: String, maxlength: 30, },
+    mapDetail: { type: String, maxlength: 30, },
     agentCode: { type: String, maxlength: 30, },
     workers: [
         {
@@ -47,7 +49,7 @@ const schema = new Schema({
             ref: "User"
         }
     ],
-    guildname: { type: String, required: true },
+    guildname: { type: String, required: true, maxlength: 30 },
     products: [
         {
             productName: { type: String, maxlength: 30 },
