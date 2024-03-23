@@ -5,7 +5,7 @@ import { GET } from "@/app/api/auth/me/route"
 
 export async function PUT(req) {
     const body = await req.json()
-    let { billId, newValue } = body
+    let { billId } = body
     const response = await GET(req)
     const user = await response.json()
 
@@ -20,18 +20,43 @@ export async function PUT(req) {
                 { status: 403 }
             )
         }
-        // bill.isAccept = true;
-        // await bill.save();
-        let business = await BusinessModel.findById(bill.from);
-        let theBusiness = business.products.find(product =>
-            product.productName === bill.productName
-        )
-        if (theBusiness) {
-            theBusiness.totalDelivered += bill.amount;
-            await business.save
+        if (!bill.isAccept) {
+            bill.isAccept = true;
+            await bill.save();
         } else {
-            business.products.push({ productName: bill[0].productName })
-            await business.save()
+            Response.json(
+                { message: `white hats are wellcome :)` },
+                { status: 400 }
+            )
+        }
+
+        let business = await BusinessModel.findById(bill.from);
+
+        for (let product of bill.products) {
+            let theBusinessProduct = business.products.find(businessProduct => businessProduct.productName === product.productName);
+            let uniqueCustomer = await BillModel.distinct('to', {
+                productName: bill.productName,
+                from: bill.from,
+            });
+            console.log("uniqueCustomerCount", uniqueCustomer.length);
+            if (theBusinessProduct) {
+                console.log("ta inja residams", theBusinessProduct);
+                theBusinessProduct.totalDelivered += product.amount;
+                theBusinessProduct.thisYearDelivered += product.amount
+                uniqueCustomer = uniqueCustomer.length
+                await business.save()
+
+            } else {
+                business.products.push({
+                    productName: product.productName,
+                    unitOfMeasurement: product.unitOfMeasurement,
+                    totalDelivered: product.amount,
+                    lastYearDelivered: 0,
+                    thisYearDelivered: product.amount,
+                    uniqueCustomer: 1,
+                });
+                await business.save()
+            }
         }
 
         console.log(`the bill updated successfully.`);

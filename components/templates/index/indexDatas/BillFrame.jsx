@@ -31,7 +31,7 @@ export default function BillFrame({ user, bill }) {
             }),
         });
         console.log("res", res);
-        // location.reload()
+        location.reload()
         res.status === 200 ? setSnackbarAccept(true) : setSnackbarServerError(true)
     }
 
