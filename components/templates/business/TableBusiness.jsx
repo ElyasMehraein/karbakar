@@ -36,19 +36,6 @@ const columns = [
 ];
 export default function TableBusiness({ business }) {
 
-  function createData(name, code, population, size) {
-    return { name, code, population, size };
-  }
-
-  const rdddows = [
-    createData('25', 'تعمیر موتور', "سرویس", 82),
-    createData('16', 'بازدید چرخ', "سرویس", 841),
-    createData('352', 'تعمیر برق', "سرویس", 584),
-    createData('52', 'تنظیم موتور', "سرویس", 54),
-    createData('2', 'تست دیاگ', "سرویس", 87),
-    createData('656', 'بازدید فنی', "سرویس", 98),
-
-  ];
   const rows = business.products.map(product => {
     return {name:product.uniqueCustomer, code: product.productName, population: product.unitOfMeasurement, size: product.totalDelivered }
   });
@@ -92,16 +79,16 @@ export default function TableBusiness({ business }) {
         '& > :not(style)': {
           width: "100%",
           maxWidth: 700,
-          height: 480,
+          // height: 480,
         },
       }}
     >
       <Paper
-        sx={{ backgroundColor: grey[200], borderRadius: '30px' }}>
+        sx={{ p:1, backgroundColor: grey[200], borderRadius: '30px' }}>
         <Typography sx={{ variant: "subtitle2", m: 1, fontWeight: 'bold' }}>
           محصولاتی که این کسب و کار به دیگران تحویل داده
         </Typography>
-        <Box
+        {/* <Box
           display="flex"
           justifyContent="space-around"
         >
@@ -118,7 +105,7 @@ export default function TableBusiness({ business }) {
             <ToggleButton sx={ToggleButtonSx} value="three">سال جاری</ToggleButton>
             <ToggleButton sx={ToggleButtonSx} value="four">جدیدترین</ToggleButton>
           </ToggleButtonGroup>
-        </Box>
+        </Box> */}
         <Paper sx={{ m: 1, overflow: 'hidden' }}>
           <TableContainer sx={{ maxHeight: 500 }}>
             <Table
