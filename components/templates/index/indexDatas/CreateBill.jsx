@@ -3,15 +3,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
-import modulesAutocomplete from "@/components/modules/modulesAutocomplete";
-import DoneIcon from '@mui/icons-material/Done';
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
-
 import CreateBillFrame from "./CreateBillFrame";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-
+import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 
 export default function CreateBill({ user }) {
 
@@ -20,21 +16,15 @@ export default function CreateBill({ user }) {
       return business.businessName
     }
   })
-  const [selectedBusiness, setSelectedBusiness] = React.useState("")
-
-  const [selectedProduct, setSelectedProduct] = React.useState("سیب زمینی")
-
-  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("کیلوگرم")
-
-  const [amount, setAmount] = React.useState("500")
-
+  const [selectedBusiness, setSelectedBusiness] = React.useState(null)
+  const [selectedProduct, setSelectedProduct] = React.useState(null)
+  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState(null)
+  const [amount, setAmount] = React.useState(null)
   const [bills, setbills] = React.useState([])
-
   const [customerCode, setCustomerCode] = React.useState([])
 
   const addToBills = () => {
     setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
-    setSelectedProduct("")
     setUnitOfMeasurement("")
     setAmount("")
   }
@@ -43,15 +33,14 @@ export default function CreateBill({ user }) {
   }
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
 
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
   };
-
   const handleShowSnackbar = () => {
     setOpenSnackbar(true);
   };
-  console.log("selectedBusiness", selectedBusiness);
   async function createThisBill(selectedBusiness, customerCode, bills) {
     const res = await fetch('api/createBill', {
       method: "POST",
@@ -63,6 +52,8 @@ export default function CreateBill({ user }) {
     } else if (res.status === 201) {
       console.log("bill signed successfully");
       handleShowSnackbar()
+    } else if (res.status === 406) {
+      setOpenSnackbarError(true)
     }
   }
   const [expanded, setExpanded] = React.useState(false);
@@ -90,6 +81,12 @@ export default function CreateBill({ user }) {
         open={openSnackbar}
         onClose={handleSnackbarClose}
         message="صورتحساب جهت تایید برای مشتری ارسال شد"
+      />
+      <CustomSnackbar
+        open={openSnackbarError}
+        onClose={() => setOpenSnackbarError(false)}
+        message="شما نمی توانید برای خودتان صورتحساب صادر نمایید"
+        severity="error"
       />
       <Box sx={{ py: 1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?

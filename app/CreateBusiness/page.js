@@ -41,14 +41,6 @@ export default async function page() {
             console.error(err);
         });
 
-    console.log("distinctGuilds", distinctGuilds);
-
-    // BillModel.distinct("guild")
-    //     .exec()
-    //     .then(result => {
-    //         console.log(result);
-    //     });
-
     return (
         <CreateBusiness distinctGuilds={distinctGuilds} />
     )

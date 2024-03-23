@@ -43,7 +43,7 @@ export async function PUT(req) {
                 console.log("ta inja residams", theBusinessProduct);
                 theBusinessProduct.totalDelivered += product.amount;
                 theBusinessProduct.thisYearDelivered += product.amount
-                uniqueCustomer = uniqueCustomer.length
+                theBusinessProduct.uniqueCustomer = uniqueCustomer.length
                 await business.save()
 
             } else {
