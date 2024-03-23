@@ -16,10 +16,10 @@ export default function CreateBill({ user }) {
       return business.businessName
     }
   })
-  const [selectedBusiness, setSelectedBusiness] = React.useState(null)
-  const [selectedProduct, setSelectedProduct] = React.useState(null)
-  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState(null)
-  const [amount, setAmount] = React.useState(null)
+  const [selectedBusiness, setSelectedBusiness] = React.useState("")
+  const [selectedProduct, setSelectedProduct] = React.useState("")
+  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
+  const [amount, setAmount] = React.useState("")
   const [bills, setbills] = React.useState([])
   const [customerCode, setCustomerCode] = React.useState([])
 

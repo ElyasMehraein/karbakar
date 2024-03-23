@@ -34,26 +34,25 @@ const columns = [
   { id: 'name', label: 'مشتری غیرتکراری', minWidth: 100 },
 
 ];
+export default function TableBusiness({ business }) {
 
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
+  function createData(name, code, population, size) {
+    return { name, code, population, size };
+  }
 
-const rows = [
-  createData('25', 'تعمیر موتور', "سرویس", 82),
-  createData('16', 'بازدید چرخ', "سرویس", 841),
-  createData('352', 'تعمیر برق', "سرویس", 584),
-  createData('52', 'تنظیم موتور', "سرویس", 54),
-  createData('2', 'تست دیاگ', "سرویس", 87),
-  createData('656', 'بازدید فنی', "سرویس", 98),
+  const rdddows = [
+    createData('25', 'تعمیر موتور', "سرویس", 82),
+    createData('16', 'بازدید چرخ', "سرویس", 841),
+    createData('352', 'تعمیر برق', "سرویس", 584),
+    createData('52', 'تنظیم موتور', "سرویس", 54),
+    createData('2', 'تست دیاگ', "سرویس", 87),
+    createData('656', 'بازدید فنی', "سرویس", 98),
 
-];
-
-
-export default function TableBusiness({ business, bills }) {
-  console.log("bills", bills, "business", business);
-
+  ];
+  const rows = business.products.map(product => {
+    return {name:product.uniqueCustomer, code: product.productName, population: product.unitOfMeasurement, size: product.totalDelivered }
+  });
+  // console.log("ajab",rows, reports);
 
   const [alignment, setAlignment] = React.useState('one');
 
