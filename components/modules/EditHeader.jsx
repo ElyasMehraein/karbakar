@@ -16,7 +16,7 @@ export default function EditHeader({user, business}) {
     setImageKey(Date.now());
   }, []);
 
-  const handleImageUpload = async (event) => {
+  const handleHeaderUpload = async (event) => {
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append('image', image);
@@ -29,11 +29,11 @@ export default function EditHeader({user, business}) {
       });
 
       if (response.status === 201) {
-        console.log('image Uploaded successfully');
+        console.log('header Uploaded successfully');
         setImageKey(Date.now());
       }
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error('Error uploading header:', error);
     }
   };
 
@@ -53,11 +53,11 @@ export default function EditHeader({user, business}) {
       <input
         accept="image/*"
         style={{ display: 'none' }}
-        id="raised-button-file"
+        id="header-image-updater"
         type="file"
-        onChange={handleImageUpload}
+        onChange={handleHeaderUpload}
       />
-      <label htmlFor="raised-button-file">
+      <label htmlFor="header-image-updater">
         <IconButton component="span" sx={{ ml: 5, mb: 5, bgcolor: color }}>
           <AddAPhotoIcon sx={{ color: 'white' }} />
         </IconButton>

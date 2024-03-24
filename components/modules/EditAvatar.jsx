@@ -19,7 +19,8 @@ export default function EditAvatar({ user, business }) {
     setImageKey(Date.now());
   }, []);
 
-  const handleImageUpload = async (event) => {
+  const handleAvatarUpload = async (event) => {
+    console.log("change avatar clicked");
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append('image', image);
@@ -32,11 +33,11 @@ export default function EditAvatar({ user, business }) {
       });
 
       if (response.status === 201) {
-        console.log('image Uploaded successfully');
+        console.log('avatar Uploaded successfully');
         setImageKey(Date.now());
       }
     } catch (error) {
-      console.error('Error uploading image:', error);
+      console.error('Error uploading avatar:', error);
     }
   };
 
@@ -60,11 +61,11 @@ export default function EditAvatar({ user, business }) {
         <input
           accept="image/*"
           style={{ display: 'none' }}
-          id="raised-button-file"
+          id="uploadAvatar"
           type="file"
-          onChange={handleImageUpload}
+          onChange={handleAvatarUpload}
         />
-        <label htmlFor="raised-button-file">
+        <label htmlFor="uploadAvatar">
           <IconButton
             component="span"
             sx={{ mr: -2, bgcolor: color }}>
