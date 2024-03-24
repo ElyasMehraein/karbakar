@@ -6,15 +6,13 @@ import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Image from "next/image";
 import { grey } from '@mui/material/colors';
-import { Container, IconButton, Typography } from "@mui/material";
-import { useRouter } from "next/navigation";
+import { Container, IconButton } from "@mui/material";
 
 const color = grey[900];
 
 export default function EditAvatar({user , business}) {
   const [imageKey, setImageKey] = useState(null);
   const AvatarImg = `/avatars/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''}`
-  const router = useRouter()
 
   useEffect(() => {
     setImageKey(Date.now());
