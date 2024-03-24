@@ -16,7 +16,6 @@ export default function Header({ user, business }) {
     setIsLoading(true)
 
   }, []);
-   console.log("isLoading && headerImage", isLoading , headerImage);
 
   return (
     <div>

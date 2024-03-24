@@ -1,5 +1,4 @@
 "use client"
-import defaultAvatarImg from "@/public/assets/default/default-avatar.svg"
 import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -10,9 +9,11 @@ import { Container, IconButton } from "@mui/material";
 
 const color = grey[900];
 
-export default function EditAvatar({user , business}) {
+export default function EditAvatar({ user, business }) {
   const [imageKey, setImageKey] = useState(null);
-  const AvatarImg = `/avatars/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''}`
+  const defaultAvatarImg = "/assets/default/default-avatar.png"
+
+  const AvatarImg = `/${user ? `avatars` : `brands`}/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''}`
 
   useEffect(() => {
     setImageKey(Date.now());
@@ -29,8 +30,8 @@ export default function EditAvatar({user , business}) {
         method: 'PUT',
         body: formData,
       });
-      
-      if(response.status===201){
+
+      if (response.status === 201) {
         console.log('image Uploaded successfully');
         setImageKey(Date.now());
       }

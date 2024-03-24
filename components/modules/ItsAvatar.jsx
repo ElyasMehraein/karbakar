@@ -1,12 +1,13 @@
 "use client"
 import Image from 'next/image'
-import defaultAvatarImg from "@/public/assets/default/default-avatar.svg"
 import { useEffect, useState } from 'react';
 
 export default function ItsAvatar({ userCodeOrBusinessBrand }) {
+
     const [imageKey, setImageKey] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-
+    const [error, setError] = useState(false);
+    const defaultAvatarImg = "/assets/default/default-avatar.svg"
     useEffect(() => {
         setImageKey(Date.now());
         setIsLoading(false)
@@ -18,12 +19,17 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
     } else {
         avatarOrBrand = "avatars"
     }
-
+    
+    let avatar = isLoading ? defaultAvatarImg : `/${avatarOrBrand}/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''}`
     return <Image
-        src={isLoading ? defaultAvatarImg :`/${avatarOrBrand}/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''}`}
+        src={error ? defaultAvatarImg : avatar}
         alt={userCodeOrBusinessBrand} quality={100}
         fill
         sizes="100vw"
         style={{ objectFit: 'cover' }}
+        onError={(e) => {
+            e.target.onerror = null;
+            setError(true);
+        }}
     />
 }

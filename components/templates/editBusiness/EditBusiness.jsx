@@ -22,8 +22,8 @@ export default function EditProfile({ business, logedUserCode }) {
     return (
         <>
             <MyAppBar />
-            <EditHeader />
-            <EditAvatar />
+            <EditHeader business={business} />
+            <EditAvatar business={business} />
             <NameEdit business={business} label={"نام کسب و کار"} maxLengthError={maxLengthError} />
             <AddressEdit business={business} maxLengthError={maxLengthError} />
             <BioEdit business={business} maxLengthError={maxLengthError} />

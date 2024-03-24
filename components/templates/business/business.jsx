@@ -16,7 +16,7 @@ function Business({ business, logedUserCode , bills}) {
         <>
             <MyAppBar logedUserCode={logedUserCode} business={business} />
             <Header business={business} />
-            <PageAvatar user={null} business={business} />
+            <PageAvatar business={business} />
             <Name business={business} />
             <Bio business={business} />
             <Contact business={business} />
