@@ -52,7 +52,6 @@ export default async function subDirectory({ params }) {
     console.log("user not found in DB");
     notFound()
   }
-  console.log("user is", user);
   return (
     <Profile user={user}
       logedUserCode={logedUserCode}

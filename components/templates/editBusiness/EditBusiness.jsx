@@ -8,6 +8,9 @@ import NameEdit from "@/components/modules/NameEdit";
 import EditLocation from "./EditLocation";
 import AddressEdit from "./AddressEdit";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
+import BusinessAvatar from "../../modules/EditAvatar";
+import EditHeader from "@/components/modules/EditHeader";
+import EditAvatar from "../../modules/EditAvatar";
 
 export default function EditProfile({ business, logedUserCode }) {
     const [snackbarError, setSnackbarError] = useState(false);
@@ -19,6 +22,8 @@ export default function EditProfile({ business, logedUserCode }) {
     return (
         <>
             <MyAppBar />
+            <EditHeader />
+            <EditAvatar />
             <NameEdit business={business} label={"نام کسب و کار"} maxLengthError={maxLengthError} />
             <AddressEdit business={business} maxLengthError={maxLengthError} />
             <BioEdit business={business} maxLengthError={maxLengthError} />

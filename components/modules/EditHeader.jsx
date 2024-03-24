@@ -14,7 +14,7 @@ import { grey } from '@mui/material/colors';
 
 const color = grey[900];
 
-export default function BusinessHeader() {
+export default function EditHeader() {
   return (
     <Box
       display="flex" alignItems="flex-end" justifyContent="left"

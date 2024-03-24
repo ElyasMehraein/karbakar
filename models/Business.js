@@ -12,9 +12,6 @@ const schema = new Schema({
         type: String,
         maxlength: 30,
     },
-    brand: Boolean,
-
-    header: Boolean,
     bio: {
         type: String,
         maxlength: 150,

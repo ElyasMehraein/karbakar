@@ -15,16 +15,16 @@ function Business({ business, logedUserCode , bills}) {
     return (
         <>
             <MyAppBar logedUserCode={logedUserCode} business={business} />
-            {/* <Header business={business} />
+            <Header business={business} />
             <PageAvatar user={null} business={business} />
             <Name business={business} />
             <Bio business={business} />
             <Contact business={business} />
             <Map business={business} />
-            <Explain business={business} /> */}
+            <Explain business={business} />
             <TableBusiness business={business} bills={bills} />
-            {/* <EmploeeList business={business} />
-            <WhatBusinessGet business={business} /> */}
+            <EmploeeList business={business} />
+            <WhatBusinessGet business={business} />
         </>
     )
 

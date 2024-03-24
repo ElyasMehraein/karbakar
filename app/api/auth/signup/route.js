@@ -48,8 +48,6 @@ export async function POST(req, res) {
                 phoneHash,
                 code: nextUserNumber,
                 userName: "",
-                avatar: true,
-                header: true,
                 bio: "",
                 explain: "",
                 phone: "",
