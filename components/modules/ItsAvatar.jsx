@@ -25,7 +25,7 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
         src={error ? defaultAvatarImg : avatar}
         alt={userCodeOrBusinessBrand} quality={100}
         fill
-        sizes="100vw"
+        sizes="100px"
         style={{ objectFit: 'cover' }}
         onError={(e) => {
             e.target.onerror = null;
