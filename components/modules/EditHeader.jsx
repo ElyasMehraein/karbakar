@@ -1,20 +1,16 @@
+"use client"
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Image from 'next/image';
 import IconButton from '@mui/material/IconButton';
-import DefaultHeader from "@/public/assets/default/DefaultHeader"
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import { Button, Icon } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const color = grey[900];
 
-export default function EditHeader() {
+export default function EditHeader({user, business}) {
   const [imageKey, setImageKey] = useState(null);
-  const AvatarImg = `/avatars/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''}`
 
   useEffect(() => {
     setImageKey(Date.now());
@@ -31,8 +27,8 @@ export default function EditHeader() {
         method: 'PUT',
         body: formData,
       });
-      
-      if(response.status===201){
+
+      if (response.status === 201) {
         console.log('image Uploaded successfully');
         setImageKey(Date.now());
       }
@@ -47,21 +43,24 @@ export default function EditHeader() {
       style={{
         position: "relative",
         width: "100vw",
-        height: "30vh",
+        height: "50vh",
+        backgroundImage: `url(/headers/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
       }}
-      sx={{ bgcolor: '#cfe8fc', width: "100vw", height: "30vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
+      sx={{ bgcolor: '#cfe8fc', width: "100vw", height: "50vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
     >
-              <input
-          accept="image/*"
-          style={{ display: 'none' }}
-          id="raised-button-file"
-          type="file"
-          onChange={handleImageUpload}
-        />
-        <label htmlFor="raised-button-file">
-      <IconButton component="span" sx={{ ml: 5, mb: 5, bgcolor: color }}>
-        <AddAPhotoIcon sx={{ color: 'white' }} />
-      </IconButton>
+      <input
+        accept="image/*"
+        style={{ display: 'none' }}
+        id="raised-button-file"
+        type="file"
+        onChange={handleImageUpload}
+      />
+      <label htmlFor="raised-button-file">
+        <IconButton component="span" sx={{ ml: 5, mb: 5, bgcolor: color }}>
+          <AddAPhotoIcon sx={{ color: 'white' }} />
+        </IconButton>
       </label>
     </Box>
   )
