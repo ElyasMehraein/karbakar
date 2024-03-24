@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import saveHandler from '@/utils/saveHandler';
 export default function NameEdit({ user, business, label, maxLengthError }) {
+    const fieldName = user ? "userName" : "businessBrand"
     const [newValue, setNewValue] = useState(null);
     const [expanded, setExpanded] = useState(false);
 
@@ -38,7 +39,7 @@ export default function NameEdit({ user, business, label, maxLengthError }) {
                         <Chip
                             label="ذخیره"
                             sx={{ mt: 1, direction: 'ltr' }}
-                            onClick={() => saveHandler(user, business, "businessBrand", newValue, setExpanded)}
+                            onClick={() => saveHandler(user, business, fieldName, newValue, setExpanded)}
                             icon={<DoneIcon />}
                         />
                     </AccordionDetails>
