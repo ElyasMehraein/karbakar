@@ -1,11 +1,9 @@
 import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
-import BHeader from "@/public/assets/businessHeader.jpg"
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Image from 'next/image';
-import profileHeader from "@/public/assets/profileHeader.jpg"
 import IconButton from '@mui/material/IconButton';
 import DefaultHeader from "@/public/assets/default/DefaultHeader"
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';

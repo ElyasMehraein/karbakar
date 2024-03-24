@@ -230,7 +230,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
                 // aria-haspopup="true"
                 color="inherit"
                 onClick={goToProfile}
-              >{user.avatar ?
+              >{user?
                 <Avatar sx={{ width: 40, height: 40 }} >
                   <ItsAvatar userCodeOrBusinessBrand={user?.code} />
                 </Avatar> :
