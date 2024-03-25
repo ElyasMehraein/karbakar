@@ -8,11 +8,11 @@ import NameEdit from "@/components/modules/NameEdit";
 import EditLocation from "./EditLocation";
 import AddressEdit from "./AddressEdit";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import BusinessAvatar from "../../modules/EditAvatar";
 import EditHeader from "@/components/modules/EditHeader";
 import EditAvatar from "../../modules/EditAvatar";
+import EmployeeList from "@/components/modules/EmployeeList";
 
-export default function EditProfile({ business, logedUserCode }) {
+export default function EditBusiness({ business, logedUserCode ,users}) {
     const [snackbarError, setSnackbarError] = useState(false);
     const [SnackbarMessage, setSnackbarMessage] = useState("محدودیت تعداد کارکتر را رعایت نمایید")
     const maxLengthError = (parameter) => {
@@ -30,6 +30,8 @@ export default function EditProfile({ business, logedUserCode }) {
             <ExplainEdit business={business} maxLengthError={maxLengthError} />
             <CountactEdit business={business} maxLengthError={maxLengthError} />
             <EditLocation business={business} maxLengthError={maxLengthError} />
+            <EmployeeList business={business} logedUserCode={logedUserCode} users={users} />
+
             <CustomSnackbar
                 open={snackbarError}
                 onClose={() => setSnackbarError(false)}

@@ -25,16 +25,21 @@ export default async function edit({ params }) {
   ))).code
 
   if (isNaN(params.subDirectory)) {
-    const business = JSON.parse(JSON.stringify( await BusinessModel.findOne({ businessName: params.subDirectory })))
+    const business = JSON.parse(JSON.stringify(await BusinessModel.findOne({
+      businessName: params.subDirectory
+    }).populate("workers")));
+
+    const users = await JSON.parse(JSON.stringify(await UserModel.find()))
+    console.log(users);
     if (!business) {
       console.log("business not found in DB");
       notFound()
     }
-    if(Number(business.agentCode) !== logedUserCode){
+    if (Number(business.agentCode) !== logedUserCode) {
       return <h1 className='inMiddle'> 403 دسترسی غیر مجاز</h1>
     }
     return (
-      <EditBusiness business={business} logedUserCode={logedUserCode} />
+      <EditBusiness business={business} logedUserCode={logedUserCode} users={users} />
     )
   }
 
