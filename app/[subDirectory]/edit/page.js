@@ -30,7 +30,6 @@ export default async function edit({ params }) {
     }).populate("workers")));
 
     const users = await JSON.parse(JSON.stringify(await UserModel.find()))
-    console.log(users);
     if (!business) {
       console.log("business not found in DB");
       notFound()

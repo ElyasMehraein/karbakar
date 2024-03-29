@@ -15,7 +15,7 @@ export default function Explain({ user, business }) {
                 align='center'
                 sx={{ maxWidth: { xs: 300, md: 800 }, p: 1 }}
             >
-                {explain} 
+                {explain}
             </Typography>
         </Box>
     )
