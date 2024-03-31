@@ -30,7 +30,7 @@ export default function EditBusiness({ business, logedUserCode ,users}) {
             <ExplainEdit business={business} maxLengthError={maxLengthError} />
             <CountactEdit business={business} maxLengthError={maxLengthError} />
             <EditLocation business={business} maxLengthError={maxLengthError} />
-            <EmployeeList business={business} logedUserCode={logedUserCode} users={users} />
+            <EmployeeList business={business} logedUserCode={logedUserCode} users={users} maxLengthError={maxLengthError}/>
 
             <CustomSnackbar
                 open={snackbarError}

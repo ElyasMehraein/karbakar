@@ -23,9 +23,13 @@ export default function PageAvatar({ user, business }) {
           <Typography display="inline" variant="subtitle2" >
             قدمت صفحه: {daysPassed} روز
           </Typography>
-          {business &&
+          {business ?
             <Typography display="inline" variant="subtitle2">
-              صنف: {business.guildname}
+              صنف :  {business.guildname}
+            </Typography>
+            :
+            <Typography display="inline" variant="subtitle2">
+              کد کاربری : {user.code}
             </Typography>
           }
         </Box>
