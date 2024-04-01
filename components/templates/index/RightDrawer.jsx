@@ -125,10 +125,18 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
           </ListItem>
         </List>
         <Divider />
-        <Button
-          onClick={signOut} color="error" endIcon={<LogoutIcon />}>
-          خروج از سایت
-        </Button>
+        {user ?
+          <Button
+            sx={{ direction: "ltr" }} onClick={signOut} color="error" endIcon={<LogoutIcon />}>
+            خروج از سایت
+          </Button>
+          :
+          <Button
+            sx={{ display: { sm: 'none', xs: 'block' } }}
+            onClick={signOut} variant="outlined" color="secondary">
+            ورود یا ثبت نام
+          </Button>
+        }
       </Drawer>
     </Box>
   );

@@ -80,182 +80,63 @@ export default function SearchAppBar({ user, menuClickHandler }) {
     }
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
-
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
   const menuId = 'primary-search-account-menu';
-  const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-    </Menu>
-  );
-
-  const mobileMenuId = 'primary-search-account-menu-mobile';
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{
-        vertical: 'top',
-        horizontal: 'right',
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-            onClick={menuClickHandler}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Box sx={{ flexGrow: 1 }} />
-          <Search sx={{ direction: "ltr" }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="کارباکار"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          {!user ? (<Button onClick={signOut} variant="contained" color="secondary">
-            ورود یا ثبت نام
-          </Button>) :
+    <AppBar position="static">
+      <Toolbar >
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="open drawer"
+          onClick={menuClickHandler}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Box sx={{ flexGrow: 1 }} />
+        <Search sx={{ direction: "ltr" }}>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder="کارباکار"
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </Search>
+        {!user ? (<Button size="small" sx={{ display: { xs: 'none', sm: 'block' }, mr: 1, minWidth: 110, maxWidth: 110 }}
+          onClick={signOut} variant="contained" color="secondary">
+          ورود یا ثبت نام
+        </Button>) :
 
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <IconButton sx={{ width: 70, height: 70 }} size="large" aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="error">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton sx={{ width: 70, height: 70 }}
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={17} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-
-              <IconButton
-              sx={{ m:0 ,width: 70, height: 70 }}
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                // aria-haspopup="true"
-                color="inherit"
-                onClick={goToProfile}
-              >{user?
-                <Avatar sx={{ width: 40, height: 40 }} >
-                  <ItsAvatar userCodeOrBusinessBrand={user?.code} />
-                </Avatar> :
-                <AccountCircle />}
-              </IconButton>
-            </Box>
-          }
-
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
+          <Box sx={{ display: 'flex' }}             >
+            <IconButton sx={{ width: 70, height: 70 }}
               size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
+              aria-label="show 17 new notifications"
               color="inherit"
             >
-              <MoreIcon />
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+
+            <IconButton
+              sx={{ m: 0, width: 70, height: 70 }}
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              // aria-haspopup="true"
+              color="inherit"
+              onClick={goToProfile}
+            >{user ?
+              <Avatar sx={{ width: 40, height: 40 }} >
+                <ItsAvatar userCodeOrBusinessBrand={user?.code} />
+              </Avatar> :
+              <AccountCircle />}
             </IconButton>
           </Box>
-        </Toolbar>
-        {/* </Container> */}
-      </AppBar>
-      {renderMobileMenu}
-      {renderMenu}
-    </Box >
+        }
+      </Toolbar>
+    </AppBar>
   );
 }
