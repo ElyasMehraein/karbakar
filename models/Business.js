@@ -43,7 +43,8 @@ const schema = new Schema({
     workers: [
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
+            index: { unique: true }
         }
     ],
     guildname: { type: String, required: true, maxlength: 30 },

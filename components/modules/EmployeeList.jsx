@@ -19,12 +19,22 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
 
 
 export default function EmployeeList({ business, logedUserCode, users, maxLengthError }) {
     const [open, setOpen] = React.useState(false);
     const [newValue, setNewValue] = React.useState(null);
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
+    const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
+
+    const handleSnackbarClose = () => {
+        setOpenSnackbar(false);
+    };
+    const handleShowSnackbar = () => {
+        setOpenSnackbar(true);
+    };
 
     const changeHandler = (e) => {
         if (isNaN(e.target.value)) {
@@ -42,10 +52,28 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
         setOpen(false);
     };
 
-    const sendJobOffer = () => {
-        console.log("yask");
+    async function sendJobOffer() {
+        const res = await fetch('/api/createReport', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ recepiantCode: newValue, business, jobOffers: true })
+        })
+        if (res.status === 201) {
+            handleShowSnackbar()
+        } else if (res.status === 500) {
+            maxLengthError("خطای اتصال به سرور")
+        } else if (res.status === 403) {
+            maxLengthError("تنها نماینده کسب و کار مجاز به استخدام نیروهاست")
+        } else if (res.status === 404) {
+            maxLengthError("کاربر وارد شده یافت نشد کد وارد شده را مجدد بررسی نمایید")
+        } else if (res.status === 406) {
+            maxLengthError("شما نمی توانید برای خودتان درخواست استخدام ارسال نمایید")
+        } else if (res.status === 409) {
+            maxLengthError("این کاربر قبلا در این کسب و کار استخدام شده است")
+        } else if (res.status === 409.1) {
+            maxLengthError("این پیشنهاد کار قبلا ارسال شده و منتظر پاسخ است")
+        }
     }
-
     return (
         <Box>
             <Box dir="rtl" sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -111,7 +139,6 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
                             variant="standard"
                             inputProps={{ maxLength: 4 }}
                             onChange={changeHandler}
-
                         />
                     </DialogContent>
                     <DialogActions>
@@ -119,6 +146,11 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
                         <Button onClick={(e) => { sendJobOffer(e) }}>ارسال پیشنهاد کار</Button>
                     </DialogActions>
                 </Dialog>
+                <CustomSnackbar
+                    open={openSnackbar}
+                    onClose={() => { handleSnackbarClose, location.reload() }}
+                    message="پیشنهاد کار جهت تایید برای کاربر ارسال شد"
+                />
             </Box>
         </Box>
     );

@@ -31,7 +31,6 @@ export default function BillFrame({ user, bill }) {
             }),
         });
         console.log("res", res);
-        location.reload()
         res.status === 200 ? setSnackbarAccept(true) : setSnackbarServerError(true)
     }
 
@@ -46,7 +45,6 @@ export default function BillFrame({ user, bill }) {
             }),
         });
         console.log("res", res);
-        location.reload()
         res.status === 200 ? setSnackbarReject(true) : setSnackbarServerError(true)
     }
 
@@ -91,7 +89,7 @@ export default function BillFrame({ user, bill }) {
             </Container>
             <CustomSnackbar
                 open={snackbarAccept}
-                onClose={() => setSnackbarAccept(false)}
+                onClose={() => { setSnackbarAccept(false), location.reload() }}
                 message="دریافت محصولات و خدمات صورتحساب تایید شد"
             />
             <CustomSnackbar
@@ -99,10 +97,10 @@ export default function BillFrame({ user, bill }) {
                 onClose={() => setSnackbarServerError(false)}
                 message="خطا در اتصال به سرور"
                 severity="error"
-                />
+            />
             <CustomSnackbar
                 open={snackbarReject}
-                onClose={() => setSnackbarReject(false)}
+                onClose={() => { setSnackbarReject(false), location.reload() }}
                 message="صورتحساب لغو گردید"
                 severity="info"
             />
