@@ -12,15 +12,19 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
+import Divider from '@mui/material/Divider';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import MoreIcon from '@mui/icons-material/MoreVert';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import { useRouter } from 'next/navigation'
 import Button from "@mui/material/Button";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Avatar } from '@mui/material';
 import ItsAvatar from "@/components/modules/ItsAvatar"
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -63,6 +67,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ user, menuClickHandler }) {
+  const [business, setBusiness] = useState("null")
+  console.log("business", business);
   const userCode = (user) => {
     if (user.code) {
       return user.code
@@ -79,8 +85,26 @@ export default function SearchAppBar({ user, menuClickHandler }) {
       router.push('/welcome')
     }
   }
+  const getReports = async () => {
+    const res = await fetch("/api/reports/getReports", { method: "GET" })
+    if (res.status === 200) {
+      const data = await res.json()
+      setBusiness(data)
+    }
+    console.log("business", business.data);
+  }
 
-  const menuId = 'primary-search-account-menu';
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const clickReports = (event) => {
+    setAnchorEl(event.currentTarget);
+    getReports()
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <AppBar position="static">
       <Toolbar >
@@ -108,23 +132,65 @@ export default function SearchAppBar({ user, menuClickHandler }) {
           ورود یا ثبت نام
         </Button>) :
 
-          <Box sx={{ display: 'flex' }}             >
-            <IconButton sx={{ width: 70, height: 70 }}
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
+          <Box sx={{ display: 'flex' }}>
+            <Tooltip title="Account settings">
+              <IconButton sx={{ width: 70, height: 70 }}
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                onClick={clickReports}
+                aria-controls={open ? 'account-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+              >
+                <Badge badgeContent={17} color="error">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </Tooltip>
+            <Menu
+              anchorEl={anchorEl}
+              id="account-menu"
+              open={open}
+              onClose={handleClose}
+              onClick={handleClose}
+              transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-
+              <MenuItem sx={{ minWidth: 300 }} onClick={handleClose}>
+                <Avatar>
+                  <ItsAvatar userCodeOrBusinessBrand={"one"} />
+                </Avatar> Profile
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <Avatar /> My account
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <PersonAdd fontSize="small" />
+                </ListItemIcon>
+                Add another account
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
             <IconButton
               sx={{ m: 0, width: 70, height: 70 }}
               size="large"
               edge="end"
               aria-label="account of current user"
-              aria-controls={menuId}
+              aria-controls='primary-search-account-menu'
               // aria-haspopup="true"
               color="inherit"
               onClick={goToProfile}
@@ -137,6 +203,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
           </Box>
         }
       </Toolbar>
+      {/* <Reports anchorEl={anchorEl} open={open} handleClose={handleClose} /> */}
     </AppBar>
   );
 }
