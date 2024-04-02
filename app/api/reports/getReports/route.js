@@ -20,22 +20,29 @@ export async function GET(req, res) {
         connectToDB()
         const logedUser = JSON.parse(JSON.stringify(await UserModel.findOne(
             { _id: tokenPayLoad.id },
-            "code"
         )))
-        const reports = JSON.parse(JSON.stringify(await ReportModel.find({
-            recepiant: logedUser._id
-        }).populate("business").populate("bill")))
-        console.log("logedUser._id", logedUser._id, reports)
-        return Response.json(
-            { message: 'get reports successfully', data: reports },
-            { status: 200 }
-        );
-    } catch (error) {
-        console.error(`Error get reports`, error);
-        Response.json(
-            { message: `Error get reports`, error },
-            { status: 500 })
-    }
+
+        const reports = await ReportModel.find({
+            $or: [
+              { recepiant: logedUser._id },
+              {
+                business: { $in: logedUser.businesses } ,
+                isSeen: false
+              }
+            ]
+          }).populate("business").populate("bill");
+          
+    console.log("che ashi", reports);
+    return Response.json(
+        { message: 'get reports successfully', data: reports },
+        { status: 200 }
+    );
+} catch (error) {
+    console.error(`Error get reports`, error);
+    Response.json(
+        { message: `Error get reports`, error },
+        { status: 500 })
+}
 
 }
 

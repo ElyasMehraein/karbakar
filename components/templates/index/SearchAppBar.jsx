@@ -66,18 +66,34 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function SearchAppBar({ user, menuClickHandler }) {
 
+
   const [reports, setReports] = useState("")
   const [unseenReportCounts, setUnseenReportCounts] = useState(0)
 
   useEffect(() => {
+
     getReports()
   }, []);
 
   useEffect(() => {
     if (reports) {
-      setUnseenReportCounts(reports.filter(report => !report.isjobOffersAnswerd).length || 0)
+      setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd ).length || 0)
     }
   }, [reports]);
+
+  const setIsSeen = async (parameter) => {
+    const res = await fetch("/api/reports/setIsSeen", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        parameter
+      }),
+    });
+    console.log("res", res);
+    res.status === 201 && setUnseenReportCounts(0)
+  }
 
   const userCode = (user) => {
     if (user.code) {
@@ -101,16 +117,17 @@ export default function SearchAppBar({ user, menuClickHandler }) {
       const data = await res.json()
       setReports(data.data)
     }
-    console.log("Reports", reports);
   }
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const clickReports = (event) => {
+  const clickReports = async (event) => {
     setAnchorEl(event.currentTarget);
+    setTimeout(() => setIsSeen(true), 5000);
   };
-  const handleClose = () => {
+  const handleClose = async () => {
+    clearTimeout(setIsSeen)
     setAnchorEl(null);
   };
 
@@ -141,7 +158,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
           ورود یا ثبت نام
         </Button>) :
           <Box sx={{ display: 'flex' }}>
-            <Tooltip title="Account settings">
+            {reports[0] && <Tooltip title="Account settings">
               <IconButton sx={{ width: 70, height: 70 }}
                 size="large"
                 aria-label="show 17 new notifications"
@@ -155,8 +172,8 @@ export default function SearchAppBar({ user, menuClickHandler }) {
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-            </Tooltip>
-            {reports && <Reports reports={reports} anchorEl={anchorEl} open={open} handleClose={handleClose} />}
+            </Tooltip>}
+            <Reports reports={reports} anchorEl={anchorEl} open={open} handleClose={handleClose} />
             <IconButton
               sx={{ m: 0, width: 70, height: 70 }}
               size="large"

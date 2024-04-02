@@ -70,7 +70,7 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
             maxLengthError("شما نمی توانید برای خودتان درخواست استخدام ارسال نمایید")
         } else if (res.status === 409) {
             maxLengthError("این کاربر قبلا در این کسب و کار استخدام شده است")
-        } else if (res.status === 409.1) {
+        } else if (res.status === 410) {
             maxLengthError("این پیشنهاد کار قبلا ارسال شده و منتظر پاسخ است")
         }
     }

@@ -35,7 +35,7 @@ export async function POST(req) {
 
         const isJobOfferExist = await ReportModel.findOne({ recepiant, business: Business, isjobOffersAnswerd: false })
         if (isJobOfferExist) {
-            return Response.json({ message: "This jobOffer already exist" }, { status: 409.1 })
+            return Response.json({ message: "This jobOffer already exist" }, { status: 410 })
         }
         await ReportModel.create({
             recepiant: recepiant._id,
