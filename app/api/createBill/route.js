@@ -18,11 +18,9 @@ export async function POST(req) {
         if (Number(Business.agentCode) !== user.code) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
         }
-        console.log("customer.code", customer.code === user.code);
         if (customer.code === user.code) {
             return Response.json({ message: "406 you can't sell things to yourself!" }, { status: 406 })
         }
-        console.log("inja nabayad bashe");
         await BillModel.create({
             guild: Business.guildname,
             from: Business._id,

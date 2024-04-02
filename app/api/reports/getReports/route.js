@@ -22,12 +22,12 @@ export async function GET(req, res) {
             { _id: tokenPayLoad.id },
             "code"
         )))
-        const reports = JSON.parse(JSON.stringify(await ReportModel.findOne({
+        const reports = JSON.parse(JSON.stringify(await ReportModel.find({
             recepiant: logedUser._id
         }).populate("business").populate("bill")))
         console.log("logedUser._id", logedUser._id, reports)
         return Response.json(
-            { message: `get reports successfully.`, data: reports },
+            { message: 'get reports successfully', data: reports },
             { status: 200 }
         );
     } catch (error) {

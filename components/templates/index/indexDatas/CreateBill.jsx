@@ -133,6 +133,7 @@ export default function CreateBill({ user }) {
                       label="مقدار"
                       onChange={(e) => setAmount(e.target.value)}
                       sx={{ mt: 2, width: 300 }}
+                      type="number"
                     />
 
                     <Button
