@@ -65,7 +65,19 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ user, menuClickHandler }) {
-  const [business, setBusiness] = useState("null")
+
+  const [reports, setReports] = useState("")
+  const [unseenReportCounts, setUnseenReportCounts] = useState(0)
+
+  useEffect(() => {
+    getReports()
+  }, []);
+
+  useEffect(() => {
+    if (reports) {
+      setUnseenReportCounts(reports.filter(report => !report.isjobOffersAnswerd).length || 0)
+    }
+  }, [reports]);
 
   const userCode = (user) => {
     if (user.code) {
@@ -87,9 +99,9 @@ export default function SearchAppBar({ user, menuClickHandler }) {
     const res = await fetch("/api/reports/getReports", { method: "GET" })
     if (res.status === 200) {
       const data = await res.json()
-      setBusiness(data.data)
+      setReports(data.data)
     }
-    console.log("business", business);
+    console.log("Reports", reports);
   }
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -97,7 +109,6 @@ export default function SearchAppBar({ user, menuClickHandler }) {
 
   const clickReports = (event) => {
     setAnchorEl(event.currentTarget);
-    getReports()
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -140,26 +151,26 @@ export default function SearchAppBar({ user, menuClickHandler }) {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Badge badgeContent={0} color="error">
+                <Badge badgeContent={unseenReportCounts} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
             </Tooltip>
-            <Reports anchorEl={anchorEl} open={open} handleClose={handleClose} />
+            {reports && <Reports reports={reports} anchorEl={anchorEl} open={open} handleClose={handleClose} />}
             <IconButton
-                sx={{ m: 0, width: 70, height: 70 }}
-                size="large"
-                edge="end"
-                aria-label="account of current user"
-                aria-controls='primary-search-account-menu'
-                // aria-haspopup="true"
-                color="inherit"
-                onClick={goToProfile}
+              sx={{ m: 0, width: 70, height: 70 }}
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls='primary-search-account-menu'
+              // aria-haspopup="true"
+              color="inherit"
+              onClick={goToProfile}
             >{user ?
-                <Avatar sx={{ width: 40, height: 40 }} >
-                    <ItsAvatar userCodeOrBusinessBrand={user?.code} />
-                </Avatar> :
-                <AccountCircle />}
+              <Avatar sx={{ width: 40, height: 40 }} >
+                <ItsAvatar userCodeOrBusinessBrand={user?.code} />
+              </Avatar> :
+              <AccountCircle />}
             </IconButton>
           </Box>
         }

@@ -12,9 +12,9 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import ItsAvatar from "@/components/modules/ItsAvatar"
+import ReportFrame from './ReportFrame';
 
-
-export default function Reports({ anchorEl, open, handleClose }) {
+export default function Reports({ reports, anchorEl, open, handleClose }) {
 
     return (
         <React.Fragment>
@@ -27,12 +27,14 @@ export default function Reports({ anchorEl, open, handleClose }) {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem sx={{ minWidth: 300 }} onClick={handleClose}>
-                    <Avatar>
-                        <ItsAvatar userCodeOrBusinessBrand={"one"} />
-                    </Avatar> Profile
+                <MenuItem sx={{  display: 'flex', flexDirection: "column" }} onClick={handleClose}>
+                    {reports &&
+                        reports.map((report) => {
+                            return <ReportFrame report={report} key={report._id} />
+                        })
+                    }
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
+                {/* <MenuItem onClick={handleClose}>
                     <Avatar /> My account
                 </MenuItem>
                 <Divider />
@@ -54,8 +56,9 @@ export default function Reports({ anchorEl, open, handleClose }) {
                     </ListItemIcon>
                     Logout
                 </MenuItem>
+            */}
             </Menu>
-            
+
         </React.Fragment>
     );
 }
