@@ -27,12 +27,10 @@ export async function GET(req, res) {
               { recepiant: logedUser._id },
               {
                 business: { $in: logedUser.businesses } ,
-                isSeen: false
               }
             ]
-          }).populate("business").populate("bill");
+          }).populate("business").populate("bill").populate("recepiant");
           
-    console.log("che ashi", reports);
     return Response.json(
         { message: 'get reports successfully', data: reports },
         { status: 200 }

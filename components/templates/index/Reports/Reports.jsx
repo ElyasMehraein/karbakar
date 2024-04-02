@@ -16,7 +16,7 @@ export default function Reports({ reports, anchorEl, open, handleClose }) {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem sx={{ display: 'flex', flexDirection: "column" }} onClick={handleClose}>
+                <MenuItem sx={{ display: 'flex', flexDirection: "column-reverse" }} onClick={handleClose}>
                     {reports &&
                         reports.map((report) => {
                             return <ReportFrame report={report} key={report._id} />

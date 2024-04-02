@@ -13,7 +13,7 @@ import { useTheme } from '@mui/material/styles';
 
 
 export default function ReportFrame({ report }) {
-    const theme = useTheme();
+
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
@@ -25,14 +25,13 @@ export default function ReportFrame({ report }) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                parameter, reportID:report._id
+                parameter, reportID: report._id
             }),
         });
-        console.log("res", res);
         res.status === 201 ? setSnackbarAccept(true) : setSnackbarServerError(true)
     }
 
-   
+
     return (
         <Box >
             <Card sx={{ minWidth: 300, my: 1, bgcolor: "#e3f2fd" }}>
@@ -53,7 +52,8 @@ export default function ReportFrame({ report }) {
                         subheader={report.business.businessName}
                     />
                 </Box>
-                    <Stack direction="row" spacing={2} sx={{ml:2, mb:2, direction: "ltr" }}>
+                {!report.isjobOffersAnswerd ?
+                    <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
                         <Button variant="outlined" color="error"
                             onClick={() => answer(false)}>
                             لغو
@@ -63,7 +63,14 @@ export default function ReportFrame({ report }) {
                             تایید
                         </Button>
                     </Stack>
+                    :
+                    <CardContent>
 
+                        <Typography component="div" variant="body2">
+                            {` به این درخواست توسط ${report.recepiant.userName} پاسخ  ${report.jobOfferAnswer ? "مثبت" : "منفی"} داده شد`}
+                        </Typography>
+                    </CardContent>
+                }
             </Card>
             <CustomSnackbar
                 open={snackbarAccept}

@@ -36,8 +36,10 @@ export async function PUT(req) {
             Business.workers.addToSet(user._id);
             await Business.save();
             report.isSeen = false
+            console.log("are injam");
         }
         report.isSeen = false
+        console.log("are ijjnjam");
         report.jobOfferAnswer = parameter
         report.isjobOffersAnswerd = true
         await report.save();
