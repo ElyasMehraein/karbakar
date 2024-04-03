@@ -25,12 +25,11 @@ export default function ReportFrame({ report }) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                parameter, reportID: report._id
+                reportID: report._id, parameter
             }),
         });
         res.status === 201 ? setSnackbarAccept(true) : setSnackbarServerError(true)
     }
-
 
     return (
         <Box >
@@ -53,7 +52,9 @@ export default function ReportFrame({ report }) {
                     />
                 </Box>
                 {!report.isjobOffersAnswerd ?
+                
                     <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
+                        {console.log("!report.isjobOffersAnswerd ?", report.isjobOffersAnswerd)}
                         <Button variant="outlined" color="error"
                             onClick={() => answer(false)}>
                             لغو

@@ -27,7 +27,7 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
     const [open, setOpen] = React.useState(false);
     const [newValue, setNewValue] = React.useState(null);
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
-    const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
+    const [dialogMessage, setDialogMessage] = React.useState("استخدام");
 
     const handleSnackbarClose = () => {
         setOpenSnackbar(false);
@@ -45,12 +45,18 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
     };
 
     const signHandler = () => {
+        setDialogMessage("استخدام")
+        setOpen(true);
+    };
+    const dismissHandler = () => {
+        setDialogMessage("اخراج")
         setOpen(true);
     };
 
     const handleClose = () => {
         setOpen(false);
     };
+
 
     async function sendJobOffer() {
         const res = await fetch('/api/createReport', {
@@ -74,6 +80,30 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
             maxLengthError("این پیشنهاد کار قبلا ارسال شده و منتظر پاسخ است")
         }
     }
+
+    async function dismissalHandler() {
+        const res = await fetch('/api/dismissal', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ recepiantCode: newValue, business })
+        })
+        if (res.status === 201) {
+            handleShowSnackbar()
+        } else {
+            console.log("res", res);
+        }
+    }
+    const actionHandler = () => {
+
+        if (dialogMessage === "استخدام") {
+            sendJobOffer()
+        }
+        if (dialogMessage === "اخراج") {
+            dismissalHandler()
+        }
+    };
+
+
     return (
         <Box>
             <Box dir="rtl" sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -106,11 +136,11 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
                     {logedUserCode === Number(business.agentCode) &&
                         <Stack display={"flex"} justifyContent={"flex-end"} direction="row" spacing={2} sx={{ direction: "ltr" }}>
                             <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
-                                onClick={() => quitHandler()}>
+                                onClick={() => dismissHandler()}>
                                 اخراج
                             </Button>
                             <Button color="success" variant="outlined" endIcon={<SendIcon />}
-                                onClick={() => signHandler(true)}>
+                                onClick={() => signHandler()}>
                                 استخدام
                             </Button>
                         </Stack>
@@ -122,10 +152,10 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
                     open={open}
                     onClose={handleClose}
                 >
-                    <DialogTitle>استخدام</DialogTitle>
+                    <DialogTitle>{dialogMessage}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            کد کاربری را که میخواهید به این کسب و کار اضافه شود وارد نمایید
+                            کد کاربری را که میخواهید {dialogMessage} شود را وارد نمایید
                         </DialogContentText>
                         <DialogContentText>
                             کد کاربری را می توانید در پروفایل کاربران مشاهده نمایید
@@ -143,14 +173,13 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>لغو</Button>
-                        <Button onClick={(e) => { sendJobOffer(e) }}>ارسال پیشنهاد کار</Button>
+                        <Button onClick={actionHandler}>{dialogMessage}</Button>
                     </DialogActions>
                 </Dialog>
                 <CustomSnackbar
                     open={openSnackbar}
                     onClose={() => { handleSnackbarClose, location.reload() }}
-                    message="پیشنهاد کار جهت تایید برای کاربر ارسال شد"
-                />
+                    message={`گزارش ${dialogMessage} جهت آگاهی کاربر به ایشان ارسال شد`} />
             </Box>
         </Box>
     );

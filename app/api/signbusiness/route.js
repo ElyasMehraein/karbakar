@@ -32,7 +32,6 @@ export async function POST(req) {
                 { _id: tokenPayLoad.id },
                 "code"
             )))
-
             business = await BusinessModel.create({
                 businessName: businessName,
                 businessBrand: "",
@@ -51,6 +50,8 @@ export async function POST(req) {
                 products: []
             })
             business = business
+            console.log("koshi");
+
             await UserModel.findByIdAndUpdate(user._id, { $push: { businesses: business._id } })
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {
