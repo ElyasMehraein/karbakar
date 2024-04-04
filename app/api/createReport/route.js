@@ -5,10 +5,13 @@ import BillModel from "@/models/Bill";
 import { GET } from "@/app/api/auth/me/route"
 import ReportModel from "@/models/Report";
 
+const hireTitle = "آگهی استخدام"
+const hireMessage = "این کسب و کار از شما دعوت به همکاری نموده است"
+
 export async function POST(req) {
     try {
         const body = await req.json()
-        const { recepiantCode, business, jobOffers, bill } = body;
+        const { recepiantCode, business, title, bill } = body;
         connectToDB()
         const response = await GET(req)
         const user = await response.json()
@@ -40,7 +43,7 @@ export async function POST(req) {
         await ReportModel.create({
             recepiant: recepiant._id,
             business: Business._id,
-            jobOffers,
+            title,
             isSeen: false,
             isjobOffersAnswerd: false,
             isjobOffersAnswerd: false,

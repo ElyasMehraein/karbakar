@@ -6,12 +6,13 @@ import BillModel from './Bill';
 
 const schema = new Schema({
     recepiant: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    title: { type: String, maxlength: 15, },
+    message: { type: String, maxlength: 40, },
     business: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-    jobOffers: Boolean,
+    bill: { type: mongoose.Schema.Types.ObjectId, ref: "Bill" },
     isSeen: Boolean,
-    isjobOffersAnswerd:Boolean,
-    jobOfferAnswer: Boolean,
-    bill:{ type: mongoose.Schema.Types.ObjectId, ref: "Bill" },
+    isAnswerNeed: Boolean,
+    Answer: Boolean,
 
 }, { timestamps: true })
 

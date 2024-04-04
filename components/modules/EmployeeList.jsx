@@ -27,8 +27,12 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
     const [open, setOpen] = React.useState(false);
     const [newValue, setNewValue] = React.useState(null);
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
-    const [dialogMessage, setDialogMessage] = React.useState("استخدام");
-
+    const [dialogMessage, setDialogMessage] = React.useState("");
+    const ReportContentForJobOffer = {
+        recepiantCode: newValue,
+        business,
+        title: dialogMessage,
+    }
     const handleSnackbarClose = () => {
         setOpenSnackbar(false);
     };
@@ -62,7 +66,7 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
         const res = await fetch('/api/createReport', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ recepiantCode: newValue, business, jobOffers: true })
+            body: JSON.stringify(ReportContentForJobOffer)
         })
         if (res.status === 201) {
             handleShowSnackbar()

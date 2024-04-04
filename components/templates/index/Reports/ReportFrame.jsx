@@ -36,7 +36,7 @@ export default function ReportFrame({ report }) {
             <Card sx={{ minWidth: 300, my: 1, bgcolor: "#e3f2fd" }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="body2">
-                        درخواست همکاری
+                        {report.title} گزارش
                     </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -54,7 +54,6 @@ export default function ReportFrame({ report }) {
                 {!report.isjobOffersAnswerd ?
                 
                     <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
-                        {console.log("!report.isjobOffersAnswerd ?", report.isjobOffersAnswerd)}
                         <Button variant="outlined" color="error"
                             onClick={() => answer(false)}>
                             لغو
