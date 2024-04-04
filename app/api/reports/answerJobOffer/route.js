@@ -18,15 +18,16 @@ export async function PUT(req) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
         }
         if (report.isjobOffersAnswerd) {
-            console.log("zire gore injast");
             return Response.json({ message: "This jobOffer already answered" }, { status: 410 })
         }
         const Business = await BusinessModel.findOne({ _id: report.business._id })
+
         const isEmployeeHere = JSON.parse(JSON.stringify(Business)).workers.some((worker) => {
             return worker === JSON.parse(JSON.stringify(user._id))
         })
 
         if (isEmployeeHere) {
+            
             return Response.json({ message: "you are currently a member of this business" }, { status: 409 })
         }
         if (parameter) {
@@ -34,8 +35,7 @@ export async function PUT(req) {
             await Business.save();
             const candidate = await UserModel.findOne({ _id: user._id })
             candidate.businesses.addToSet(Business._id)
-            report.isSeen = false
-            await UserModel.save();
+            await candidate.save()
         }
         report.isSeen = false
         report.jobOfferAnswer = parameter
