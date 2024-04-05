@@ -12,7 +12,7 @@ import BillFrame from "./BillFrame";
 
 
 export default function Bill({ user, bills }) {
-
+  console.log("logaz bill", bills);
   const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md" >
@@ -20,11 +20,8 @@ export default function Bill({ user, bills }) {
         <Typography color="error">
           برای دریافت صورتحساب بایستی حداقل عضو یک کسب و کار باشید
         </Typography>
-        : !bills ?
-          <Typography color="error">
-            هیچ صورتحسابی برای شما ارسال نشده است
-          </Typography>
-          :
+        : 
+        <>
           <Box display="flex"
             justifyContent="center"
             alignItems="center"
@@ -39,8 +36,6 @@ export default function Bill({ user, bills }) {
                   icon={<QuestionMarkOutlinedIcon />}
                 />
                 <AccordionDetails>
-
-
                   <Typography>
                     این صورتحساب ها توسط کسب و کارهایی که از آنها محصول یا خدمات دریافت می کنید ارسال می شود
 
@@ -55,6 +50,11 @@ export default function Bill({ user, bills }) {
               return <BillFrame user={user} key={bill._id} bill={bill} />
             })}
           </Box>
+          {!bills[0] &&
+          <Typography color="error">
+            هیچ صورتحساب جدیدی برای شما ارسال نشده است
+          </Typography>}
+        </>
       }
     </Container>
   );

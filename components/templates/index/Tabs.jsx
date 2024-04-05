@@ -21,6 +21,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { blue, green } from '@mui/material/colors';
 import CreateBill from './indexDatas/CreateBill';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+
 
 function CustomTabPanel(props) {
 
@@ -50,8 +52,8 @@ const fabStyle = {
 };
 
 const fabGreenStyle = {
-  color: 'common.white',
-  bgcolor: green[500],
+  color: 'common.black',
+  bgcolor: green[300],
   '&:hover': {
     bgcolor: green[600],
   },
@@ -69,7 +71,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ user , bills}) {
+export default function BasicTabs({ user, bills }) {
 
   const [value, setValue] = React.useState(0);
 
@@ -83,10 +85,15 @@ export default function BasicTabs({ user , bills}) {
   };
   const [fabIndex, setFabIndex] = React.useState(10);
 
+  const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب": "ایجاد صورتحساب"
+  const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon/>: <EditIcon />
+
   const fabHandler = () => {
     fabIndex == value ?
       setFabIndex(10) :
-      setFabIndex(value)
+      setFabIndex(value);
+
+
   };
   const fabs = [
     {
@@ -105,13 +112,13 @@ export default function BasicTabs({ user , bills}) {
     {
       color: 'inherit',
       sx: { ...fabStyle, ...fabGreenStyle },
-      icon: <EditIcon />,
+      icon:ReportFabDynamicIcon ,
       label: 'Expand',
-      children: "ایجاد صورتحساب"
+      children:ReportFabDynamicText
     },
   ];
   return (
-    <Box sx={{ width: '100%', height: "100vh"}}>
+    <Box sx={{ width: '100%', height: "100vh" }}>
       <Box bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Container >
           <Tabs
