@@ -3,7 +3,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ReportFrame from './ReportFrame';
 
-export default function Reports({ reports, anchorEl, open, handleClose }) {
+export default function Reports({user, reports, anchorEl, open, handleClose }) {
 
     return (
         <React.Fragment>
@@ -19,7 +19,7 @@ export default function Reports({ reports, anchorEl, open, handleClose }) {
                 <MenuItem sx={{ display: 'flex', flexDirection: "column-reverse" }} onClick={handleClose}>
                     {reports &&
                         reports.map((report) => {
-                            return <ReportFrame report={report} key={report._id} />
+                            return <ReportFrame user={user} report={report} key={report._id} />
                         })
                     }
                 </MenuItem>

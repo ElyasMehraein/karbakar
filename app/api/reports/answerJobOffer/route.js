@@ -17,7 +17,7 @@ export async function PUT(req) {
         if (JSON.parse(JSON.stringify(report.recepiant)) !== user._id) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
         }
-        if (report.isjobOffersAnswerd) {
+        if (!report.isAnswerNeed) {
             return Response.json({ message: "This jobOffer already answered" }, { status: 410 })
         }
         const Business = await BusinessModel.findOne({ _id: report.business._id })
@@ -27,22 +27,21 @@ export async function PUT(req) {
         })
 
         if (isEmployeeHere) {
-            
             return Response.json({ message: "you are currently a member of this business" }, { status: 409 })
         }
         if (parameter) {
-            Business.workers.addToSet(user._id);
+            Business.workers.addToSet(user._id)
             await Business.save();
             const candidate = await UserModel.findOne({ _id: user._id })
             candidate.businesses.addToSet(Business._id)
             await candidate.save()
         }
-        report.isSeen = false
-        report.jobOfferAnswer = parameter
-        report.isjobOffersAnswerd = true
+        report.isSeen = true
+        report.isAnswerNeed = false
+        report.answer = parameter
         await report.save();
 
-        return Response.json({ message: "user hired created successfully" }, { status: 201 })
+        return Response.json({ message: "job offer answered successfully" }, { status: 201 })
 
 
     } catch (err) {

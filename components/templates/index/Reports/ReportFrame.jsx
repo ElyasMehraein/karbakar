@@ -9,10 +9,9 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { useTheme } from '@mui/material/styles';
 
 
-export default function ReportFrame({ report }) {
+export default function ReportFrame({ user, report }) {
 
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
@@ -36,7 +35,7 @@ export default function ReportFrame({ report }) {
             <Card sx={{ minWidth: 300, my: 1, bgcolor: "#e3f2fd" }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="body2">
-                        {report.title} گزارش
+                        {report.title === "jobOffer" && "درخواست همکاری"}
                     </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -51,8 +50,8 @@ export default function ReportFrame({ report }) {
                         subheader={report.business.businessName}
                     />
                 </Box>
-                {!report.isjobOffersAnswerd ?
-                
+                {report.recepiant.code === user.code && report.isAnswerNeed && report.title === "jobOffer" ?
+
                     <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
                         <Button variant="outlined" color="error"
                             onClick={() => answer(false)}>
@@ -65,17 +64,27 @@ export default function ReportFrame({ report }) {
                     </Stack>
                     :
                     <CardContent>
-
                         <Typography component="div" variant="body2">
-                            {` به این درخواست توسط ${report.recepiant.userName} پاسخ  ${report.jobOfferAnswer ? "مثبت" : "منفی"} داده شد`}
+                            {` ${report.recepiant.userName} پیشنهاد کار پاسخ  ${report.answer ? "مثبت" : "منفی"} دریافت کرد`}
                         </Typography>
+                        <CardHeader
+                            sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
+                            avatar={
+                                <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
+                                    <ItsAvatar userCodeOrBusinessBrand={report.recepiant.code} />
+                                </Avatar>
+                            }
+                            title={report.recepiant.code}
+                            subheader={report.recepiant.userName}
+                        />
+
                     </CardContent>
                 }
             </Card>
             <CustomSnackbar
                 open={snackbarAccept}
                 onClose={() => { setSnackbarAccept(false), location.reload() }}
-                message="دریافت محصولات و خدمات صورتحساب تایید شد"
+                message="پاسخ شما به نماینده کسب و کار ارسال شد"
             />
             <CustomSnackbar
                 open={snackbarServerError}

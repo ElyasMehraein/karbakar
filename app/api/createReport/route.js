@@ -5,10 +5,8 @@ import BillModel from "@/models/Bill";
 import { GET } from "@/app/api/auth/me/route"
 import ReportModel from "@/models/Report";
 
-const hireTitle = "آگهی استخدام"
-const hireMessage = "این کسب و کار از شما دعوت به همکاری نموده است"
-
 export async function POST(req) {
+    let isAnswerNeed = false
     try {
         const body = await req.json()
         const { recepiantCode, business, title, bill } = body;
@@ -25,30 +23,35 @@ export async function POST(req) {
             return Response.json({ message: "404 user not found" }, { status: 404 })
         }
 
-        if (recepiant.code === user.code) {
-            return Response.json({ message: "406 you can't hire yourself!" }, { status: 406 })
-        }
-        const isEmployeeHere = JSON.parse(JSON.stringify(Business)).workers.some((worker) => {
-            return worker === JSON.parse(JSON.stringify(recepiant._id))
-        })
+        if (title === "jobOffer") {
 
-        if (isEmployeeHere) {
-            return Response.json({ message: "This user is currently a member of this business" }, { status: 409 })
+            if (recepiant.code === user.code) {
+                return Response.json({ message: "406 you can't hire yourself!" }, { status: 406 })
+            }
+            const isEmployeeHere = JSON.parse(JSON.stringify(Business)).workers.some((worker) => {
+                return worker === JSON.parse(JSON.stringify(recepiant._id))
+            })
+
+            if (isEmployeeHere) {
+                return Response.json({ message: "This user is currently a member of this business" }, { status: 409 })
+            }
+
+            const isJobOfferExist = await ReportModel.findOne({ recepiant, business: Business, isAnswerNeed: true })
+            if (isJobOfferExist) {
+                return Response.json({ message: "This jobOffer already exist" }, { status: 410 })
+            }
+            isAnswerNeed = true
         }
 
-        const isJobOfferExist = await ReportModel.findOne({ recepiant, business: Business, isjobOffersAnswerd: false })
-        if (isJobOfferExist) {
-            return Response.json({ message: "This jobOffer already exist" }, { status: 410 })
-        }
+
         await ReportModel.create({
             recepiant: recepiant._id,
-            business: Business._id,
             title,
-            isSeen: false,
-            isjobOffersAnswerd: false,
-            isjobOffersAnswerd: false,
-            jobOfferAnswer: false,
+            business: Business._id,
             bill,
+            isSeen: false,
+            isAnswerNeed,
+            answer: false,
         })
 
         return Response.json({ message: "Report created successfully" }, { status: 201 })

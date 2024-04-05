@@ -36,9 +36,10 @@ export async function POST(req) {
 
         await ReportModel.create({
             recepiant: recepiant._id,
+            title:"dismissal",
             business: Business._id,
-            jobOfferAnswer: true,
-            isjobOffersAnswerd:true
+            isSeen:false,
+            isAnswerNeed: false,
         })
         await UserModel.updateOne(
             { _id: recepiant._id },
@@ -48,11 +49,7 @@ export async function POST(req) {
             { _id: Business._id },
             { $pull: { workers: recepiant._id } }
         );
-        const report = await ReportModel.findOne({ recepiant })
-        report.isjobOffersAnswerd = true
-        report.isSeen = true
 
-        await report.save();
 
         return Response.json({ message: "Report created and user fired successfully" }, { status: 201 })
     } catch (err) {

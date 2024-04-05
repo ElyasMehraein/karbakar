@@ -31,7 +31,7 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
     const ReportContentForJobOffer = {
         recepiantCode: newValue,
         business,
-        title: dialogMessage,
+        title: "jobOffer",
     }
     const handleSnackbarClose = () => {
         setOpenSnackbar(false);

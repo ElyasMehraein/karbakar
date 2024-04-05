@@ -77,7 +77,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
 
   useEffect(() => {
     if (reports) {
-      setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd ).length || 0)
+      setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd).length || 0)
     }
   }, [reports]);
 
@@ -173,7 +173,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
                 </Badge>
               </IconButton>
             </Tooltip>}
-            <Reports reports={reports} anchorEl={anchorEl} open={open} handleClose={handleClose} />
+            <Reports user={user} reports={reports} anchorEl={anchorEl} open={open} handleClose={handleClose} />
             <IconButton
               sx={{ m: 0, width: 70, height: 70 }}
               size="large"
