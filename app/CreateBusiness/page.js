@@ -34,7 +34,7 @@ export default async function page() {
                 distinctGuilds = [...new Set(guilds)];
 
             } else {
-                console.log('No documents found where isAccept is true.');
+                console.log('No guilds to show.');
             }
         })
         .catch(err => {

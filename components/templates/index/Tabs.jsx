@@ -23,6 +23,7 @@ import { blue, green } from '@mui/material/colors';
 import CreateBill from './indexDatas/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import YourReq from './indexDatas/YourReq';
+import CreateRequest from './Requests/CreateRequest';
 
 
 function CustomTabPanel(props) {
@@ -46,9 +47,9 @@ function CustomTabPanel(props) {
   );
 }
 const fabStyle = {
-  position: "absolute",
+  position: "fixed",
   bottom: 16,
-  right: 16,
+  // right: 16,
 
 };
 
@@ -86,8 +87,10 @@ export default function BasicTabs({ user, bills }) {
   };
   const [fabIndex, setFabIndex] = React.useState(10);
 
-  const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب": "ایجاد صورتحساب"
-  const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon/>: <EditIcon />
+  const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
+  const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
+  const RequestFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
+  const RequestFabDynamicText = fabIndex == value ? "بازگشت به لیست درخواست ها" : "ایجاد درخواست جدید"
 
   const fabHandler = () => {
     fabIndex == value ?
@@ -100,9 +103,9 @@ export default function BasicTabs({ user, bills }) {
     {
       color: 'primary',
       sx: fabStyle,
-      icon: <AddIcon />,
+      icon:  RequestFabDynamicIcon,
       label: 'Add',
-      children: 'ایجاد درخواست جدید'
+      children: RequestFabDynamicText,
     },
     {
       color: 'secondary',
@@ -113,9 +116,9 @@ export default function BasicTabs({ user, bills }) {
     {
       color: 'inherit',
       sx: { ...fabStyle, ...fabGreenStyle },
-      icon:ReportFabDynamicIcon ,
+      icon: ReportFabDynamicIcon,
       label: 'Expand',
-      children:ReportFabDynamicText
+      children: ReportFabDynamicText
     },
   ];
   return (
@@ -139,10 +142,15 @@ export default function BasicTabs({ user, bills }) {
       </Box>
       <Container sx={{ position: "relative", height: "80%" }}>
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
-        <YourReq />
+          {
+            fabIndex === 0 ?
+              <CreateRequest user={user} />
+              :
+              <YourReq />
+          }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
-        {/* <OthersRequest/>*/}
+          {/* <OthersRequest/>*/}
           Item Two
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>

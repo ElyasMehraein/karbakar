@@ -54,8 +54,8 @@ export async function POST(req, res) {
                 email: "",
                 personalPage: "",
                 instagram: "",
-                businesses:[],
-                primeJob: "",
+                businesses: [],
+                // primeJob: [],
 
             })
             console.log("user created successfully", user);
@@ -68,12 +68,13 @@ export async function POST(req, res) {
             httpOnly: true,
             path: '/',
             maxAge: 60 * 60 * 24 * 30
-          })
+        })
         return Response.json({ message: "user token created successfully" }, { status: 201 })
 
 
 
     } catch (err) {
+        console.log("err", err);
         return Response.json({ message: "server error" }, { status: 500 })
     }
 }

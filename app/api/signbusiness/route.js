@@ -50,9 +50,15 @@ export async function POST(req) {
                 products: []
             })
             business = business
-            console.log("koshi");
 
             await UserModel.findByIdAndUpdate(user._id, { $push: { businesses: business._id } })
+
+            const isEmpty = (val) => val === undefined || val === null;
+            await UserModel.findByIdAndUpdate(user._id, {
+                $set: { primeJob: isEmpty(user.primeJob) ? user.primeJob : business._id }
+            });
+
+            await UserModel.findByIdAndUpdate(user._id, { $push: { primeJob: business._id } })
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {
             return Response.json({ message: "business already exist" }, { status: 409 })
@@ -60,6 +66,7 @@ export async function POST(req) {
         }
 
     } catch (err) {
+        console.error("errror" , err);
         return Response.json({ message: "server error" }, { status: 500 })
     }
 }

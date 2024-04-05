@@ -52,8 +52,8 @@ const schema = new Schema({
         }
     ],
     primeJob: {
-        type: String, maxlength: 30,
-
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Business"
     },
 
 

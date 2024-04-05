@@ -2,7 +2,14 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose"
 
 const schema = new Schema({
-    businesses: [
+    Requester: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+    acceptedBy:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Business"
+        }
+    ],
+    needMoreInfo:[
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Business"
