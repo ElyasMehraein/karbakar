@@ -9,10 +9,11 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function ReportFrame({ user, report }) {
 
+    const [hideQuestion, setHideQuestion] = React.useState(false);
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
@@ -27,7 +28,10 @@ export default function ReportFrame({ user, report }) {
                 reportID: report._id, parameter
             }),
         });
-        res.status === 201 ? setSnackbarAccept(true) : setSnackbarServerError(true)
+        if (res.status === 201) {
+            setHideQuestion(true)
+            setSnackbarAccept(true)
+        }
     }
 
     return (
@@ -36,9 +40,10 @@ export default function ReportFrame({ user, report }) {
                 <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="body2">
                         {report.title === "jobOffer" && "درخواست همکاری"}
+                        {report.title === "dismissal" && "گزارش اخراج"}
                     </Typography>
                 </CardContent>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                     <CardHeader
                         sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                         avatar={
@@ -49,41 +54,47 @@ export default function ReportFrame({ user, report }) {
                         title={report.business.businessBrand}
                         subheader={report.business.businessName}
                     />
+                    <ArrowBackIcon sx={{ margin: 'auto' }} />
+                    <CardHeader
+                        sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
+                        avatar={
+                            <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
+                                <ItsAvatar userCodeOrBusinessBrand={report.recepiant.code} />
+                            </Avatar>
+                        }
+                        title={report.recepiant.code}
+                        subheader={report.recepiant.userName}
+                    />
                 </Box>
-                {report.recepiant.code === user.code && report.isAnswerNeed && report.title === "jobOffer" ?
+                {report.recepiant.code === user.code && report.isAnswerNeed && report.title === "jobOffer" && !hideQuestion ?
 
                     <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
                         <Button variant="outlined" color="error"
                             onClick={() => answer(false)}>
-                            لغو
+                            رد
                         </Button>
                         <Button color="success" variant="outlined"
                             onClick={() => answer(true)}>
                             تایید
                         </Button>
                     </Stack>
-                    :
-                    <CardContent>
-                        <Typography component="div" variant="body2">
-                            {` ${report.recepiant.userName} پیشنهاد کار پاسخ  ${report.answer ? "مثبت" : "منفی"} دریافت کرد`}
-                        </Typography>
-                        <CardHeader
-                            sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
-                            avatar={
-                                <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
-                                    <ItsAvatar userCodeOrBusinessBrand={report.recepiant.code} />
-                                </Avatar>
-                            }
-                            title={report.recepiant.code}
-                            subheader={report.recepiant.userName}
-                        />
-
-                    </CardContent>
+                    : (!report.isAnswerNeed &&
+                        <CardContent>
+                            {report.title === "jobOffer" &&
+                                <Typography component="div" variant="body2">
+                                    {`  پیشنهاد کار توسط ${report.recepiant.userName || "کاربر"} پاسخ  ${report.answer ? "مثبت" : "منفی"} دریافت کرد`}
+                                </Typography>}
+                            {report.title === "dismissal" &&
+                                <Typography component="div" variant="body2">
+                                    {`${report.recepiant.userName || "کاربر"}  از کسب و کار  ${report.business.businessBrand || report.business.businessName} اخراج شد`}
+                                </Typography>}
+                        </CardContent>
+                    )
                 }
             </Card>
             <CustomSnackbar
                 open={snackbarAccept}
-                onClose={() => { setSnackbarAccept(false), location.reload() }}
+                onClose={() => { setSnackbarAccept(false) }}
                 message="پاسخ شما به نماینده کسب و کار ارسال شد"
             />
             <CustomSnackbar
@@ -94,7 +105,7 @@ export default function ReportFrame({ user, report }) {
             />
             <CustomSnackbar
                 open={snackbarReject}
-                onClose={() => { setSnackbarReject(false), location.reload() }}
+                onClose={() => { setSnackbarReject(false) }}
                 message="صورتحساب لغو گردید"
                 severity="info"
             />

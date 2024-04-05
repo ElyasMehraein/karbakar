@@ -91,7 +91,6 @@ export default function SearchAppBar({ user, menuClickHandler }) {
         parameter
       }),
     });
-    console.log("res", res);
     res.status === 201 && setUnseenReportCounts(0)
   }
 

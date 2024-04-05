@@ -12,11 +12,13 @@ export default function Reports({user, reports, anchorEl, open, handleClose }) {
                 id="account-menu"
                 open={open}
                 onClose={handleClose}
-                onClick={handleClose}
+                // onClick={handleClose}
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem sx={{ display: 'flex', flexDirection: "column-reverse" }} onClick={handleClose}>
+                <MenuItem sx={{ display: 'flex', flexDirection: "column-reverse" }}
+                //  onClick={handleClose}
+                 >
                     {reports &&
                         reports.map((report) => {
                             return <ReportFrame user={user} report={report} key={report._id} />
