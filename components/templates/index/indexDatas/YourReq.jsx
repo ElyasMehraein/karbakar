@@ -5,6 +5,9 @@ import Divider from "@mui/material/Divider";
 // import OthersRequestFrames from "./OthersRequestFrames";
 import Typography from "@mui/material/Typography";
 import YourRequestFrames from "./YourRequestFrames";
+import { mainTabYourReqText } from "@/components/typoRepo";
+import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
+import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 
 
 const Root = styled("div")(({ theme }) => ({
@@ -17,9 +20,22 @@ const Root = styled("div")(({ theme }) => ({
 
 
 export default function YourReq() {
+  const [expanded, setExpanded] = React.useState(false);
 
   return (
     <>
+    <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
+        <Chip
+          label="راهنمایی"
+          sx={{ direction: 'ltr' }}
+          onClick={() => setExpanded(!expanded)}
+          icon={<QuestionMarkOutlinedIcon />}
+        />
+        <AccordionDetails>
+        {mainTabYourReqText}
+
+        </AccordionDetails>
+      </Accordion>
       <Divider sx={{ fontWeight: 'bold' }} textAlign="center">درخواست های تایید شده</Divider>
       <YourRequestFrames />
       <YourRequestFrames />

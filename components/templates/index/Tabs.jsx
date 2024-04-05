@@ -22,6 +22,7 @@ import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { blue, green } from '@mui/material/colors';
 import CreateBill from './indexDatas/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import YourReq from './indexDatas/YourReq';
 
 
 function CustomTabPanel(props) {
@@ -137,16 +138,11 @@ export default function BasicTabs({ user, bills }) {
         </Container>
       </Box>
       <Container sx={{ position: "relative", height: "80%" }}>
-        {/* <CustomTabPanel value={value} index={0} />
-        {mainTabYourReqText}
-        <YourReq />
-        <CustomTabPanel value={value} index={1} />
-        <OthersRequest/>
-        <CustomTabPanel value={value} index={2} /> */}
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+        <YourReq />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
+        {/* <OthersRequest/>*/}
           Item Two
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>

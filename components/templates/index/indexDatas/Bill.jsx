@@ -12,7 +12,6 @@ import BillFrame from "./BillFrame";
 
 
 export default function Bill({ user, bills }) {
-  console.log("logaz bill", bills);
   const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md" >

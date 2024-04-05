@@ -2,18 +2,19 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose"
 
 const schema = new Schema({
-    phoneHash: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-
-    code: {
-        type: Number, minLength: 4, maxLength: 6,
-        required: true,
-        unique: true,
+    businesses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Business"
+        }
+    ],
+    title: { type: String, maxlength: 15, },
+    message: { type: String, maxlength: 15, },
+    guild:{
+        type: mongoose.Schema.Types.guild,
+        ref: "Bill"
     }
 }, { timestamps: true })
 
-const UserModel = mongoose.models.User || mongoose.model("User", schema)
-export default UserModel
+const RequestModel = mongoose.models.Request || mongoose.model("Request", schema)
+export default RequestModel
