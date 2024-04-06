@@ -10,10 +10,18 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import CustomSnackbar from "@/components/modules/CustomSnackbar";
+import Menu from '@mui/material/Menu';
 
 
 const PrimeJobSelect = ({ user }) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
 
   // Dialog
@@ -65,21 +73,31 @@ const PrimeJobSelect = ({ user }) => {
   return (
     <>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">
-          کسب و کار اصلی
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={selectedBusinessId}
-          onChange={handleBusinessChange}
-          label="کسب و کار اصلی"
+        <Button
+          id="basic-button"
+          aria-controls={open ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          تغییر کسب و کار اصلی
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          MenuListProps={{
+            'aria-labelledby': 'basic-button',
+          }}
         >
           {user?.businesses.map((business) => (
             <MenuItem
               key={business._id}
               value={business._id}
               sx={{ display: 'flex', alignItems: 'center', minWidth: '150px' }}
+              onClick={(event) => handleBusinessChange(event)}
+
             >
               <ListItemAvatar>
                 <Avatar sx={{ width: 40, height: 40 }}>
@@ -89,11 +107,10 @@ const PrimeJobSelect = ({ user }) => {
               <ListItemText primary={business.businessName} secondary={business.businessBrand} />
             </MenuItem>
           ))}
-        </Select>
+        </Menu>
       </FormControl>
       <Dialog
         open={openDialog}
-      // onClose={handleClose}
       >
         <DialogTitle>تغییر کسب و کار اصلی</DialogTitle>
         <DialogContent>

@@ -30,7 +30,7 @@ const drawerWidth = 240;
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  padding: theme.spacing(0, 1),
+  padding: theme.spacing(0, 2),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
   justifyContent: 'flex-start',
@@ -67,16 +67,48 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
           </IconButton>
         </DrawerHeader>
         {/* <Divider /> */}
-        {user?.businesses[0] &&
-          <>
-            <Typography fontWeight="bold" align="right" sx={{mb: 4}} marginRight={2}>
-              کسب و کارهای من
-            </Typography>
-
-            <PrimeJobSelect user={user}  />
-            <Divider sx={{ fontWeight: "light", fontSize: 12, mt: 4 }} textAlign="center">کسب و کار های فرعی</Divider>
-          </>
+        <Typography fontWeight="bold" align="right" sx={{ mb: 4 }} marginRight={2}>
+          کسب و کارهای من
+        </Typography>
+        {
+          user?.businesses[0] &&
+          user.businesses.map((business) => (
+            <List key={business._id} sx={{ m: 0, p: 0 }}>
+              {user.primeJob === business._id && (
+                <>
+                  <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار اصلی</Divider>
+                  <ListItemButton sx={{ m: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar sx={{ width: 40, height: 40 }}>
+                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
+                    </ListItem>
+                  </ListItemButton>
+                </>
+              )}
+              {user.primeJob !== business._id && (
+                <>
+                  <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار های فرعی</Divider>
+                  <ListItemButton sx={{ m: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar sx={{ width: 40, height: 40 }}>
+                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
+                    </ListItem>
+                  </ListItemButton>
+                </>
+              )}
+            </List>
+          ))
         }
+
+        <PrimeJobSelect user={user} />
         {user &&
           <List>
             <ListItem disablePadding>
