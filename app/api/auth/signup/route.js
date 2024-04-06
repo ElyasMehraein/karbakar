@@ -55,7 +55,7 @@ export async function POST(req, res) {
                 personalPage: "",
                 instagram: "",
                 businesses: [],
-                // primeJob: [],
+                primeJob: undefined ,
 
             })
             console.log("user created successfully", user);

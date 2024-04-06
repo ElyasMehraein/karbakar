@@ -58,7 +58,7 @@ export async function POST(req) {
                 $set: { primeJob: isEmpty(user.primeJob) ? user.primeJob : business._id }
             });
 
-            await UserModel.findByIdAndUpdate(user._id, { $push: { primeJob: business._id } })
+            await UserModel.findByIdAndUpdate(user._id, {  primeJob: business._id },{ new: true } )
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {
             return Response.json({ message: "business already exist" }, { status: 409 })

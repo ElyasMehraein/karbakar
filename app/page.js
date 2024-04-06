@@ -16,7 +16,6 @@ export default async function page() {
   connectToDB()
   const user = await JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },
-    "code avatar"
   ).populate("businesses")))
 
   const bills = await JSON.parse(JSON.stringify(await BillModel.find({

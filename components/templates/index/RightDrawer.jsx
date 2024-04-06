@@ -22,7 +22,7 @@ import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import { useRouter } from 'next/navigation';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import { Avatar } from '@mui/material';
-import CustomAvatarSelect from './CustomAvatarSelect';
+import PrimeJobSelect from './PrimeJobSelect';
 
 
 const drawerWidth = 240;
@@ -69,15 +69,12 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
         {/* <Divider /> */}
         {user?.businesses[0] &&
           <>
-            <Typography fontWeight="bold" align="right" marginRight={2}>
+            <Typography fontWeight="bold" align="right" sx={{mb: 4}} marginRight={2}>
               کسب و کارهای من
             </Typography>
-            <Divider sx={{ fontWeight: "light", fontSize: 10, mt: 4 }} textAlign="center">کسب و کار اصلی</Divider>
 
-            <CustomAvatarSelect user={user} />
-
-            {/* <Divider sx={{ fontWeight: "light", fontSize: 10 , mt:4  }} textAlign="center">کسب و کار های فرعی</Divider> */}
-            <Divider />
+            <PrimeJobSelect user={user}  />
+            <Divider sx={{ fontWeight: "light", fontSize: 12, mt: 4 }} textAlign="center">کسب و کار های فرعی</Divider>
           </>
         }
         {user &&
