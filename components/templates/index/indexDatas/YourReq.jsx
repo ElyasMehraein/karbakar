@@ -29,7 +29,7 @@ export default function YourReq() {
           label="راهنمایی"
           sx={{ direction: 'ltr' }}
           onClick={() => setExpanded(!expanded)}
-          icon={<QuestionMarkOutlinedIcon />}
+          icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
         />
         <AccordionDetails>
         {mainTabYourReqText}

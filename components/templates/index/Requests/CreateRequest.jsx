@@ -64,7 +64,7 @@ export default function CreateRequest({ user }) {
           label="راهنمایی"
           sx={{ direction: 'ltr' }}
           onClick={() => setExpanded(!expanded)}
-          icon={<QuestionMarkOutlinedIcon />}
+          icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
         />
         <AccordionDetails>
           <Typography>
