@@ -23,7 +23,8 @@ import { useRouter } from 'next/navigation';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import { Avatar } from '@mui/material';
 import PrimeJobSelect from './PrimeJobSelect';
-import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import HelpIcon from '@/components/modules/HelpIcon';
+import { iconText } from '@/components/typoRepo';
 
 const drawerWidth = 240;
 
@@ -65,20 +66,15 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
             {theme.direction === "ltr" ? (<ChevronLeftIcon />) : (<ChevronRightIcon />)}
           </IconButton>
         </DrawerHeader>
-        <Typography fontWeight="bold" align="right" sx={{ mb: 4 }} marginRight={2}>
+        <Typography fontWeight="bold" align="right"  marginRight={2}>
           کسب و کارهای من
         </Typography>
         {
           user?.businesses[0] &&
           <List sx={{ m: 0, p: 0 }}>
             <>
+              <HelpIcon iconText={iconText}/>
               <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار اصلی</Divider>
-
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <IconButton onClick={() => console.log("kkk")}>
-                  <HelpOutlineOutlinedIcon />
-                </IconButton>
-              </Box>
             </>
             {user.businesses.map((business) => (
               user.primeJob === business._id && (
@@ -93,11 +89,16 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                       <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
                     </ListItem>
                   </ListItemButton>
-                  <PrimeJobSelect user={user} />
                 </React.Fragment>
               )))}
-            {user.businesses.length > 1 && <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار های فرعی</Divider>
-              && user.businesses.map((business) => (
+
+            {user.businesses.length > 1 && <>
+              <PrimeJobSelect user={user} />
+              <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار های فرعی</Divider>
+            </>}
+            {user.businesses.length > 1 &&
+
+              user.businesses.map((business) => (
                 user.primeJob !== business._id && (
                   <React.Fragment key={business._id}>
                     <ListItemButton sx={{ m: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>

@@ -27,7 +27,7 @@ const PrimeJobSelect = ({ user }) => {
   // Dialog
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedBusinessId, setSelectedBusinessId] = useState(user.primeJob);
-  
+
   const handleBusinessChange = (BusinessId) => {
     setSelectedBusinessId(BusinessId);
     setOpenDialog(true);
@@ -80,6 +80,7 @@ const PrimeJobSelect = ({ user }) => {
     <>
       <FormControl fullWidth>
         <Button
+          variant="outlined"
           id="basic-button"
           aria-controls={open ? 'basic-menu' : undefined}
           aria-haspopup="true"
@@ -98,13 +99,13 @@ const PrimeJobSelect = ({ user }) => {
           }}
         >
           {user?.businesses.map((business) => (
-            
+
             <MenuItem
               key={business._id}
               value={business._id}
               sx={{ display: 'flex', alignItems: 'center', minWidth: '150px' }}
               onClick={() => handleBusinessChange(business._id)}
-              >
+            >
               <ListItemAvatar>
                 <Avatar sx={{ width: 40, height: 40 }}>
                   <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
