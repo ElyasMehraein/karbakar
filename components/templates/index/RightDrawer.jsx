@@ -94,7 +94,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
 
             {user.businesses.length > 1 && <>
               <PrimeJobSelect user={user} />
-              <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار های فرعی</Divider>
+              <Divider sx={{ fontWeight: "light", fontSize: 12, mt:2 }} textAlign="center">کسب و کار های فرعی</Divider>
             </>}
             {user.businesses.length > 1 &&
 
