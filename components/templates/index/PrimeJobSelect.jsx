@@ -27,9 +27,11 @@ const PrimeJobSelect = ({ user }) => {
   // Dialog
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedBusinessId, setSelectedBusinessId] = useState(user.primeJob);
-  const handleBusinessChange = (event) => {
+  
+  const handleBusinessChange = (BusinessId) => {
+    setSelectedBusinessId(BusinessId);
     setOpenDialog(true);
-    setSelectedBusinessId(event.target.value);
+    handleClose()
   };
   const cancelHandler = () => {
     setSelectedBusinessId(user.primeJob)
@@ -41,12 +43,16 @@ const PrimeJobSelect = ({ user }) => {
   // Snackbar
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [snackbarMessage, setSnackbarMessage] = useState("خطای ناشناخته")
-  const callSnackbar = (message) => {
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success")
+  const callSnackbar = (message, severity) => {
     setSnackbarMessage(message)
+    severity && setSnackbarSeverity(severity)
     setSnackbarOpen(true)
+    setSnackbarSeverity("success")
   };
-  const setOpenSnackbar = () => {
+  const onCloseSnackbar = () => {
     setSnackbarOpen(false)
+    location.reload()
   }
 
 
@@ -61,13 +67,13 @@ const PrimeJobSelect = ({ user }) => {
       setOpenDialog(false)
       callSnackbar("تغییر کسب و کار اصلی با موفقیت انجام شد")
     } else if (res.status === 500) {
-      callSnackbar("خطای اتصال به سرور")
+      callSnackbar("خطای اتصال به سرور", "error")
     } else if (res.status === 403) {
-      callSnackbar("شما عضو این کسب و کار نیستید")
+      callSnackbar("شما عضو این کسب و کار نیستید", "error")
     } else if (res.status === 404) {
-      callSnackbar("کسب و کار یافت نشد کد وارد شده را مجدد بررسی نمایید")
+      callSnackbar("کسب و کار یافت نشد کد وارد شده را مجدد بررسی نمایید", "error")
     } else if (res.status === 406) {
-      callSnackbar("این کسب و کار در حال حاضر کسب و کار اصلی شماست")
+      callSnackbar("این کسب و کار در حال حاضر کسب و کار اصلی شماست", "error")
     }
   }
   return (
@@ -92,13 +98,13 @@ const PrimeJobSelect = ({ user }) => {
           }}
         >
           {user?.businesses.map((business) => (
+            
             <MenuItem
               key={business._id}
               value={business._id}
               sx={{ display: 'flex', alignItems: 'center', minWidth: '150px' }}
-              onClick={(event) => handleBusinessChange(event)}
-
-            >
+              onClick={() => handleBusinessChange(business._id)}
+              >
               <ListItemAvatar>
                 <Avatar sx={{ width: 40, height: 40 }}>
                   <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
@@ -126,9 +132,9 @@ const PrimeJobSelect = ({ user }) => {
           <Button onClick={() => changePrimeJob(selectedBusinessId)}>تایید</Button>
         </DialogActions>
       </Dialog>
-      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setOpenSnackbar(false)}>
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => onCloseSnackbar(false)}>
         <Alert
-          severity="success"
+          severity={snackbarSeverity}
           variant="filled"
           sx={{ width: '100%' }}
         >

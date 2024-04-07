@@ -14,7 +14,6 @@ export async function POST(req) {
         const response = await GET(req)
         const user = await response.json()
         let business = await BusinessModel.findOne({ _id: body })
-        // console.log("api", body);
         if (!business) {
             return Response.json({ message: "business is not exist" }, { status: 404 })
         }

@@ -66,17 +66,18 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
             {theme.direction === "ltr" ? (<ChevronLeftIcon />) : (<ChevronRightIcon />)}
           </IconButton>
         </DrawerHeader>
-        {/* <Divider /> */}
         <Typography fontWeight="bold" align="right" sx={{ mb: 4 }} marginRight={2}>
           کسب و کارهای من
         </Typography>
         {
           user?.businesses[0] &&
-          user.businesses.map((business) => (
-            <List key={business._id} sx={{ m: 0, p: 0 }}>
-              {user.primeJob === business._id && (
-                <>
-                  <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار اصلی</Divider>
+          <List sx={{ m: 0, p: 0 }}>
+            <>
+              <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار اصلی</Divider>
+            </>
+            {user.businesses.map((business) => (
+              user.primeJob === business._id && (
+                <React.Fragment key={business._id} >
                   <ListItemButton sx={{ m: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                     <ListItem>
                       <ListItemAvatar>
@@ -87,11 +88,13 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                       <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
                     </ListItem>
                   </ListItemButton>
-                </>
-              )}
-              {user.primeJob !== business._id && (
-                <>
-                  <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار های فرعی</Divider>
+                  <PrimeJobSelect user={user} />
+                </React.Fragment>
+              )))}
+            <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار های فرعی</Divider>
+            {user.businesses.map((business) => (
+              user.primeJob !== business._id && (
+                <React.Fragment key={business._id}>
                   <ListItemButton sx={{ m: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                     <ListItem>
                       <ListItemAvatar>
@@ -102,13 +105,12 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                       <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
                     </ListItem>
                   </ListItemButton>
-                </>
-              )}
-            </List>
-          ))
+                </React.Fragment>
+              )))}
+          </List>
         }
+        <Divider />
 
-        <PrimeJobSelect user={user} />
         {user &&
           <List>
             <ListItem disablePadding>
