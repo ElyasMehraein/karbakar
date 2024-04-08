@@ -11,9 +11,17 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import Menu from '@mui/material/Menu';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
+import TextField from '@mui/material/TextField';
+import { resignationText1, resignationText2 } from '../typoRepo';
 
+export default function Resignation({ user }) {
 
-const resignation = ({ user }) => {
+  const [selectedBusiness, setSelectedBusiness] = useState(user.businesses[0]);
+  const [newAgentID, setNewAgentID] = React.useState(null);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -26,19 +34,23 @@ const resignation = ({ user }) => {
 
   // Dialog
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedBusinessId, setSelectedBusinessId] = useState(user.primeJob);
 
-  const handleBusinessChange = (BusinessId) => {
-    setSelectedBusinessId(BusinessId);
+  const handleBusinessChange = (Business) => {
+    setSelectedBusiness(Business);
     setOpenDialog(true);
     handleClose()
   };
   const cancelHandler = () => {
-    setSelectedBusinessId(user.primeJob)
     setOpenDialog(false);
   };
 
-
+  const changeHandler = (e) => {
+    if (isNaN(e.target.value)) {
+      callSnackbar("فقط اعداد قابل قبول هستند")
+    } else {
+      setNewAgentID(e.target.value);
+    }
+  };
 
   // Snackbar
   const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -52,16 +64,16 @@ const resignation = ({ user }) => {
   };
   const onCloseSnackbar = () => {
     setSnackbarOpen(false)
-    location.reload()
+    // location.reload()
   }
 
 
 
-  async function resignation(selectedBusinessId) {
-    const res = await fetch('/api/changePrimeJob', {
+  async function resignation(newAgentID, selectedBusinessId) {
+    const res = await fetch('/api/resignation', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(selectedBusinessId)
+      body: JSON.stringify(newAgentID, selectedBusinessId)
     })
     if (res.status === 201) {
       setOpenDialog(false)
@@ -78,61 +90,79 @@ const resignation = ({ user }) => {
   }
   return (
     <>
-      {user?.businesses[0] &&
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <DomainDisabledIcon />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ textAlign: "right" }}
-                  secondary="استعفا از کسب و کار"
-                />
-              </ListItemButton>
-            </ListItem>
-          }
 
-      
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button',
-          }}
-        >
-          {user?.businesses.map((business) => (
+      <ListItem disablePadding>
+        <ListItemButton>
+          <ListItemIcon>
+            <DomainDisabledIcon />
+          </ListItemIcon>
+          <ListItemText
+            sx={{ textAlign: "right" }}
+            secondary="استعفا از کسب و کار"
+            onClick={(event) => handleClick(event)}
 
-            <MenuItem
-              key={business._id}
-              value={business._id}
-              sx={{ display: 'flex', alignItems: 'center', minWidth: '150px' }}
-              onClick={() => handleBusinessChange(business._id)}
-            >
-              <ListItemAvatar>
-                <Avatar sx={{ width: 40, height: 40 }}>
-                  <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={business.businessName} secondary={business.businessBrand} />
-            </MenuItem>
-          ))}
-        </Menu>
+          />
+        </ListItemButton>
+      </ListItem>
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+
+      >
+        {user?.businesses.map((business) => (
+          <MenuItem
+            key={business._id}
+            value={business._id}
+            sx={{ display: 'flex', alignItems: 'center', minWidth: '150px' }}
+            onClick={() => handleBusinessChange(business)}
+          >
+            <ListItemAvatar>
+              <Avatar sx={{ width: 40, height: 40 }}>
+                <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={business.businessName} secondary={business.businessBrand} />
+          </MenuItem>
+        ))}
+      </Menu>
       <Dialog
         open={openDialog}
       >
-        <DialogTitle>استعفا از کسب و کار اصلی</DialogTitle>
+        <DialogTitle>استعفا از کسب و کار </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            دقت داشته باشید که تغییر کسب و کار اصلی تنها هر 14 روز یکبار امکانپذیر است
-          </DialogContentText>
-          <DialogContentText>
-            آیا همچنان به انجام این کار اطمینان دارید؟
-          </DialogContentText>
+
+          {selectedBusiness && selectedBusiness.workers.length === 1 ?
+            <DialogContentText>
+              {resignationText1}
+            </DialogContentText>
+            :
+            (selectedBusiness.agentCode == user.code) ?
+              <>
+                <DialogContentText>
+                  {resignationText2}
+                </DialogContentText>:
+                <TextField
+                  autoFocus
+                  required
+                  id="name"
+                  name="userCode"
+                  label="کد چهار رقمی کاربر"
+                  variant="standard"
+                  inputProps={{ maxLength: 4 }}
+                  onChange={changeHandler}
+                ></TextField>
+              </>
+              :
+              <>
+                <DialogContentText>
+                  آیا به انجام این کار اطمینان دارید؟
+                </DialogContentText>
+              </>
+          }
         </DialogContent>
         <DialogActions>
           <Button onClick={cancelHandler}>رد</Button>
-          <Button onClick={() => changePrimeJob(selectedBusinessId)}>تایید</Button>
+          <Button onClick={() => resignation(newAgentID, selectedBusiness)}>تایید</Button>
         </DialogActions>
       </Dialog>
       <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => onCloseSnackbar(false)}>
@@ -149,4 +179,3 @@ const resignation = ({ user }) => {
   );
 };
 
-export default PrimeJobSelect;

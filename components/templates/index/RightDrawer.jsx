@@ -18,13 +18,13 @@ import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import BusinessIcon from "@mui/icons-material/Business";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
-import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import { useRouter } from 'next/navigation';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import { Avatar } from '@mui/material';
 import PrimeJobSelect from '../../modules/PrimeJobSelect';
 import HelpIcon from '@/components/modules/HelpIcon';
 import { iconText } from '@/components/typoRepo';
+import Resignation from '@/components/modules/Resignation';
 
 const drawerWidth = 240;
 
@@ -138,7 +138,8 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
               </ListItemButton>
             </ListItem>
           }
-          
+          {user?.businesses[0] &&
+          <Resignation user={user}/>}
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>

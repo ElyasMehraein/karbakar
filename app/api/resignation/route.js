@@ -8,14 +8,14 @@ import ReportModel from "@/models/Report";
 export async function POST(req) {
     try {
         const body = await req.json()
-        const {newAgentID, business } = body;
+        const {newAgentID, selectedBusinessId } = body;
         connectToDB()
         const response = await GET(req)
         const user = await response.json()
 
         if (!user) { return Response.json({ message: "you need to login" }, { status: 404 }) }
 
-        const Business = await BusinessModel.findOne({ businessName: business.businessName })
+        const Business = await BusinessModel.findOne({ _id: selectedBusinessId })
         const newAgent = await UserModel.findOne({ _id: newAgentID })
 
         if (Number(Business.agentCode) !== user.code) {
