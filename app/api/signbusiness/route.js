@@ -58,7 +58,7 @@ export async function POST(req) {
                 $set: { primeJob: isEmpty(user.primeJob) ? user.primeJob : business._id }
             });
 
-            await UserModel.findByIdAndUpdate(user._id, {  primeJob: business._id },{ new: true } )
+            await UserModel.findByIdAndUpdate(user._id, { $setOnInsert: { primeJob: business._id } }, { new: true })
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {
             return Response.json({ message: "business already exist" }, { status: 409 })
@@ -66,7 +66,7 @@ export async function POST(req) {
         }
 
     } catch (err) {
-        console.error("errror" , err);
+        console.error("errror", err);
         return Response.json({ message: "server error" }, { status: 500 })
     }
 }
