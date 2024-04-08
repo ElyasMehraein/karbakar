@@ -13,7 +13,7 @@ import { useState } from 'react';
 import Menu from '@mui/material/Menu';
 
 
-const PrimeJobSelect = ({ user }) => {
+const resignation = ({ user }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -57,7 +57,7 @@ const PrimeJobSelect = ({ user }) => {
 
 
 
-  async function changePrimeJob(selectedBusinessId) {
+  async function resignation(selectedBusinessId) {
     const res = await fetch('/api/changePrimeJob', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
@@ -78,22 +78,25 @@ const PrimeJobSelect = ({ user }) => {
   }
   return (
     <>
-      <FormControl fullWidth>
-        <Button
-          variant="outlined"
-          id="basic-button"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
-        >
-          تغییر کسب و کار اصلی
-        </Button>
+      {user?.businesses[0] &&
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <DomainDisabledIcon />
+                </ListItemIcon>
+                <ListItemText
+                  sx={{ textAlign: "right" }}
+                  secondary="استعفا از کسب و کار"
+                />
+              </ListItemButton>
+            </ListItem>
+          }
+
+      
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
           open={open}
-          onClose={handleClose}
           MenuListProps={{
             'aria-labelledby': 'basic-button',
           }}
@@ -115,11 +118,10 @@ const PrimeJobSelect = ({ user }) => {
             </MenuItem>
           ))}
         </Menu>
-      </FormControl>
       <Dialog
         open={openDialog}
       >
-        <DialogTitle>تغییر کسب و کار اصلی</DialogTitle>
+        <DialogTitle>استعفا از کسب و کار اصلی</DialogTitle>
         <DialogContent>
           <DialogContentText>
             دقت داشته باشید که تغییر کسب و کار اصلی تنها هر 14 روز یکبار امکانپذیر است

@@ -16,7 +16,7 @@ import IconButton from '@mui/material/IconButton';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 
 
-export default function HelpIcon({iconText}) {
+export default function HelpIcon({ iconText }) {
     const [openDialog, setOpenDialog] = useState(false);
 
     const handleBusinessChange = () => {
@@ -28,7 +28,7 @@ export default function HelpIcon({iconText}) {
 
     return (
         <>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <Box sx={{ mt: -2, display: 'flex', justifyContent: 'flex-end' }}>
                 <IconButton onClick={() => handleBusinessChange()}>
                     <HelpOutlineOutlinedIcon />
                 </IconButton>
@@ -36,7 +36,7 @@ export default function HelpIcon({iconText}) {
             <Dialog
                 open={openDialog}
             >
-                {/* <DialogTitle>راهنما</DialogTitle> */}
+                <DialogTitle>راهنمای کارباکار</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
                         {iconText}

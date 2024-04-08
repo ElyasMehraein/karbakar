@@ -22,7 +22,7 @@ import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import { useRouter } from 'next/navigation';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import { Avatar } from '@mui/material';
-import PrimeJobSelect from './PrimeJobSelect';
+import PrimeJobSelect from '../../modules/PrimeJobSelect';
 import HelpIcon from '@/components/modules/HelpIcon';
 import { iconText } from '@/components/typoRepo';
 
@@ -66,20 +66,22 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
             {theme.direction === "ltr" ? (<ChevronLeftIcon />) : (<ChevronRightIcon />)}
           </IconButton>
         </DrawerHeader>
-        <Typography fontWeight="bold" align="right"  marginRight={2}>
+        {/* <Typography fontWeight="bold" align="right"  marginRight={2}>
           کسب و کارهای من
-        </Typography>
+        </Typography> */}
         {
           user?.businesses[0] &&
           <List sx={{ m: 0, p: 0 }}>
             <>
-              <HelpIcon iconText={iconText}/>
-              <Divider sx={{ fontWeight: "light", fontSize: 12, }} textAlign="center">کسب و کار اصلی</Divider>
+              <Divider
+                sx={{ fontSize: 12 }}
+                textAlign="center">کسب و کار اصلی</Divider>
             </>
+            <HelpIcon iconText={iconText} />
             {user.businesses.map((business) => (
               user.primeJob === business._id && (
                 <React.Fragment key={business._id} >
-                  <ListItemButton sx={{ m: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
+                  <ListItemButton sx={{ mt: -2, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar sx={{ width: 40, height: 40 }}>
@@ -94,14 +96,16 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
 
             {user.businesses.length > 1 && <>
               <PrimeJobSelect user={user} />
-              <Divider sx={{ fontWeight: "light", fontSize: 12, mt:2 }} textAlign="center">کسب و کار های فرعی</Divider>
+              <Divider
+                sx={{ fontSize: 12, mt: 2 }}
+                textAlign="center">کسب و کار های فرعی</Divider>
             </>}
             {user.businesses.length > 1 &&
 
               user.businesses.map((business) => (
                 user.primeJob !== business._id && (
                   <React.Fragment key={business._id}>
-                    <ListItemButton sx={{ m: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
+                    <ListItemButton sx={{ mt: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                       <ListItem>
                         <ListItemAvatar>
                           <Avatar sx={{ width: 40, height: 40 }}>
@@ -117,47 +121,37 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
         }
         <Divider />
 
-        {user &&
-          <List>
+        <List>
+          {user &&
             <ListItem disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <AddBusinessIcon />
                 </ListItemIcon>
                 <ListItemText
-                  sx={{ textAlign: "right" }}
+                  sx={{ fontSize: 12, textAlign: "right" }}
                   dir="rtl"
-                  primary="ایجاد کسب و کار جدید"
+                  secondary="ایجاد کسب و کار جدید"
                   type="button"
                   onClick={() => router.push("/CreateBusiness")}
                 />
+              </ListItemButton>
+            </ListItem>
+          }
+          
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <BusinessIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ textAlign: "right" }}
+                secondary="لیست تمام کسب و کارها"
+              />
+            </ListItemButton>
+          </ListItem>
+        </List>
 
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <DomainDisabledIcon />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ textAlign: "right" }}
-                  primary="استعفا از کسب و کار"
-                />
-              </ListItemButton>
-            </ListItem>
-          </List>
-        }
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <BusinessIcon />
-            </ListItemIcon>
-            <ListItemText
-              sx={{ textAlign: "right" }}
-              primary="لیست تمام کسب و کارها"
-            />
-          </ListItemButton>
-        </ListItem>
         <Divider />
         {user ?
           <Button
