@@ -24,7 +24,10 @@ export async function POST(req) {
         }
 
         if (title === "jobOffer") {
-
+            console.log("recepiant.businesses.length", recepiant);
+            if(recepiant.businesses.length >= 3 ){
+                return Response.json({ message: "users can only be a member of a maximum of 3 businesses" }, { status: 405 })
+            }
             if (recepiant.code === user.code) {
                 return Response.json({ message: "406 you can't hire yourself!" }, { status: 406 })
             }

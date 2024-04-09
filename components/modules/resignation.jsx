@@ -84,6 +84,8 @@ export default function Resignation({ user }) {
       callSnackbar("شما عضو این کسب و کار نیستید", "error")
     } else if (res.status === 404) {
       callSnackbar("کسب و کار یافت نشد کد وارد شده را مجدد بررسی نمایید", "error")
+    } else if (res.status === 405) {
+      callSnackbar("عضویت در بیش از 3 کسب و کار مجاز نیست")
     } else if (res.status === 406) {
       callSnackbar("این کسب و کار در حال حاضر کسب و کار اصلی شماست", "error")
     }
@@ -161,8 +163,11 @@ export default function Resignation({ user }) {
           }
         </DialogContent>
         <DialogActions>
-          <Button onClick={cancelHandler}>رد</Button>
-          <Button onClick={() => resignation(newAgentID, selectedBusiness)}>تایید</Button>
+          <Button onClick={cancelHandler}>بستن</Button>
+          {
+            selectedBusiness.workers.length > 1 &&
+            <Button onClick={() => resignation(newAgentID, selectedBusiness)}>تایید</Button>
+          }
         </DialogActions>
       </Dialog>
       <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => onCloseSnackbar(false)}>

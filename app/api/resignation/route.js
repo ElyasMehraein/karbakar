@@ -8,7 +8,7 @@ import ReportModel from "@/models/Report";
 export async function POST(req) {
     try {
         const body = await req.json()
-        const {newAgentID, selectedBusinessId } = body;
+        const { newAgentID, selectedBusinessId } = body;
         connectToDB()
         const response = await GET(req)
         const user = await response.json()
@@ -18,14 +18,19 @@ export async function POST(req) {
         const Business = await BusinessModel.findOne({ _id: selectedBusinessId })
         const newAgent = await UserModel.findOne({ _id: newAgentID })
 
+        // if (newAgent.businesses.length >= 3) {
+        //     return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 405 })
+        // }
+
         if (Number(Business.agentCode) !== user.code) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
         }
 
-        function isEmployeeHere(userID){ 
+        function isEmployeeHere(userID) {
             JSON.parse(JSON.stringify(Business)).workers.some((worker) => {
-            return worker === JSON.parse(JSON.stringify(userID))
-        })}
+                return worker === JSON.parse(JSON.stringify(userID))
+            })
+        }
 
         if (isEmployeeHere(user._id)) {
             return Response.json({ message: "you are not a member of this business" }, { status: 409 })

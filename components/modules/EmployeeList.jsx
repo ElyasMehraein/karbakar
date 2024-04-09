@@ -76,6 +76,8 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
             maxLengthError("تنها نماینده کسب و کار مجاز به استخدام نیروهاست")
         } else if (res.status === 404) {
             maxLengthError("کاربر وارد شده یافت نشد کد وارد شده را مجدد بررسی نمایید")
+        } else if (res.status === 405) {
+            maxLengthError("عضویت در بیش از 3 کسب و کار مجاز نیست")
         } else if (res.status === 406) {
             maxLengthError("شما نمی توانید برای خودتان درخواست استخدام ارسال نمایید")
         } else if (res.status === 409) {

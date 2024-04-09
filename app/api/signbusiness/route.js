@@ -6,8 +6,9 @@ import { cookies } from "next/headers";
 import { redirect } from 'next/navigation'
 
 export async function POST(req) {
-
+    console.log("hahii");
     try {
+       
 
         const body = await req.json()
         const { businessName, guildname } = body;
@@ -28,10 +29,13 @@ export async function POST(req) {
                 return redirect("/welcome");
             }
             connectToDB()
-            const user = JSON.parse(JSON.stringify(await UserModel.findOne(
-                { _id: tokenPayLoad.id },
-                "code"
-            )))
+            const user = JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id }, "code" ,"businesses")))
+            console.log("hassshii");
+            console.log("user.businesses.length", user);
+            // if(user.businesses.length >= 3 ){
+            //     return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 405 })
+            // }
+
             business = await BusinessModel.create({
                 businessName: businessName,
                 businessBrand: "",
