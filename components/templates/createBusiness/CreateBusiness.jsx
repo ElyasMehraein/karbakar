@@ -46,6 +46,9 @@ export default function createBusiness({ distinctGuilds }) {
         } else if (res.status === 400) {
             setSnackbarError(true)
             setSnackbarErrorMessage("ورودیهای ستاره دار را کامل کنید")
+        } else if (res.status === 405) {
+            setSnackbarError(true)
+            setSnackbarErrorMessage("عضویت در بیش از 3 کسب و کار مجاز نیست")
 
         } else if (res.status === 406) {
             setSnackbarError(true)

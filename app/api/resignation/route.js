@@ -9,6 +9,8 @@ export async function POST(req) {
     try {
         const body = await req.json()
         const { newAgentID, selectedBusinessId } = body;
+        console.log("ta inja fine", body, newAgentID, selectedBusinessId);
+
         connectToDB()
         const response = await GET(req)
         const user = await response.json()
@@ -16,11 +18,11 @@ export async function POST(req) {
         if (!user) { return Response.json({ message: "you need to login" }, { status: 404 }) }
 
         const Business = await BusinessModel.findOne({ _id: selectedBusinessId })
-        const newAgent = await UserModel.findOne({ _id: newAgentID })
+        const newAgent = await UserModel.findOne({ code: newAgentID })
 
-        // if (newAgent.businesses.length >= 3) {
-        //     return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 405 })
-        // }
+        if (newAgent.businesses.length >= 3) {
+            return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 405 })
+        }
 
         if (Number(Business.agentCode) !== user.code) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })

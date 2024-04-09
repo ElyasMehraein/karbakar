@@ -12,12 +12,16 @@ import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function ReportFrame({ user, report }) {
-
     const [hideQuestion, setHideQuestion] = React.useState(false);
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
+    const [userCode, setUserCode] = React.useState(null);
+    console.log("fffdsss", userCode);
+    React.useEffect(() => {
 
+        setUserCode(report.recepiant)
+    }, [userCode]);
     const answer = async (parameter) => {
         const res = await fetch("/api/reports/answerJobOffer", {
             method: "PUT",
@@ -59,10 +63,10 @@ export default function ReportFrame({ user, report }) {
                         sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                         avatar={
                             <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
-                                <ItsAvatar userCodeOrBusinessBrand={report.recepiant.code} />
+                                <ItsAvatar userCodeOrBusinessBrand={userCode} />
                             </Avatar>
                         }
-                        title={report.recepiant.code}
+                        title={userCode}
                         subheader={report.recepiant.userName}
                     />
                 </Box>

@@ -1,3 +1,4 @@
+"use client"
 import * as React from 'react';
 import { Select, MenuItem, ListItemText, ListItemButton, Avatar, Snackbar, Alert } from '@mui/material';
 import ItsAvatar from '@/components/modules/ItsAvatar';
@@ -21,7 +22,7 @@ export default function Resignation({ user }) {
 
   const [selectedBusiness, setSelectedBusiness] = useState(user.businesses[0]);
   const [newAgentID, setNewAgentID] = React.useState(null);
-
+console.log("client newAgentID", newAgentID);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -64,16 +65,15 @@ export default function Resignation({ user }) {
   };
   const onCloseSnackbar = () => {
     setSnackbarOpen(false)
-    // location.reload()
   }
 
 
 
-  async function resignation(newAgentID, selectedBusinessId) {
+  async function resignation(newAgentID, selectedBusines) {
     const res = await fetch('/api/resignation', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newAgentID, selectedBusinessId)
+      body: JSON.stringify({newAgentID, selectedBusinessId:selectedBusines._id})
     })
     if (res.status === 201) {
       setOpenDialog(false)
