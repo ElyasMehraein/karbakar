@@ -21,6 +21,8 @@ const schema = new Schema({
         // minlength: 4,
         // maxlength: 30,
     },
+    isAvatar:Boolean,
+    isHeader:Boolean,
     bio: {
         type: String,
         maxlength: 150,

@@ -1,9 +1,8 @@
 "use client"
 import * as React from 'react';
-import { Select, MenuItem, ListItemText, ListItemButton, Avatar, Snackbar, Alert } from '@mui/material';
+import { Avatar, Snackbar, Alert } from '@mui/material';
 import ItsAvatar from '@/components/modules/ItsAvatar';
-import { useRouter } from 'next/navigation';
-import { FormControl, InputLabel, ListItemAvatar } from '@mui/material';
+import { ListItemAvatar } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -11,25 +10,26 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import Menu from '@mui/material/Menu';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import DomainDisabledIcon from "@mui/icons-material/DomainDisabled";
 import TextField from '@mui/material/TextField';
 import { resignationText1, resignationText2 } from '../typoRepo';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 
 export default function Resignation({ user }) {
 
   const [selectedBusiness, setSelectedBusiness] = useState(user.businesses[0]);
   const [newAgentID, setNewAgentID] = React.useState(null);
-console.log("client newAgentID", newAgentID);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClick = () => {
+    setOpen(!open);
   };
 
 
@@ -39,7 +39,6 @@ console.log("client newAgentID", newAgentID);
   const handleBusinessChange = (Business) => {
     setSelectedBusiness(Business);
     setOpenDialog(true);
-    handleClose()
   };
   const cancelHandler = () => {
     setOpenDialog(false);
@@ -73,7 +72,7 @@ console.log("client newAgentID", newAgentID);
     const res = await fetch('/api/resignation', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({newAgentID, selectedBusinessId:selectedBusines._id})
+      body: JSON.stringify({ newAgentID, selectedBusinessId: selectedBusines._id })
     })
     if (res.status === 201) {
       setOpenDialog(false)
@@ -92,41 +91,43 @@ console.log("client newAgentID", newAgentID);
   }
   return (
     <>
+      <List
 
-      <ListItem disablePadding>
-        <ListItemButton>
+      >
+        <ListItemButton onClick={handleClick}>
           <ListItemIcon>
             <DomainDisabledIcon />
           </ListItemIcon>
           <ListItemText
-            sx={{ textAlign: "right" }}
+            //  primary="Inbox" 
             secondary="استعفا از کسب و کار"
-            onClick={(event) => handleClick(event)}
+            sx={{ textAlign: "right" }}
 
           />
+          {open ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-      </ListItem>
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {user?.businesses.map((business) => (
+              <ListItemButton
+                key={business._id}
+                value={business._id}
+                sx={{ pl: 4, display: 'flex', alignItems: 'center', minWidth: '150px' }}
+                onClick={() => handleBusinessChange(business)}
+              >
+                <ListItemAvatar>
+                  <Avatar sx={{ width: 40, height: 40 }}>
+                    <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={business.businessName} secondary={business.businessBrand} />
+              </ListItemButton>
+            ))}
+          </List>
+        </Collapse >
+      </List >
 
-      >
-        {user?.businesses.map((business) => (
-          <MenuItem
-            key={business._id}
-            value={business._id}
-            sx={{ display: 'flex', alignItems: 'center', minWidth: '150px' }}
-            onClick={() => handleBusinessChange(business)}
-          >
-            <ListItemAvatar>
-              <Avatar sx={{ width: 40, height: 40 }}>
-                <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={business.businessName} secondary={business.businessBrand} />
-          </MenuItem>
-        ))}
-      </Menu>
+
       <Dialog
         open={openDialog}
       >

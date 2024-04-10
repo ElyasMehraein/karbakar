@@ -40,6 +40,8 @@ export async function POST(req) {
             business = await BusinessModel.create({
                 businessName: businessName,
                 businessBrand: "",
+                isAvatar:false,
+                isHeader:false,
                 bio: "",
                 explain: "",
                 phone: "",

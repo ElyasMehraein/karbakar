@@ -1,13 +1,15 @@
 "use client"
 import Image from 'next/image'
 import { useEffect, useState } from 'react';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+
 
 export default function ItsAvatar({ userCodeOrBusinessBrand }) {
 
     const [imageKey, setImageKey] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(false);
-    const defaultAvatarImg = "/assets/default/default-avatar.svg"
+
     useEffect(() => {
         setImageKey(Date.now());
         setIsLoading(false)
@@ -21,15 +23,25 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
     }
     
     let avatar = isLoading ? defaultAvatarImg : `/${avatarOrBrand}/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''}`
-    return <Image
-        src={error ? defaultAvatarImg : avatar}
-        alt={userCodeOrBusinessBrand} quality={100}
-        fill
-        sizes="100px"
-        style={{ objectFit: 'cover' }}
-        onError={(e) => {
-            e.target.onerror = null;
-            setError(true);
-        }}
-    />
+    console.log("avatar", avatar);
+    return (
+        <>
+            {error ?
+                <AccountCircle   sx={{ width: 44, height: 44 }}
+                />
+                :
+                <Image
+                    src={avatar}
+                    alt={userCodeOrBusinessBrand} quality={100}
+                    fill
+                    sizes="100px"
+                    style={{ objectFit: 'cover' }}
+                    onError={(e) => {
+                        // e.target.onError = null;
+                        setError(true);
+                    }}
+                />
+            }
+        </>
+    )
 }

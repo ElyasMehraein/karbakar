@@ -1,4 +1,3 @@
-"use client"
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -120,7 +119,6 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
           </List>
         }
         <Divider />
-
         <List>
           {user &&
             <ListItem disablePadding>
@@ -138,8 +136,10 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
               </ListItemButton>
             </ListItem>
           }
+
           {user?.businesses[0] &&
           <Resignation user={user}/>}
+
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -152,7 +152,6 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
             </ListItemButton>
           </ListItem>
         </List>
-
         <Divider />
         {user ?
           <Button
