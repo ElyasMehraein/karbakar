@@ -2,6 +2,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react';
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import CoPresentOutlinedIcon from '@mui/icons-material/CoPresentOutlined';
 
 
 export default function ItsAvatar({ userCodeOrBusinessBrand }) {
@@ -21,13 +22,14 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
     } else {
         avatarOrBrand = "avatars"
     }
-    
-    let avatar = isLoading ? defaultAvatarImg : `/${avatarOrBrand}/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''}`
-    console.log("avatar", avatar);
+
+    let avatar = `/${avatarOrBrand}/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''}`
+
     return (
         <>
-            {error ?
-                <AccountCircle   sx={{ width: 44, height: 44 }}
+            {isLoading || error ?
+                <CoPresentOutlinedIcon
+                    // sx={{ width: 30, height: 30 }}
                 />
                 :
                 <Image

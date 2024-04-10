@@ -9,8 +9,6 @@ export async function POST(req) {
 
 
     try {
-       
-
         const body = await req.json()
         const { businessName, guildname } = body;
         if (!businessName.trim() || !guildname.trim()) {
@@ -31,17 +29,15 @@ export async function POST(req) {
             }
             connectToDB()
             const user = JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id }, "code businesses")))
-            console.log("hassshii");
-            console.log("user.businesses.length", user.businesses.length);
-            if(user.businesses.length >= 3 ){
+            if (user.businesses.length >= 3) {
                 return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 405 })
             }
 
             business = await BusinessModel.create({
                 businessName: businessName,
                 businessBrand: "",
-                isAvatar:false,
-                isHeader:false,
+                isAvatar: false,
+                isHeader: false,
                 bio: "",
                 explain: "",
                 phone: "",
@@ -59,13 +55,9 @@ export async function POST(req) {
             business = business
 
             await UserModel.findByIdAndUpdate(user._id, { $push: { businesses: business._id } })
+            await UserModel.findByIdAndUpdate(user._id, { primeJob: business._id })
 
-            const isEmpty = (val) => val === undefined || val === null;
-            await UserModel.findByIdAndUpdate(user._id, {
-                $set: { primeJob: isEmpty(user.primeJob) ? user.primeJob : business._id }
-            });
 
-            await UserModel.findByIdAndUpdate(user._id, { $setOnInsert: { primeJob: business._id } }, { new: true })
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {
             return Response.json({ message: "business already exist" }, { status: 409 })
