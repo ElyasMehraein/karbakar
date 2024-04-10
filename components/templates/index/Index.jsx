@@ -13,12 +13,12 @@ export default function Index({ user, bills, token }) {
   const menuClickHandler = () => {
     setOpen(true);
   }
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+
+
   return (mounted &&
     <>
       <RightDrawer
@@ -29,6 +29,7 @@ export default function Index({ user, bills, token }) {
         user={user}
         menuClickHandler={menuClickHandler} />
       <Tabs
+        reports={reports}
         user={user} bills={bills}
       />
 

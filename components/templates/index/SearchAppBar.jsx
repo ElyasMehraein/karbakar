@@ -22,7 +22,7 @@ import { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import ItsAvatar from "@/components/modules/ItsAvatar"
-import Reports from './Reports/Reports';
+import ReportsMenu from './Reports/ReportsMenu';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -64,35 +64,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({ user, menuClickHandler }) {
+export default function SearchAppBar({user, menuClickHandler }) {
 
 
-  const [reports, setReports] = useState("")
   const [unseenReportCounts, setUnseenReportCounts] = useState(0)
+  // useEffect(() => {
+  //   if (reports) {
+  //     setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd).length || 0)
+  //   }
+  // }, [reports]);
 
-  useEffect(() => {
-
-    getReports()
-  }, []);
-
-  useEffect(() => {
-    if (reports) {
-      setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd).length || 0)
-    }
-  }, [reports]);
-
-  const setIsSeen = async (parameter) => {
-    const res = await fetch("/api/reports/setIsSeen", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        parameter
-      }),
-    });
-    res.status === 201 && setUnseenReportCounts(0)
-  }
+  // const setIsSeen = async (parameter) => {
+  //   const res = await fetch("/api/reports/setIsSeen", {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       parameter
+  //     }),
+  //   });
+  //   res.status === 201 && setUnseenReportCounts(0)
+  // }
 
   const userCode = (user) => {
     if (user.code) {
@@ -110,13 +103,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
       router.push('/welcome')
     }
   }
-  const getReports = async () => {
-    const res = await fetch("/api/reports/getReports", { method: "GET" })
-    if (res.status === 200) {
-      const data = await res.json()
-      setReports(data.data)
-    }
-  }
+
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -157,7 +144,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
           ورود یا ثبت نام
         </Button>) :
           <Box sx={{ display: 'flex' }}>
-            {reports[0] && <Tooltip title="Account settings">
+            {reports && reports[0] && <Tooltip title="Account settings">
               <IconButton sx={{ width: 70, height: 70 }}
                 size="large"
                 aria-label="show 17 new notifications"
@@ -172,7 +159,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
                 </Badge>
               </IconButton>
             </Tooltip>}
-            <Reports user={user} reports={reports} anchorEl={anchorEl} open={open} handleClose={handleClose} />
+            <ReportsMenu user={user} reports={reports} anchorEl={anchorEl} open={open} handleClose={handleClose} />
             <IconButton
               sx={{ m: 0, width: 70, height: 70 }}
               size="large"

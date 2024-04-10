@@ -3,7 +3,27 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ReportFrame from './ReportFrame';
 
-export default function Reports({user, reports, anchorEl, open, handleClose }) {
+export default function ReportsMenu({ user, anchorEl, open, handleClose }) {
+    const [reports, setReports] = useState([])
+
+
+    useEffect(() => {
+    const getReports = async () => {
+        try {
+            const res = await fetch("/api/reports/getReports", { method: "GET" })
+            if (res.status === 200) {
+                const data = await res.json()
+                setReports(data.data)
+                setMounted(true)
+            }
+        } catch (error) {
+            console.error("Error fetching reports:", error);
+        }
+    }
+
+        getReports()
+    }, []);
+
 
     return (
         <React.Fragment>
@@ -18,7 +38,7 @@ export default function Reports({user, reports, anchorEl, open, handleClose }) {
             >
                 <MenuItem sx={{ display: 'flex', flexDirection: "column-reverse" }}
                 //  onClick={handleClose}
-                 >
+                >
                     {reports &&
                         reports.map((report) => {
                             return <ReportFrame user={user} report={report} key={report._id} />

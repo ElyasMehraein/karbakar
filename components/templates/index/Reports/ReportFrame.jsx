@@ -12,17 +12,14 @@ import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function ReportFrame({ user, report }) {
+
+    console.log("report.recepiant", report.recepiant);
+
     const [hideQuestion, setHideQuestion] = React.useState(false);
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
-    const [userCode, setUserCode] = React.useState(null);
 
-    
-    React.useEffect(() => {
-
-        setUserCode(report.recepiant)
-    }, [userCode]);
     const answer = async (parameter) => {
         const res = await fetch("/api/reports/answerJobOffer", {
             method: "PUT",
@@ -46,6 +43,8 @@ export default function ReportFrame({ user, report }) {
                     <Typography component="div" variant="body2">
                         {report.title === "jobOffer" && "درخواست همکاری"}
                         {report.title === "dismissal" && "گزارش اخراج"}
+                        {report.title === "resignation" && "گزارش استعفا"}
+                        {report.title === "YouAreAgent" && "گزارش تغییر نماینده"}
                     </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -93,6 +92,15 @@ export default function ReportFrame({ user, report }) {
                                 <Typography component="div" variant="body2">
                                     {`${report.recepiant.userName || "کاربر"}  از کسب و کار  ${report.business.businessBrand || report.business.businessName} اخراج شد`}
                                 </Typography>}
+                            {report.title === "resignation" &&
+                                <Typography component="div" variant="body2">
+                                    {`${report.recepiant.userName || "کاربر"}  از کسب و کار  ${report.business.businessBrand || report.business.businessName} استعفا داد`}
+                                </Typography>}
+                            {report.title === "YouAreAgent" &&
+                                <Typography component="div" variant="body2">
+                                    {`${report.recepiant.userName || "کاربر"}  در کسب و کار  ${report.business.businessBrand || report.business.businessName} نماینده کسب و کار شد`}
+                                </Typography>}
+
                         </CardContent>
                     )
                 }
