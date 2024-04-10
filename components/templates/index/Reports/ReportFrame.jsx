@@ -17,7 +17,8 @@ export default function ReportFrame({ user, report }) {
     const [snackbarReject, setSnackbarReject] = React.useState(false);
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
     const [userCode, setUserCode] = React.useState(null);
-    console.log("fffdsss", userCode);
+
+    
     React.useEffect(() => {
 
         setUserCode(report.recepiant)
@@ -63,10 +64,10 @@ export default function ReportFrame({ user, report }) {
                         sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                         avatar={
                             <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
-                                <ItsAvatar userCodeOrBusinessBrand={userCode} />
+                                <ItsAvatar userCodeOrBusinessBrand={user.code} />
                             </Avatar>
                         }
-                        title={userCode}
+                        title={report.recepiant.code}
                         subheader={report.recepiant.userName}
                     />
                 </Box>

@@ -76,7 +76,7 @@ export default function Resignation({ user }) {
     })
     if (res.status === 201) {
       setOpenDialog(false)
-      callSnackbar("تغییر کسب و کار اصلی با موفقیت انجام شد")
+      callSnackbar("تغییر نماینده کسب و کار و استعفای شما با موفقیت انجام شد")
     } else if (res.status === 500) {
       callSnackbar("خطای اتصال به سرور", "error")
     } else if (res.status === 403) {

@@ -21,7 +21,7 @@ export async function POST(req) {
         const newAgent = await UserModel.findOne({ code: newAgentID })
 
         if (newAgent.businesses.length >= 3) {
-            return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 405 })
+            return Response.json({ message: "any user can only be a member of a maximum of 3 businesses" }, { status: 405 })
         }
 
         if (Number(Business.agentCode) !== user.code) {
@@ -59,6 +59,9 @@ export async function POST(req) {
             { _id: user._id },
             { $pull: { businesses: Business._id } }
         );
+
+        await UserModel.findByIdAndUpdate(newAgent._id, { primeJob: Business._id })
+
         await BusinessModel.updateOne(
             { _id: Business._id },
             { $pull: { workers: user._id } }
