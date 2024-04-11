@@ -12,22 +12,19 @@ import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export default function ReportFrame({ user, report }) {
-
-    console.log("report.recepiant", report.recepiant);
-
     const [hideQuestion, setHideQuestion] = React.useState(false);
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
 
-    const answer = async (parameter) => {
+    const answer = async (reportID, parameter) => {
         const res = await fetch("/api/reports/answerJobOffer", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                reportID: report._id, parameter
+                reportID, parameter
             }),
         });
         if (res.status === 201) {
@@ -45,6 +42,7 @@ export default function ReportFrame({ user, report }) {
                         {report.title === "dismissal" && "گزارش اخراج"}
                         {report.title === "resignation" && "گزارش استعفا"}
                         {report.title === "YouAreAgent" && "گزارش تغییر نماینده"}
+
                     </Typography>
                 </CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'row' }}>
@@ -74,11 +72,11 @@ export default function ReportFrame({ user, report }) {
 
                     <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
                         <Button variant="outlined" color="error"
-                            onClick={() => answer(false)}>
+                            onClick={() => answer(report._id, false)}>
                             رد
                         </Button>
                         <Button color="success" variant="outlined"
-                            onClick={() => answer(true)}>
+                            onClick={() => answer(report._id, true)}>
                             تایید
                         </Button>
                     </Stack>

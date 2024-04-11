@@ -40,7 +40,7 @@ export async function POST(req) {
         if (isEmployeeHere(newAgent.id)) {
             return Response.json({ message: "next agent is not a member of this business" }, { status: 409 })
         }
-        const recepiantUser = await UserModel.find({ code: Business.agentCode })
+        const recepiantUser = await UserModel.findOne({ code: Business.agentCode })
         await ReportModel.create({
             recepiant: recepiantUser._id,
             title: "resignation",

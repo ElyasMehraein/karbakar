@@ -3,28 +3,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ReportFrame from './ReportFrame';
 
-export default function ReportsMenu({ user, anchorEl, open, handleClose }) {
-    const [reports, setReports] = useState([])
+export default function ReportsMenu({ reports, user, anchorEl, open, handleClose }) {
 
-
-    useEffect(() => {
-    const getReports = async () => {
-        try {
-            const res = await fetch("/api/reports/getReports", { method: "GET" })
-            if (res.status === 200) {
-                const data = await res.json()
-                setReports(data.data)
-                setMounted(true)
-            }
-        } catch (error) {
-            console.error("Error fetching reports:", error);
-        }
-    }
-
-        getReports()
-    }, []);
-
-
+    
     return (
         <React.Fragment>
             <Menu
@@ -36,17 +17,20 @@ export default function ReportsMenu({ user, anchorEl, open, handleClose }) {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
             >
-                <MenuItem sx={{ display: 'flex', flexDirection: "column-reverse" }}
-                //  onClick={handleClose}
-                >
-                    {reports &&
-                        reports.map((report) => {
-                            return <ReportFrame user={user} report={report} key={report._id} />
-                        })
-                    }
-                </MenuItem>
-            </Menu>
+                {reports &&
+                    reports.map((report) => {
 
+                        return (
+
+                            <MenuItem key={report._id} sx={{ display: 'flex', flexDirection: "column-reverse" }}
+                            //  onClick={handleClose}
+                            >
+                                <ReportFrame user={user} report={report}  />
+                            </MenuItem>
+                        )
+                    })
+                }
+            </Menu>
         </React.Fragment>
     );
 }

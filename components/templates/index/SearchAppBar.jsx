@@ -3,18 +3,13 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MenuIcon from '@mui/icons-material/Menu';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Divider from '@mui/material/Divider';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import { useRouter } from 'next/navigation'
 import Button from "@mui/material/Button";
 import { useEffect } from 'react';
@@ -64,28 +59,47 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchAppBar({user, menuClickHandler }) {
-
+export default function SearchAppBar({ user, menuClickHandler }) {
 
   const [unseenReportCounts, setUnseenReportCounts] = useState(0)
-  // useEffect(() => {
-  //   if (reports) {
-  //     setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd).length || 0)
-  //   }
-  // }, [reports]);
+  const [reports, setReports] = useState([])
 
-  // const setIsSeen = async (parameter) => {
-  //   const res = await fetch("/api/reports/setIsSeen", {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       parameter
-  //     }),
-  //   });
-  //   res.status === 201 && setUnseenReportCounts(0)
-  // }
+
+
+  useEffect(() => {
+    const getReports = async () => {
+      try {
+        const res = await fetch("/api/reports/getReports", { method: "GET" })
+        if (res.status === 200) {
+          const data = await res.json()
+          setReports(data.data)
+        }
+      } catch (error) {
+        console.error("Error fetching reports:", error);
+      }
+    }
+
+    getReports()
+  }, []);
+
+  useEffect(() => {
+    if (reports) {
+      setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd).length || 0)
+    }
+  }, [reports]);
+
+  const setIsSeen = async (parameter) => {
+    const res = await fetch("/api/reports/setIsSeen", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        parameter
+      }),
+    });
+    res.status === 201 && setUnseenReportCounts(0)
+  }
 
   const userCode = (user) => {
     if (user.code) {

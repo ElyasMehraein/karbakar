@@ -28,7 +28,7 @@ export async function POST(req) {
                 return redirect("/welcome");
             }
             connectToDB()
-            const user = JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id }, "code businesses")))
+            const user = JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id }, "primeJob code businesses")))
             if (user.businesses.length >= 3) {
                 return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 405 })
             }
@@ -55,8 +55,11 @@ export async function POST(req) {
             business = business
 
             await UserModel.findByIdAndUpdate(user._id, { $push: { businesses: business._id } })
-            await UserModel.findByIdAndUpdate(user._id, { primeJob: business._id })
 
+            if (user.primeJob !== '66164cc526e2d5fe01b561dc') {
+                return Response.json({ message: "business created successfully" }, { status: 201 })
+            }
+            await UserModel.findByIdAndUpdate(user._id, { primeJob: business._id })
 
             return Response.json({ message: "business created successfully" }, { status: 201 })
         } else {

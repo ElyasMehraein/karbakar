@@ -6,10 +6,12 @@ import RightDrawer from "@/components/templates/index/RightDrawer";
 import Tabs from "@/components/templates/index/Tabs";
 
 
-export default function Index({ user, bills, token }) {
+export default function Index({ user, bills }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
-
+  useEffect(() => {
+    setMounted(true)
+  }, [])
   const menuClickHandler = () => {
     setOpen(true);
   }
@@ -29,7 +31,6 @@ export default function Index({ user, bills, token }) {
         user={user}
         menuClickHandler={menuClickHandler} />
       <Tabs
-        reports={reports}
         user={user} bills={bills}
       />
 
