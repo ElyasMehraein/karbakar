@@ -15,12 +15,10 @@ const schema = new Schema({
             ref: "Business"
         }
     ],
-    title: { type: String, maxlength: 15, },
-    message: { type: String, maxlength: 15, },
-    guild:{
-        type: mongoose.Schema.Types.guild,
-        ref: "Bill"
-    }
+    title: { type: String, maxlength: 30, },
+    message: { type: String, maxlength: 150, },
+    guild:{ type: String, required: true },
+
 }, { timestamps: true })
 
 const RequestModel = mongoose.models.Request || mongoose.model("Request", schema)
