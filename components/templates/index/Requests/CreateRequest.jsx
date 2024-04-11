@@ -1,269 +1,131 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import { red } from '@mui/material/colors';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import ItsAvatar from "@/components/modules/ItsAvatar"
+import CloseIcon from '@mui/icons-material/Close';
+import Guild from "@/components/modules/Guild"
+import { useState } from 'react';
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
-import Autocomplete from '@mui/material/Autocomplete';
-import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
-import CreateBillFrame from "../indexDatas/CreateBillFrame";
-import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
-import { useState, useEffect } from 'react'
-import Guild from "@/components/modules/Guild"
-import Divider from '@mui/material/Divider';
-import HelpIcon from '@/components/modules/HelpIcon';
-import { iconText } from '@/components/typoRepo';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import AddBusinessIcon from "@mui/icons-material/AddBusiness";
-import ItsAvatar from "@/components/modules/ItsAvatar"
-import { Avatar } from '@mui/material';
-import { Grid } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import SendIcon from '@mui/icons-material/Send';
+import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 
-import BillProductFrame from './BillProductFrame';
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
-export default function CreateRequest({ user, distinctGuilds }) {
-  console.log("distinctGuilds", distinctGuilds);
+export default function VaseTest({ user, distinctGuilds }) {
 
+  const [expanded, setExpanded] = useState(false);
   const [guildname, setGuildName] = useState("")
+  const [snackbarError, setSnackbarError] = useState(false);
+
 
   const updateGuildname = (newGuildname) => {
     setGuildName(newGuildname);
   };
 
-
-  const [snackbarError, setSnackbarError] = useState(false);
-
-
-
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
 
-  /// OLD
-  // const userBusinesses = user.businesses.map(business => {
-  //   if (business.agentCode == user.code) {
-  //     return business.businessName
-  //   }
-  // })
-  // const [selectedBusiness, setSelectedBusiness] = React.useState("")
-  // const [selectedProduct, setSelectedProduct] = React.useState("")
-  // const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
-  // const [amount, setAmount] = React.useState("")
-  // const [bills, setbills] = React.useState([])
-  // const [customerCode, setCustomerCode] = React.useState([])
-
-  // const addToBills = () => {
-  //   setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
-  //   setUnitOfMeasurement("")
-  //   setAmount("")
-  // }
-  // const deleteFrame = (id) => {
-  //   setbills((bills.filter(bill => bill.id !== id)))
-  // }
-
-  // const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  // const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
-
-  // const handleSnackbarClose = () => {
-  //   setOpenSnackbar(false);
-  // };
-  // const handleShowSnackbar = () => {
-  //   setOpenSnackbar(true);
-  // };
-  // async function createThisBill(selectedBusiness, customerCode, bills) {
-  //   const res = await fetch('api/createBill', {
-  //     method: "POST",
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ selectedBusiness, customerCode, bills })
-  //   })
-  //   if (res.status === 500) {
-  //     console.log("server error");
-  //   } else if (res.status === 201) {
-  //     console.log("bill signed successfully");
-  //     handleShowSnackbar()
-  //   } else if (res.status === 406) {
-  //     setOpenSnackbarError(true)
-  //   }
-  // }
-  const [expanded, setExpanded] = React.useState(false);
   return (
-    <Container maxWidth="md" sx={{ p: 0 }}>
-      <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-        <Chip
-          label="راهنمایی"
-          sx={{ direction: 'ltr' }}
-          onClick={() => setExpanded(!expanded)}
-          icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-        />
-        <AccordionDetails>
-          <Typography>
-            زمانی که درخواست محصول ایجاد می کنید دیگران تنها کسب و کار اصلی شما را مشاهده می نمایند و با توجه به کسب و کار اصلی شما در خصوص ارئه محصول به شما تصمیم گیری خواهند کرد،          </Typography>
-          ابتدا صنف مرتبط به محصولی که میخواهید را انتخاب کنید
-          <Typography sx={{ my: 2 }} color="error">
-            جهت جلوگیری از ایجاد سوابق سوری تغییر کسب و کار اصلی تنها هر 14 روز امکانپذیر
-          </Typography>
-        </AccordionDetails>
-      </Accordion>
-      <Box sx={{ px: 0, py: 1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
-        <Typography sx={{ fontSize: 14, fontWeight: "bold" }}>ایجاد درخواست جدید</Typography>
+    <>
+      {user.businesses.map((business) => (
+        user.primeJob === business._id && (
+          <Card sx={{ maxWidth: 345 }}>
+            <CardHeader
 
-        <Box>
-
-          {user.businesses.map((business) => (
-            user.primeJob === business._id && (
-              <Box key={business._id}>
-                <Typography sx={{ px: 1, pt: 2, textAlign: 'left', fontSize: 10, fontWeight: 'bold' }}>کسب و کار اصلی</Typography>
-                <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
-                  <ListItem>
-                    <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
-                    <ListItemAvatar>
-                      <Avatar sx={{ width: 40, height: 40 }}>
-                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
-                  </ListItem>
-                </ListItemButton>
-              </Box>
-            )))}
-        </Box>
-        <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
-
-        <Box
-          display="flex"
-          justifyContent='center'
-        >
-          <TextField
-            id="outlined-multiline-static"
-            label="معرفی 150 کارکتری"
-            // inputProps={{ maxLength: 200 }}
-            sx={{ maxWidth: 250, }}
-            fullWidth
-          // onChange={changeHandler}
-          />
-        </Box>
-        <TextField
-          id="outlined-multiline-static"
-          label="معرفی 150 کارکتری" // Label in Farsi (assuming "معرفی" means "Introduction")
-          inputProps={{ maxLength: 200 }}
-          sx={{ maxWidth: 250 }}
-          fullWidth
-          multiline
-          rows={4} // Adjust rows for desired height
-          value={inputValue}
-          onChange={handleChange}
-          helperText={`${remainingChars} characters remaining`} // Display remaining characters
-        />
-        <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
-          <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
-            onClick={() => deleteHandler()}>
-            لغو
-          </Button>
-          <Box style={{ flexGrow: 1 }}></Box>
-          <Button color="success" variant="outlined" endIcon={<SendIcon />}
-            onClick={() => saveHandler(true)}>
-            تایید
-          </Button>
-        </Stack>
-
-      </Box>
-      {/* <CustomSnackbar
-        open={openSnackbar}
-        onClose={handleSnackbarClose}
-        message="صورتحساب جهت تایید برای مشتری ارسال شد"
-      />
-      <CustomSnackbar
-        open={openSnackbarError}
-        onClose={() => setOpenSnackbarError(false)}
-        message="شما نمی توانید برای خودتان صورتحساب صادر نمایید"
-        severity="error"
-      />
-        {user ?
-          <>
-            {user.businesses[0] ? */}
-      {/* 
-              <>
-                {selectedBusiness &&
-                  <>
-                    {selectedBusiness.products ?
-
-                      <modulesAutocomplete optionsArray={products} label={"انتخاب محصول"} addMessage={"ایجاد محصول جدید"} onChangeHandler={(inputValue) => setSelectedProduct(inputValue)} />
-                      :
-                      <>
-                        <TextField
-                          value={selectedProduct}
-
-                          placeholder='حداکثر 30 کارکتر' variant="outlined"
-                          label="محصولی که ارائه نموده اید"
-                          onChange={(e) => setSelectedProduct(e.target.value)}
-                          sx={{ width: 300 }}
-                        />
-                        <TextField
-                          value={unitOfMeasurement}
-
-                          placeholder="مثلا کیلوگرم یا عدد" variant="outlined"
-                          label="واحد اندازه گیری"
-                          onChange={(e) => setUnitOfMeasurement(e.target.value)}
-                          sx={{ mt: 2, width: 300 }}
-                        />
-                      </>
-                    }
-                    <TextField
-                      value={amount}
-                      placeholder="مثلا 5" variant="outlined"
-                      label="مقدار"
-                      onChange={(e) => setAmount(e.target.value)}
-                      sx={{ mt: 2, width: 300 }}
-                      type="number"
-                    />
-
-                    <Button
-                      sx={{ mt: 2 }}
-                      children={"اضافه نمودن به فاکتور"}
-                      variant="contained"
-                      onClick={addToBills}
-                    />
-                    {bills[0] &&
-                      <>
-                        {bills.map(bill => {
-                          return <CreateBillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
-
-                        })
-                        }
-                        <TextField
-                          value={customerCode}
-                          placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
-                          label=" کد کاربری مشتری"
-                          onChange={(e) => setCustomerCode(e.target.value)}
-                          sx={{ mt: 2, width: 300 }}
-                        />
-                        < Button
-                          sx={{ mt: 2 }}
-                          children={"ارسال صورتحساب"}
-                          variant="contained"
-                          onClick={() => createThisBill(selectedBusiness, customerCode, bills)}
-                        />
-
-                      </>
-                    }
-                  </>
-                }
-              </>
-              :
-              <Typography color="error">
-                ارسال صورتحساب تنها توسط نماینده کسب و کار امکانپذیر است
+              avatar={
+                <Avatar >
+                  <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                </Avatar>
+              }
+              action={
+                <IconButton aria-label="settings">
+                  <CloseIcon />
+                </IconButton>
+              }
+              title={business.businessBrand}
+              subheader={business.businessName}
+              sx={{
+                p: 0, m: 0, mt: 2,
+                '& .MuiCardHeader-title': { fontSize: '12px', fontWeight: "bold" }, // Target title class and set font size
+                '& .MuiCardHeader-subheader': { fontSize: '14px', fontWeight: "bold" }, // Target subheader class and set font size
+              }}
+            />
+            <CardContent>
+              <Typography sx={{ mt: 4, fontSize: '14px', fontWeight: "bold" }} variant="body1" color="text.secondary">
+                ایجاد درخواست جدید
               </Typography>
-            }
-          </>
-          :
-          <Typography color="error">
-            برای مشاهده این بخش باید ابتدا ثبت نام کنید
-          </Typography>
-        }
+              <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
+              <TextField
+                id="outlined-multiline-static"
+                label="عنوان درخواست"
+                sx={{ my: 3 }}
+                fullWidth
+                // onChange={changeHandler}
+                // inputProps={{ maxLength: 200 }}
+                placeholder="موضوع درخواست شما مثال: کارواش خودرو"
+                size="small"
+                InputProps={{
+                  style: { fontSize: '10px', },
+                }}
+              />
+              <TextField
+                id="outlined-multiline-static"
+                label="توضیحات"
+                multiline
+                rows={4}
+                placeholder="شرح درخواست خود را وارد نمایید(غیر الزامی) مثال: ماشینم سمند است بعد از ظهر ساعت شش به بعد می توانم برای کارواش مراجعه نمایم"
+                fullWidth
+                size="small"
+                InputProps={{
+                  style: { fontSize: '10px', color:"primary" },
+                }}
+              />
 
-       */}
-    </Container >
-  );
+            </CardContent>
+            <CardActions disableSpacing>
+              <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
+                <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
+                  onClick={() => deleteHandler()}>
+                  لغو
+                </Button>
+                <Box style={{ flexGrow: 1 }}></Box>
+                <Button color="success" variant="outlined" endIcon={<SendIcon />}
+                  onClick={() => saveHandler(true)}>
+                  تایید
+                </Button>
+              </Stack>
+            </CardActions>
+
+          </Card>
+        )))
+      }
+    </>
+  )
 }
