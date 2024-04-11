@@ -17,6 +17,7 @@ export default function createBusiness({ distinctGuilds }) {
     const [success, setSuccess] = useState(false);
 
     const buttonSx = {
+        mt: 5,
         ...(success && {
             bgcolor: green[500],
             '&:hover': {
@@ -64,16 +65,17 @@ export default function createBusiness({ distinctGuilds }) {
                         my: 3
                     }}
                     display="flex" flexDirection="column">
-                    <Typography >یک نام برای کسب و کار خودانتخاب کنید</Typography>
+                    <Typography sx={{fontSize:12}} >یک نام برای کسب و کار خودانتخاب کنید</Typography>
                     <TextField
                         required
+                        size='small'
                         error={snackbarError}
                         sx={{ my: 3 }}
                         placeholder='حداکثر 30 کارکتر' variant="outlined"
                         label="نام کسب و کار"
                         onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
                     />
-                    <Typography sx={{ py: 1, textAlign: "center" }}>{selectGuild}</Typography>
+                    <Typography sx={{ py: 1, textAlign: "center" ,fontSize:12 }}>{selectGuild}</Typography>
 
                     <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
                     <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildname)} variant="contained">

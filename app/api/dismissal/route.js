@@ -36,21 +36,27 @@ export async function POST(req) {
 
         await ReportModel.create({
             recepiant: recepiant._id,
-            title:"dismissal",
+            title: "dismissal",
             business: Business._id,
-            isSeen:false,
+            isSeen: false,
             isAnswerNeed: false,
         })
         await UserModel.updateOne(
             { _id: recepiant._id },
             { $pull: { businesses: Business._id } }
         );
+
         await BusinessModel.updateOne(
             { _id: Business._id },
             { $pull: { workers: recepiant._id } }
         );
-
-
+        if (recepiant.primeJob !== Business._id) {
+            return Response.json({ message: "Report created and user fired successfully" }, { status: 201 })
+        }
+        await UserModel.updateOne(
+            { _id: recepiant._id },
+            { $pull: { primeJob: Business._id } }
+        );
         return Response.json({ message: "Report created and user fired successfully" }, { status: 201 })
     } catch (err) {
         console.error(err);

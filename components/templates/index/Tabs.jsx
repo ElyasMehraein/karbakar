@@ -91,7 +91,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
   const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
   const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
   const RequestFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
-  const RequestFabDynamicText = fabIndex == value ? "بازگشت به لیست درخواست ها" : "ایجاد درخواست جدید"
+  const RequestFabDynamicText = fabIndex == value ? "بازگشت به درخواست ها" : "ایجاد درخواست جدید"
 
   const fabHandler = () => {
     fabIndex == value ?
@@ -145,7 +145,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
           {
             fabIndex === 0 ?
-              <CreateRequest user={user} distinctGuilds={distinctGuilds} />
+              <CreateRequest {...{ fabHandler, user, distinctGuilds }} />
               // <VaseTest user={user} distinctGuilds={distinctGuilds} />
               :
               <YourReq distinctGuilds={distinctGuilds} />
