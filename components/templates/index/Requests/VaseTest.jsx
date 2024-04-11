@@ -16,6 +16,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import CloseIcon from '@mui/icons-material/Close';
+import Guild from "@/components/modules/Guild"
+import { useState } from 'react';
+import TextField from "@mui/material/TextField";
 
 
 const ExpandMore = styled((props) => {
@@ -30,7 +33,15 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function VaseTest({ user, distinctGuilds }) {
-  const [expanded, setExpanded] = React.useState(false);
+
+  const [expanded, setExpanded] = useState(false);
+  const [guildname, setGuildName] = useState("")
+  const [snackbarError, setSnackbarError] = useState(false);
+
+
+  const updateGuildname = (newGuildname) => {
+    setGuildName(newGuildname);
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -60,21 +71,29 @@ export default function VaseTest({ user, distinctGuilds }) {
               sx={{
                 p: 0, m: 0,
                 '& .MuiCardHeader-title': { fontSize: '12px', fontWeight: "bold" }, // Target title class and set font size
-                '& .MuiCardHeader-subheader': { fontSize: '12px', fontWeight: "bold" }, // Target subheader class and set font size
+                '& .MuiCardHeader-subheader': { fontSize: '14px', fontWeight: "bold" }, // Target subheader class and set font size
               }}
             />
-            <CardMedia
+            {/* <CardMedia
               component="img"
               height="194"
               image="/static/images/cards/paella.jpg"
               alt="Paella dish"
-            />
+            /> */}
             <CardContent>
-              <Typography variant="body2" color="text.secondary">
-                This impressive paella is a perfect party dish and a fun meal to cook
-                together with your guests. Add 1 cup of frozen peas along with the mussels,
-                if you like.
+              <Typography sx={{ fontSize: '14px', fontWeight: "bold" }} variant="body1" color="text.secondary">
+                ایجاد درخواست جدید
               </Typography>
+              <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
+              <TextField
+                id="outlined-multiline-static"
+                label="عنوان درخواست"
+                // sx={{ maxWidth: 250, }}
+                fullWidth
+                // onChange={changeHandler}
+                // inputProps={{ maxLength: 200 }}
+
+              />
             </CardContent>
             <CardActions disableSpacing>
               <IconButton aria-label="add to favorites">

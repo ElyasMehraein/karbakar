@@ -56,10 +56,10 @@ export default function Guild({ updateGuildname, distinctGuilds ,snackbarError})
           return option;
         }}
         renderOption={(props, option) => <li {...props} key={option}>{option.title ? option.title : option}</li>}
-        sx={{ py: 3, maxWidth: 250,  }}
-        freeSolo
+        sx={{ py: 3  }}
+        // freeSolo
         renderInput={(params) => (
-          <TextField required error={snackbarError} {...params} label="انتخاب صنف" />
+          <TextField fullWidth  required error={snackbarError} {...params} label="انتخاب صنف" />
         )}
       />
     </Container>
