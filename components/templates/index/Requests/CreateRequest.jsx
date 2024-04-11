@@ -21,6 +21,9 @@ import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import { Avatar } from '@mui/material';
 import { Grid } from '@mui/material';
+import Stack from '@mui/material/Stack';
+
+import BillProductFrame from './BillProductFrame';
 
 export default function CreateRequest({ user, distinctGuilds }) {
   console.log("distinctGuilds", distinctGuilds);
@@ -30,6 +33,7 @@ export default function CreateRequest({ user, distinctGuilds }) {
   const updateGuildname = (newGuildname) => {
     setGuildName(newGuildname);
   };
+
 
   const [snackbarError, setSnackbarError] = useState(false);
 
@@ -111,8 +115,8 @@ export default function CreateRequest({ user, distinctGuilds }) {
             user.primeJob === business._id && (
               <Box key={business._id}>
                 <Typography sx={{ px: 1, pt: 2, textAlign: 'left', fontSize: 10, fontWeight: 'bold' }}>کسب و کار اصلی</Typography>
-                  <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
-                <ListItem>
+                <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
+                  <ListItem>
                     <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
                     <ListItemAvatar>
                       <Avatar sx={{ width: 40, height: 40 }}>
@@ -120,28 +124,51 @@ export default function CreateRequest({ user, distinctGuilds }) {
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
-                </ListItem>
-              </ListItemButton>
+                  </ListItem>
+                </ListItemButton>
               </Box>
             )))}
-      </Box>
-      <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
+        </Box>
+        <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
 
-      <Box
-        display="flex"
-        justifyContent='center'
-      >
+        <Box
+          display="flex"
+          justifyContent='center'
+        >
+          <TextField
+            id="outlined-multiline-static"
+            label="معرفی 150 کارکتری"
+            // inputProps={{ maxLength: 200 }}
+            sx={{ maxWidth: 250, }}
+            fullWidth
+          // onChange={changeHandler}
+          />
+        </Box>
         <TextField
           id="outlined-multiline-static"
-          label="معرفی 150 کارکتری"
-          // inputProps={{ maxLength: 200 }}
-          sx={{ maxWidth: 250, }}
+          label="معرفی 150 کارکتری" // Label in Farsi (assuming "معرفی" means "Introduction")
+          inputProps={{ maxLength: 200 }}
+          sx={{ maxWidth: 250 }}
           fullWidth
-        // onChange={changeHandler}
+          multiline
+          rows={4} // Adjust rows for desired height
+          value={inputValue}
+          onChange={handleChange}
+          helperText={`${remainingChars} characters remaining`} // Display remaining characters
         />
-      </Box>
+        <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
+          <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
+            onClick={() => deleteHandler()}>
+            لغو
+          </Button>
+          <Box style={{ flexGrow: 1 }}></Box>
+          <Button color="success" variant="outlined" endIcon={<SendIcon />}
+            onClick={() => saveHandler(true)}>
+            تایید
+          </Button>
+        </Stack>
 
-    </Box>
+      </Box>
       {/* <CustomSnackbar
         open={openSnackbar}
         onClose={handleSnackbarClose}
@@ -156,7 +183,7 @@ export default function CreateRequest({ user, distinctGuilds }) {
         {user ?
           <>
             {user.businesses[0] ? */}
-  {/* 
+      {/* 
               <>
                 {selectedBusiness &&
                   <>
