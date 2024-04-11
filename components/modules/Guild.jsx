@@ -32,7 +32,7 @@ export default function Guild({ updateGuildname, distinctGuilds ,snackbarError})
           if (inputValue !== '' && !isExisting) {
             filtered.push({
               inputValue,
-              title: `ایجاد صنف جدید "${inputValue}"`,
+              title: `اضافه کردن صنف جدید "${inputValue}"`,
             });
           }
 
@@ -56,7 +56,7 @@ export default function Guild({ updateGuildname, distinctGuilds ,snackbarError})
           return option;
         }}
         renderOption={(props, option) => <li {...props} key={option}>{option.title ? option.title : option}</li>}
-        sx={{ py: 3, width: 300 }}
+        sx={{ py: 3, maxWidth: 250,  }}
         freeSolo
         renderInput={(params) => (
           <TextField required error={snackbarError} {...params} label="انتخاب صنف" />

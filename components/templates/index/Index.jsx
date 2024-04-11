@@ -6,7 +6,7 @@ import RightDrawer from "@/components/templates/index/RightDrawer";
 import Tabs from "@/components/templates/index/Tabs";
 
 
-export default function Index({ user, bills }) {
+export default function Index({ user, bills, distinctGuilds }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -30,8 +30,7 @@ export default function Index({ user, bills }) {
       <SearchAppBar
         user={user}
         menuClickHandler={menuClickHandler} />
-      <Tabs
-        user={user} bills={bills}
+      <Tabs {...{ distinctGuilds, user, bills }}
       />
 
     </>

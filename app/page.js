@@ -19,10 +19,25 @@ export default async function page() {
   ).populate("businesses")))
 
   const bills = await JSON.parse(JSON.stringify(await BillModel.find({
-    to: user?._id, isAccept : false
+    to: user?._id, isAccept: false
   }).populate("from")))
+
+  let distinctGuilds = []
+  await BillModel.find({ isAccept: true })
+    .then(docs => {
+      if (docs.length > 0) {
+        const guilds = docs.map(doc => doc.guild);
+        distinctGuilds = [...new Set(guilds)];
+
+      } else {
+        console.log('No guilds to show.');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+    });
   return (
-    <Index user={user} bills={bills} token={token} />
+    <Index {...{ user, bills, token, distinctGuilds }} />
   )
 }
 

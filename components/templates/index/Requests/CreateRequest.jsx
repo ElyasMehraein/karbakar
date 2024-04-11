@@ -8,57 +8,84 @@ import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
 import CreateBillFrame from "../indexDatas/CreateBillFrame";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+import { useState, useEffect } from 'react'
+import Guild from "@/components/modules/Guild"
+import Divider from '@mui/material/Divider';
+import HelpIcon from '@/components/modules/HelpIcon';
+import { iconText } from '@/components/typoRepo';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import ItsAvatar from "@/components/modules/ItsAvatar"
+import { Avatar } from '@mui/material';
+import { Grid } from '@mui/material';
 
-export default function CreateRequest({ user }) {
+export default function CreateRequest({ user, distinctGuilds }) {
+  console.log("distinctGuilds", distinctGuilds);
 
-  const userBusinesses = user.businesses.map(business => {
-    if (business.agentCode == user.code) {
-      return business.businessName
-    }
-  })
-  const [selectedBusiness, setSelectedBusiness] = React.useState("")
-  const [selectedProduct, setSelectedProduct] = React.useState("")
-  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
-  const [amount, setAmount] = React.useState("")
-  const [bills, setbills] = React.useState([])
-  const [customerCode, setCustomerCode] = React.useState([])
+  const [guildname, setGuildName] = useState("")
 
-  const addToBills = () => {
-    setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
-    setUnitOfMeasurement("")
-    setAmount("")
-  }
-  const deleteFrame = (id) => {
-    setbills((bills.filter(bill => bill.id !== id)))
-  }
-
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-  const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
-
-  const handleSnackbarClose = () => {
-    setOpenSnackbar(false);
+  const updateGuildname = (newGuildname) => {
+    setGuildName(newGuildname);
   };
-  const handleShowSnackbar = () => {
-    setOpenSnackbar(true);
-  };
-  async function createThisBill(selectedBusiness, customerCode, bills) {
-    const res = await fetch('api/createBill', {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ selectedBusiness, customerCode, bills })
-    })
-    if (res.status === 500) {
-      console.log("server error");
-    } else if (res.status === 201) {
-      console.log("bill signed successfully");
-      handleShowSnackbar()
-    } else if (res.status === 406) {
-      setOpenSnackbarError(true)
-    }
-  }
+
+  const [snackbarError, setSnackbarError] = useState(false);
+
+
+
+
+
+  /// OLD
+  // const userBusinesses = user.businesses.map(business => {
+  //   if (business.agentCode == user.code) {
+  //     return business.businessName
+  //   }
+  // })
+  // const [selectedBusiness, setSelectedBusiness] = React.useState("")
+  // const [selectedProduct, setSelectedProduct] = React.useState("")
+  // const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
+  // const [amount, setAmount] = React.useState("")
+  // const [bills, setbills] = React.useState([])
+  // const [customerCode, setCustomerCode] = React.useState([])
+
+  // const addToBills = () => {
+  //   setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
+  //   setUnitOfMeasurement("")
+  //   setAmount("")
+  // }
+  // const deleteFrame = (id) => {
+  //   setbills((bills.filter(bill => bill.id !== id)))
+  // }
+
+  // const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  // const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
+
+  // const handleSnackbarClose = () => {
+  //   setOpenSnackbar(false);
+  // };
+  // const handleShowSnackbar = () => {
+  //   setOpenSnackbar(true);
+  // };
+  // async function createThisBill(selectedBusiness, customerCode, bills) {
+  //   const res = await fetch('api/createBill', {
+  //     method: "POST",
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ selectedBusiness, customerCode, bills })
+  //   })
+  //   if (res.status === 500) {
+  //     console.log("server error");
+  //   } else if (res.status === 201) {
+  //     console.log("bill signed successfully");
+  //     handleShowSnackbar()
+  //   } else if (res.status === 406) {
+  //     setOpenSnackbarError(true)
+  //   }
+  // }
   const [expanded, setExpanded] = React.useState(false);
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md" sx={{ p: 0 }}>
       <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
         <Chip
           label="راهنمایی"
@@ -68,16 +95,54 @@ export default function CreateRequest({ user }) {
         />
         <AccordionDetails>
           <Typography>
-            لحظه ای که محصولات خود را به دیگران تحویل می دهید برایشان فاکتور صادر
-            نمایید و از مشتری بخواهید همان لحظه آن را بررسی و تایید نماید
-          </Typography>
+            زمانی که درخواست محصول ایجاد می کنید دیگران تنها کسب و کار اصلی شما را مشاهده می نمایند و با توجه به کسب و کار اصلی شما در خصوص ارئه محصول به شما تصمیم گیری خواهند کرد،          </Typography>
+          ابتدا صنف مرتبط به محصولی که میخواهید را انتخاب کنید
           <Typography sx={{ my: 2 }} color="error">
-            * محصولاتی را که ارائه می نمایید پس از تایید این صورتحساب در صفحه کسب و کار شما به نمایش در می
-            آیند
+            جهت جلوگیری از ایجاد سوابق سوری تغییر کسب و کار اصلی تنها هر 14 روز امکانپذیر
           </Typography>
         </AccordionDetails>
       </Accordion>
-      <CustomSnackbar
+      <Box sx={{ px: 0, py: 1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
+        <Typography sx={{ fontSize: 14, fontWeight: "bold" }}>ایجاد درخواست جدید</Typography>
+
+        <Box>
+
+          {user.businesses.map((business) => (
+            user.primeJob === business._id && (
+              <Box key={business._id}>
+                <Typography sx={{ px: 1, pt: 2, textAlign: 'left', fontSize: 10, fontWeight: 'bold' }}>کسب و کار اصلی</Typography>
+                  <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
+                <ListItem>
+                    <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
+                    <ListItemAvatar>
+                      <Avatar sx={{ width: 40, height: 40 }}>
+                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
+                </ListItem>
+              </ListItemButton>
+              </Box>
+            )))}
+      </Box>
+      <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
+
+      <Box
+        display="flex"
+        justifyContent='center'
+      >
+        <TextField
+          id="outlined-multiline-static"
+          label="معرفی 150 کارکتری"
+          // inputProps={{ maxLength: 200 }}
+          sx={{ maxWidth: 250, }}
+          fullWidth
+        // onChange={changeHandler}
+        />
+      </Box>
+
+    </Box>
+      {/* <CustomSnackbar
         open={openSnackbar}
         onClose={handleSnackbarClose}
         message="صورتحساب جهت تایید برای مشتری ارسال شد"
@@ -88,20 +153,11 @@ export default function CreateRequest({ user }) {
         message="شما نمی توانید برای خودتان صورتحساب صادر نمایید"
         severity="error"
       />
-      <Box sx={{ py: 1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?
           <>
-            {user.businesses[0] ?
+            {user.businesses[0] ? */}
+  {/* 
               <>
-                <Typography sx={{ m: 1 }}>ایجاد درخواست</Typography>
-                <Autocomplete
-                  blurOnSelect
-                  id="combo-box-demo"
-                  options={userBusinesses}
-                  sx={{ m: 2, width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
-                  onChange={(e, value) => setSelectedBusiness(value)}
-                />
                 {selectedBusiness &&
                   <>
                     {selectedBusiness.products ?
@@ -180,7 +236,7 @@ export default function CreateRequest({ user }) {
           </Typography>
         }
 
-      </Box>
-    </Container>
+       */}
+    </Container >
   );
 }

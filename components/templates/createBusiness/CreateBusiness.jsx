@@ -25,7 +25,6 @@ export default function createBusiness({ distinctGuilds }) {
         }),
     };
     const updateGuildname = (newGuildname) => {
-        console.log("newGuildname", newGuildname, businessName);
         setGuildName(newGuildname);
     };
 
