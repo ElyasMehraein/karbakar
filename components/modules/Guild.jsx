@@ -64,7 +64,7 @@ export default function Guild({ updateGuildname, distinctGuilds, user }) {
       fullWidth
       renderInput={(params) => (
 
-        <TextField {...params} label="صنف" />
+        <TextField {...params} label="انتخاب صنف" />
       )}
     />
 

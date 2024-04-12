@@ -124,25 +124,31 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            {user && <Tab label="درخواستهای شما" {...a11yProps(0)} />}
-            <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
-            {user && <Tab label="صورتحساب" {...a11yProps(2)} />}
+            {user ?
+              <>
+                <Tab label="درخواستهای شما" {...a11yProps(0)} />
+                <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
+                <Tab label="صورتحساب" {...a11yProps(2)} />
+              </>
+              :
+              <Tab label="درخواستهای کاربران" {...a11yProps(1)} />
+            }
           </Tabs>
         </Container>
       </Box>
       <Container sx={{ position: "relative", height: "80%" }}>
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
+
+          <OthersRequest user={user} distinctGuilds={distinctGuilds} />
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={1} dir={theme.direction}>
           {
-            fabIndex === 0 ?
+            fabIndex === 1 ?
               <CreateRequest {...{ fabHandler, user, distinctGuilds }} />
               // <VaseTest user={user} distinctGuilds={distinctGuilds} />
               :
               <YourReq {...{ user }} />
           }
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1} dir={theme.direction}>
-
-          <OthersRequest user={user} distinctGuilds={distinctGuilds} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
           {
