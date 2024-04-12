@@ -1,30 +1,20 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-// import OthersRequest from './indexDatas/OthersRequest';
-// import OthersRequestFrames from './indexDatas/OthersRequestFrames';
-// import YourReq from './indexDatas/YourReq';
 import Bill from './indexDatas/Bill';
-import Divider from "@mui/material/Divider";
 import theme from '@/styles/theme';
-import { mainTabYourReqText } from "@/components/typoRepo.jsx"
 import { Container } from '@mui/material';
-import { useState, useEffect } from 'react'
-import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import UpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { blue, green } from '@mui/material/colors';
+import { green } from '@mui/material/colors';
 import CreateBill from './indexDatas/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import YourReq from './indexDatas/YourReq';
 import CreateRequest from './Requests/CreateRequest';
-import VaseTest from './Requests/VaseTest';
+import OthersRequest from './indexDatas/OthersRequest';
 
 
 function CustomTabPanel(props) {
@@ -75,8 +65,8 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ user, bills, distinctGuilds }) {
-
-  const [value, setValue] = React.useState(0);
+  console.log("user in tabs", user);
+  const [value, setValue] = React.useState(10);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -148,12 +138,12 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               <CreateRequest {...{ fabHandler, user, distinctGuilds }} />
               // <VaseTest user={user} distinctGuilds={distinctGuilds} />
               :
-              <YourReq distinctGuilds={distinctGuilds} />
+              <YourReq {...{ user }} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
-          {/* <OthersRequest/>*/}
-          Item Two
+
+          <OthersRequest user={user} distinctGuilds={distinctGuilds} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
           {

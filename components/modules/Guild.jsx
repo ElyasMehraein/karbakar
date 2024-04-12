@@ -3,16 +3,26 @@ import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import { Container } from '@mui/material';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
 const filter = createFilterOptions();
 
-export default function Guild({ updateGuildname, distinctGuilds, snackbarError }) {
+export default function Guild({ updateGuildname, distinctGuilds, user }) {
+  // const [primeJobguildname, setPrimeJobguildname] = useState(user)
+
+  // if (user) {
+  //   console.log("user in if",Boolean(user), user);
+  //   // setPrimeJobguildname(user.businesses.find((business) => (
+  //   //   user.primeJob === business._id)).guildname)
+  // }
+
 
 
   return (
     <Autocomplete
+      // defaultValue={primeJobguildname}
       size="small"
-
       className="inMiddle"
       onChange={(event, newValue) => {
         if (typeof newValue === 'string') {
@@ -61,7 +71,7 @@ export default function Guild({ updateGuildname, distinctGuilds, snackbarError }
       fullWidth
       renderInput={(params) => (
 
-        <TextField required error={snackbarError} {...params} label="انتخاب صنف" />
+        <TextField {...params} label="صنف" />
       )}
     />
 

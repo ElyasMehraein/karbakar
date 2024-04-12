@@ -2,6 +2,9 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 import OthersRequestFrames from "./OthersRequestFrames";
+import { useState } from "react";
+import Guild from "@/components/modules/Guild";
+import { useEffect } from "react";
 
 const Root = styled("div")(({ theme }) => ({
   width: "100%",
@@ -11,7 +14,22 @@ const Root = styled("div")(({ theme }) => ({
   },
 }));
 
-export default function DividerText() {
+export default function OthersRequest(distinctGuilds, user) {
+  const [thisUser, setThisUser] = useState(user)
+
+  useEffect(() => {
+    setThisUser(user)
+  },[thisUser]);
+
+  console.log("user in OthersRequest", user, thisUser);
+
+  const [guildname, setGuildName] = useState("")
+
+  console.log("guildname", guildname);
+  const updateGuildname = (newGuildname) => {
+    setGuildName(newGuildname);
+  };
+
   return (
     <Root>
       <Divider className={"text-extrabold"} textAlign="left">
@@ -26,6 +44,8 @@ export default function DividerText() {
         درخواست های منتظر تایید
       </Divider>
       <OthersRequestFrames />
+      {/* <Guild {...{ user:thisUser, updateGuildname, distinctGuilds }} /> */}
+
     </Root>
   );
 }
