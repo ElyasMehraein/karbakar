@@ -65,8 +65,7 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ user, bills, distinctGuilds }) {
-  console.log("user in tabs", user);
-  const [value, setValue] = React.useState(10);
+  const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);

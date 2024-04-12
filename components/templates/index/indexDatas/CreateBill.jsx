@@ -10,7 +10,6 @@ import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 
 export default function CreateBill({ user }) {
-  console.log("user in CreateBill", user);
 
   const userBusinesses = user.businesses.map(business => {
     if (business.agentCode == user.code) {

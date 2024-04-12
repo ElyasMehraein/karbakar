@@ -9,19 +9,12 @@ import { useEffect } from 'react';
 const filter = createFilterOptions();
 
 export default function Guild({ updateGuildname, distinctGuilds, user }) {
-  // const [primeJobguildname, setPrimeJobguildname] = useState(user)
-
-  // if (user) {
-  //   console.log("user in if",Boolean(user), user);
-  //   // setPrimeJobguildname(user.businesses.find((business) => (
-  //   //   user.primeJob === business._id)).guildname)
-  // }
-
+  const primeJobguildname = user?.businesses.find((business) => business._id === user.primeJob)?.guildname
 
 
   return (
     <Autocomplete
-      // defaultValue={primeJobguildname}
+      defaultValue={primeJobguildname}
       size="small"
       className="inMiddle"
       onChange={(event, newValue) => {

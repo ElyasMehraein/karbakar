@@ -14,20 +14,12 @@ const Root = styled("div")(({ theme }) => ({
   },
 }));
 
-export default function OthersRequest(distinctGuilds, user) {
-  const [thisUser, setThisUser] = useState(user)
+export default function OthersRequest({ user, distinctGuilds }) {
 
-  useEffect(() => {
-    setThisUser(user)
-  },[thisUser]);
+  const [defaultGuild, setDefaultGuild] = useState("")
 
-  console.log("user in OthersRequest", user, thisUser);
-
-  const [guildname, setGuildName] = useState("")
-
-  console.log("guildname", guildname);
   const updateGuildname = (newGuildname) => {
-    setGuildName(newGuildname);
+    setDefaultGuild(newGuildname);
   };
 
   return (
@@ -44,7 +36,7 @@ export default function OthersRequest(distinctGuilds, user) {
         درخواست های منتظر تایید
       </Divider>
       <OthersRequestFrames />
-      {/* <Guild {...{ user:thisUser, updateGuildname, distinctGuilds }} /> */}
+      {user.businesses && <Guild {...{ user, updateGuildname, distinctGuilds }} />}
 
     </Root>
   );
