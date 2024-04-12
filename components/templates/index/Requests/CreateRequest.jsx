@@ -19,18 +19,26 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { useEffect } from 'react';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
+import { Snackbar, Alert } from '@mui/material';
 
 
 
 
-
-export default function VaseTest({ fabHandler, user, distinctGuilds }) {
-  const [snackbarAccept, setSnackbarAccept] = React.useState(false);
-  const [snackbarReject, setSnackbarReject] = React.useState(false);
-  const [snackbarServerError, setSnackbarServerError] = React.useState(false);
-
-  const [expanded, setExpanded] = useState(false);
-  const [snackbarError, setSnackbarError] = useState(false);
+export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
+  // Snackbar
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState("خطای ناشناخته")
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success")
+  const callSnackbar = (message, severity) => {
+    setSnackbarMessage(message)
+    severity && setSnackbarSeverity(severity)
+    setSnackbarOpen(true)
+    setSnackbarSeverity("success")
+  };
+  const onCloseSnackbar = () => {
+    setSnackbarOpen(false)
+    location.reload()
+  }
 
   const [guild, setGuild] = useState("")
   const [title, setTitle] = useState("");
@@ -53,10 +61,9 @@ export default function VaseTest({ fabHandler, user, distinctGuilds }) {
     })
     if (res.status === 500) {
       console.log("server error", res);
-      setSnackbarServerError(true)
     } else if (res.status === 201) {
       console.log("Request signed successfully");
-      setSnackbarAccept(true)
+      callSnackbar("تغییر کسب و کار اصلی با موفقیت انجام شد")
     } else if (res.status === 406) {
       console.log("some err");
 
@@ -102,7 +109,7 @@ export default function VaseTest({ fabHandler, user, distinctGuilds }) {
                 <Typography sx={{ my: 5, fontSize: '16px', fontWeight: "bold" }} variant="body1" color="text.primary">
                   ایجاد درخواست جدید
                 </Typography>
-                <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
+                <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} />
                 <TextField
                   id="requestTitle"
                   label="عنوان درخواست"
@@ -147,27 +154,20 @@ export default function VaseTest({ fabHandler, user, distinctGuilds }) {
               </CardActions>
 
             </Card>
-            <CustomSnackbar
-              open={snackbarAccept}
-              onClose={() => { setSnackbarAccept(false) }}
-              message="درخواست شما در لیست کسب و کارهای مرتبط به نمایش درآمد"
-            />
-            <CustomSnackbar
-              open={snackbarServerError}
-              onClose={() => setSnackbarServerError(false)}
-              message="خطا در اتصال به سرور"
-              severity="error"
-            />
-            <CustomSnackbar
-              open={snackbarReject}
-              onClose={() => { setSnackbarReject(false) }}
-              message="صورتحساب لغو گردید"
-              severity="info"
-            />
+
           </>
 
         )
       }
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => onCloseSnackbar(false)}>
+        <Alert
+          severity={snackbarSeverity}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </>
 
   )
