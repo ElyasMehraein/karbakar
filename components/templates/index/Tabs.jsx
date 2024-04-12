@@ -91,17 +91,17 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
   };
   const fabs = [
     {
+      color: 'secondary',
+      sx: fabStyle,
+      icon: <EditIcon />,
+      label: 'Edit',
+    },
+    {
       color: 'primary',
       sx: fabStyle,
       icon: RequestFabDynamicIcon,
       label: 'Add',
       children: RequestFabDynamicText,
-    },
-    {
-      color: 'secondary',
-      sx: fabStyle,
-      icon: <EditIcon />,
-      label: 'Edit',
     },
     {
       color: 'inherit',
@@ -115,25 +115,34 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
     <Box sx={{ width: '100%', height: "100vh" }}>
       <Box bgcolor="primary.main" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Container >
-          <Tabs
-            TabIndicatorProps={{ sx: { height: "4px !important", } }}
-            indicatorColor="secondary"
-            sx={{ color: "white" }}
-            textColor="inherit"
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            {user ?
-              <>
-                <Tab label="درخواستهای شما" {...a11yProps(0)} />
-                <Tab label="درخواستهای دیگران" {...a11yProps(1)} />
-                <Tab label="صورتحساب" {...a11yProps(2)} />
-              </>
-              :
+          {user?.businesses[0] ?
+            <Tabs
+              TabIndicatorProps={{ sx: { height: "4px !important", } }}
+              indicatorColor="secondary"
+              sx={{ color: "white" }}
+              textColor="inherit"
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
+
+              <Tab label="درخواستهای دیگران" {...a11yProps(0)} />
+              <Tab label="درخواستهای شما" {...a11yProps(1)} />
+              <Tab label="صورتحساب" {...a11yProps(2)} />
+            </Tabs>
+            :
+            <Tabs
+              TabIndicatorProps={{ sx: { height: "4px !important", } }}
+              indicatorColor="secondary"
+              sx={{ color: "white" }}
+              textColor="inherit"
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+            >
               <Tab label="درخواستهای کاربران" {...a11yProps(1)} />
-            }
-          </Tabs>
+            </Tabs>
+          }
         </Container>
       </Box>
       <Container sx={{ position: "relative", height: "80%" }}>
@@ -161,7 +170,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
 
 
         {user?.businesses[0] && fabs.map((fab, index) => (
-          value !== 1 &&
+          value !== 0 &&
           <Zoom
             key={fab.color}
             in={value === index}

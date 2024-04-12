@@ -24,22 +24,24 @@ export default function OthersRequest({ user, distinctGuilds }) {
 
   return (
     <Root>
-      {user &&
+      {user?.businesses[0] && // بعدا با داکیومنت ریکوئست درستش کن
         <>
-          <Divider sx={{ fontSize: '10px' }} className={"text-extrabold"} textAlign="left">
+          <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
             درخواست هایی که کسب و کار شما تایید کرده است
           </Divider>
+          
           {/* <OthersRequestFrames /> */}
-          <Divider sx={{ fontSize: '10px' }} className={"text-extrabold"} textAlign="left">
+          <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
             درخواست هایی که درخواست اطلاعات بیشتر کردید
           </Divider>
           {/* <OthersRequestFrames /> */}
-          <Divider sx={{ fontSize: '10px' }} className={"text-extrabold"} textAlign="left">
+          <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
             درخواست های منتظر تایید
           </Divider>
         </>
       }
       <Guild {...{ user, updateGuildname, distinctGuilds }} />
+      
       {/* <OthersRequestFrames /> */}
 
     </Root>

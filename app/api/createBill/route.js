@@ -15,6 +15,9 @@ export async function POST(req) {
         const user = await response.json()
         const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ businessName: selectedBusiness })))
         const customer = JSON.parse(JSON.stringify(await UserModel.findOne({ code: customerCode })))
+        if (!customer) {
+            return Response.json({ message: "customer not found" }, { status: 404 })
+        }
         if (Number(Business.agentCode) !== user.code) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
         }

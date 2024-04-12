@@ -34,6 +34,7 @@ export default function CreateBill({ user }) {
 
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
+  const [openSnackbar404Error, setOpenSnackbar404Error] = React.useState(false);
 
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
@@ -52,6 +53,8 @@ export default function CreateBill({ user }) {
     } else if (res.status === 201) {
       console.log("bill signed successfully");
       handleShowSnackbar()
+    } else if (res.status === 404) {
+      setOpenSnackbar404Error(true)
     } else if (res.status === 406) {
       setOpenSnackbarError(true)
     }
@@ -86,6 +89,12 @@ export default function CreateBill({ user }) {
         open={openSnackbarError}
         onClose={() => setOpenSnackbarError(false)}
         message="شما نمی توانید برای خودتان صورتحساب صادر نمایید"
+        severity="error"
+      />
+      <CustomSnackbar
+        open={openSnackbar404Error}
+        onClose={() => setOpenSnackbarError(false)}
+        message="کاربر یافت نشد کد کاربری را مجدد بررسی نمایید"
         severity="error"
       />
       <Box sx={{ py: 1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
