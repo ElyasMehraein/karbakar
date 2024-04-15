@@ -37,9 +37,7 @@ export async function POST(req, res) {
         // }
 
 
-        const phoneHash = createHash("sha256").update(phone).digest("hex");
-
-
+        const phoneHash = createHash("sha256").update(phone + process.env.PAPER).digest("hex");
 
         let user = await UserModel.findOne({ phoneHash })
         if (!user) {

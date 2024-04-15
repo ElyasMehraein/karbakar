@@ -2,7 +2,8 @@ import { Schema } from "mongoose";
 import mongoose from "mongoose"
 
 const schema = new Schema({
-    Requester: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+    uniqCode: { type: String, length: 64, },
+    requesterBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     acceptedBy:[
         {
             type: mongoose.Schema.Types.ObjectId,
