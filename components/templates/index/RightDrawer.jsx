@@ -148,6 +148,8 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
               <ListItemText
                 sx={{ textAlign: "right" }}
                 secondary="لیست تمام کسب و کارها"
+                type="button"
+                onClick={() => router.push("/CB")}
               />
             </ListItemButton>
           </ListItem>

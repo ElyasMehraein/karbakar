@@ -18,7 +18,9 @@ export default function MyAppBar({ user, logedUserCode, business }) {
   const pathname = usePathname();
   const modifiedUrl = pathname.split('/').slice(0, -1).join('/') + '/';
   const router = useRouter()
+  const isEditNeeded = Boolean(user || business)
   const isAauthorizedToEdit = user ? (logedUserCode === user.code) : (logedUserCode == business?.agentCode)
+
   const goToIndex = () => {
     router.push(modifiedUrl)
   }
@@ -43,7 +45,7 @@ export default function MyAppBar({ user, logedUserCode, business }) {
             </Typography>
           </Button>
           <Box style={{ flexGrow: 1 }}></Box>
-          {isAauthorizedToEdit && !pathname.endsWith('/edit') &&
+          {isAauthorizedToEdit && !pathname.endsWith('/edit') && isEditNeeded &&
             <Button
               color="inherit"
               onClick={goToEdit}

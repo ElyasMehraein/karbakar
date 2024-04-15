@@ -18,7 +18,7 @@ export async function POST(req) {
         if (!businessName.match(englishLetters)) {
             return Response.json({ message: "Business name must only contain English letters!" }, { status: 406 })
         }
-        if (businessName.length < 4) {
+        if (businessName.length < 3) { 
             return Response.json({ message: "Business name must be more than 3 letters!" }, { status: 405 })
         }
 
@@ -33,7 +33,7 @@ export async function POST(req) {
             connectToDB()
             const user = JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id }, "primeJob code businesses")))
             if (user.businesses.length >= 3) {
-                return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 405 })
+                return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 409 })
             }
 
             business = await BusinessModel.create({

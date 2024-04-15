@@ -46,7 +46,7 @@ export default function Guild({ updateGuildname, distinctGuilds, user }) {
       clearOnBlur
       handleHomeEndKeys
       id="free-solo-with-text-demo"
-      options={distinctGuilds}
+      options={distinctGuilds||[]}
       getOptionLabel={(option) => {
         // Value selected with enter, right from the input
         if (typeof option === 'string') {

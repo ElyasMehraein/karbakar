@@ -9,52 +9,7 @@ import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
 
 export default function AllBusinesses({ }) {
-    // const router = useRouter()
-    // const [businessName, setBusinessName] = useState("")
-    // const [guildname, setGuildName] = useState("")
-    // const [snackbarError, setSnackbarError] = useState(false);
-    // const [snackbarErrorMessage, setSnackbarErrorMessage] = useState("");
-    // const [success, setSuccess] = useState(false);
 
-    // const buttonSx = {
-    //     mt: 5,
-    //     ...(success && {
-    //         bgcolor: green[500],
-    //         '&:hover': {
-    //             bgcolor: green[700],
-    //         },
-    //     }),
-    // };
-    // const updateGuildname = (newGuildname) => {
-    //     setGuildName(newGuildname);
-    // };
-
-    // async function createThisBusiness(businessName, guildname) {
-    //     const res = await fetch('api/signbusiness', {
-    //         method: "POST",
-    //         headers: { 'Content-Type': 'application/json' },
-    //         body: JSON.stringify({ businessName, guildname })
-    //     })
-    //     console.log("response to creating new business is =>", res);
-    //     if (res.status === 201) {
-    //         setSuccess(true)
-    //         router.push('/')
-    //     } else if (res.status === 409) {
-    //         setSnackbarError(true)
-    //         setSnackbarErrorMessage("این نام قبلا ایجاد شده و تکراری است لطفا نام دیگری انتخاب کنید")
-
-    //     } else if (res.status === 400) {
-    //         setSnackbarError(true)
-    //         setSnackbarErrorMessage("ورودیهای ستاره دار را کامل کنید")
-    //     } else if (res.status === 405) {
-    //         setSnackbarError(true)
-    //         setSnackbarErrorMessage("عضویت در بیش از 3 کسب و کار مجاز نیست")
-
-    //     } else if (res.status === 406) {
-    //         setSnackbarError(true)
-    //         setSnackbarErrorMessage(" برای نام کسب و کار تنها از حروف کوچک و بزرگ انگلیسی استفاده نمایید")
-    //     }
-    // }
     return (
 
         <>
@@ -71,25 +26,20 @@ export default function AllBusinesses({ }) {
                     <TextField
                         required
                         size='small'
-                        error={snackbarError}
+                        // error={snackbarError}
                         sx={{ my: 3 }}
                         placeholder='حداکثر 30 کارکتر' variant="outlined"
                         label="نام کسب و کار"
-                        onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
+                        // onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
                     />
                     <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>{selectGuild}</Typography>
 
-                    <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
-                    <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildname)} variant="contained">
-                        ایجاد کسب و کار
-                    </Button>
+                    <Guild 
+                    //  updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError}
+                      />
+
                 </Box>
             </Container>
-            <CustomSnackbar
-                open={snackbarError}
-                onClose={() => setSnackbarError(false)}
-                severity="error"
-            />
         </>
     )
 
