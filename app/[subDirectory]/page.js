@@ -15,7 +15,7 @@ export default async function subDirectory({ params }) {
   const tokenPayLoad = verifyToken(token);
 
   if (!tokenPayLoad) {
-    return redirect("/welcome");
+    return redirect("/w");
   }
   connectToDB()
   const logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(

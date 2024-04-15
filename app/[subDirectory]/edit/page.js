@@ -15,7 +15,7 @@ export default async function edit({ params }) {
   const tokenPayLoad = verifyToken(token);
 
   if (!tokenPayLoad) {
-    redirect("/welcome");
+    redirect("/w");
   }
 
   connectToDB()

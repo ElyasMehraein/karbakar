@@ -42,7 +42,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
   const signOut = async () => {
     const res = await fetch("/api/auth/logout", { method: "POST" });
     if (res.status === 200) {
-      router.push("/welcome");
+      router.push("/w");
     } else {
       console.log("res", res);
     }
@@ -131,7 +131,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                   dir="rtl"
                   secondary="ایجاد کسب و کار جدید"
                   type="button"
-                  onClick={() => router.push("/CreateBusiness")}
+                  onClick={() => router.push("/CB")}
                 />
               </ListItemButton>
             </ListItem>

@@ -18,6 +18,9 @@ export async function POST(req) {
         if (!businessName.match(englishLetters)) {
             return Response.json({ message: "Business name must only contain English letters!" }, { status: 406 })
         }
+        if (businessName.length < 4) {
+            return Response.json({ message: "Business name must be more than 3 letters!" }, { status: 405 })
+        }
 
         let business = await BusinessModel.findOne({ businessName })
         if (!business) {
@@ -25,7 +28,7 @@ export async function POST(req) {
             const tokenPayLoad = verifyToken(token);
 
             if (!tokenPayLoad) {
-                return redirect("/welcome");
+                return redirect("/w");
             }
             connectToDB()
             const user = JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id }, "primeJob code businesses")))

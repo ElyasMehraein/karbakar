@@ -7,6 +7,7 @@ const schema = new Schema({
         required: true,
         unique: true,
         maxlength: 30,
+        minlength:4,
     },
     businessBrand: {
         type: String,

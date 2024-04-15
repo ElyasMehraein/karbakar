@@ -42,7 +42,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
       }
       <Guild {...{ user, updateGuildname, distinctGuilds }} />
       
-      {/* <OthersRequestFrames /> */}
+      <OthersRequestFrames />
 
     </Root>
   );

@@ -14,7 +14,7 @@ export async function GET(req, res) {
         const tokenPayLoad = verifyToken(token);
 
         if (!tokenPayLoad) {
-            redirect("/welcome");
+            redirect("/w");
         }
 
         connectToDB()
