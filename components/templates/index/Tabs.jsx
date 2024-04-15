@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
-import Bill from './indexDatas/Bill';
+import Bill from './Bills/Bill';
 import theme from '@/styles/theme';
 import { Container } from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
 import EditIcon from '@mui/icons-material/Edit';
 import { green } from '@mui/material/colors';
-import CreateBill from './indexDatas/CreateBill';
+import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import YourReq from './indexDatas/YourReq';
+import YourReq from './Requests/YourReq';
 import CreateRequest from './Requests/CreateRequest';
-import OthersRequest from './indexDatas/OthersRequest';
+import OthersRequest from './Requests/OthersRequest';
 
 
 function CustomTabPanel(props) {
