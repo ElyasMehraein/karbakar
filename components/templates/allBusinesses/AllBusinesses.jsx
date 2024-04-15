@@ -1,12 +1,14 @@
 "use client"
-import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemText, TextField, Typography } from '@mui/material'
 import MyAppBar from '@/components/modules/MyAppBar'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Guild from "@/components/modules/Guild"
-import { selectGuild } from '@/components/typoRepo';
+import { AllBusinessesText, selectGuild } from '@/components/typoRepo';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
+import ItsAvatar from '@/components/modules/ItsAvatar'
+import ShowMyLocation from '@/components/modules/ShowMyLocation'
 
 export default function AllBusinesses({ }) {
 
@@ -21,23 +23,21 @@ export default function AllBusinesses({ }) {
                         my: 3
                     }}
                     display="flex" flexDirection="column">
-                    <Typography>salam khobi</Typography>
-                    <Typography sx={{ fontSize: 12 }} >یک نام برای کسب و کار خودانتخاب کنید</Typography>
-                    <TextField
-                        required
-                        size='small'
-                        // error={snackbarError}
-                        sx={{ my: 3 }}
-                        placeholder='حداکثر 30 کارکتر' variant="outlined"
-                        label="نام کسب و کار"
-                        // onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
-                    />
-                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>{selectGuild}</Typography>
-
-                    <Guild 
+                    <AllBusinessesText/>
+                    <ShowMyLocation/>
+                    <Guild
                     //  updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError}
-                      />
-
+                    />
+                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        <ListItem>
+                            <ListItemAvatar>
+                                <Avatar sx={{ width: 40, height: 40 }} >
+                                    <ItsAvatar userCodeOrBusinessBrand={1000} alt="workers avatar" />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText align='right' primary="Photos" secondary="Jan 9, 2014" />
+                        </ListItem>
+                    </List>
                 </Box>
             </Container>
         </>

@@ -39,5 +39,16 @@ export const createBusiness_selectAsPrimary = () => {
         </Typography>
     </Box>
 }
+export const AllBusinessesText = () => {
+
+    return <Box sx={{ py: 1, textAlign: "center" }}>
+        <Typography sx={{ fontSize: 14 }}>
+برای نمایش کسب و کارها بر اساس فاصله بایستی اجازه دسترسی به GPS را تایید نمایید 
+        </Typography>
+        <Typography sx={{ fontSize: 14 }}>
+توجه داشته باشید موقعیت مکانی که در این صفحه مشخص می کنید جایی ذخیره نمی شود و برای محاسبه و نمایش نزدیکترین کسب و کارها در همین صفحه کاربرد دارد
+        </Typography>
+    </Box>
+}
 
 

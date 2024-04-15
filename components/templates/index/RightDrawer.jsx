@@ -131,7 +131,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                   dir="rtl"
                   secondary="ایجاد کسب و کار جدید"
                   type="button"
-                  onClick={() => router.push("/CB")}
+                  onClick={() => router.push("/all")}
                 />
               </ListItemButton>
             </ListItem>

@@ -11,9 +11,6 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
 
-
-
-
 export default function MyAppBar({ user, logedUserCode, business }) {
   const pathname = usePathname();
   const modifiedUrl = pathname.split('/').slice(0, -1).join('/') + '/';
