@@ -1,5 +1,5 @@
 import React from 'react'
-import Wellcome from '@/components/templates/welcome/welcome';
+import Wellcome from '@/components/templates/welcome/Welcome';
 import { verifyToken } from "@/controllers/auth";
 import { redirect } from 'next/navigation'
 import { cookies } from "next/headers";
