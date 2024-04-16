@@ -1,5 +1,5 @@
 import React from 'react'
-import Index from '@/components/templates/index/Index'
+import MyIndex from '@/components/templates/index/MyIndex';
 import { verifyToken } from "@/controllers/auth";
 import connectToDB from '@/configs/db';
 import UserModel from '@/models/User';
@@ -11,7 +11,7 @@ export default async function page() {
   const tokenPayLoad = verifyToken(token);
 
   if (!tokenPayLoad) {
-    return <Index />
+    return <MyIndex />
   }
   connectToDB()
   const user = await JSON.parse(JSON.stringify(await UserModel.findOne(
@@ -37,7 +37,7 @@ export default async function page() {
       console.error(err);
     });
   return (
-    <Index {...{ user, bills, token, distinctGuilds }} />
+    <MyIndex {...{ user, bills, token, distinctGuilds }} />
   )
 }
 

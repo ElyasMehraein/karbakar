@@ -6,7 +6,7 @@ import RightDrawer from "@/components/templates/index/RightDrawer";
 import Tabs from "@/components/templates/index/Tabs";
 
 
-export default function Index({ user, bills, distinctGuilds }) {
+export default function MyIndex({ user, bills, distinctGuilds }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
