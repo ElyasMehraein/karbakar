@@ -9,9 +9,9 @@ import ReportModel from '@/models/Report';
 
 
 export async function GET(req, res) {
+    const token = cookies().get("token")?.value;
+    const tokenPayLoad = verifyToken(token);
     try {
-        const token = cookies().get("token")?.value;
-        const tokenPayLoad = verifyToken(token);
 
         if (!tokenPayLoad) {
             redirect("/w");

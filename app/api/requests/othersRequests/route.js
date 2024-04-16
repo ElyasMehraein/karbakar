@@ -1,7 +1,3 @@
-// i want to get all request 
-
-//all requests based on your primeJob guild filter by nearest first
-// agar locatio
 import connectToDB from '@/configs/db'
 import { cookies } from "next/headers";
 import { verifyToken } from "@/controllers/auth";
@@ -12,9 +8,9 @@ import UserModel from '@/models/User'
 import RequestModel from '@/models/Request';
 
 export async function GET(req, res) {
+    const token = cookies().get("token")?.value;
+    const tokenPayLoad = verifyToken(token);
     try {
-        const token = cookies().get("token")?.value;
-        const tokenPayLoad = verifyToken(token);
 
         if (!tokenPayLoad) { console.log("no logged user") }
 
@@ -25,25 +21,17 @@ export async function GET(req, res) {
 
         const userBusinessesID = logedUser.businesses.map((business) => business._id)
         console.log("userBusinessesID", userBusinessesID);
+        let requests;
 
-        const Requests = logedUser ?
-            await RequestModel.find({
-                requesterBusiness: { $nin:userBusinessesID}
+        if (logedUser) {
+            requests = await RequestModel.find({
+                requesterBusiness: { $nin: userBusinessesID }
             }).populate("requesterBusiness")
-            :
-            await RequestModel.find({}, "title message guild acceptedBy");
-
-
-
-
-        console.log("Requests", Requests);
-        return Response.json(
-            {
-                message: 'get Requests successfully',
-                data: Requests
-            },
-            { status: 200 }
-        );
+            return Response.json({ message: 'get Requests as user info successfully', data: requests }, { status: 200 });
+        } else {
+            requests = await RequestModel.find({}, "title message guild acceptedBy");
+            return Response.json({ message: 'get Requests for guests successfully', data: requests }, { status: 200 });
+        }
     } catch (error) {
         console.error(`Error get reports`, error);
         Response.json(
