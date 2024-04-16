@@ -14,7 +14,8 @@ import dynamic from 'next/dynamic'
 const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
 
 
-export default function AllBusinesses({ }) {
+export default function AllBusinesses({ businesses }) {
+    console.log("businesses", businesses);
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -39,20 +40,22 @@ export default function AllBusinesses({ }) {
                             <AllBusinessesText />
                         </AccordionDetails>
                     </Accordion>
-                    <ShowMyLocation />
-                    <Guild
-                    //  updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError}
-                    />
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                        <ListItem>
-                            <ListItemAvatar>
-                                <Avatar sx={{ width: 40, height: 40 }} >
-                                    <ItsAvatar userCodeOrBusinessBrand={1000} alt="workers avatar" />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText align='right' primary="Photos" secondary="Jan 9, 2014" />
-                        </ListItem>
-                    </List>
+                    {businesses.map((business) => {
+                        console.log(business.businessName);
+                        return (
+
+                            <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
+                                <ListItem>
+                                    <ListItemAvatar>
+                                        <Avatar sx={{ width: 40, height: 40 }} >
+                                            <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
+                                        </Avatar>
+                                    </ListItemAvatar>
+                                    <ListItemText align='right' primary={business.businessBrand} secondary={business.bio} />
+                                </ListItem>
+                            </List>
+                        )
+                    })}
                 </Box>
             </Container>
         </>
