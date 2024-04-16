@@ -7,7 +7,7 @@ export default async function page() {
 try{
 
     connectToDB()
-    const businesses = await BusinessModel.find()
+    const businesses = await BusinessModel.find({},"businessName bio businessBrand")
     
     
     return (

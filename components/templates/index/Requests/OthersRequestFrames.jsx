@@ -10,11 +10,9 @@ import AvatarGroup from "@mui/material/AvatarGroup";
 import CardHeader from "@mui/material/CardHeader";
 import { red } from "@mui/material/colors";
 import Box from "@mui/material/Box";
+import ItsAvatar from "@/components/modules/ItsAvatar";
 
-// import businessAvatar2 from "@/businessAvatar2.jpg";
-// import businessAvatar from "../../../assets/businessAvatar.jpg";
-// import businessAvatar3 from "../../../assets/pars.jpg";
-const OthersRequestFrames = () => {
+const OthersRequestFrames = ({ request }) => {
   return (
     <>
       <Box
@@ -24,22 +22,24 @@ const OthersRequestFrames = () => {
           flexDirection: "row",
         }}
       >
-        {/* <Avatar alt="Remy Sharp" src={businessAvatar2} /> */}
+        <Avatar sx={{ width: 40, height: 40 }} >
+          <ItsAvatar userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
+        </Avatar>
         <Box
           sx={{
             display: "flex",
             alignItems: "flex-start",
             flexDirection: "column",
-            mr:2
+            mr: 2
           }}
         >
           <Typography textAlign={"right"}>
-            کشاورزی ارگانیک زارع و خواهران
+            {request.title}
           </Typography>
 
           <Typography sx={{ mr: 1, fontSize: 12 }} dir="rtl" noWrap >
-            ماشینم پراید هست فیلتر میخوام شیشه شور میخوام تنظیم باد هم میخوام
-            روغن گیربکس هم باید عوض بشه ولی روغن رو خودم تهیه می کنم
+            {request.message}
+
           </Typography>
         </Box>
       </Box>

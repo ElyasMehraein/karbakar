@@ -17,14 +17,29 @@ const Root = styled("div")(({ theme }) => ({
 export default function OthersRequest({ user, distinctGuilds }) {
 
   const [defaultGuild, setDefaultGuild] = useState("")
+  const [requests, setRequests] = useState("")
 
   const updateGuildname = (newGuildname) => {
     setDefaultGuild(newGuildname);
   };
+  useEffect(() => {
+    const getRequests = async () => {
+      try {
+        const res = await fetch("/api/requests/othersRequests/", { method: "GET" })
+        if (res.status === 200) {
+          const data = await res.json()
+          setRequests(data.data)
+        }
+      } catch (error) {
+        console.error("Error fetching reports:", error);
+      }
+    }
 
+    getRequests()
+  }, []);
   return (
     <Root>
-      {user?.businesses[0] && // بعدا با داکیومنت ریکوئست درستش کن
+      {requests && // بعدا با داکیومنت ریکوئست درستش کن
         <>
           <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
             درخواست هایی که کسب و کار شما تایید کرده است
@@ -41,8 +56,10 @@ export default function OthersRequest({ user, distinctGuilds }) {
         </>
       }
       <Guild {...{ user, updateGuildname, distinctGuilds }} />
-      
-      <OthersRequestFrames />
+      {requests &&     
+      requests.map((request)=>{
+        return <OthersRequestFrames key={request._id} request={request} />
+      })}
 
     </Root>
   );
