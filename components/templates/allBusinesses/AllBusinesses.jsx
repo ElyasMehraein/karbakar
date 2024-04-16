@@ -6,11 +6,16 @@ import { useRouter } from 'next/navigation'
 import Guild from "@/components/modules/Guild"
 import { AllBusinessesText, selectGuild } from '@/components/typoRepo';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import { green } from '@mui/material/colors';
+import { Accordion, AccordionDetails, Chip } from "@mui/material";
+import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+
 import ItsAvatar from '@/components/modules/ItsAvatar'
-import ShowMyLocation from '@/components/modules/ShowMyLocation'
+import dynamic from 'next/dynamic'
+const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
+
 
 export default function AllBusinesses({ }) {
+    const [expanded, setExpanded] = useState(false);
 
     return (
 
@@ -23,8 +28,18 @@ export default function AllBusinesses({ }) {
                         my: 3
                     }}
                     display="flex" flexDirection="column">
-                    <AllBusinessesText/>
-                    <ShowMyLocation/>
+                    <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
+                        <Chip
+                            label="راهنمایی"
+                            sx={{ direction: 'ltr' }}
+                            onClick={() => setExpanded(!expanded)}
+                            icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
+                        />
+                        <AccordionDetails>
+                            <AllBusinessesText />
+                        </AccordionDetails>
+                    </Accordion>
+                    <ShowMyLocation />
                     <Guild
                     //  updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError}
                     />

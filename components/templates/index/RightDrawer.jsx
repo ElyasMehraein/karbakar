@@ -131,7 +131,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                   dir="rtl"
                   secondary="ایجاد کسب و کار جدید"
                   type="button"
-                  onClick={() => router.push("/all")}
+                  onClick={() => router.push("/CB")}
                 />
               </ListItemButton>
             </ListItem>
@@ -149,7 +149,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                 sx={{ textAlign: "right" }}
                 secondary="لیست تمام کسب و کارها"
                 type="button"
-                onClick={() => router.push("/CB")}
+                onClick={() => router.push("/all")}
               />
             </ListItemButton>
           </ListItem>

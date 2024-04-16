@@ -10,7 +10,7 @@ export default function Map({ business }) {
     const position = [business.latitude, business.longitude]
     return (
         <>
-            {position[0] ?
+            {position[0] &&
                 <Container maxWidth="sm">
                     <MapContainer center={position} zoom={20} scrollWheelZoom={false} style={{ height: "300px" }}>
                         <TileLayer
@@ -19,12 +19,12 @@ export default function Map({ business }) {
                         />
                         <Marker position={position}>
                             <Popup>
-                               {business?.mapDetail || "برای این آدرس جزئیاتی وارد نشده است"}
+                                {business?.mapDetail || "برای این آدرس جزئیاتی وارد نشده است"}
                             </Popup>
                         </Marker>
                     </MapContainer>
                 </Container>
-                : ""}
+            }
         </>
     )
 }
