@@ -8,9 +8,7 @@ import EditBusiness from '@/components/templates/editBusiness/EditBusiness';
 import UserModel from '@/models/User'
 import EditProfile from '@/components/templates/editProfile/EditProfile'
 
-
 export default async function edit({ params }) {
-
   const token = cookies().get("token")?.value;
   const tokenPayLoad = verifyToken(token);
 
@@ -22,9 +20,25 @@ export default async function edit({ params }) {
   const logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },
     "-_id code"
-  ))).code
+  ))).code;
 
-  if (isNaN(params.subDirectory)) {
+  // Check if subDirectory is a number (user code)
+  if (!isNaN(params.subDirectory)) {
+    // Edit user profile scenario
+    const user = JSON.parse(JSON.stringify(await UserModel.findOne(
+      { code: Number(params.subDirectory) }, // Convert to number explicitly
+    )));
+
+    if (!user) {
+      console.log("user not found in DB");
+      notFound();
+    }
+
+    return (
+      <EditProfile user={user} logedUserCode={logedUserCode} />
+    );
+  } else {
+    // Edit business scenario
     const business = JSON.parse(JSON.stringify(await BusinessModel.findOne({
       businessName: params.subDirectory
     }).populate("workers")));
@@ -39,22 +53,6 @@ export default async function edit({ params }) {
     }
     return (
       <EditBusiness business={business} logedUserCode={logedUserCode} users={users} />
-    )
+    );
   }
-
-
-
-  const user = JSON.parse(JSON.stringify(await UserModel.findOne(
-    { code: params.subDirectory },
-  )))
-
-  if (!user) {
-    console.log("user not found in DB");
-    notFound()
-  }
-
-  return (
-    <EditProfile user={user} logedUserCode={logedUserCode} />
-  )
 }
-
