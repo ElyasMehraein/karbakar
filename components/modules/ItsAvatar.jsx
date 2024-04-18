@@ -6,14 +6,6 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import Avatar from '@mui/material/Avatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 
-const styles = {
-    iconBackgroundColor: {
-        backgroundColor: 'blue', // Change to your desired color
-        padding: '5px', // Optional padding around the icon
-        borderRadius: '50%', // Optional rounded corners
-    },
-};
-
 export default function ItsAvatar({ userCodeOrBusinessBrand }) {
     let isBusiness;
     const [isLoading, setIsLoading] = useState(true);
@@ -64,11 +56,15 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
                         style={{ objectFit: 'cover' }}
                     />
                 </Avatar>
-                : isBusiness ? 
-                <ListItemIcon>
-                    <BusinessIcon />
-                </ListItemIcon>
-                    : <AccountCircle />
+                : isBusiness ?
+                    <ListItemIcon>
+                        <BusinessIcon />
+                    </ListItemIcon>
+                    :
+                    <Avatar  sx={{ width: 30, height: 30, mt: -2 }}>
+                        <AccountCircle  sx={{ width: 30, height: 30 }} />
+                    </Avatar>
+
             }
         </>
     )

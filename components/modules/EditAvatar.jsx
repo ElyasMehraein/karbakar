@@ -6,6 +6,7 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import Image from "next/image";
 import { grey } from '@mui/material/colors';
 import { Container, IconButton } from "@mui/material";
+import ItsAvatar from './ItsAvatar';
 
 const color = grey[900];
 
@@ -46,7 +47,7 @@ export default function EditAvatar({ user, business }) {
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
-
+        <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
 
         <input
           accept="image/*"
