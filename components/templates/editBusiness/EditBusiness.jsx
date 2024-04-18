@@ -1,5 +1,5 @@
-// "use client"
-import React from "react";
+"use client"
+import React, { useState } from "react";
 import MyAppBar from "@/components/modules/MyAppBar";
 import CountactEdit from '@/components/modules/ContactEdit'
 import BioEdit from "@/components/modules/BioEdit";
@@ -7,18 +7,18 @@ import ExplainEdit from "@/components/modules/ExplainEdit";
 import NameEdit from "@/components/modules/NameEdit";
 import EditLocation from "./EditLocation";
 import AddressEdit from "./AddressEdit";
-// import CustomSnackbar from "@/components/modules/CustomSnackbar";
+import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import EditHeader from "@/components/modules/EditHeader";
 import EditAvatar from "../../modules/EditAvatar";
 import EmployeeList from "@/components/modules/EmployeeList";
 
 export default function EditBusiness({ business, logedUserCode ,users}) {
-    // const [snackbarError, setSnackbarError] = useState(false);
-    // const [SnackbarMessage, setSnackbarMessage] = useState("محدودیت تعداد کارکتر را رعایت نمایید")
-    // const maxLengthError = (parameter) => {
-    //     parameter && setSnackbarMessage(parameter)
-    //     setSnackbarError(true)
-    // };
+    const [snackbarError, setSnackbarError] = useState(false);
+    const [SnackbarMessage, setSnackbarMessage] = useState("محدودیت تعداد کارکتر را رعایت نمایید")
+    const maxLengthError = (parameter) => {
+        parameter && setSnackbarMessage(parameter)
+        setSnackbarError(true)
+    };
     return (
         <>
             <MyAppBar />
@@ -32,12 +32,12 @@ export default function EditBusiness({ business, logedUserCode ,users}) {
             <EditLocation business={business} maxLengthError={maxLengthError} />
             <EmployeeList business={business} logedUserCode={logedUserCode} users={users} maxLengthError={maxLengthError}/>
 
-            {/* <CustomSnackbar
+            <CustomSnackbar
                 open={snackbarError}
                 onClose={() => setSnackbarError(false)}
                 message={SnackbarMessage}
                 severity="error"
-            /> */}
+            />
         </>
 
     )
