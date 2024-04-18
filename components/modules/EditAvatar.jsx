@@ -13,6 +13,8 @@ export default function EditAvatar({ user, business }) {
   const [imageKey, setImageKey] = useState(null);
   const defaultAvatarImg = "/assets/default/default-avatar.png"
 
+  const isAvatarAvalable = user ? user.isAvatar : business.isAvatar
+
   const AvatarImg = `/${user ? `avatars` : `brands`}/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''}`
 
   useEffect(() => {
@@ -44,20 +46,8 @@ export default function EditAvatar({ user, business }) {
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
-        <Avatar
-          sx={{ width: 80, height: 80, mt: -5 }}
-        >
-          <Image
-            alt="business brand"
-            src={AvatarImg || defaultAvatarImg}
-            quality={100}
-            fill
-            sizes="100vw"
-            style={{
-              objectFit: 'cover',
-            }}
-          />
-        </Avatar>
+
+
         <input
           accept="image/*"
           style={{ display: 'none' }}

@@ -60,9 +60,7 @@ export default function VaseTest({ user, distinctGuilds }) {
             <CardHeader
 
               avatar={
-                <Avatar >
-                  <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                </Avatar>
+                <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
               }
               action={
                 <IconButton aria-label="settings">
@@ -72,20 +70,20 @@ export default function VaseTest({ user, distinctGuilds }) {
               title={business.businessBrand}
               subheader={business.businessName}
               sx={{
-                p: 0, m: 0, mt:2,
+                p: 0, m: 0, mt: 2,
                 '& .MuiCardHeader-title': { fontSize: '12px', fontWeight: "bold" }, // Target title class and set font size
                 '& .MuiCardHeader-subheader': { fontSize: '14px', fontWeight: "bold" }, // Target subheader class and set font size
               }}
             />
             <CardContent>
-              <Typography sx={{mt:4, fontSize: '14px', fontWeight: "bold" }} variant="body1" color="text.secondary">
+              <Typography sx={{ mt: 4, fontSize: '14px', fontWeight: "bold" }} variant="body1" color="text.secondary">
                 ایجاد درخواست جدید
               </Typography>
-              <Guild  updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
+              <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
               <TextField
                 id="outlined-multiline-static"
                 label="عنوان درخواست"
-                sx={{ my:3 }}
+                sx={{ my: 3 }}
                 fullWidth
                 // onChange={changeHandler}
                 // inputProps={{ maxLength: 200 }}

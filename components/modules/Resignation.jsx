@@ -115,11 +115,7 @@ export default function Resignation({ user }) {
                 sx={{ pl: 4, display: 'flex', alignItems: 'center', minWidth: '150px' }}
                 onClick={() => handleBusinessChange(business)}
               >
-                <ListItemAvatar>
-                  <Avatar sx={{ width: 40, height: 40 }}>
-                    <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                  </Avatar>
-                </ListItemAvatar>
+                <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
                 <ListItemText primary={business.businessName} secondary={business.businessBrand} />
               </ListItemButton>
             ))}

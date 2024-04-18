@@ -22,9 +22,7 @@ const OthersRequestFrames = ({ request }) => {
           flexDirection: "row",
         }}
       >
-        <Avatar sx={{ width: 40, height: 40 }} >
-          <ItsAvatar userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
-        </Avatar>
+        <ItsAvatar userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
         <Box
           sx={{
             display: "flex",

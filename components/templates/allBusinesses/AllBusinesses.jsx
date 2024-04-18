@@ -47,13 +47,11 @@ export default function AllBusinesses({ businesses }) {
                         return (
                             <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                                 <ListItem>
-                                <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
-                                    <ListItemAvatar>
-                                        <Avatar sx={{ width: 40, height: 40 }} >
+                                    <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
+                                        <ListItemAvatar>
                                             <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText align='right' primary={business.businessBrand} secondary={business.bio} />
+                                        </ListItemAvatar>
+                                        <ListItemText align='right' primary={business.businessBrand} secondary={business.bio} />
                                     </ListItemButton>
                                 </ListItem>
                             </List>

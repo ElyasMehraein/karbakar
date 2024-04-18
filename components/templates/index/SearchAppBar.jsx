@@ -15,7 +15,6 @@ import Button from "@mui/material/Button";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
-import Avatar from '@mui/material/Avatar';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import ReportsMenu from './Reports/ReportsMenu';
 
@@ -183,11 +182,8 @@ export default function SearchAppBar({ user, menuClickHandler }) {
               // aria-haspopup="true"
               color="inherit"
               onClick={goToProfile}
-            >{user ?
-              <Avatar sx={{ width: 40, height: 40 }} >
-                <ItsAvatar userCodeOrBusinessBrand={user?.code} />
-              </Avatar> :
-              <AccountCircle />}
+            >
+              <ItsAvatar userCodeOrBusinessBrand={user?.code} />
             </IconButton>
           </Box>
         }
