@@ -100,7 +100,7 @@ export default function CreateBill({ user }) {
       <Box sx={{ py: 1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
         {user ?
           <>
-            {user.businesses[0] ?
+            {userBusinesses[0] ?
               <>
                 <Typography sx={{ m: 1 }}>ایجاد صورتحساب</Typography>
                 <Autocomplete
