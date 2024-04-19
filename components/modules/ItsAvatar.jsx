@@ -3,27 +3,27 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react';
 import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import fetchIsAvatarAvalable from '@/utils/ifAvatarAvalable';
 
 export default function ItsAvatar({ userCodeOrBusinessBrand }) {
     const [isLoading, setIsLoading] = useState(true);
     const [isAvatar, setIsAvatar] = useState(false);
 
     useEffect(() => {
-        const fetchIsAvatarAvalable = async () => {
-            const res = await fetch('/api/isAvatarAvalable', {
-                method: "POST",
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userCodeOrBusinessBrand })
-            })
-            if (res.status === 200) {
-                const { isAvatar } = await res.json()
-                setIsAvatar(isAvatar)
-            } else if (res.status === 500) {
-                console.log("خطای اتصال به سرور")
-            }
+    const fetchIsAvatarAvalable = async (yesss) => {
+        const res = await fetch('/api/isAvatarAvalable', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userCodeOrBusinessBrand:yesss })
+        })
+        if (res.status === 200) {
+            const { isAvatar } = await res.json()
+            console.log("chand ta ", isAvatar);
+            setIsAvatar(isAvatar)
+        } else if (res.status === 500) {
+            console.log("server error")
         }
-        fetchIsAvatarAvalable()
+    }
+        fetchIsAvatarAvalable(userCodeOrBusinessBrand)
         setIsLoading(false)
     }, []);
 
