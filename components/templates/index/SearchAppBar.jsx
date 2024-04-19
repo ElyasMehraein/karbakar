@@ -191,9 +191,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
               color="inherit"
               onClick={goToProfile}
             >
-              {isLoading ?
-                  <AccountCircle fontSize="large" />
-                :
+              {!isLoading && user?.isAvatar ?
                 <Avatar sx={{ width: 40, height: 40 }}>
                   <Image
                     src={avatar}
@@ -204,6 +202,8 @@ export default function SearchAppBar({ user, menuClickHandler }) {
                     style={{ objectFit: 'cover' }}
                   />
                 </Avatar>
+                :
+                <AccountCircle fontSize="large" />
               }
             </IconButton>
           </Box>

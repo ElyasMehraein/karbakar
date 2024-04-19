@@ -60,10 +60,10 @@ export default function Resignation({ user }) {
     setSnackbarMessage(message)
     severity && setSnackbarSeverity(severity)
     setSnackbarOpen(true)
-    setSnackbarSeverity("success")
   };
   const onCloseSnackbar = () => {
     setSnackbarOpen(false)
+    setSnackbarSeverity("success")
   }
 
 
@@ -76,17 +76,15 @@ export default function Resignation({ user }) {
     })
     if (res.status === 201) {
       setOpenDialog(false)
-      callSnackbar("تغییر نماینده کسب و کار و استعفای شما با موفقیت انجام شد")
+      callSnackbar("استعفای شما با موفقیت انجام شد")
     } else if (res.status === 500) {
       callSnackbar("خطای اتصال به سرور", "error")
     } else if (res.status === 403) {
       callSnackbar("شما عضو این کسب و کار نیستید", "error")
     } else if (res.status === 404) {
       callSnackbar("کسب و کار یافت نشد کد وارد شده را مجدد بررسی نمایید", "error")
-    } else if (res.status === 405) {
-      callSnackbar("عضویت در بیش از 3 کسب و کار مجاز نیست")
     } else if (res.status === 406) {
-      callSnackbar("این کسب و کار در حال حاضر کسب و کار اصلی شماست", "error")
+      callSnackbar("نفر جایگزین در 3 کسب و کار عضو است و عضویت در بیش از 3 کسب و کار مجاز نیست","error")
     }
   }
   return (

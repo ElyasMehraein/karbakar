@@ -12,6 +12,7 @@ const color = grey[900];
 
 export default function EditAvatar({ user, business }) {
   const [imageKey, setImageKey] = useState(null);
+  const [isAvatar, setIsAvatar] = useState(user?.isAvatar || business?.isAvatar)
 
   useEffect(() => {
     setImageKey(Date.now());
@@ -31,13 +32,13 @@ export default function EditAvatar({ user, business }) {
 
       if (response.status === 201) {
         console.log('avatar Uploaded successfully');
+        setIsAvatar(true)
         setImageKey(Date.now());
       }
     } catch (error) {
       console.error('Error uploading avatar:', error);
     }
   };
-  const isAvatar = user?.isAvatar || business?.isAvatar;
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
   const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''}`;
   return (
@@ -58,7 +59,7 @@ export default function EditAvatar({ user, business }) {
 
               <BusinessIcon />
               :
-              <AccountCircle sx={{ width: 30, height: 30 }} />
+              <AccountCircle sx={{ width: 70, height: 70 }} />
           }        </Avatar>
         <input
           accept="image/*"

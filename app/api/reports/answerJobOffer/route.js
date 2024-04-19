@@ -7,11 +7,10 @@ import ReportModel from "@/models/Report";
 
 export async function PUT(req) {
     try {
-        const body = await req.json()
-        const { reportID, parameter } = body;
-        connectToDB()
+        const { reportID, parameter } = await req.json()
         const response = await GET(req)
         const user = await response.json()
+        connectToDB()
         const report = await ReportModel.findOne({ _id: reportID })
 
         if (JSON.parse(JSON.stringify(report.recepiant)) !== user._id) {
@@ -29,21 +28,22 @@ export async function PUT(req) {
         if (isEmployeeHere) {
             return Response.json({ message: "you are currently a member of this business" }, { status: 409 })
         }
+        report.isSeen = true
+        report.isAnswerNeed = false
+        report.answer = parameter
+        await report.save();
         if (parameter) {
             Business.workers.addToSet(user._id)
             await Business.save();
             const candidate = await UserModel.findOne({ _id: user._id })
             candidate.businesses.addToSet(Business._id)
             await candidate.save()
+            if (candidate.primeJob != '66164cc526e2d5fe01b561dc') {
+                return Response.json({ message: "business created successfully" }, { status: 201 })
+            }
+            await UserModel.updateOne({ _id: candidate._id }, { primeJob: Business._id });
         }
-        report.isSeen = true
-        report.isAnswerNeed = false
-        report.answer = parameter
-        await report.save();
-
         return Response.json({ message: "job offer answered successfully" }, { status: 201 })
-
-
     } catch (err) {
         console.error(err);
         return Response.json({ message: "server error" }, { status: 500 })

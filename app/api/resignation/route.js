@@ -17,15 +17,7 @@ export async function POST(req) {
         if (!user) { return Response.json({ message: "you need to login" }, { status: 404 }) }
 
         const Business = await BusinessModel.findOne({ _id: selectedBusinessId })
-        const newAgent = await UserModel.findOne({ code: newAgentID })
-
-        if (newAgent.businesses.length >= 3) {
-            return Response.json({ message: "any user can only be a member of a maximum of 3 businesses" }, { status: 405 })
-        }
-
-        if (Number(Business.agentCode) !== user.code) {
-            return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
-        }
+        const recepiantUser = await UserModel.findOne({ code: Business.agentCode })
 
         function isEmployeeHere(userID) {
             JSON.parse(JSON.stringify(Business)).workers.some((worker) => {
@@ -34,12 +26,44 @@ export async function POST(req) {
         }
 
         if (isEmployeeHere(user._id)) {
-            return Response.json({ message: "you are not a member of this business" }, { status: 409 })
+            return Response.json({ message: "you are not a member of this business" }, { status: 403 })
         }
+        if (!newAgentID && Business.agentCode !== user.code) {
+            await ReportModel.create({
+                recepiant: recepiantUser._id,
+                title: "resignation",
+                business: Business._id,
+                isSeen: false,
+                isAnswerNeed: false,
+            })
+            await UserModel.updateOne(
+                { _id: user._id },
+                { $pull: { businesses: Business._id } }
+            );
+            if (user.primeJob === Business._id) {
+                await UserModel.updateOne({ _id: user._id }, { primeJob: '66164cc526e2d5fe01b561dc' });
+            }
+
+            console.log("why im here");
+            await BusinessModel.updateOne(
+                { _id: Business._id },
+                { $pull: { workers: user._id } }
+            );
+
+            return Response.json({ message: "you resign from your job successfully" }, { status: 201 })
+        }
+        const newAgent = await UserModel.findOne({ code: newAgentID })
+        console.log("ta inja omadam");
+
+        if (newAgent.businesses.length >= 3) {
+            return Response.json({ message: "any user can only be a member of a maximum of 3 businesses" }, { status: 406 })
+        }
+
+
         if (isEmployeeHere(newAgent.id)) {
             return Response.json({ message: "next agent is not a member of this business" }, { status: 409 })
         }
-        const recepiantUser = await UserModel.findOne({ code: Business.agentCode })
+
         await ReportModel.create({
             recepiant: recepiantUser._id,
             title: "resignation",
@@ -47,6 +71,7 @@ export async function POST(req) {
             isSeen: false,
             isAnswerNeed: false,
         })
+
         await ReportModel.create({
             recepiant: newAgent.id,
             title: "YouAreAgent",
