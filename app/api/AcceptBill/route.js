@@ -38,9 +38,7 @@ export async function PUT(req) {
                 productName: bill.productName,
                 from: bill.from,
             });
-            console.log("uniqueCustomerCount", uniqueCustomer.length);
             if (theBusinessProduct) {
-                console.log("ta inja residams", theBusinessProduct);
                 theBusinessProduct.totalDelivered += product.amount;
                 theBusinessProduct.thisYearDelivered += product.amount
                 theBusinessProduct.uniqueCustomer = uniqueCustomer.length

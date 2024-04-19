@@ -20,7 +20,6 @@ export async function GET(req, res) {
         ).populate("businesses")
 
         const userBusinessesID = logedUser.businesses.map((business) => business._id)
-        console.log("userBusinessesID", userBusinessesID);
         let requests;
 
         if (logedUser) {

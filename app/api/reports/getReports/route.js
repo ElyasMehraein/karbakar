@@ -9,13 +9,18 @@ import ReportModel from '@/models/Report';
 
 
 export async function GET(req, res) {
+
+
+    if (!cookies().get("token")) {
+
+        return Response.json(
+            { message: "only users can get reports" },
+            { status: 403 })
+    }
+
     const token = cookies().get("token")?.value;
     const tokenPayLoad = verifyToken(token);
     try {
-
-        if (!tokenPayLoad) {
-            redirect("/w");
-        }
 
         connectToDB()
         const logedUser = JSON.parse(JSON.stringify(await UserModel.findOne(
@@ -24,23 +29,23 @@ export async function GET(req, res) {
 
         const reports = await ReportModel.find({
             $or: [
-              { recepiant: logedUser._id },
-              {
-                business: { $in: logedUser.businesses } ,
-              }
+                { recepiant: logedUser._id },
+                {
+                    business: { $in: logedUser.businesses },
+                }
             ]
-          }).populate("business").populate("bill").populate("recepiant");
-          
-    return Response.json(
-        { message: 'get reports successfully', data: reports },
-        { status: 200 }
-    );
-} catch (error) {
-    console.error(`Error get reports`, error);
-    Response.json(
-        { message: `Error get reports`, error },
-        { status: 500 })
-}
+        }).populate("business").populate("bill").populate("recepiant");
+
+        return Response.json(
+            { message: 'get reports successfully', data: reports },
+            { status: 200 }
+        );
+    } catch (error) {
+        console.error(`Error get reports`, error);
+        return Response.json(
+            { message: `Error get reports`, error },
+            { status: 500 })
+    }
 
 }
 

@@ -65,7 +65,7 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
       console.log("Request signed successfully");
       callSnackbar("درخواست شما با موفقیت ثبت شد و در لیست درخواست های صنف مرتبط قرار گرفت")
     } else if (res.status === 406) {
-      console.log("some err");
+      console.log("you can't hire yourself!");
 
     }
   }

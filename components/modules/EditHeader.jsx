@@ -6,7 +6,6 @@ import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import { grey } from '@mui/material/colors';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import DefaultHeader from "@/public/assets/default/DefaultHeader"
 
 const color = grey[900];
 
@@ -15,6 +14,7 @@ export default function EditHeader({ user, business }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isHeader, setIsHeader] = useState(null);
   const [imageKey, setImageKey] = useState(null);
+
   useEffect(() => {
     setImageKey(Date.now());
     const fetchisHeaderAvalable = async () => {
@@ -27,7 +27,7 @@ export default function EditHeader({ user, business }) {
         const { isHeader } = await res.json()
         setIsHeader(isHeader)
       } else if (res.status === 500) {
-        console.log("خطای اتصال به سرور")
+        console.log("server error")
       }
     }
     fetchisHeaderAvalable()
@@ -56,31 +56,55 @@ export default function EditHeader({ user, business }) {
   };
 
   return (
-    <Box
-      display="flex" alignItems="flex-end" justifyContent="left"
-      style={{
-        position: "relative",
-        width: "100vw",
-        height: "50vh",
-        backgroundImage: `url(/headers/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-      sx={{ bgcolor: '#cfe8fc', width: "100vw", height: "50vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
-    >
-      <input
-        accept="image/*"
-        style={{ display: 'none' }}
-        id="header-image-updater"
-        type="file"
-        onChange={handleHeaderUpload}
-      />
-      <label htmlFor="header-image-updater">
-        <IconButton component="span" sx={{ ml: 5, mb: 5, bgcolor: color }}>
-          <AddAPhotoIcon sx={{ color: 'white' }} />
-        </IconButton>
-      </label>
-    </Box>
+    isHeader && !isLoading ?
+      <Box
+        display="flex" alignItems="flex-end" justifyContent="left"
+        style={{
+          position: "relative",
+          width: "100vw",
+          height: "50vh",
+          backgroundImage: `url(/headers/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+        sx={{ bgcolor: '#cfe8fc', width: "100vw", height: "50vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
+      >
+        <input
+          accept="image/*"
+          style={{ display: 'none' }}
+          id="header-image-updater"
+          type="file"
+          onChange={handleHeaderUpload}
+        />
+        <label htmlFor="header-image-updater">
+          <IconButton component="span" sx={{ ml: 5, mb: 5, bgcolor: color }}>
+            <AddAPhotoIcon sx={{ color: 'white' }} />
+          </IconButton>
+        </label>
+      </Box>
+      :
+      <Box
+        display="flex" alignItems="flex-end" justifyContent="left"
+        style={{
+          position: "relative",
+          width: "100vw",
+          height: "30vh",
+        }}
+        sx={{ bgcolor: '#cfe8fc', width: "100vw", height: "30vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
+      >
+        <input
+          accept="image/*"
+          style={{ display: 'none' }}
+          id="header-image-updater"
+          type="file"
+          onChange={handleHeaderUpload}
+        />
+        <label htmlFor="header-image-updater">
+          <IconButton component="span" sx={{ ml: 5, mb: 5, bgcolor: color }}>
+            <AddAPhotoIcon sx={{ color: 'white' }} />
+          </IconButton>
+        </label>
+      </Box>
   )
 }
 

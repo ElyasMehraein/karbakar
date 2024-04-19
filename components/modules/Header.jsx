@@ -23,7 +23,7 @@ export default function Header({ user, business }) {
               const { isHeader } = await res.json()
               setIsHeader(isHeader)
           } else if (res.status === 500) {
-              console.log("خطای اتصال به سرور")
+              console.log("server error")
           }
       }
       fetchData()

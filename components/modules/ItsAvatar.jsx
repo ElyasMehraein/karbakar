@@ -3,12 +3,11 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react';
 import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Avatar from '@mui/material/Avatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
+import fetchIsAvatarAvalable from '@/utils/ifAvatarAvalable';
 
 export default function ItsAvatar({ userCodeOrBusinessBrand }) {
     const [isLoading, setIsLoading] = useState(true);
-    const [isAvatar, setIsAvatar] = useState(null);
+    const [isAvatar, setIsAvatar] = useState(false);
 
     useEffect(() => {
         const fetchIsAvatarAvalable = async () => {
@@ -38,32 +37,26 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
 
     let avatar = `/avatars/${userCodeOrBusinessBrand}.jpg`
 
+
+    console.log("isLoading", !isLoading, "&& isAvatar", isAvatar)
+
     return (
-        <>
-            {!isLoading && isAvatar ?
-                <Avatar>
-                    <Image
-                        src={avatar}
-                        alt={userCodeOrBusinessBrand} quality={100}
-                        fill
-                        sizes="100px"
-                        style={{ objectFit: 'cover' }}
-                    />
-                </Avatar>
-                : isBusiness ?
-                    // <ListItemIcon>
-                    <Avatar sx={{ width: 40, height: 40, mt: -2 }}>
-                        <BusinessIcon />
-
-                    </Avatar>
-    
-                    // </ListItemIcon>
-            :
-            <Avatar sx={{ width: 30, height: 30, mt: -2 }}>
-                <AccountCircle sx={{ width: 30, height: 30 }} />
-            </Avatar>
-
-            }
+        // !isLoading ?
+        isAvatar ? <>
+            <Image
+                src={avatar}
+                alt={userCodeOrBusinessBrand} quality={100}
+                fill
+                sizes="100px"
+                style={{ objectFit: 'cover' }}
+            />
+            {console.log("isAvatar", isAvatar)}
         </>
+            :
+            isBusiness ?
+
+                <BusinessIcon />
+                :
+                <AccountCircle sx={{ width: 30, height: 30 }} />
     )
 }

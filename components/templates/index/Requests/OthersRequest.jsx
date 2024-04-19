@@ -22,21 +22,24 @@ export default function OthersRequest({ user, distinctGuilds }) {
   const updateGuildname = (newGuildname) => {
     setDefaultGuild(newGuildname);
   };
-  useEffect(() => {
-    const getRequests = async () => {
-      try {
-        const res = await fetch("/api/requests/othersRequests/", { method: "GET" })
-        if (res.status === 200) {
-          const data = await res.json()
-          setRequests(data.data)
-        }
-      } catch (error) {
-        console.error("Error fetching reports:", error);
-      }
-    }
+  if (user) {
 
-    getRequests()
-  }, []);
+    useEffect(() => {
+      const getRequests = async () => {
+        try {
+          const res = await fetch("/api/requests/othersRequests/", { method: "GET" })
+          if (res.status === 200) {
+            const data = await res.json()
+            setRequests(data.data)
+          }
+        } catch (error) {
+          console.error("Error fetching reports:", error);
+        }
+      }
+
+      getRequests()
+    }, []);
+  }
   return (
     <Root>
       {requests && // بعدا با داکیومنت ریکوئست درستش کن
@@ -44,7 +47,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
           <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
             درخواست هایی که کسب و کار شما تایید کرده است
           </Divider>
-          
+
           {/* <OthersRequestFrames /> */}
           <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
             درخواست هایی که درخواست اطلاعات بیشتر کردید
@@ -56,10 +59,10 @@ export default function OthersRequest({ user, distinctGuilds }) {
         </>
       }
       <Guild {...{ user, updateGuildname, distinctGuilds }} />
-      {requests &&     
-      requests.map((request)=>{
-        return <OthersRequestFrames key={request._id} request={request} />
-      })}
+      {requests &&
+        requests.map((request) => {
+          return <OthersRequestFrames key={request._id} request={request} />
+        })}
 
     </Root>
   );

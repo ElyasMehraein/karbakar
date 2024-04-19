@@ -12,18 +12,12 @@ const color = grey[900];
 
 export default function EditAvatar({ user, business }) {
   const [imageKey, setImageKey] = useState(null);
-  const defaultAvatarImg = "/assets/default/default-avatar.png"
-
-  const isAvatarAvalable = user ? user.isAvatar : business.isAvatar
-
-  const AvatarImg = `/${user ? `avatars` : `brands`}/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''}`
 
   useEffect(() => {
     setImageKey(Date.now());
   }, []);
 
   const handleAvatarUpload = async (event) => {
-    console.log("change avatar clicked");
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append('image', image);
@@ -37,7 +31,6 @@ export default function EditAvatar({ user, business }) {
 
       if (response.status === 201) {
         console.log('avatar Uploaded successfully');
-        setImageKey(Date.now());
       }
     } catch (error) {
       console.error('Error uploading avatar:', error);
@@ -47,8 +40,9 @@ export default function EditAvatar({ user, business }) {
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
-        <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
-
+        <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
+          <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
+        </Avatar>
         <input
           accept="image/*"
           style={{ display: 'none' }}

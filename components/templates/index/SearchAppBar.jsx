@@ -17,6 +17,7 @@ import { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import ReportsMenu from './Reports/ReportsMenu';
+import { Avatar } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -64,23 +65,25 @@ export default function SearchAppBar({ user, menuClickHandler }) {
   const [reports, setReports] = useState([])
 
 
-
-  useEffect(() => {
-    const getReports = async () => {
-      try {
-        const res = await fetch("/api/reports/getReports", { method: "GET" })
-        if (res.status === 200) {
-          const data = await res.json()
-          setReports(data.data)
+  if (user) {
+    useEffect(() => {
+      const getReports = async () => {
+        try {
+          const res = await fetch("/api/reports/getReports", { method: "GET" })
+          if (res.status === 200) {
+            const data = await res.json()
+            setReports(data.data)
+          } else if ((res.status === 403)) {
+            console.log("unauthorized access");
+          }
+        } catch (error) {
+          console.error("Error fetching reports:", error);
         }
-      } catch (error) {
-        console.error("Error fetching reports:", error);
       }
-    }
 
-    getReports()
-  }, []);
-
+      getReports()
+    }, []);
+  }
   useEffect(() => {
     if (reports) {
       setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd).length || 0)
@@ -183,7 +186,9 @@ export default function SearchAppBar({ user, menuClickHandler }) {
               color="inherit"
               onClick={goToProfile}
             >
-              <ItsAvatar userCodeOrBusinessBrand={user?.code} />
+              <Avatar sx={{ width: 40, height: 40 }}>
+                <ItsAvatar userCodeOrBusinessBrand={user?.code} />
+              </Avatar>
             </IconButton>
           </Box>
         }

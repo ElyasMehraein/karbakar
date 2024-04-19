@@ -10,12 +10,11 @@ export async function POST(req) {
         if (isNaN(userCodeOrBusinessBrand)) {
             let business = await BusinessModel.findOne({ businessName: userCodeOrBusinessBrand })
             const isAvatar = business.isAvatar
-            console.log("BusinessModelisAvatar", isAvatar);
+            console.log("isAvatar backend", isAvatar);
             return Response.json({ message: 'business Avatar exist' }, { status: 200 }, { isAvatar })
         } else {
             let user = await UserModel.findOne({ code: userCodeOrBusinessBrand })
             const isAvatar = user.isAvatar
-            console.log("UserModelisAvatar", isAvatar);
             return Response.json({ message: 'business Avatar exist', isAvatar }, { status: 200 })
         }
     } catch (err) {

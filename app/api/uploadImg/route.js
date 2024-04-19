@@ -21,7 +21,7 @@ export async function PUT(req, res) {
     const isBusiness = isNaN(userCodeOrBusinessName);
     const Model = isBusiness ? BusinessModel : UserModel;
     const query = isBusiness ? {businessName: userCodeOrBusinessName} : {code: userCodeOrBusinessName};
-    const update = headerOrAvatar === 'Headers' ? {isHeader: true} : {isAvatar: true};
+    const update = headerOrAvatar === 'headers' ? {isHeader: true} : {isAvatar: true};
     
     await Model.findOneAndUpdate(query, update);
     

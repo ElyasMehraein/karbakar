@@ -82,9 +82,9 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                 <React.Fragment key={business._id} >
                   <ListItemButton sx={{ mt: -2, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                     <ListItem>
-                      <ListItemAvatar>
-                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                      </ListItemAvatar>
+                      <ListItemIcon>
+                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                      </ListItemIcon>
                       <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
                     </ListItem>
                   </ListItemButton>
@@ -102,14 +102,16 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
               user.businesses.map((business) => (
                 user.primeJob !== business._id && (
                   <React.Fragment key={business._id}>
-                    <ListItemButton sx={{ mt: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
-                      <ListItem>
+                    <ListItem>
+                      <ListItemButton sx={{ mt: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                         <ListItemAvatar>
+                          <ListItemIcon>
                             <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                          </ListItemIcon>
                         </ListItemAvatar>
                         <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
-                      </ListItem>
-                    </ListItemButton>
+                      </ListItemButton>
+                    </ListItem>
                   </React.Fragment>
                 )))}
           </List>
@@ -134,7 +136,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
           }
 
           {user?.businesses[0] &&
-          <Resignation user={user}/>}
+            <Resignation user={user} />}
 
           <ListItem disablePadding>
             <ListItemButton>
@@ -153,17 +155,17 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
         <Divider />
         {user ?
           <Button
-            sx={{ direction: "ltr" }} onClick={signOut} color="error" endIcon={<LogoutIcon />}>
-            خروج از سایت
-          </Button>
-          :
-          <Button
-            sx={{ display: { sm: 'none', xs: 'block' } }}
-            onClick={signOut} variant="outlined" color="secondary">
-            ورود یا ثبت نام
-          </Button>
+              sx={{ direction: "ltr" }} onClick={signOut} color="error" endIcon={<LogoutIcon />}>
+              خروج از سایت
+            </Button>
+            :
+            <Button
+              sx={{ display: { sm: 'none', xs: 'block' } }}
+              onClick={signOut} variant="outlined" color="secondary">
+              ورود یا ثبت نام
+            </Button>
         }
-      </Drawer>
+      </Drawer >
     </Box >
   );
 }

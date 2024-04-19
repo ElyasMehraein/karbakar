@@ -11,11 +11,13 @@ export default function PageAvatar({ user, business }) {
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - createdAt.getTime();
   const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
-
+  const userCodeOrBusinessBrand = user?.code || business?.businessName;
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
-          <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
+        <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
+          <ItsAvatar userCodeOrBusinessBrand={userCodeOrBusinessBrand} />
+        </Avatar>
         <Box style={{ flexGrow: 1 }}></Box>
         <Box display={"flex"} flexDirection={"column"}>
           <Typography display="inline" variant="subtitle2" >
