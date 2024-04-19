@@ -55,7 +55,9 @@ export default function BillFrame({ user, bill }) {
                     <Card sx={{ my: 1, bgcolor: "#e3f2fd" }}>
                         <CardHeader
                             avatar={
-                                <ItsAvatar userCodeOrBusinessBrand={bill.from.businessName} />
+                                <Avatar sx={{ ml: 1 }}>
+                                    <ItsAvatar isAvatar={bill.from.isAvatar} userCodeOrBusinessBrand={bill.from.businessName} />
+                                </Avatar>
                             }
                             title={bill.from.businessBrand}
                             subheader={bill.from.businessName}

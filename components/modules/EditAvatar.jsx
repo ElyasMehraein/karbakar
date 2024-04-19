@@ -38,14 +38,13 @@ export default function EditAvatar({ user, business }) {
     }
   };
   const isAvatar = user?.isAvatar || business?.isAvatar;
-  console.log("isAvatar toye pageAvatar", isAvatar);
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg${imageKey?`?key=${imageKey}`:''}`;
+  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''}`;
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
-          {isAvatar ? <>
+          {isAvatar ?
             <Image
               src={avatar}
               alt={userCodeOrBusinessBrand}
@@ -54,8 +53,6 @@ export default function EditAvatar({ user, business }) {
               sizes="100px"
               style={{ objectFit: 'cover' }}
             />
-            {console.log("isAvatar", isAvatar)}
-          </>
             :
             isNaN(userCodeOrBusinessBrand) ?
 

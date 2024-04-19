@@ -83,7 +83,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                   <ListItemButton sx={{ mt: -2, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                     <ListItem>
                       <ListItemIcon>
-                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                        <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
                       </ListItemIcon>
                       <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
                     </ListItem>
@@ -106,7 +106,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                       <ListItemButton sx={{ mt: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                         <ListItemAvatar>
                           <ListItemIcon>
-                            <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
+                            <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
                           </ListItemIcon>
                         </ListItemAvatar>
                         <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />

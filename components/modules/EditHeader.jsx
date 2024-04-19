@@ -12,25 +12,11 @@ const color = grey[900];
 export default function EditHeader({ user, business }) {
   const userCodeOrBusinessBrand = user?.code || business?.businessName
   const [isLoading, setIsLoading] = useState(true);
-  const [isHeader, setIsHeader] = useState(null);
+  const [isHeader, setIsHeader] = useState(user?.isHeader || business?.isHeader);
   const [imageKey, setImageKey] = useState(null);
 
   useEffect(() => {
-    setImageKey(Date.now());
-    const fetchisHeaderAvalable = async () => {
-      const res = await fetch('/api/isHeaderAvalable', {
-        method: "POST",
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userCodeOrBusinessBrand })
-      })
-      if (res.status === 200) {
-        const { isHeader } = await res.json()
-        setIsHeader(isHeader)
-      } else if (res.status === 500) {
-        console.log("server error")
-      }
-    }
-    fetchisHeaderAvalable()
+
     setIsLoading(false)
   }, []);
 
@@ -49,6 +35,7 @@ export default function EditHeader({ user, business }) {
       if (response.status === 201) {
         console.log('header Uploaded successfully');
         setImageKey(Date.now());
+        setIsHeader(true)
       }
     } catch (error) {
       console.error('Error uploading header:', error);

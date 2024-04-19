@@ -86,7 +86,7 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
 
                 avatar={
                   <Box sx={{ m: 1 }}>
-                    <ItsBox userCodeOrBusinessBrand={Requester.businessName} />
+                    <ItsAvatar isAvatar={Requester.isAvatar} userCodeOrBusinessBrand={Requester.businessName} />
                   </Box>
                 }
                 action={

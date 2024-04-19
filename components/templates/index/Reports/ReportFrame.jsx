@@ -50,7 +50,7 @@ export default function ReportFrame({ user, report }) {
                         sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                         avatar={
                             <Box sx={{ ml: 1, width: 40, height: 40 }} >
-                                <ItsBox userCodeOrBusinessBrand={report.business.businessName} />
+                                <ItsAvatar isAvatar={report.business.isAvatar} userCodeOrBusinessBrand={report.business.businessName} />
                             </Box>
                         }
                         title={report.business.businessBrand}
@@ -60,7 +60,7 @@ export default function ReportFrame({ user, report }) {
                     <CardHeader
                         sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                         avatar={
-                            <ItsAvatar userCodeOrBusinessBrand={user.code} />
+                            <ItsAvatar isAvatar={report.business.isAvatar} userCodeOrBusinessBrand={user.code} />
                         }
                         title={report.recepiant.code}
                         subheader={report.recepiant.userName}

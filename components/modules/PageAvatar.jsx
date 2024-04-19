@@ -21,7 +21,6 @@ export default function PageAvatar({ user, business }) {
   const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
 
   const isAvatar = user?.isAvatar || business?.isAvatar;
-  console.log("isAvatar toye pageAvatar", isAvatar);
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
   const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg${imageKey?`?key=${imageKey}`:''}`;
 
@@ -38,7 +37,6 @@ export default function PageAvatar({ user, business }) {
               sizes="100px"
               style={{ objectFit: 'cover' }}
             />
-            {console.log("isAvatar", isAvatar)}
           </>
             :
             isNaN(userCodeOrBusinessBrand) ?
