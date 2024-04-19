@@ -17,7 +17,6 @@ const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation
 export default function AllBusinesses({ businesses }) {
     const router = useRouter()
 
-    console.log("businesses", businesses);
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -43,7 +42,6 @@ export default function AllBusinesses({ businesses }) {
                         </AccordionDetails>
                     </Accordion>
                     {businesses.map((business) => {
-                        console.log(business.businessName);
                         return (
                             <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                                 <ListItem>

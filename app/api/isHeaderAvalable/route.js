@@ -9,14 +9,14 @@ export async function POST(req) {
     try {
         if (isNaN(userCodeOrBusinessBrand)) {
             let business = await BusinessModel.findOne({ businessName: userCodeOrBusinessBrand })
-            const isAvatar = business.isAvatar
-            console.log("BusinessModelisAvatar", isAvatar);
-            return Response.json({ message: 'business Avatar exist' }, { status: 200 }, { isAvatar })
+            const isHeader = business.isHeader
+            console.log("BusinessModelisHeader", isHeader);
+            return Response.json({ message: 'business Header exist', isHeader }, { status: 200 }, { isHeader })
         } else {
             let user = await UserModel.findOne({ code: userCodeOrBusinessBrand })
-            const isAvatar = user.isAvatar
-            console.log("UserModelisAvatar", isAvatar);
-            return Response.json({ message: 'business Avatar exist', isAvatar }, { status: 200 })
+            const isHeader = user.isHeader
+            console.log("UserModelisHeader", isHeader);
+            return Response.json({ message: 'business Header exist', isHeader }, { status: 200 })
         }
     } catch (err) {
         return Response.json({ message: 'server error' }, { status: 500 })

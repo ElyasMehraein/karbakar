@@ -7,14 +7,11 @@ import Avatar from '@mui/material/Avatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 
 export default function ItsAvatar({ userCodeOrBusinessBrand }) {
-    let isBusiness;
     const [isLoading, setIsLoading] = useState(true);
     const [isAvatar, setIsAvatar] = useState(null);
-    console.log("isBusiness", isBusiness, "userCodeOrBusinessBrand", userCodeOrBusinessBrand);
 
     useEffect(() => {
-
-        const fetchData = async () => {
+        const fetchIsAvatarAvalable = async () => {
             const res = await fetch('/api/isAvatarAvalable', {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
@@ -27,23 +24,20 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
                 console.log("خطای اتصال به سرور")
             }
         }
-        fetchData()
-
+        fetchIsAvatarAvalable()
         setIsLoading(false)
     }, []);
 
-    let avatarOrBrand = ""
+
+    let isBusiness;
     if (isNaN(userCodeOrBusinessBrand)) {
-        avatarOrBrand = "brands";
         isBusiness = true
     } else {
-        avatarOrBrand = "avatars";
         isBusiness = false
     }
 
-    let avatar = `/${avatarOrBrand}/${userCodeOrBusinessBrand}.jpg`
+    let avatar = `/avatars/${userCodeOrBusinessBrand}.jpg`
 
-    console.log("avatar", avatar);
     return (
         <>
             {!isLoading && isAvatar ?
@@ -57,13 +51,17 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
                     />
                 </Avatar>
                 : isBusiness ?
-                    <ListItemIcon>
+                    // <ListItemIcon>
+                    <Avatar sx={{ width: 40, height: 40, mt: -2 }}>
                         <BusinessIcon />
-                    </ListItemIcon>
-                    :
-                    <Avatar  sx={{ width: 30, height: 30, mt: -2 }}>
-                        <AccountCircle  sx={{ width: 30, height: 30 }} />
+
                     </Avatar>
+    
+                    // </ListItemIcon>
+            :
+            <Avatar sx={{ width: 30, height: 30, mt: -2 }}>
+                <AccountCircle sx={{ width: 30, height: 30 }} />
+            </Avatar>
 
             }
         </>

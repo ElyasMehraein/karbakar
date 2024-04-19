@@ -24,13 +24,13 @@ export default function EditBusiness({ business, logedUserCode ,users}) {
             <MyAppBar />
             <EditHeader business={business} />
             <EditAvatar business={business} />
-            <NameEdit business={business} label={"نام کسب و کار"} maxLengthError={maxLengthError} />
+            {/* <NameEdit business={business} label={"نام کسب و کار"} maxLengthError={maxLengthError} />
             <AddressEdit business={business} maxLengthError={maxLengthError} />
             <BioEdit business={business} maxLengthError={maxLengthError} />
             <ExplainEdit business={business} maxLengthError={maxLengthError} />
             <CountactEdit business={business} maxLengthError={maxLengthError} />
             <EditLocation business={business} maxLengthError={maxLengthError} />
-            <EmployeeList business={business} logedUserCode={logedUserCode} users={users} maxLengthError={maxLengthError}/>
+            <EmployeeList business={business} logedUserCode={logedUserCode} users={users} maxLengthError={maxLengthError}/> */}
 
             <CustomSnackbar
                 open={snackbarError}
