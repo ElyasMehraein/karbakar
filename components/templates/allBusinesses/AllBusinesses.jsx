@@ -1,5 +1,5 @@
 "use client"
-import { Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material'
 import MyAppBar from '@/components/modules/MyAppBar'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -47,7 +47,7 @@ export default function AllBusinesses({ businesses }) {
                                 <ListItem>
                                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                                         <ListItemAvatar>
-                                            <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
+                                                <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
                                         </ListItemAvatar>
                                         <ListItemText align='right' primary={business.businessBrand} secondary={business.bio} />
                                     </ListItemButton>

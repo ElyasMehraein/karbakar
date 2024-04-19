@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import Image from "next/image";
 import { grey } from '@mui/material/colors';
 import { Container, IconButton } from "@mui/material";
-import ItsAvatar from './ItsAvatar';
-
+import BusinessIcon from '@mui/icons-material/Business';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Image from 'next/image'
 const color = grey[900];
 
 export default function EditAvatar({ user, business }) {
@@ -31,18 +31,38 @@ export default function EditAvatar({ user, business }) {
 
       if (response.status === 201) {
         console.log('avatar Uploaded successfully');
+        setImageKey(Date.now());
       }
     } catch (error) {
       console.error('Error uploading avatar:', error);
     }
   };
-
+  const isAvatar = user?.isAvatar || business?.isAvatar;
+  console.log("isAvatar toye pageAvatar", isAvatar);
+  const userCodeOrBusinessBrand = user?.code || business?.businessName;
+  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg${imageKey?`?key=${imageKey}`:''}`;
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
-          <ItsAvatar userCodeOrBusinessBrand={user?.code || business?.businessName} />
-        </Avatar>
+          {isAvatar ? <>
+            <Image
+              src={avatar}
+              alt={userCodeOrBusinessBrand}
+              quality={100}
+              fill
+              sizes="100px"
+              style={{ objectFit: 'cover' }}
+            />
+            {console.log("isAvatar", isAvatar)}
+          </>
+            :
+            isNaN(userCodeOrBusinessBrand) ?
+
+              <BusinessIcon />
+              :
+              <AccountCircle sx={{ width: 30, height: 30 }} />
+          }        </Avatar>
         <input
           accept="image/*"
           style={{ display: 'none' }}

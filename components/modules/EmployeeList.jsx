@@ -124,7 +124,9 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
                             <React.Fragment key={worker._id}>
                                 <ListItem >
                                     <ListItemAvatar >
+                                        <Avatar sx={{ width: 40, height: 40 }}>
                                             <ItsAvatar userCodeOrBusinessBrand={worker.code} alt="workers avatar" />
+                                        </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText
                                         align='right'

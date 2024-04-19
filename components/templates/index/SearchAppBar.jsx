@@ -9,15 +9,16 @@ import IconButton from '@mui/material/IconButton';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useRouter } from 'next/navigation'
 import Button from "@mui/material/Button";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
-import ItsAvatar from "@/components/modules/ItsAvatar"
 import ReportsMenu from './Reports/ReportsMenu';
 import { Avatar } from '@mui/material';
+import Image from 'next/image'
+import AccountCircle from '@mui/icons-material/AccountCircle';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -60,13 +61,15 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ user, menuClickHandler }) {
-
+  const [imageKey, setImageKey] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [unseenReportCounts, setUnseenReportCounts] = useState(0)
   const [reports, setReports] = useState([])
 
 
   if (user) {
     useEffect(() => {
+      setImageKey(Date.now());
       const getReports = async () => {
         try {
           const res = await fetch("/api/reports/getReports", { method: "GET" })
@@ -80,10 +83,12 @@ export default function SearchAppBar({ user, menuClickHandler }) {
           console.error("Error fetching reports:", error);
         }
       }
-
+      setIsLoading(false)
       getReports()
     }, []);
   }
+  const avatar = `/avatars/${user?.code}.jpg${imageKey ? `?key=${imageKey}` : ''}`;
+
   useEffect(() => {
     if (reports) {
       setUnseenReportCounts(reports.filter(report => !report.isSeen && !report.isjobOffersAnswerd).length || 0)
@@ -186,9 +191,20 @@ export default function SearchAppBar({ user, menuClickHandler }) {
               color="inherit"
               onClick={goToProfile}
             >
-              <Avatar sx={{ width: 40, height: 40 }}>
-                <ItsAvatar userCodeOrBusinessBrand={user?.code} />
-              </Avatar>
+              {isLoading ?
+                  <AccountCircle fontSize="large" />
+                :
+                <Avatar sx={{ width: 40, height: 40 }}>
+                  <Image
+                    src={avatar}
+                    alt={user?.code}
+                    quality={100}
+                    fill
+                    sizes="100px"
+                    style={{ objectFit: 'cover' }}
+                  />
+                </Avatar>
+              }
             </IconButton>
           </Box>
         }

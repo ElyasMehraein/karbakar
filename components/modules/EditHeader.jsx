@@ -63,7 +63,7 @@ export default function EditHeader({ user, business }) {
           position: "relative",
           width: "100vw",
           height: "50vh",
-          backgroundImage: `url(/headers/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''})`,
+          backgroundImage: `url(/headers/${userCodeOrBusinessBrand}.jpg${imageKey?`?key=${imageKey}`:''}`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
         }}
