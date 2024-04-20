@@ -47,7 +47,9 @@ export default function AllBusinesses({ businesses }) {
                                 <ListItem>
                                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                                         <ListItemAvatar>
+                                            <Avatar>
                                                 <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
+                                            </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText align='right' primary={business.businessBrand} secondary={business.bio} />
                                     </ListItemButton>

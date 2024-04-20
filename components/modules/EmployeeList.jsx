@@ -20,10 +20,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
+import { ListItemButton } from "@mui/material";
+import { useRouter } from 'next/navigation';
 
 
 
 export default function EmployeeList({ business, logedUserCode, users, maxLengthError }) {
+    const router = useRouter()
+
     const [open, setOpen] = React.useState(false);
     const [newValue, setNewValue] = React.useState(null);
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -123,17 +127,19 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
                         return (
                             <React.Fragment key={worker._id}>
                                 <ListItem >
-                                    <ListItemAvatar >
-                                        <Avatar sx={{ width: 40, height: 40 }}>
-                                            <ItsAvatar userCodeOrBusinessBrand={worker.code} alt="workers avatar" />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        align='right'
-                                        primary={Number(business.agentCode) === Number(worker.code) ? worker.userName + " — " + " نماینده" : worker.userName}
-                                        secondary={worker.bio}
-                                    />
-                                    <ListItemText />
+                                    <ListItemButton onClick={() => router.push(`/${worker.code}`)}>
+                                        <ListItemAvatar >
+                                            <Avatar sx={{ width: 40, height: 40 }}>
+                                                <ItsAvatar isAvatar={worker.isAvatar} userCodeOrBusinessBrand={worker.code} alt="workers avatar" />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText
+                                            align='right'
+                                            primary={Number(business.agentCode) === Number(worker.code) ? worker.userName + " — " + " نماینده" : worker.userName}
+                                            secondary={worker.bio}
+                                        />
+                                        <ListItemText />
+                                    </ListItemButton>
                                 </ListItem>
                                 <Divider variant="inset" />
                             </React.Fragment>

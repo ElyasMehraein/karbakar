@@ -32,7 +32,7 @@ export async function POST(req) {
         );
     } catch (error) {
         console.error(`Error creating the Request:`, error);
-        Response.json(
+        return Response.json(
             { message: `Error creating the Request `, error },
             { status: 500 })
     }

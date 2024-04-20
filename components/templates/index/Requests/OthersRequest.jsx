@@ -18,8 +18,13 @@ import Avatar from "@mui/material/Avatar";
 import ItsAvatar from "@/components/modules/ItsAvatar";
 import TableBusiness from "../../business/TableBusiness";
 import Typography from '@mui/material/Typography';
-import { ListItemButton } from "@mui/material";
+import { Chip, Container, ListItemButton } from "@mui/material";
 import { useRouter } from "next/navigation";
+import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+import { OthersRequestText } from "@/components/typoRepo";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
 
 
 const Root = styled("div")(({ theme }) => ({
@@ -32,7 +37,6 @@ const Root = styled("div")(({ theme }) => ({
 
 export default function OthersRequest({ user, distinctGuilds }) {
   const router = useRouter()
-
   const [defaultGuild, setDefaultGuild] = useState("")
   const [requests, setRequests] = useState("")
 
@@ -56,10 +60,45 @@ export default function OthersRequest({ user, distinctGuilds }) {
       getRequests()
     }, []);
   }
+  const isUserAreBusinessAgent = user.businesses.some((business) => {
+    return Number(business.agentCode) === user.code
+  })
+
+  async function acceptOrAskForMoreInfo(MyAnswer, requestID) {
+    const res = await fetch('api/requests/acceptOrAskForMoreInfo', {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ MyAnswer, requestID })
+    })
+    if (res.status === 500) {
+      console.log("server error", res);
+    } else if (res.status === 201) {
+      console.log("Request signed successfully");
+      // callSnackbar("درخواست شما با موفقیت ثبت شد و در لیست درخواست های صنف مرتبط قرار گرفت")
+    } else if (res.status === 406) {
+      console.log("you are not business Agent!");
+
+    }
+  }
+  const [expanded, setExpanded] = React.useState(false);
+
   return (
     <Root>
+      <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
+        <Chip
+          label="راهنمایی"
+          sx={{ direction: 'ltr' }}
+          onClick={() => setExpanded(!expanded)}
+          icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
+        />
+        <AccordionDetails>
+          <Typography>
+            {OthersRequestText}
+          </Typography>
 
-      {requests &&
+        </AccordionDetails>
+      </Accordion>
+      {requests ?
         requests.map((request) => {
           return (
             <Accordion key={request._id}>
@@ -75,26 +114,36 @@ export default function OthersRequest({ user, distinctGuilds }) {
                 </List>
               </AccordionSummary>
               <AccordionDetails>
-              <ListItemButton onClick={() => router.push(`/${request.requesterBusiness.businessName}`)}>
-                <ListItemAvatar >
-                  <Avatar sx={{ width: 40, height: 40 }}>
-                    <ItsAvatar isAvatar={request.requesterBusiness.isAvatar} userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
-                  </Avatar>
-                </ListItemAvatar>
-                <ListItemText align='right' primary={request.requesterBusiness.businessName} secondary={request.requesterBusiness.businessBrand} />
+                <ListItemButton onClick={() => router.push(`/${request.requesterBusiness.businessName}`)}>
+                  <ListItemAvatar >
+                    <Avatar sx={{ width: 40, height: 40 }}>
+                      <ItsAvatar isAvatar={request.requesterBusiness.isAvatar} userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText align='right' primary={request.requesterBusiness.businessName} secondary={request.requesterBusiness.businessBrand} />
                 </ListItemButton>
                 <Typography sx={{ color: 'text.secondary' }}>{request.requesterBusiness.bio}</Typography>
                 <TableBusiness business={request.requesterBusiness} />
               </AccordionDetails>
               <AccordionActions>
-                  <Button sx={{ ml: 4 }} variant="outlined">درخواست اطلاعات بیشتر</Button>
-                  <Button variant="outlined">تایید درخواست</Button>
+                {isUserAreBusinessAgent &&
+                  <>
+                    <Button onClick={() => acceptOrAskForMoreInfo("askForMoreInfo", request._id)} sx={{ ml: 4 }} variant="outlined">درخواست اطلاعات بیشتر</Button>
+                    <Button onClick={() => acceptOrAskForMoreInfo("accept", request._id)} variant="outlined">تایید درخواست</Button>
+                  </>
+                }
+
               </AccordionActions>
             </Accordion>
           )
 
           // <OthersRequestFrames key={request._id} request={request} />
-        })}
+        })
+        :
+        <Box className="inMiddle">
+          <CircularProgress />
+        </Box>
+      }
 
     </Root>
   );
