@@ -85,9 +85,9 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
               <CardHeader
 
                 avatar={
-                  <Box sx={{ m: 1 }}>
+                  <Avatar sx={{ m: 1 }}>
                     <ItsAvatar isAvatar={Requester.isAvatar} userCodeOrBusinessBrand={Requester.businessName} />
-                  </Box>
+                  </Avatar>
                 }
                 action={
                   <IconButton aria-label="settings" onClick={() => fabHandler()}>

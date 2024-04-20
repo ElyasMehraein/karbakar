@@ -83,7 +83,9 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                   <ListItemButton sx={{ mt: -2, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                     <ListItem>
                       <ListItemIcon>
-                        <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                        <Avatar>
+                          <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                        </Avatar>
                       </ListItemIcon>
                       <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
                     </ListItem>
@@ -106,7 +108,9 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
                       <ListItemButton sx={{ mt: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                         <ListItemAvatar>
                           <ListItemIcon>
-                            <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                            <Avatar>
+                              <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                            </Avatar>
                           </ListItemIcon>
                         </ListItemAvatar>
                         <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
@@ -155,15 +159,15 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
         <Divider />
         {user ?
           <Button
-              sx={{ direction: "ltr" }} onClick={signOut} color="error" endIcon={<LogoutIcon />}>
-              خروج از سایت
-            </Button>
-            :
-            <Button
-              sx={{ display: { sm: 'none', xs: 'block' } }}
-              onClick={signOut} variant="outlined" color="secondary">
-              ورود یا ثبت نام
-            </Button>
+            sx={{ direction: "ltr" }} onClick={signOut} color="error" endIcon={<LogoutIcon />}>
+            خروج از سایت
+          </Button>
+          :
+          <Button
+            sx={{ display: { sm: 'none', xs: 'block' } }}
+            onClick={signOut} variant="outlined" color="secondary">
+            ورود یا ثبت نام
+          </Button>
         }
       </Drawer >
     </Box >

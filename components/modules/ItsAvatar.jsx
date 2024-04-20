@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react';
 import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Avatar, ListItemIcon } from '@mui/material';
+import { Avatar, Box, ListItemIcon } from '@mui/material';
 
 export default function ItsAvatar({ userCodeOrBusinessBrand, isAvatar }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -15,21 +15,19 @@ export default function ItsAvatar({ userCodeOrBusinessBrand, isAvatar }) {
 
     return (
         !isLoading && isAvatar ?
-            <>
-                <Avatar>
-                    <Image
-                        src={avatar}
-                        alt={userCodeOrBusinessBrand}
-                        quality={100}
-                        fill
-                        sizes="100px"
-                        style={{ objectFit: 'cover' }}
-                    />
-                </Avatar>
-            </>
+
+            <Image
+                style={{ objectFit: "cover" }}
+                src={avatar}
+                alt={userCodeOrBusinessBrand}
+                quality={100}
+                fill
+                sizes="100px"
+            />
+
             :
             isNaN(userCodeOrBusinessBrand) ?
-                <ListItemIcon>
+                <ListItemIcon style={{ display: 'grid', placeItems: 'center' }}>
                     <BusinessIcon />
                 </ListItemIcon>
                 :

@@ -84,7 +84,7 @@ export default function Resignation({ user }) {
     } else if (res.status === 404) {
       callSnackbar("کسب و کار یافت نشد کد وارد شده را مجدد بررسی نمایید", "error")
     } else if (res.status === 406) {
-      callSnackbar("نفر جایگزین در 3 کسب و کار عضو است و عضویت در بیش از 3 کسب و کار مجاز نیست","error")
+      callSnackbar("نفر جایگزین در 3 کسب و کار عضو است و عضویت در بیش از 3 کسب و کار مجاز نیست", "error")
     }
   }
   return (
@@ -113,7 +113,9 @@ export default function Resignation({ user }) {
                 sx={{ pl: 4, display: 'flex', alignItems: 'center', minWidth: '150px' }}
                 onClick={() => handleBusinessChange(business)}
               >
-                <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                <Avatar>
+                  <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                </Avatar>
                 <ListItemText primary={business.businessName} secondary={business.businessBrand} />
               </ListItemButton>
             ))}
