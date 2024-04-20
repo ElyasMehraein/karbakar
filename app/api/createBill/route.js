@@ -24,6 +24,9 @@ export async function POST(req) {
         if (customer.code === user.code) {
             return Response.json({ message: "406 you can't sell things to yourself!" }, { status: 406 })
         }
+        if (customer.businesses.length === 0){
+            return Response.json({ message: "customer have no business" }, { status: 407 })
+        }
         await BillModel.create({
             guild: Business.guildname,
             from: Business._id,

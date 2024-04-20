@@ -35,6 +35,7 @@ export default function CreateBill({ user }) {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
   const [openSnackbar404Error, setOpenSnackbar404Error] = React.useState(false);
+  const [openSnackbar407Error, setOpenSnackbar407Error] = React.useState(false);
 
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
@@ -57,6 +58,8 @@ export default function CreateBill({ user }) {
       setOpenSnackbar404Error(true)
     } else if (res.status === 406) {
       setOpenSnackbarError(true)
+    } else if (res.status === 407) {
+      setOpenSnackbar407Error(true)
     }
   }
   const [expanded, setExpanded] = React.useState(false);
@@ -95,6 +98,12 @@ export default function CreateBill({ user }) {
         open={openSnackbar404Error}
         onClose={() => setOpenSnackbarError(false)}
         message="کاربر یافت نشد کد کاربری را مجدد بررسی نمایید"
+        severity="error"
+      />
+      <CustomSnackbar
+        open={openSnackbar407Error}
+        onClose={() => setOpenSnackbarError(false)}
+        message="کاربر انتخاب شده فاقد کسب و کار اصلی است"
         severity="error"
       />
       <Box sx={{ py: 1, my: 1, minWidth: 200, maxWidth: 600, bgcolor: "#f5f5f5", boxShadow: 3 }} className='inMiddle' display="flex" flexDirection="column" align='center'>
