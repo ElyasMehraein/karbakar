@@ -37,8 +37,9 @@ const columns = [
 export default function TableBusiness({ business }) {
 
   const rows = business.products.map(product => {
-    return {name:product.uniqueCustomer, code: product.productName, population: product.unitOfMeasurement, size: product.totalDelivered }
+    return { name: product.uniqueCustomer, code: product.productName, population: product.unitOfMeasurement, size: product.totalDelivered }
   });
+
 
   // function createData(name, calories, fat, carbs, protein) {
   //   return { name, calories, fat, carbs, protein };
@@ -79,25 +80,28 @@ export default function TableBusiness({ business }) {
   }
 
   return (
-    <Box
-      justifyContent='center'
-      sx={{
-        p: 1,
-        display: 'flex',
-        flexWrap: 'wrap',
-        '& > :not(style)': {
-          width: "100%",
-          maxWidth: 700,
-          // height: 480,
-        },
-      }}
-    >
-      <Paper
-        sx={{ p:1, backgroundColor: grey[200], borderRadius: '30px' }}>
-        <Typography sx={{ variant: "subtitle2", m: 1, fontWeight: 'bold' }}>
-          محصولاتی که این کسب و کار به دیگران تحویل داده
-        </Typography>
-        {/* <Box
+    !rows[0] ?
+      <Typography align='center' color="error">این کسب و کار تا بحال هیچ محصولی به کسی تحویل نداده است </Typography>
+      : 
+      <Box
+        justifyContent='center'
+        sx={{
+          p: 1,
+          display: 'flex',
+          flexWrap: 'wrap',
+          '& > :not(style)': {
+            width: "100%",
+            maxWidth: 700,
+            // height: 480,
+          },
+        }}
+      >
+        <Paper
+          sx={{ p: 1, backgroundColor: grey[200], borderRadius: '30px' }}>
+          <Typography sx={{ variant: "subtitle2", m: 1, fontWeight: 'bold' }}>
+            محصولاتی که این کسب و کار به دیگران تحویل داده
+          </Typography>
+          {/* <Box
           display="flex"
           justifyContent="space-around"
         >
@@ -115,73 +119,73 @@ export default function TableBusiness({ business }) {
             <ToggleButton sx={ToggleButtonSx} value="four">جدیدترین</ToggleButton>
           </ToggleButtonGroup>
         </Box> */}
-        <Paper sx={{ m: 1, overflow: 'hidden' }}>
-          <TableContainer sx={{ maxHeight: 500 }}>
-            <Table
-              sx={{ borderCollapse: 'separate', borderSpacing: '0px 5px ' }}
-              stickyHeader aria-label="sticky table">
-              <TableHead
-                sx={{
-                  "& th": {
-                    p: 0,
-                    fontSize: ".75rem",
-                    textAlign: "center",
-                    backgroundColor: grey[200],
-                  }
+          <Paper sx={{ m: 1, overflow: 'hidden' }}>
+            <TableContainer sx={{ maxHeight: 500 }}>
+              <Table
+                sx={{ borderCollapse: 'separate', borderSpacing: '0px 5px ' }}
+                stickyHeader aria-label="sticky table">
+                <TableHead
+                  sx={{
+                    "& th": {
+                      p: 0,
+                      fontSize: ".75rem",
+                      textAlign: "center",
+                      backgroundColor: grey[200],
+                    }
 
-                }}
-              >
-                <TableRow>
-                  {columns.map((column) => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      style={{ minWidth: 80 }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
-                    return (
+                  }}
+                >
+                  <TableRow>
+                    {columns.map((column) => (
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: 80 }}
+                      >
+                        {column.label}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                      return (
 
-                      <TableRow sx={{ backgroundColor: blue[100] }}
-                        hover role="checkbox" tabIndex={-1} key={row.code}>
-                        {columns.map((column) => {
-                          const value = row[column.id];
-                          return (
-                            <TableCell
-                              sx={{ p: 1, textAlign: "center" }}
+                        <TableRow sx={{ backgroundColor: blue[100] }}
+                          hover role="checkbox" tabIndex={-1} key={row.code}>
+                          {columns.map((column) => {
+                            const value = row[column.id];
+                            return (
+                              <TableCell
+                                sx={{ p: 1, textAlign: "center" }}
 
-                              key={column.id} align={column.align}>
-                              {column.format && typeof value === 'number'
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
+                                key={column.id} align={column.align}>
+                                {column.format && typeof value === 'number'
+                                  ? column.format(value)
+                                  : value}
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 100]}
+              component="div"
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+          </Paper>
         </Paper>
-      </Paper>
-    </Box>
+      </Box>
   );
 }
 
