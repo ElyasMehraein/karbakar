@@ -73,8 +73,9 @@ export default function OthersRequest({ user, distinctGuilds }) {
     if (res.status === 500) {
       console.log("server error", res);
     } else if (res.status === 201) {
-      console.log("Request signed successfully");
+      location.reload()
       // callSnackbar("درخواست شما با موفقیت ثبت شد و در لیست درخواست های صنف مرتبط قرار گرفت")
+      console.log("Request signed successfully");
     } else if (res.status === 406) {
       console.log("you are not business Agent!");
 
@@ -100,6 +101,12 @@ export default function OthersRequest({ user, distinctGuilds }) {
       </Accordion>
       {requests ?
         requests.map((request) => {
+          const isAlredyAccepted = request.acceptedBy.some((acceptor) => {
+            return acceptor === user.primeJob
+          })
+          const isAlredyAskedForMoreInfo = request.acceptedBy.some((infoSeeker) => {
+            return infoSeeker === user.primeJob
+          })
           return (
             <Accordion key={request._id}>
               <AccordionSummary
@@ -128,8 +135,8 @@ export default function OthersRequest({ user, distinctGuilds }) {
               <AccordionActions>
                 {isUserAreBusinessAgent &&
                   <>
-                    <Button onClick={() => acceptOrAskForMoreInfo("askForMoreInfo", request._id)} sx={{ ml: 4 }} variant="outlined">درخواست اطلاعات بیشتر</Button>
-                    <Button onClick={() => acceptOrAskForMoreInfo("accept", request._id)} variant="outlined">تایید درخواست</Button>
+                    <Button disabled={isAlredyAskedForMoreInfo} onClick={() => acceptOrAskForMoreInfo("askForMoreInfo", request._id)} sx={{ ml: 4 }} variant="outlined">درخواست اطلاعات بیشتر</Button>
+                    <Button disabled={isAlredyAccepted} onClick={() => acceptOrAskForMoreInfo("accept", request._id)} variant="outlined">تایید درخواست</Button>
                   </>
                 }
 
