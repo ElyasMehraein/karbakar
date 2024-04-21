@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 export default function Header({ user, business }) {
 
   const userCodeOrBusinessBrand = user?.code || business?.businessName
-  const [imageKey, setImageKey] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isHeader, setIsHeader] = useState(null);
 
@@ -30,9 +29,8 @@ export default function Header({ user, business }) {
       setIsLoading(false)
   }, []);
 
-  const headerImage = `/headers/${user?.code || business?.businessName}.jpg${imageKey ? `?key=${imageKey}` : ''}`
+  const headerImage = `/headers/${user?.code || business?.businessName}.jpg`
   useEffect(() => {
-    setImageKey(Date.now());
     setIsLoading(true)
 
   }, []);

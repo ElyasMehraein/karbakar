@@ -9,16 +9,17 @@ import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Image from 'next/image'
 const color = grey[900];
+import CircularProgress from '@mui/material/CircularProgress';
+
 
 export default function EditAvatar({ user, business }) {
-  const [imageKey, setImageKey] = useState(null);
   const [isAvatar, setIsAvatar] = useState(user?.isAvatar || business?.isAvatar)
+  const [uploadedImage, setUploadedImage] = useState(null)
+  const [uploadeding, setUploadeding] = useState(false)
 
-  useEffect(() => {
-    setImageKey(Date.now());
-  }, []);
 
   const handleAvatarUpload = async (event) => {
+    setUploadeding(true)
     const image = event.target.files[0];
     const formData = new FormData();
     formData.append('image', image);
@@ -33,34 +34,38 @@ export default function EditAvatar({ user, business }) {
       if (response.status === 201) {
         console.log('avatar Uploaded successfully');
         setIsAvatar(true)
-        setImageKey(Date.now());
+        const imageUrl = URL.createObjectURL(image);
+        setUploadedImage(imageUrl);
+        setUploadeding(false)
       }
     } catch (error) {
       console.error('Error uploading avatar:', error);
     }
   };
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg${imageKey ? `?key=${imageKey}` : ''}`;
+  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg`;
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
-          {isAvatar ?
-            <Image
-              src={avatar}
-              alt={userCodeOrBusinessBrand}
-              quality={100}
-              fill
-              sizes="100px"
-              style={{ objectFit: 'cover' }}
-            />
-            :
-            isNaN(userCodeOrBusinessBrand) ?
-
-              <BusinessIcon />
+          {uploadeding ? <CircularProgress /> :
+            isAvatar ?
+              <Image
+                src={uploadedImage ? uploadedImage : avatar}
+                alt={userCodeOrBusinessBrand}
+                quality={100}
+                fill
+                sizes="100px"
+                style={{ objectFit: 'cover' }}
+              />
               :
-              <AccountCircle sx={{ width: 70, height: 70 }} />
-          }        </Avatar>
+              isNaN(userCodeOrBusinessBrand) ?
+
+                <BusinessIcon />
+                :
+                <AccountCircle sx={{ width: 70, height: 70 }} />
+          }
+        </Avatar>
         <input
           accept="image/*"
           style={{ display: 'none' }}

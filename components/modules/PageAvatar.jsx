@@ -10,11 +10,7 @@ import Image from 'next/image'
 
 
 export default function PageAvatar({ user, business }) {
-  const [imageKey, setImageKey] = useState(null);
 
-  useEffect(() => {
-    setImageKey(Date.now());
-  }, []);
   const createdAt = new Date(user?.createdAt || business.createdAt)
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - createdAt.getTime();
@@ -22,7 +18,7 @@ export default function PageAvatar({ user, business }) {
 
   const isAvatar = user?.isAvatar || business?.isAvatar;
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg${imageKey?`?key=${imageKey}`:''}`;
+  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg`
 
   return (
     <Container maxWidth="md">

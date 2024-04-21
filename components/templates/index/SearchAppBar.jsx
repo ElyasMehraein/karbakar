@@ -61,7 +61,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function SearchAppBar({ user, menuClickHandler }) {
-  const [imageKey, setImageKey] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [unseenReportCounts, setUnseenReportCounts] = useState(0)
   const [reports, setReports] = useState([])
@@ -69,7 +68,6 @@ export default function SearchAppBar({ user, menuClickHandler }) {
 
   if (user) {
     useEffect(() => {
-      setImageKey(Date.now());
       const getReports = async () => {
         try {
           const res = await fetch("/api/reports/getReports", { method: "GET" })
@@ -87,7 +85,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
       getReports()
     }, []);
   }
-  const avatar = `/avatars/${user?.code}.jpg${imageKey ? `?key=${imageKey}` : ''}`;
+  const avatar = `/avatars/${user?.code}.jpg`;
 
   useEffect(() => {
     if (reports) {
