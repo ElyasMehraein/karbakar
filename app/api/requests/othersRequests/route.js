@@ -19,10 +19,10 @@ export async function GET(req, res) {
             { _id: tokenPayLoad.id },
         ).populate("businesses")
 
-        const userBusinessesID = logedUser.businesses.map((business) => business._id)
         let requests;
-
+        
         if (logedUser) {
+            const userBusinessesID = logedUser.businesses.map((business) => business._id)
             requests = await RequestModel.find({
                 requesterBusiness: { $nin: userBusinessesID }
             }).populate("requesterBusiness")
