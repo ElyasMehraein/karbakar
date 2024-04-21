@@ -15,6 +15,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import YourReq from './Requests/YourReq';
 import CreateRequest from './Requests/CreateRequest';
 import OthersRequest from './Requests/OthersRequest';
+import OthersRequestForGusts from './Requests/OthersRequestForGusts';
 
 
 function CustomTabPanel(props) {
@@ -70,7 +71,6 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   const transitionDuration = {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
@@ -147,8 +147,11 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       </Box>
       <Container sx={{ position: "relative", height: "80%" }}>
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
-
-          <OthersRequest user={user} distinctGuilds={distinctGuilds} />
+          {user ?
+            <OthersRequest user={user} distinctGuilds={distinctGuilds} />
+            :
+            <OthersRequestForGusts />
+          }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
           {
