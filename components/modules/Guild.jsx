@@ -17,7 +17,7 @@ export default function Guild({ updateGuildname, distinctGuilds, user }) {
       defaultValue={primeJobguildname}
       size="small"
       className="inMiddle"
-      onChange={(event, newValue) => {
+      onInputChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           // Create a new value from the user input
           updateGuildname(newValue);
@@ -43,7 +43,8 @@ export default function Guild({ updateGuildname, distinctGuilds, user }) {
         return filtered;
       }}
       selectOnFocus
-      clearOnBlur
+      // clearOnBlur
+      freeSolo
       handleHomeEndKeys
       id="free-solo-with-text-demo"
       options={distinctGuilds||[]}

@@ -35,7 +35,6 @@ export default function createBusiness({ distinctGuilds }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ businessName, guildname })
         })
-        console.log("response to creating new business is =>", res);
         if (res.status === 201) {
             setSuccess(true)
             router.push('/')
@@ -55,7 +54,7 @@ export default function createBusiness({ distinctGuilds }) {
 
         } else if (res.status === 406) {
             setSnackbarError(true)
-            setSnackbarErrorMessage(" برای نام کسب و کار تنها از حروف کوچک و بزرگ انگلیسی استفاده نمایید")
+            setSnackbarErrorMessage(" برای نام کسب و کار تنها از حروف کوچک و بزرگ انگلیسی بدون فاصله و نقطه استفاده نمایید")
         }
     }
     return (
