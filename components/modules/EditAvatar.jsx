@@ -14,9 +14,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 export default function EditAvatar({ user, business }) {
   const [isAvatar, setIsAvatar] = useState(user?.isAvatar || business?.isAvatar)
-  const [uploadedImage, setUploadedImage] = useState(null)
   const [uploadeding, setUploadeding] = useState(false)
-
 
   const handleAvatarUpload = async (event) => {
     setUploadeding(true)
@@ -34,8 +32,7 @@ export default function EditAvatar({ user, business }) {
       if (response.status === 201) {
         console.log('avatar Uploaded successfully');
         setIsAvatar(true)
-        const imageUrl = URL.createObjectURL(image);
-        setUploadedImage(imageUrl);
+        location.reload()
         setUploadeding(false)
       }
     } catch (error) {
@@ -51,7 +48,7 @@ export default function EditAvatar({ user, business }) {
           {uploadeding ? <CircularProgress /> :
             isAvatar ?
               <Image
-                src={uploadedImage ? uploadedImage : avatar}
+                src={avatar}
                 alt={userCodeOrBusinessBrand}
                 quality={100}
                 fill

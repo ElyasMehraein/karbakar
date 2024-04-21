@@ -14,7 +14,6 @@ export default function EditHeader({ user, business }) {
   const userCodeOrBusinessBrand = user?.code || business?.businessName
   const [isLoading, setIsLoading] = useState(true);
   const [isHeader, setIsHeader] = useState(user?.isHeader || business?.isHeader);
-  const [uploadedImage, setUploadedImage] = useState(null)
   const [uploadeding, setUploadeding] = useState(false)
   useEffect(() => {
 
@@ -37,8 +36,7 @@ export default function EditHeader({ user, business }) {
       if (response.status === 201) {
         console.log('header Uploaded successfully');
         setIsHeader(true)
-        const imageUrl = URL.createObjectURL(image);
-        setUploadedImage(imageUrl);
+        location.reload()
         setUploadeding(false)
       }
     } catch (error) {
@@ -55,7 +53,7 @@ export default function EditHeader({ user, business }) {
             position: "relative",
             width: "100vw",
             height: "50vh",
-            backgroundImage: uploadedImage ? `url(${uploadedImage})` : `url(/headers/${userCodeOrBusinessBrand}.jpg)`,
+            backgroundImage: `url(/headers/${userCodeOrBusinessBrand}.jpg)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
