@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import Guild from "@/components/modules/Guild";
+// import Guild from "@/components/modules/Guild";
 import { useEffect } from "react";
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
@@ -35,12 +35,20 @@ const Root = styled("div")(({ theme }) => ({
 
 export default function OthersRequest({ user, distinctGuilds }) {
   const router = useRouter()
-  const [defaultGuild, setDefaultGuild] = useState("")
   const [requests, setRequests] = useState("")
 
-  const updateGuildname = (newGuildname) => {
-    setDefaultGuild(newGuildname);
-  };
+
+
+  const userPrimeJobBusinesses = user.businesses.filter(
+    (business) => business._id === user.primeJob
+  );
+  const userNonPrimeJobBusinesses = user.businesses.filter(
+    (business) => business._id !== user.primeJob
+  );
+  
+  const userPrimeJobBusinessGuild = userPrimeJobBusinesses.map((business) => business.guildname)
+  const userNonPrimeJobBusinessesGuilds = userNonPrimeJobBusinesses.map((business) => business.guildname)
+  const userBusinessesGuilds = [...userPrimeJobBusinessGuild,...userNonPrimeJobBusinessesGuilds]
 
   useEffect(() => {
     const getRequests = async () => {
@@ -48,7 +56,14 @@ export default function OthersRequest({ user, distinctGuilds }) {
         const res = await fetch("/api/requests/othersRequests/", { method: "GET" })
         if (res.status === 200) {
           const data = await res.json()
-          setRequests(data.data)
+          const requests = data.data
+          const userBusinessGuildsSet = new Set(userBusinessesGuilds);
+          const userBusinessGuildRequests = requests.filter((request) => userBusinessGuildsSet.has(request.guild));
+          const otherGuildRequests = requests.filter((request) => !userBusinessGuildsSet.has(request.guild));
+
+          const allRequests = userBusinessGuildRequests.concat(otherGuildRequests);
+
+          setRequests(allRequests)
         }
       } catch (error) {
         console.error("Error fetching reports:", error);
@@ -105,18 +120,21 @@ export default function OthersRequest({ user, distinctGuilds }) {
                   </ListItem>
                 </List>
               </AccordionSummary>
-              <AccordionDetails>
-                <ListItemButton onClick={() => router.push(`/${request.requesterBusiness.businessName}`)}>
-                  <ListItemAvatar >
-                    <Avatar sx={{ width: 40, height: 40 }}>
-                      <ItsAvatar isAvatar={request.requesterBusiness.isAvatar} userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
-                    </Avatar>
-                  </ListItemAvatar>
-                  <ListItemText align='right' primary={request.requesterBusiness.businessName} secondary={request.requesterBusiness.businessBrand} />
-                </ListItemButton>
-                <Typography sx={{ color: 'text.secondary' }}>{request.requesterBusiness.bio}</Typography>
-                <TableBusiness business={request.requesterBusiness} />
-              </AccordionDetails>
+              {
+                userBusinessesGuilds.includes(request.guild) &&
+                <AccordionDetails>
+                  <ListItemButton onClick={() => router.push(`/${request.requesterBusiness.businessName}`)}>
+                    <ListItemAvatar >
+                      <Avatar sx={{ width: 40, height: 40 }}>
+                        <ItsAvatar isAvatar={request.requesterBusiness.isAvatar} userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText align='right' primary={request.requesterBusiness.businessName} secondary={request.requesterBusiness.businessBrand} />
+                  </ListItemButton>
+                  <Typography sx={{ color: 'text.secondary' }}>{request.requesterBusiness.bio}</Typography>
+                  <TableBusiness business={request.requesterBusiness} />
+                </AccordionDetails>
+              }
               <AccordionActions>
                 {isUserAreBusinessAgent &&
                   <>
@@ -164,4 +182,8 @@ export default function OthersRequest({ user, distinctGuilds }) {
   );
 }
 
+// const [defaultGuild, setDefaultGuild] = useState("")
+// const updateGuildname = (newGuildname) => {
+//   setDefaultGuild(newGuildname);
+// };
 // <Guild {...{ user, updateGuildname, distinctGuilds }} />
