@@ -82,8 +82,8 @@ export default function MyRequests() {
             </Divider>
           }
           {requests.map((request) => (
-            (!request.acceptedBy || !request.needMoreInfo) &&
-            <YourRequestFrames request={request} key={infoSeeker} />
+            !request.needMoreInfo[0] && !request.acceptedBy[0] &&
+            <YourRequestFrames request={request} key={request._id} />
           ))}
         </Box >
       }
