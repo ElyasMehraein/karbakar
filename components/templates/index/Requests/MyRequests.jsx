@@ -76,11 +76,13 @@ export default function MyRequests() {
               <YourRequestFrames request={request} key={infoSeeker} />
             ))
           ))}
-          {
-            < Divider sx={{ fontWeight: 'bold' }} textAlign="center">
+          {requests.some(request => !request.needMoreInfo[0] && !request.acceptedBy[0]) && (
+            <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
               درخواست های بدون پاسخ
             </Divider>
+          )
           }
+
           {requests.map((request) => (
             !request.needMoreInfo[0] && !request.acceptedBy[0] &&
             <YourRequestFrames request={request} key={request._id} />
