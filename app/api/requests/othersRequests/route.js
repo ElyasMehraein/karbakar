@@ -25,10 +25,10 @@ export async function GET(req, res) {
             const userBusinessesID = logedUser.businesses.map((business) => business._id)
             requests = await RequestModel.find({
                 requesterBusiness: { $nin: userBusinessesID }
-            }).populate("requesterBusiness")
+            }).populate("requesterBusiness").sort({ createdAt: -1 })
             return Response.json({ message: 'get Requests as user info successfully', data: requests }, { status: 200 });
         } else {
-            requests = await RequestModel.find({}, "title message guild acceptedBy");
+            requests = await RequestModel.find({}, "title message guild acceptedBy").sort({ createdAt: -1 });
             return Response.json({ message: 'get Requests for guests successfully', data: requests }, { status: 200 });
         }
     } catch (error) {
