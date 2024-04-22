@@ -61,9 +61,9 @@ export default function MyRequests() {
           )
           }
           {requests.map((request) => (
-            request.acceptedBy?.map((accepter) => {
-              return <YourRequestFrames request={request} key={accepter} />
-            })
+            request.acceptedBy &&
+            <YourRequestFrames request={request} key={request._id} />
+
           ))}
           {requests.some(request => request.needMoreInfo) && (
             <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
