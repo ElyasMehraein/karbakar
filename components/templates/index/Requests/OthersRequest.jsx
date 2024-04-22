@@ -17,7 +17,7 @@ import Avatar from "@mui/material/Avatar";
 import ItsAvatar from "@/components/modules/ItsAvatar";
 import TableBusiness from "../../business/TableBusiness";
 import Typography from '@mui/material/Typography';
-import { Card, CardContent, Chip, Container, ListItemButton } from "@mui/material";
+import { Card, CardContent, Chip, Container, Divider, ListItemButton } from "@mui/material";
 import { useRouter } from "next/navigation";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import { OthersRequestText } from "@/components/typoRepo";
@@ -77,6 +77,63 @@ export default function OthersRequest({ user, distinctGuilds }) {
 
     }
   }
+
+  const renderByGuilds = () => {
+    const uniqueGuilds = [...new Set(requests.map((request) => request.guild))];
+    return uniqueGuilds.map((guild) => (
+      <Box key={guild}>
+        <Divider sx={{ mb: 1, fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
+          {guild}
+        </Divider>
+        {requests.filter((request) => request.guild === guild).map((request) => {
+          const isAlredyAccepted = request.acceptedBy.some((acceptor) => {
+            return acceptor === user.primeJob
+          })
+          const isAlredyAskedForMoreInfo = request.needMoreInfo.some((infoSeeker) => {
+            return infoSeeker === user.primeJob
+          })
+          return (
+            <Accordion key={request._id}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel3-content"
+                id="panel3-header"
+              >
+                <List>
+                  <ListItem sx={{ m: 0, p: 0 }}>
+                    <ListItemText align='right' primary={request.title} secondary={request.message} />
+                  </ListItem>
+                </List>
+              </AccordionSummary>
+              <AccordionDetails>
+                <ListItemButton onClick={() => router.push(`/${request.requesterBusiness.businessName}`)}>
+                  <ListItemAvatar >
+                    <Avatar sx={{ width: 40, height: 40 }}>
+                      <ItsAvatar isAvatar={request.requesterBusiness.isAvatar} userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText align='right' primary={request.requesterBusiness.businessName} secondary={request.requesterBusiness.businessBrand} />
+                </ListItemButton>
+                <Typography sx={{ color: 'text.secondary' }}>{request.requesterBusiness.bio}</Typography>
+                <TableBusiness business={request.requesterBusiness} />
+              </AccordionDetails>
+              <AccordionActions>
+                {isUserAreBusinessAgent &&
+                  <>
+                    <Button disabled={isAlredyAskedForMoreInfo} onClick={() => acceptOrAskForMoreInfo("askForMoreInfo", request._id)} sx={{ ml: 4 }} variant="outlined">درخواست اطلاعات بیشتر</Button>
+                    <Button disabled={isAlredyAccepted} onClick={() => acceptOrAskForMoreInfo("accept", request._id)} variant="outlined">تایید درخواست</Button>
+                  </>
+
+                }
+
+
+              </AccordionActions>
+            </Accordion>
+          )
+        })}
+      </Box>
+    ));
+  }
   const [expanded, setExpanded] = React.useState(false);
 
   return (
@@ -96,69 +153,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
         </AccordionDetails>
       </Accordion>
       {requests ?
-        user ?
-          requests.map((request) => {
-            const isAlredyAccepted = request.acceptedBy.some((acceptor) => {
-              return acceptor === user.primeJob
-            })
-            const isAlredyAskedForMoreInfo = request.acceptedBy.some((infoSeeker) => {
-              return infoSeeker === user.primeJob
-            })
-            return (
-              <Accordion key={request._id}>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel3-content"
-                  id="panel3-header"
-                >
-                  <List>
-                    <ListItem sx={{ m: 0, p: 0 }}>
-                      <ListItemText align='right' primary={request.title} secondary={request.message} />
-                    </ListItem>
-                  </List>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <ListItemButton onClick={() => router.push(`/${request.requesterBusiness.businessName}`)}>
-                    <ListItemAvatar >
-                      <Avatar sx={{ width: 40, height: 40 }}>
-                        <ItsAvatar isAvatar={request.requesterBusiness.isAvatar} userCodeOrBusinessBrand={request.requesterBusiness.businessName} alt="workers avatar" />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText align='right' primary={request.requesterBusiness.businessName} secondary={request.requesterBusiness.businessBrand} />
-                  </ListItemButton>
-                  <Typography sx={{ color: 'text.secondary' }}>{request.requesterBusiness.bio}</Typography>
-                  <TableBusiness business={request.requesterBusiness} />
-                </AccordionDetails>
-                <AccordionActions>
-                  {isUserAreBusinessAgent &&
-                    <>
-                      <Button disabled={isAlredyAskedForMoreInfo} onClick={() => acceptOrAskForMoreInfo("askForMoreInfo", request._id)} sx={{ ml: 4 }} variant="outlined">درخواست اطلاعات بیشتر</Button>
-                      <Button disabled={isAlredyAccepted} onClick={() => acceptOrAskForMoreInfo("accept", request._id)} variant="outlined">تایید درخواست</Button>
-                    </>
-                  }
-
-                </AccordionActions>
-              </Accordion>
-            )
-          })
-          :
-          <>
-            <Typography fontSize={12}>برای مشاهده جزئیات درخواست ها ثبت نام کنید یا وارد سایت شوید</Typography>
-            {requests.map((request) => {
-              return (
-                <Card  key={request._id}>
-                  <CardContent>
-                    <Typography fontSize={12} fontWeight={"bold"}>
-                      {request.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {request.message}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              )
-            })}
-          </>
+        renderByGuilds()
         :
         <Box className="inMiddle">
           <CircularProgress />
@@ -169,20 +164,4 @@ export default function OthersRequest({ user, distinctGuilds }) {
   );
 }
 
-// {requests && // بعدا با داکیومنت ریکوئست درستش کن
-// <>
-//   <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
-//     درخواست هایی که کسب و کار شما تایید کرده است
-//   </Divider>
-
-//   {/* <OthersRequestFrames /> */}
-//   <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
-//     درخواست هایی که درخواست اطلاعات بیشتر کردید
-//   </Divider>
-//   {/* <OthersRequestFrames /> */}
-//   <Divider sx={{ fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
-//     درخواست های منتظر تایید
-//   </Divider>
-// </>
-// }
 // <Guild {...{ user, updateGuildname, distinctGuilds }} />

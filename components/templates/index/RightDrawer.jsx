@@ -65,23 +65,22 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
             {theme.direction === "ltr" ? (<ChevronLeftIcon />) : (<ChevronRightIcon />)}
           </IconButton>
         </DrawerHeader>
-        {/* <Typography fontWeight="bold" align="right"  marginRight={2}>
-          کسب و کارهای من
-        </Typography> */}
         {
           user?.businesses[0] &&
           <List sx={{ m: 0, p: 0 }}>
             <>
               <Divider
                 sx={{ fontSize: 12 }}
-                textAlign="center">کسب و کار اصلی</Divider>
+                textAlign="center">کسب و کار اصلی
+              </Divider>
             </>
             <HelpIcon iconText={iconText} />
             {user.businesses.map((business) => (
               user.primeJob === business._id && (
                 <React.Fragment key={business._id} >
-                  <ListItemButton sx={{ mt: -2, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
-                    <ListItem>
+                  <ListItemText align="right" secondary={"صنف:" + business.guildname} sx={{ mr: 2, mt: 0 }} />
+                  <ListItemButton sx={{ mt: -1, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
+                    <ListItem >
                       <ListItemIcon>
                         <Avatar>
                           <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
