@@ -11,14 +11,13 @@ import CardHeader from "@mui/material/CardHeader";
 import { red } from "@mui/material/colors";
 import Box from "@mui/material/Box";
 import Image from 'next/image'
-
-import businessAvatar from "@/public/assets/businessAvatar.jpg";
-import businessAvatar2 from "@/public/assets/businessAvatar2.jpg";
-import businessAvatar3 from "@/public/assets/pars.jpg";
 import { Container } from "@mui/material";
-const YourRequestFrames = () => {
+import ItsAvatar from "@/components/modules/ItsAvatar";
+import businessAvatar from "@/public/assets/businessAvatar.jpg";
+
+const YourRequestFrames = ({ request }) => {
   return (
-    <div>
+    <Container maxWidth="md">
       <Box
         sx={{
           display: "flex",
@@ -35,33 +34,40 @@ const YourRequestFrames = () => {
             mr: 2
           }}
         >
-          <Typography sx={{ fontWeight: 'bold' }} textAlign={"right"}>
-            تعویض روغن ماشین
+          <Typography sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }} textAlign={"right"}>
+            {request.title}
           </Typography>
         </Box>
-        <AvatarGroup dir="ltr" max={4} total={24}>
-          <Avatar><Image src={businessAvatar} alt="karbakar website logo" sizes="auto" fill /></Avatar>
-          <Avatar><Image src={businessAvatar2} alt="karbakar website logo" sizes="auto" fill /></Avatar>
-          <Avatar><Image src={businessAvatar3} alt="karbakar website logo" sizes="auto" fill /></Avatar>
+        <AvatarGroup dir="ltr" max={4}>
+          {request.acceptedBy?.map((acceptor) => {
+            return (
+              <Avatar key={acceptor}>
+                <ItsAvatar isAvatar={acceptor.isAvatar} userCodeOrBusinessBrand={acceptor.businessName} alt="workers avatar" />
+              </Avatar>
+            )
+          })}
+          {request.needMoreInfo?.map((infoSeeker) => {
+            return (
+              <Avatar key={infoSeeker}>
+                <ItsAvatar isAvatar={infoSeeker.isAvatar} userCodeOrBusinessBrand={infoSeeker.businessName} alt="workers avatar" />
+              </Avatar>
+            )
+          })}
         </AvatarGroup>
       </Box>
       <Typography
         paragraph
         // noWrap
         sx={{
-          mr: 2, fontSize: 11, 
+          mr: 2, fontSize: 11,
           //later i deside if i need to use the below code
-          // display: '-webkit-box',
-          // overflow: 'hidden',
-          // WebkitBoxOrient: 'vertical',
-          // WebkitLineClamp: 2
-        }} align="justify" dir="rtl" >
-        ماشینم پراید هست فیلتر میخوام شیشه شور میخوام تنظیم باد هم میخوام
-        روغن گیربکس هم باید عوض بشه ولی روغن رو خودم تهیه می کنم
-      </Typography>
-      <Divider light />
+          display: '-webkit-box',
+          overflow: 'hidden',
+          WebkitBoxOrient: 'vertical',
+          WebkitLineClamp: 2
+        }} align="justify" dir="rtl" >{request.message}</Typography>
 
-    </div>
+    </Container>
   );
 };
 export default YourRequestFrames;

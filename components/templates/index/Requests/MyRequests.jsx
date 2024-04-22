@@ -9,7 +9,8 @@ import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 
 export default function MyRequests() {
   const [expanded, setExpanded] = React.useState(false);
-  const [requests, setRequests] = React.useState([]); // Use an empty array
+  const [requests, setRequests] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     const getRequests = async () => {
@@ -22,6 +23,8 @@ export default function MyRequests() {
         }
       } catch (error) {
         console.error("Error fetching reports:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getRequests();
@@ -40,33 +43,50 @@ export default function MyRequests() {
           {mainTabYourReqText}
         </AccordionDetails>
       </Accordion>
-      {requests.length > 0 ? (
-        requests.map((request) => (
-          <Box key={request._id}>
-            {request.acceptedBy && (
-              <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
-                درخواست های تایید شده
-              </Divider>
-            )}
-            {request.acceptedBy?.map((accepter) => (
-              <YourRequestFrames accepter={accepter} key={accepter} />
-            ))}
-
-            {request.needMoreInfo && (
-              <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
-                درخواست های منتظر تایید
-              </Divider>
-            )}
-            {request.needMoreInfo?.map((accepter) => (
-              <YourRequestFrames accepter={accepter} key={accepter} />
-            ))}
-          </Box>
-        ))
-      ) : (
+      {isLoading ?
         <Box className="inMiddle">
           <CircularProgress />
         </Box>
-      )}
+        :
+        <Box>
+          {requests.length === 0 && (
+            <Typography variant="h6" align="center">
+              هیچ درخواستی یافت نشد
+            </Typography>
+          )}
+          {requests.some(request => request.acceptedBy) && (
+            <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
+              درخواست های تایید شده
+            </Divider>
+          )
+          }
+          {requests.map((request) => (
+            request.acceptedBy?.map((accepter) => {
+              return <YourRequestFrames request={request} key={accepter} />
+            })
+          ))}
+          {requests.some(request => request.needMoreInfo) && (
+            <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
+              درخواست های منتظر اطلاعات بیشتر
+            </Divider>
+          )
+          }
+          {requests.map((request) => (
+            request.needMoreInfo?.map((infoSeeker) => (
+              <YourRequestFrames request={request} key={infoSeeker} />
+            ))
+          ))}
+          {
+            < Divider sx={{ fontWeight: 'bold' }} textAlign="center">
+              درخواست های بدون پاسخ
+            </Divider>
+          }
+          {requests.map((request) => (
+            (!request.acceptedBy || !request.needMoreInfo) &&
+            <YourRequestFrames request={request} key={infoSeeker} />
+          ))}
+        </Box >
+      }
     </>
   );
 }
