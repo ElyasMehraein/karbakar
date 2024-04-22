@@ -19,7 +19,7 @@ const Root = styled("div")(({ theme }) => ({
 }));
 
 
-export default function YourReq() {
+export default function MyRequests() {
   const [expanded, setExpanded] = React.useState(false);
 
   return (

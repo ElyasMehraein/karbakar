@@ -97,7 +97,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
     const uniqueGuilds = [...new Set(requests.map((request) => request.guild))];
     return uniqueGuilds.map((guild) => (
       <Box key={guild}>
-        <Divider sx={{ mb: 1, fontSize: '12px' }} className={"text-extrabold"} textAlign="left">
+        <Divider sx={{ mb: 1, fontSize: '12px' ,fontWeight: 'bold'}} className={"text-extrabold"} textAlign="left">
           {guild}
         </Divider>
         {requests.filter((request) => request.guild === guild).map((request) => {

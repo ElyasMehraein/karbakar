@@ -12,7 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { green } from '@mui/material/colors';
 import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import YourReq from './Requests/YourReq';
+import MyRequests from './Requests/MyRequests';
 import CreateRequest from './Requests/CreateRequest';
 import OthersRequest from './Requests/OthersRequest';
 import OthersRequestForGusts from './Requests/OthersRequestForGusts';
@@ -127,7 +127,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
             >
 
               <Tab label="درخواستهای دیگران" {...a11yProps(0)} />
-              <Tab label="درخواستهای شما" {...a11yProps(1)} />
+              <Tab label="درخواستهای من" {...a11yProps(1)} />
               <Tab label="صورتحساب" {...a11yProps(2)} />
             </Tabs>
             :
@@ -157,9 +157,8 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
           {
             fabIndex === 1 ?
               <CreateRequest {...{ fabHandler, user, distinctGuilds }} />
-              // <VaseTest user={user} distinctGuilds={distinctGuilds} />
               :
-              <YourReq {...{ user }} />
+              <MyRequests {...{ user }} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
