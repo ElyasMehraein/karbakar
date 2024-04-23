@@ -23,6 +23,7 @@ import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import { OthersRequestText } from "@/components/typoRepo";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { blue } from '@mui/material/colors';
 
 
 const Root = styled("div")(({ theme }) => ({
@@ -108,7 +109,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
             return infoSeeker === user.primeJob
           })
           return (
-            <Accordion key={request._id}>
+            <Accordion key={request._id} sx={{bgcolor : blue[50]}} >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel3-content"

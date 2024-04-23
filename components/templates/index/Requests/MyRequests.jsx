@@ -2,7 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
-import YourRequestFrames from "./YourRequestFrames";
+import MyRequestFrame from "./MyRequestFrame";
 import { mainTabYourReqText } from "@/components/typoRepo";
 import { Accordion, AccordionDetails, Chip, Container, Box, CircularProgress } from "@mui/material";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
@@ -61,8 +61,9 @@ export default function MyRequests() {
           )
           }
           {requests.map((request) => (
-            request.acceptedBy &&
-            <YourRequestFrames request={request} key={request._id} />
+            request.acceptedBy?.map((accepter) => (
+              <MyRequestFrame request={request} key={accepter} />
+            ))
 
           ))}
           {requests.some(request => request.needMoreInfo) && (
@@ -73,7 +74,7 @@ export default function MyRequests() {
           }
           {requests.map((request) => (
             request.needMoreInfo?.map((infoSeeker) => (
-              <YourRequestFrames request={request} key={infoSeeker} />
+              <MyRequestFrame request={request} key={infoSeeker} />
             ))
           ))}
           {requests.some(request => !request.needMoreInfo[0] && !request.acceptedBy[0]) && (
@@ -85,7 +86,7 @@ export default function MyRequests() {
 
           {requests.map((request) => (
             !request.needMoreInfo[0] && !request.acceptedBy[0] &&
-            <YourRequestFrames request={request} key={request._id} />
+            <MyRequestFrame request={request} key={request._id} />
           ))}
         </Box >
       }

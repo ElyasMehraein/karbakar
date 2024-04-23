@@ -149,7 +149,6 @@ export default function Wellcome() {
               sx={{
                 alignItems: "center",
                 height: 50,
-                pl: 2,
                 bgcolor: "background.default",
               }}
             >
@@ -159,7 +158,7 @@ export default function Wellcome() {
                   changeSetValues(e.target.value);
                   setTextFieldError(false);
                 }}
-                sx={{ "& input::placeholder": { fontSize: "14px" }, width: "200px" }}
+                sx={{ "& input::placeholder": { fontSize: "14px" }, width: "200px"  }}
                 variant="outlined"
                 size="small"
                 id="outlined-textarea"
@@ -171,14 +170,13 @@ export default function Wellcome() {
                 value={activeStep === 0 ? phone : SMSCode}
               />
             </Paper>
-            <Box sx={{ height: 80, maxWidth: 400, width: "100%", }}>
+            <Box sx={{ height: 80, maxWidth: 420, width: "100%" }}>
               {steps[activeStep].description}
             </Box>
             <MobileStepper
-
               steps={maxSteps}
               position="static"
-              activeStep={activeStep}
+              activeStep={1 - activeStep}
               nextButton={
                 <Button size="small" onClick={handleBack}>
                   بازگشت
