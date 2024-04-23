@@ -171,10 +171,11 @@ export default function Wellcome() {
                 value={activeStep === 0 ? phone : SMSCode}
               />
             </Paper>
-            <Box sx={{ height: 80, maxWidth: 400, width: "90%", p: 2 }}>
+            <Box sx={{ height: 80, maxWidth: 400, width: "100%", }}>
               {steps[activeStep].description}
             </Box>
             <MobileStepper
+
               steps={maxSteps}
               position="static"
               activeStep={activeStep}

@@ -121,7 +121,7 @@ export default function contactEdit({ user, business, maxLengthError }) {
                                 id="outlined-helperText"
                                 size="small"
                                 InputLabelProps={{ sx: { fontSize: "14px" } }}
-                                label="مثال karbakar.ir"
+                                label="مثال https://www.karbakar.ir"
                                 defaultValue={personalPage}
                                 onChange={(e) => {
                                     changeHandler(e);
@@ -146,7 +146,7 @@ export default function contactEdit({ user, business, maxLengthError }) {
                                 id="outlined-helperText"
                                 size="small"
                                 InputLabelProps={{ sx: { fontSize: "14px" } }}
-                                label="مثال instagram.com/karbakar.ir"
+                                label="مثال karbakar"
                                 defaultValue={instagram}
                                 onChange={(e) => {
                                     changeHandler(e);

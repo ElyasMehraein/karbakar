@@ -5,7 +5,7 @@ export default function Name({ user , business}) {
     const name  = user?.userName || business?.businessBrand
     return (
         <Container maxWidth="md">
-            <Box sx={{width:160}} textAlign={"center"}>
+            <Box sx={{width:200}} textAlign={"right"}>
                 <Typography sx={{ fontWeight: 'bold' }}>
                     {name}
                 </Typography>

@@ -51,13 +51,13 @@ export default function EditHeader({ user, business }) {
           display="flex" alignItems="flex-end" justifyContent="left"
           style={{
             position: "relative",
-            width: "100vw",
+            width: "100%",
             height: "50vh",
             backgroundImage: `url(/headers/${userCodeOrBusinessBrand}.jpg)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
-          sx={{ bgcolor: '#cfe8fc', width: "100vw", height: "50vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
+          sx={{ bgcolor: '#cfe8fc', width: "100%", height: "50vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', }}
         >
           <input
             accept="image/*"

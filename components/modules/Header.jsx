@@ -41,7 +41,7 @@ export default function Header({ user, business }) {
         <div
           style={{
             position: "relative",
-            width: "100vw",
+            width: "100%",
             height: "50vh",
           }}>
           <Image
@@ -50,7 +50,7 @@ export default function Header({ user, business }) {
             priority
             quality={100}
             fill
-            sizes="100vw"
+            sizes="100%"
             style={{
               objectFit: 'cover',
             }}

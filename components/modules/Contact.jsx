@@ -6,7 +6,7 @@ import WebIcon from '@mui/icons-material/Web';
 import ComputerIcon from '@mui/icons-material/Computer';
 import Box from '@mui/material/Box'
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
-import { Button, Container, Icon, IconButton, Link, Typography } from '@mui/material';
+import { Button, Container, Icon, IconButton, Typography } from '@mui/material';
 import Link from 'next/link';
 
 
@@ -49,7 +49,7 @@ export default function contact({ user, business }) {
                     </Box>}
                     {instagram && <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
                         <Link style={{ textDecoration: "none", color: "inherit" }} underline="none"
-                            color="inherit" target="_blank" href={instagram} passHref>
+                            color="inherit" target="_blank" href={`https://www.instagram.com/${instagram}`} passHref>
                             <Box><InstagramIcon fontSize="large" /></Box>
                             <Box><Typography >اینستاگرام</Typography></Box>
 

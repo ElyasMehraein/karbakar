@@ -31,10 +31,22 @@ export default function UserJobs({ user }) {
                                         <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} alt="business avatar" />
                                     </Avatar>
                                 </ListItemAvatar>
-                                <ListItemText align='right' primary={business.businessName} secondary={business.businessBrand} />
-                                <Typography align='right' sx={{ mr: 2, fontWeight: 'bold' }} >
-                                    {business.bio}
-                                </Typography>
+                                <ListItemText
+                                    align='right'
+                                    primary={business.businessName}
+                                    secondary={
+                                        <React.Fragment>
+                                            <Typography
+                                                sx={{ display: 'inline' }}
+                                                component="span"
+                                                variant="body2"
+                                                color="text.primary"
+                                            >
+                                                {business.businessBrand}
+                                            </Typography>
+                                            {` — ${business.bio}`}
+                                        </React.Fragment>
+                                    } />
                                 <Divider variant="inset" />
                             </ListItemButton>
                         </ListItem>
