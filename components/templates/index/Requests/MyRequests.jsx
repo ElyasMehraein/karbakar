@@ -56,36 +56,23 @@ export default function MyRequests() {
           )}
           {requests.some(request => request.acceptedBy) && (
             <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
-              درخواست های تایید شده
+              درخواست های دارای تایید اولیه
             </Divider>
           )
           }
           {requests.map((request) => (
-            request.acceptedBy?.map((accepter) => (
-              <MyRequestFrame request={request} key={accepter} />
-            ))
-
-          ))}
-          {requests.some(request => request.needMoreInfo) && (
+           request.acceptedBy[0] &&
+            <MyRequestFrame request={request} />
+          ))
+          }
+          {requests.some(request => !request.acceptedBy[0]) && (
             <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
-              درخواست های منتظر اطلاعات بیشتر
+              درخواست های منتظر پاسخ
             </Divider>
           )
           }
           {requests.map((request) => (
-            request.needMoreInfo?.map((infoSeeker) => (
-              <MyRequestFrame request={request} key={infoSeeker} />
-            ))
-          ))}
-          {requests.some(request => !request.needMoreInfo[0] && !request.acceptedBy[0]) && (
-            <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
-              درخواست های بدون پاسخ
-            </Divider>
-          )
-          }
-
-          {requests.map((request) => (
-            !request.needMoreInfo[0] && !request.acceptedBy[0] &&
+            !request.acceptedBy[0] &&
             <MyRequestFrame request={request} key={request._id} />
           ))}
         </Box >

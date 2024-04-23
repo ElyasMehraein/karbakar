@@ -25,7 +25,7 @@ export async function GET(req, res) {
                 { status: 403 })
         }
         const uniqCode = createHash("sha256").update(logedUser._id + process.env.PAPER).digest("hex");
-        const requests = await RequestModel.find({ uniqCode }).populate("acceptedBy needMoreInfo").sort({ createdAt: -1 })
+        const requests = await RequestModel.find({ uniqCode }).populate("acceptedBy").sort({ createdAt: -1 })
 
         return Response.json({ message: 'get Requests as user info successfully', data: requests }, { status: 200 });
     } catch (error) {

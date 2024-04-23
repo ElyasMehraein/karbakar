@@ -10,12 +10,6 @@ const schema = new Schema({
             ref: "Business"
         }
     ],
-    needMoreInfo:[
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Business"
-        }
-    ],
     title: { type: String, maxlength: 30, },
     message: { type: String, maxlength: 150, },
     guild:{ type: String, required: true },
