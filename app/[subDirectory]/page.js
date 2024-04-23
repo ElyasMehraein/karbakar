@@ -51,7 +51,7 @@ export default async function subDirectory({ params }) {
 
   const user = JSON.parse(JSON.stringify(await UserModel.findOne(
     { code: params.subDirectory },
-  )))
+  ).populate("businesses")))
 
   if (!user) {
     console.log("user not found in DB");
