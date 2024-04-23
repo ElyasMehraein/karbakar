@@ -7,6 +7,7 @@ import ComputerIcon from '@mui/icons-material/Computer';
 import Box from '@mui/material/Box'
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle';
 import { Button, Container, Icon, IconButton, Link, Typography } from '@mui/material';
+import Link from 'next/link';
 
 
 export default function contact({ user, business }) {
@@ -23,45 +24,45 @@ export default function contact({ user, business }) {
                     display="flex"
                     justifyContent="space-evenly"
                 >
-                    {phone ? <Box display="flex" flexDirection="column" align='center'>
+                    {phone && <Box display="flex" flexDirection="column" align='center'>
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
                             color="inherit" href={`tel:${phone}`}>
                             <Box><AddIcCallIcon fontSize="large" /></Box>
                             <Box><Typography >تماس</Typography></Box>
                         </a>
-                    </Box> : ""}
-                    {email ? <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
+                    </Box>}
+                    {email && <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
                             color="inherit" key="Email" href={`mailto:${email}`}>
                             <Box><EmailIcon fontSize="large" /></Box>
                             <Box><Typography >ایمیل</Typography></Box>
 
                         </a>
-                    </Box> : ""}
-                    {personalPage ? <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
+                    </Box>}
+                    {personalPage && <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
                             color="inherit" target="_blank" href={personalPage}>
                             <Box><ComputerIcon fontSize="large" /></Box>
                             <Box><Typography >صفحه شخصی</Typography></Box>
 
                         </a>
-                    </Box> : ""}
-                    {instagram ? <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
-                        <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
-                            color="inherit" target="_blank" href={instagram}>
+                    </Box>}
+                    {instagram && <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
+                        <Link style={{ textDecoration: "none", color: "inherit" }} underline="none"
+                            color="inherit" target="_blank" href={instagram} passHref>
                             <Box><InstagramIcon fontSize="large" /></Box>
                             <Box><Typography >اینستاگرام</Typography></Box>
 
-                        </a>
-                    </Box> : ""}
-                    {geoLink ? <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
+                        </Link>
+                    </Box>}
+                    {geoLink && <Box sx={{ pr: 2 }} display="flex" flexDirection="column" align='center'>
                         <a style={{ textDecoration: "none", color: "inherit" }} underline="none"
                             color="inherit" target="_blank" href={geoLink}>
                             <Box><PersonPinCircleIcon fontSize="large" /></Box>
                             <Box><Typography >لوکیشن</Typography></Box>
 
                         </a>
-                    </Box> : ""}
+                    </Box>}
 
                 </Box>
             </Container >

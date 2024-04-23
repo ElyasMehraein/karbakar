@@ -24,7 +24,7 @@ function Business({ business, logedUserCode , bills}) {
             <Explain business={business} />
             <TableBusiness business={business} bills={bills} />
             <EmployeeList business={business} />
-            <WhatBusinessGet business={business} />
+            {/* <WhatBusinessGet business={business} /> */}
         </>
     )
 
