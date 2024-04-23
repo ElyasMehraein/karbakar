@@ -4,23 +4,20 @@ import AllBusinesses from "@/components/templates/allBusinesses/AllBusinesses";
 
 
 export default async function page() {
-try{
+  try {
 
     connectToDB()
-    const businesses = await BusinessModel.find({},"businessName bio businessBrand isAvatar")
-    
-    
+    const businesses = await BusinessModel.find({}, "businessName bio businessBrand isAvatar")
+
+
     return (
-        <AllBusinesses businesses={businesses} />
+      <AllBusinesses businesses={businesses} />
     )
-}catch(err){
+  } catch (err) {
     console.error('Error fetching businesses:', err);
     return (
-        <div>
-          <h1>An error occurred while fetching businesses.</h1>
-          <p>Please try again later.</p>
-        </div>
-      );
-}
+      notFound()
+    );
+  }
 
 }
