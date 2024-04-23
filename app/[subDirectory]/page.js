@@ -7,6 +7,7 @@ import BusinessModel from '@/models/Business'
 import Business from '@/components/templates/business/business'
 import UserModel from '@/models/User'
 import Profile from '@/components/templates/Profile/Profile'
+import { redirect } from 'next/navigation'
 
 
 export default async function subDirectory({ params }) {
@@ -14,14 +15,15 @@ export default async function subDirectory({ params }) {
   const token = cookies().get("token")?.value;
   const tokenPayLoad = verifyToken(token);
 
-  if (!tokenPayLoad) {
-    return redirect("/w");
-  }
   connectToDB()
-  const logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
-    { _id: tokenPayLoad.id },
-    "-_id code"
-  ))).code;
+  let logedUserCode = null;
+
+  if (tokenPayLoad) {
+    logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
+      { _id: tokenPayLoad.id },
+      "-_id code"
+    ))).code;
+  }
 
   if (isNaN(params.subDirectory)) {
 
