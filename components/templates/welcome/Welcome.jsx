@@ -69,7 +69,7 @@ export default function Wellcome() {
       body: JSON.stringify(phone)
     })
     if (SMSAnswer.status === 200) {
-      setSnackbarOpen(true)
+
     }
   }
   async function signup(phone, SMSCode) {
@@ -82,6 +82,7 @@ export default function Wellcome() {
       setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
       phoneError()
     } else if (res.status === 201) {
+      setSnackbarOpen(true)
       router.refresh()
     }
   }
@@ -93,7 +94,6 @@ export default function Wellcome() {
     if (activeStep === 0) {
       if (phoneFormatCheck(phone)) {
         sendOtpSMS(phone)
-        console.log(phone);
         setActiveStep(() => 1)
         console.log("code vase shomare", phone, "ersal shod");
       } else {
