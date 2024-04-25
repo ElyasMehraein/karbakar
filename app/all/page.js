@@ -1,7 +1,7 @@
 import connectToDB from "@/configs/db";
 import BusinessModel from "@/models/Business";
 import AllBusinesses from "@/components/templates/allBusinesses/AllBusinesses";
-
+import { notFound } from "next/navigation";
 
 export default async function page() {
   try {
