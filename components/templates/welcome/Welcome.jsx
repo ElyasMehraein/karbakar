@@ -15,9 +15,8 @@ import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import hands from "@/public/m-hands.png"
 import { useRouter } from "next/navigation";
-// import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"; ////uncomment after development
-const phoneFormatCheck = () => true //delete after development
-const SMSFormatCheck = () => true //delete after development
+import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"; 
+
 
 
 const steps = [
