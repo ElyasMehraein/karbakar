@@ -15,7 +15,8 @@ import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import hands from "@/public/m-hands.png"
 import { useRouter } from "next/navigation";
-import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"; 
+import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator";
+import { Alert, Snackbar } from "@mui/material";
 
 
 
@@ -43,7 +44,7 @@ const steps = [
 
 export default function Wellcome() {
   const router = useRouter()
-
+  const [snackbarOpen, setSnackbarOpen] = useState(false)
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = steps.length;
@@ -65,9 +66,11 @@ export default function Wellcome() {
     const SMSAnswer = await fetch('api/auth/sendsmsotp', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ phone })
+      body: JSON.stringify(phone)
     })
-    console.log("SMSAnswer=> ", SMSAnswer);
+    if (SMSAnswer.status === 200) {
+      setSnackbarOpen(true)
+    }
   }
   async function signup(phone, SMSCode) {
     const res = await fetch('api/auth/signup', {
@@ -75,12 +78,10 @@ export default function Wellcome() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone, SMSCode })
     })
-    console.log("response to sending sms is =>", res);
     if (res.status === 406) {
       setSMSOtpTextFieldErrorMessage("کد پیامکی وارد شده معتبر نیست")
       phoneError()
     } else if (res.status === 201) {
-      console.log("sabte nam ok shod hala bayad auto beri '/' ");
       router.refresh()
     }
   }
@@ -157,7 +158,7 @@ export default function Wellcome() {
                   changeSetValues(e.target.value);
                   setTextFieldError(false);
                 }}
-                sx={{ "& input::placeholder": { fontSize: "14px" }, width: "200px"  }}
+                sx={{ "& input::placeholder": { fontSize: "14px" }, width: "200px" }}
                 variant="outlined"
                 size="small"
                 id="outlined-textarea"
@@ -189,6 +190,14 @@ export default function Wellcome() {
                 </Button>
               }
             />
+            <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => location.reload()}>
+              <Alert
+                severity={"success"}
+                variant="filled"
+              >
+                "ثبت نام با موفقیت انجام شد لطفا چند ثانیه منتظر بمانید"
+              </Alert>
+            </Snackbar>
           </Box>
         )
       }

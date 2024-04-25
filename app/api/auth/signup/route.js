@@ -16,7 +16,7 @@ export async function POST(req, res) {
 
 
         if (!phone.trim() || !SMSCode.trim()) {
-            return Response.json({ message: "Entrance data is empty!" },{status:402})
+            return Response.json({ message: "Entrance data is empty!" },{status:405})
         }
         console.log("Entrance data is not empty");
 

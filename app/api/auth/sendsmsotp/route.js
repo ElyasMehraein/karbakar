@@ -1,10 +1,10 @@
 import { sendSMS } from "@/controllers/smsotp"
 
-export function POST(req, res) {
+export async function POST(req, res) {
     try {
-        const { phone } = req.body
+        const phone  = await req.json()
         sendSMS(phone)
         return Response.json({ message: 'sms sent' }, { status: 200 })
-    } catch (err) { Response.json({ message: 'smsotp error', smsotp }, { status: 500 }) }
+    } catch (err) { return Response.json({ message: 'smsotp error' }, { status: 500 }) }
 
 }

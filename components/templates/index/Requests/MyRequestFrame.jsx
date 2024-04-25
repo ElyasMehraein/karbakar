@@ -13,7 +13,6 @@ import Box from "@mui/material/Box";
 import Image from 'next/image'
 import { CardActionArea, Container } from "@mui/material";
 import ItsAvatar from "@/components/modules/ItsAvatar";
-import businessAvatar from "@/public/assets/businessAvatar.jpg";
 import ListItemButton from '@mui/material/ListItemButton';
 import SelectProvider from "./SelectProvider";
 import Accordion from '@mui/material/Accordion';
