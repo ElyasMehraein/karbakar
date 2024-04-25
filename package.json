@@ -19,7 +19,7 @@
     "@mui/material-nextjs": "^5.15.5",
     "cookie": "^0.6.0",
     "crypto": "^1.0.1",
-    "fastest-validator": "^1.17.0",
+    "fastest-validator": "^1.18.0",
     "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "leaflet-defaulticon-compatibility": "^0.1.2",
