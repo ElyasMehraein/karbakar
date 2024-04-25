@@ -7,12 +7,14 @@ import { grey } from '@mui/material/colors';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import LinearProgress from '@mui/material/LinearProgress';
+import { Alert, Snackbar } from '@mui/material';
 
 const color = grey[900];
 
 export default function EditHeader({ user, business }) {
   const userCodeOrBusinessBrand = user?.code || business?.businessName
   const [isLoading, setIsLoading] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [isHeader, setIsHeader] = useState(user?.isHeader || business?.isHeader);
   const [uploadeding, setUploadeding] = useState(false)
   useEffect(() => {
@@ -21,8 +23,15 @@ export default function EditHeader({ user, business }) {
   }, []);
 
   const handleHeaderUpload = async (event) => {
-    setUploadeding(true)
     const image = event.target.files[0];
+
+    if (!validateImageType(image)) {
+      setSnackbarOpen(true)
+      return;
+    }
+
+    setUploadeding(true)
+
     const formData = new FormData();
     formData.append('image', image);
     formData.append("imagePath", `headers/${userCodeOrBusinessBrand}.jpg`);
@@ -37,11 +46,17 @@ export default function EditHeader({ user, business }) {
         console.log('header Uploaded successfully');
         setIsHeader(true)
         location.reload()
-        setUploadeding(false)
       }
     } catch (error) {
       console.error('Error uploading header:', error);
+    } finally {
+      setUploadeding(false);
     }
+  };
+
+  const validateImageType = (image) => {
+    const acceptedTypes = ['image/jpeg']; // Only accept JPG
+    return acceptedTypes.includes(image.type);
   };
 
   return (
@@ -97,6 +112,15 @@ export default function EditHeader({ user, business }) {
         </Box>
       }
       {uploadeding && <LinearProgress />}
+      <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setSnackbarOpen(false)}>
+        <Alert
+          severity={"error"}
+          variant="filled"
+          sx={{ width: '100%' }}
+        >
+          فرمت تصویر بایستی JPG باشد
+        </Alert>
+      </Snackbar>
     </>
   )
 }
