@@ -5,14 +5,15 @@ import { notFound } from "next/navigation";
 
 export default async function page() {
   try {
-    connectToDB();
-    console.log("db connected for allBusinesses");
-    const businesses = JSON.parse(JSON.stringify(await BusinessModel.find({}, "businessName bio businessBrand isAvatar")));
-    console.log("allBusinesses data is", businesses);
+    // connectToDB();
+    // console.log("db connected for allBusinesses");
+    // const businesses = JSON.parse(JSON.stringify(await BusinessModel.find({}, "businessName bio businessBrand isAvatar")));
+    // console.log("allBusinesses data is", businesses);
 
 
     return (
-      <AllBusinesses businesses={businesses} />
+      // <AllBusinesses businesses={businesses} />
+      <h1>تست</h1>
     );
   } catch (err) {
     console.error('Error fetching businesses:', err);
