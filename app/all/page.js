@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 export default async function page() {
   try {
     connectToDB();
-    const businesses =JSON.parse(JSON.stringify( await BusinessModel.find({}, "businessName bio businessBrand isAvatar")));
+    const businesses = JSON.parse(JSON.stringify(await BusinessModel.find({}, "businessName bio businessBrand isAvatar")));
 
 
     return (
@@ -14,7 +14,7 @@ export default async function page() {
     );
   } catch (err) {
     console.error('Error fetching businesses:', err);
-    return notFound();
+    // return notFound();
   }
 }
 
