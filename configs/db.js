@@ -1,12 +1,11 @@
 const { default: mongoose } = require("mongoose");
 
-export default connectToDB;
 
 const connectToDB = async () => {
   if (mongoose.connections[0].readyState) {
     return true;
   }
-
+  
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log("Connect To DB Successfully :))");
@@ -15,3 +14,4 @@ const connectToDB = async () => {
     throw err;
   }
 };
+export default connectToDB;
