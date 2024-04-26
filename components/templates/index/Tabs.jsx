@@ -147,7 +147,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       </Box>
       <Container sx={{ position: "relative", height: "80%" }}>
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
-          {user ?
+          {user.businesses[0] ?
             <OthersRequest user={user} distinctGuilds={distinctGuilds} />
             :
             <OthersRequestForGusts />
