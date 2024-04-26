@@ -8,61 +8,67 @@ import Business from '@/components/templates/business/business'
 import UserModel from '@/models/User'
 import Profile from '@/components/templates/Profile/Profile'
 import { redirect } from 'next/navigation'
-
-
+import { POST } from '../api/auth/logout/route';
 export default async function subDirectory({ params }) {
 
-  const token = cookies().get("token")?.value;
-  const tokenPayLoad = verifyToken(token);
+  try {
+    const token = cookies().get("token")?.value;
+    const tokenPayLoad = verifyToken(token);
 
-  connectToDB()
-  let logedUserCode = null;
+    connectToDB()
+    let logedUserCode = null;
 
-  if (tokenPayLoad) {
-    logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
-      { _id: tokenPayLoad.id },
-      "-_id code"
-    ))).code;
-  }
-
-  if (isNaN(params.subDirectory)) {
-
-    const business = JSON.parse(JSON.stringify(await BusinessModel.findOne({
-      businessName: params.subDirectory
-    }).populate("workers")));
-
-    if (!business) {
-      console.log("business not found in DB");
-      notFound()
+    if (tokenPayLoad) {
+      logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
+        { _id: tokenPayLoad.id },
+        "-_id code"
+      ))).code;
     }
 
-    const bills = JSON.parse(JSON.stringify(await BillModel.find({
-      from: business._id,
-      isAccept: true
-    }).populate("to")));
+    if (isNaN(params.subDirectory)) {
 
+      const business = JSON.parse(JSON.stringify(await BusinessModel.findOne({
+        businessName: params.subDirectory
+      }).populate("workers")));
+
+      if (!business) {
+        console.log("business not found in DB");
+        notFound()
+      }
+
+      const bills = JSON.parse(JSON.stringify(await BillModel.find({
+        from: business._id,
+        isAccept: true
+      }).populate("to")));
+
+      return (
+        <Business business={business}
+          logedUserCode={logedUserCode}
+          bills={bills}
+        />
+      )
+
+    }
+
+
+
+    const user = JSON.parse(JSON.stringify(await UserModel.findOne(
+      { code: params.subDirectory },
+    ).populate("businesses")))
+
+    if (!user) {
+      console.log("user not found in DB");
+      notFound()
+    }
     return (
-      <Business business={business}
+      <Profile user={user}
         logedUserCode={logedUserCode}
-        bills={bills}
       />
     )
+  } catch (err) {
+    console.error('server error in subDirectory:', err);
+    POST()
+    redirect("/w");
   }
-
-
-
-  const user = JSON.parse(JSON.stringify(await UserModel.findOne(
-    { code: params.subDirectory },
-  ).populate("businesses")))
-
-  if (!user) {
-    console.log("user not found in DB");
-    notFound()
-  }
-  return (
-    <Profile user={user}
-      logedUserCode={logedUserCode}
-    />
-  )
 }
 

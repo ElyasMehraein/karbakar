@@ -10,13 +10,12 @@ import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 
 import ItsAvatar from '@/components/modules/ItsAvatar'
-import dynamic from 'next/dynamic'
-const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
+// import dynamic from 'next/dynamic'
+// const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
 
 
 export default function AllBusinesses({ businesses }) {
     const router = useRouter()
-
     const [expanded, setExpanded] = useState(false);
 
     return (
@@ -41,7 +40,7 @@ export default function AllBusinesses({ businesses }) {
                             <AllBusinessesText />
                         </AccordionDetails>
                     </Accordion>
-                    {businesses.map((business) => {
+                    {businesses ? businesses.map((business) => {
                         return (
                             <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                                 <ListItem>
@@ -56,7 +55,9 @@ export default function AllBusinesses({ businesses }) {
                                 </ListItem>
                             </List>
                         )
-                    })}
+                    }) :
+                        <Typography>کسب و کاری برای نمایش وجود ندارد </Typography>
+                    }
                 </Box>
             </Container>
         </>
