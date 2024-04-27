@@ -71,7 +71,9 @@ const OthersRequestForGusts = () => {
           onClick={() => setExpanded(!expanded)}
           icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
         />
-        <Typography fontSize={14}>برای مشاهده جزئیات درخواست ها ثبت نام کنید و وارد سایت شوید و یک کسب و کار ایجاد نمایید</Typography>
+        <Typography fontSize={14}>
+          مشاهده جزئیات درخواست تنها برای اعضا صنف تامین کننده امکانپذیر است
+        </Typography>
 
         <AccordionDetails>
         </AccordionDetails>
