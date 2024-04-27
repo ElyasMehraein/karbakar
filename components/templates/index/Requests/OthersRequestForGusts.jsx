@@ -23,7 +23,7 @@ const StyledTypography = styled(Typography)(({ theme }) => ({
 }));
 
 const OthersRequestForGusts = () => {
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(true);
   const [data, setData] = useState(null)
   const [isLoading, setIsLoading] = useState(true);
 
