@@ -164,7 +164,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
           {
             fabIndex === 2 ?
-              <CreateBill user={user} />
+              <CreateBill user={user} fabHandler={fabHandler} />
               :
               <Bill bills={bills} user={user} />
           }
