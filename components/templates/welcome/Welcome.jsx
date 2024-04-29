@@ -15,7 +15,7 @@ import TextField from "@mui/material/TextField";
 import { useState, useEffect } from "react";
 import hands from "@/public/m-hands.png"
 import { useRouter } from "next/navigation";
-import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/validator";
+import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/validators";
 import { Alert, Snackbar } from "@mui/material";
 
 
