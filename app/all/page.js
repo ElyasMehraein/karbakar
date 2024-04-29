@@ -9,7 +9,8 @@ export default async function page() {
 
 
     return (
-      <AllBusinesses businesses={businesses} />
+      // <AllBusinesses businesses={businesses} />
+      <h1 className="inMiddle">تست</h1>
     );
   } catch (err) {
     
