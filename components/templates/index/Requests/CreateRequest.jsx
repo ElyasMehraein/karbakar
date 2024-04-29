@@ -109,7 +109,7 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
                 <Typography sx={{ my: 5, fontSize: '16px', fontWeight: "bold" }} variant="body1" color="text.primary">
                   ایجاد درخواست جدید
                 </Typography>
-                <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} />
+                <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} TextFieldText={"صنف تامین کننده تقاضای شما"} />
                 <TextField
                   id="requestTitle"
                   label="عنوان درخواست"

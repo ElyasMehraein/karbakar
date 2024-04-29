@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 const filter = createFilterOptions();
 
-export default function Guild({ updateGuildname, distinctGuilds, user }) {
+export default function Guild({ updateGuildname, distinctGuilds, user,TextFieldText }) {
   const primeJobguildname = user?.businesses.find((business) => business._id === user.primeJob)?.guildname
 
 
@@ -65,7 +65,7 @@ export default function Guild({ updateGuildname, distinctGuilds, user }) {
       fullWidth
       renderInput={(params) => (
 
-        <TextField {...params} label="انتخاب صنف" />
+        <TextField {...params} label={TextFieldText} />
       )}
     />
 

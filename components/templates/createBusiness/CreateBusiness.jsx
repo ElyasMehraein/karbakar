@@ -67,19 +67,19 @@ export default function createBusiness({ distinctGuilds }) {
                         my: 3
                     }}
                     display="flex" flexDirection="column">
-                    <Typography sx={{fontSize:12}} >یک نام برای کسب و کار خودانتخاب کنید</Typography>
+                    <Typography sx={{fontSize:12}} >یک ID لاتین برای کسب و کار خود انتخاب کنید</Typography>
                     <TextField
                         required
                         size='small'
                         error={snackbarError}
                         sx={{ my: 3 }}
                         placeholder='حداکثر 30 کارکتر' variant="outlined"
-                        label="نام کسب و کار"
+                        label="برند کسب و کار شما"
                         onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
                     />
                     <Typography sx={{ py: 1, textAlign: "center" ,fontSize:12 }}>{selectGuild}</Typography>
 
-                    <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} />
+                    <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} TextFieldText={"صنف شما"} />
                     <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildname)} variant="contained">
                         ایجاد کسب و کار
                     </Button>
