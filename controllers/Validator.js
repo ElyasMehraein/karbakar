@@ -1,4 +1,4 @@
-import Validator from "fastest-validator";
+const Validator = require("fastest-validator");
 const v = new Validator();
 
 
