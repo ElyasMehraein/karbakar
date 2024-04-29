@@ -1,14 +1,11 @@
 import connectToDB from "@/configs/db";
 import BusinessModel from "@/models/Business";
 import AllBusinesses from "@/components/templates/allBusinesses/AllBusinesses";
-import { notFound } from "next/navigation";
 
 export default async function page() {
   try {
     await connectToDB();
-    console.log("db connected for allBusinesses");
     const businesses = JSON.parse(JSON.stringify(await BusinessModel.find({}, "businessName bio businessBrand isAvatar")));
-    console.log("allBusinesses data is", businesses);
 
 
     return (
@@ -17,7 +14,6 @@ export default async function page() {
   } catch (err) {
     
     console.error('Error fetching businesses:', err);
-    // return notFound();
   }
 }
 
