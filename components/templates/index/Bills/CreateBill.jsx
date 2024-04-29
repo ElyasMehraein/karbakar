@@ -24,10 +24,11 @@ export default function CreateBill({ user, fabHandler }) {
   const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
   const [amount, setAmount] = React.useState("")
   const [bills, setbills] = React.useState([])
-  const [customerCode, setCustomerCode] = React.useState([])
+  const [customerCode, setCustomerCode] = React.useState("")
 
   const addToBills = () => {
     setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
+    setSelectedProduct("")
     setUnitOfMeasurement("")
     setAmount("")
   }
@@ -42,12 +43,12 @@ export default function CreateBill({ user, fabHandler }) {
 
   const handleSnackbarClose = () => {
     setOpenSnackbar(false);
+    // fabHandler();
   };
   const handleShowSnackbar = () => {
     setOpenSnackbar(true);
   };
   async function createThisBill(selectedBusiness, customerCode, bills) {
-    fabHandler();
     setIsLoading(true);
     const res = await fetch('api/createBill', {
       method: "POST",
@@ -62,19 +63,18 @@ export default function CreateBill({ user, fabHandler }) {
       setIsLoading(false)
     } else if (res.status === 404) {
       setOpenSnackbar404Error(true)
+      setIsLoading(false)
     } else if (res.status === 406) {
       setOpenSnackbarError(true)
+      setIsLoading(false)
     } else if (res.status === 407) {
       setOpenSnackbar407Error(true)
+      setIsLoading(false)
     }
   }
   const [expanded, setExpanded] = React.useState(false);
   return (
-    <Container maxWidth="md">
-
-      {/* <Box className="inMiddle">
-        <CircularProgress />
-      </Box>: */}
+    <Container maxWidth="md" sx={{ pb: 5 }}>
       <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
         <Chip
           label="راهنمایی"
@@ -106,13 +106,13 @@ export default function CreateBill({ user, fabHandler }) {
       />
       <CustomSnackbar
         open={openSnackbar404Error}
-        onClose={() => setOpenSnackbarError(false)}
+        onClose={() => setOpenSnackbar404Error(false)}
         message="کاربر یافت نشد کد کاربری را مجدد بررسی نمایید"
         severity="error"
       />
       <CustomSnackbar
         open={openSnackbar407Error}
-        onClose={() => setOpenSnackbarError(false)}
+        onClose={() => setOpenSnackbar407Error(false)}
         message="کاربر انتخاب شده فاقد کسب و کار اصلی است"
         severity="error"
       />
@@ -186,6 +186,7 @@ export default function CreateBill({ user, fabHandler }) {
                         sx={{ mt: 2 }}
                         children={"اضافه نمودن به فاکتور"}
                         variant="contained"
+                        disabled={selectedProduct && unitOfMeasurement && amount ? false : true}
                         onClick={addToBills}
                       />
                       {bills[0] &&
@@ -204,6 +205,7 @@ export default function CreateBill({ user, fabHandler }) {
                           />
                           < Button
                             sx={{ mt: 2 }}
+                            disabled={customerCode ? false : true}
                             children={"ارسال صورتحساب"}
                             variant="contained"
                             onClick={() => createThisBill(selectedBusiness, customerCode, bills)}

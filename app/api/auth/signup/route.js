@@ -3,7 +3,7 @@ import connectToDb from "@/configs/db"
 import { createHash } from "crypto";
 import { SMSOtpvalidator } from "@/controllers/smsotp.js"
 import jwt from "jsonwebtoken";
-import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/Validator"
+import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/validator"
 import { cookies } from 'next/headers'
 
 
