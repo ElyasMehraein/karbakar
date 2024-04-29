@@ -17,7 +17,7 @@ function Profile({ user, logedUserCode }) {
             <Bio user={user} />
             <Contact user={user} />
             <Explain user={user} />
-            {user & <UserJobs user={user} />}
+            {user ? <UserJobs user={user} /> : null}
         </>
 
     )
