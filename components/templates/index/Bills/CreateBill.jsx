@@ -4,12 +4,15 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
-import { Accordion, AccordionDetails, Chip, Container } from "@mui/material";
+import { Accordion, AccordionDetails, Chip, CircularProgress, Container } from "@mui/material";
 import CreateBillFrame from "./CreateBillFrame";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
-export default function CreateBill({ user }) {
+export default function CreateBill({ user, fabHandler }) {
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const userBusinesses = user.businesses.map(business => {
     if (business.agentCode == user.code) {
@@ -44,6 +47,8 @@ export default function CreateBill({ user }) {
     setOpenSnackbar(true);
   };
   async function createThisBill(selectedBusiness, customerCode, bills) {
+    fabHandler();
+    setIsLoading(true);
     const res = await fetch('api/createBill', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
@@ -54,6 +59,7 @@ export default function CreateBill({ user }) {
     } else if (res.status === 201) {
       console.log("bill signed successfully");
       handleShowSnackbar()
+      setIsLoading(false)
     } else if (res.status === 404) {
       setOpenSnackbar404Error(true)
     } else if (res.status === 406) {
@@ -65,6 +71,10 @@ export default function CreateBill({ user }) {
   const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md">
+
+      {/* <Box className="inMiddle">
+        <CircularProgress />
+      </Box>: */}
       <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
         <Chip
           label="راهنمایی"
@@ -110,82 +120,100 @@ export default function CreateBill({ user }) {
         {user ?
           <>
             {userBusinesses[0] ?
-              <>
-                <Typography sx={{ m: 1 }}>ایجاد صورتحساب</Typography>
-                <Autocomplete
-                  blurOnSelect
-                  id="combo-box-demo"
-                  options={userBusinesses}
-                  sx={{ m: 2, width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
-                  onChange={(e, value) => setSelectedBusiness(value)}
-                />
-                {selectedBusiness &&
-                  <>
-                    {selectedBusiness.products ?
+              isLoading ? <Box className="inMiddle">
+                <CircularProgress />
+              </Box>
 
-                      <modulesAutocomplete optionsArray={products} label={"انتخاب محصول"} addMessage={"ایجاد محصول جدید"} onChangeHandler={(inputValue) => setSelectedProduct(inputValue)} />
-                      :
-                      <>
-                        <TextField
-                          value={selectedProduct}
+                :
+                <>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      // justifyContent:"space-around",
+                      width: "100%"
+                    }}
+                  >
+                    <Typography sx={{ mr: 5, mt: 1 }}>ایجاد صورتحساب</Typography>
+                    <IconButton aria-label="settings" onClick={() => fabHandler()}>
+                      <CloseIcon />
+                    </IconButton>
+                  </Box>
 
-                          placeholder='حداکثر 30 کارکتر' variant="outlined"
-                          label="محصولی که ارائه نموده اید"
-                          onChange={(e) => setSelectedProduct(e.target.value)}
-                          sx={{ width: 300 }}
-                        />
-                        <TextField
-                          value={unitOfMeasurement}
+                  <Autocomplete
+                    blurOnSelect
+                    id="combo-box-demo"
+                    options={userBusinesses}
+                    sx={{ m: 2, width: 300 }}
+                    renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
+                    onChange={(e, value) => setSelectedBusiness(value)}
+                  />
+                  {selectedBusiness &&
+                    <>
+                      {selectedBusiness.products ?
 
-                          placeholder="مثلا کیلوگرم یا عدد" variant="outlined"
-                          label="واحد اندازه گیری"
-                          onChange={(e) => setUnitOfMeasurement(e.target.value)}
-                          sx={{ mt: 2, width: 300 }}
-                        />
-                      </>
-                    }
-                    <TextField
-                      value={amount}
-                      placeholder="مثلا 5" variant="outlined"
-                      label="مقدار"
-                      onChange={(e) => setAmount(e.target.value)}
-                      sx={{ mt: 2, width: 300 }}
-                      type="number"
-                    />
+                        <modulesAutocomplete optionsArray={products} label={"انتخاب محصول"} addMessage={"ایجاد محصول جدید"} onChangeHandler={(inputValue) => setSelectedProduct(inputValue)} />
+                        :
+                        <>
+                          <TextField
+                            value={selectedProduct}
 
-                    <Button
-                      sx={{ mt: 2 }}
-                      children={"اضافه نمودن به فاکتور"}
-                      variant="contained"
-                      onClick={addToBills}
-                    />
-                    {bills[0] &&
-                      <>
-                        {bills.map(bill => {
-                          return <CreateBillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
+                            placeholder='حداکثر 30 کارکتر' variant="outlined"
+                            label="محصولی که ارائه نموده اید"
+                            onChange={(e) => setSelectedProduct(e.target.value)}
+                            sx={{ width: 300 }}
+                          />
+                          <TextField
+                            value={unitOfMeasurement}
 
-                        })
-                        }
-                        <TextField
-                          value={customerCode}
-                          placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
-                          label=" کد کاربری مشتری"
-                          onChange={(e) => setCustomerCode(e.target.value)}
-                          sx={{ mt: 2, width: 300 }}
-                        />
-                        < Button
-                          sx={{ mt: 2 }}
-                          children={"ارسال صورتحساب"}
-                          variant="contained"
-                          onClick={() => createThisBill(selectedBusiness, customerCode, bills)}
-                        />
+                            placeholder="مثلا کیلوگرم یا عدد" variant="outlined"
+                            label="واحد اندازه گیری"
+                            onChange={(e) => setUnitOfMeasurement(e.target.value)}
+                            sx={{ mt: 2, width: 300 }}
+                          />
+                        </>
+                      }
+                      <TextField
+                        value={amount}
+                        placeholder="مثلا 5" variant="outlined"
+                        label="مقدار"
+                        onChange={(e) => setAmount(e.target.value)}
+                        sx={{ mt: 2, width: 300 }}
+                        type="number"
+                      />
 
-                      </>
-                    }
-                  </>
-                }
-              </>
+                      <Button
+                        sx={{ mt: 2 }}
+                        children={"اضافه نمودن به فاکتور"}
+                        variant="contained"
+                        onClick={addToBills}
+                      />
+                      {bills[0] &&
+                        <>
+                          {bills.map(bill => {
+                            return <CreateBillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
+
+                          })
+                          }
+                          <TextField
+                            value={customerCode}
+                            placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
+                            label=" کد کاربری مشتری"
+                            onChange={(e) => setCustomerCode(e.target.value)}
+                            sx={{ mt: 2, width: 300 }}
+                          />
+                          < Button
+                            sx={{ mt: 2 }}
+                            children={"ارسال صورتحساب"}
+                            variant="contained"
+                            onClick={() => createThisBill(selectedBusiness, customerCode, bills)}
+                          />
+
+                        </>
+                      }
+                    </>
+                  }
+                </>
               :
               <Typography color="error">
                 ارسال صورتحساب تنها توسط نماینده کسب و کار امکانپذیر است
