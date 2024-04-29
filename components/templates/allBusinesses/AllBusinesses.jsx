@@ -1,14 +1,11 @@
 "use client"
-import { Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material'
-import MyAppBar from '@/components/modules/MyAppBar'
+import { AppBar, Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Guild from "@/components/modules/Guild"
 import { AllBusinessesText, selectGuild } from '@/components/typoRepo';
-import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
-
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ItsAvatar from '@/components/modules/ItsAvatar'
 // import dynamic from 'next/dynamic'
 // const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
@@ -17,11 +14,30 @@ import ItsAvatar from '@/components/modules/ItsAvatar'
 export default function AllBusinesses({ businesses }) {
     const router = useRouter()
     const [expanded, setExpanded] = useState(false);
-
+    const goToIndex = () => {
+        router.push("/")
+    }
     return (
 
         <>
-            <MyAppBar business={null} logedUserCode={null} whichUserProfile={null} />
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                    <Toolbar>
+                        <Button
+                            size="large"
+                            edge="start"
+                            color="inherit"
+                            aria-label="menu"
+                            onClick={goToIndex}
+                        >
+                            <ArrowForwardIcon />
+                            <Typography sx={{ mx: 1 }} component="div" >
+                                بازگشت
+                            </Typography>
+                        </Button>
+                    </Toolbar>
+                </AppBar>
+            </Box>
             <Container maxWidth="md">
                 <Box className='inMiddle'
                     sx={{
