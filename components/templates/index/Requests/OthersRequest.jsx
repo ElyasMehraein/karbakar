@@ -105,9 +105,6 @@ export default function OthersRequest({ user, distinctGuilds }) {
           const isAlredyAccepted = request.acceptedBy.some((acceptor) => {
             return acceptor === user.primeJob
           })
-          const isAlredyAskedForMoreInfo = request.needMoreInfo.some((infoSeeker) => {
-            return infoSeeker === user.primeJob
-          })
           return (
             <Accordion key={request._id} sx={{bgcolor : blue[50]}} >
               <AccordionSummary
@@ -139,7 +136,6 @@ export default function OthersRequest({ user, distinctGuilds }) {
               <AccordionActions>
                 {isUserAreBusinessAgent &&
                   <>
-                    <Button disabled={isAlredyAskedForMoreInfo} onClick={() => acceptOrAskForMoreInfo("askForMoreInfo", request._id)} sx={{ ml: 4 }} variant="outlined">درخواست اطلاعات بیشتر</Button>
                     <Button disabled={isAlredyAccepted} onClick={() => acceptOrAskForMoreInfo("accept", request._id)} variant="outlined">تایید درخواست</Button>
                   </>
 
