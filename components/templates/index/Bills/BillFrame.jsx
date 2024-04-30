@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import Typography from "@mui/material/Typography";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import { Container } from "@mui/material";
+import { CardActionArea, Container } from "@mui/material";
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -13,11 +13,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import BillProductFrame from './BillProductFrame';
+import { useRouter } from 'next/navigation';
+import { Suspense } from 'react'
 
 export default function BillFrame({ user, bill }) {
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
     const [snackbarReject, setSnackbarReject] = React.useState(false);
     const [snackbarServerError, setSnackbarServerError] = React.useState(false);
+    const router = useRouter()
 
     const saveHandler = async () => {
         let billId = bill._id
@@ -53,16 +56,21 @@ export default function BillFrame({ user, bill }) {
             <Container maxWidth="md">
                 <Box >
                     <Card sx={{ my: 1, bgcolor: "#e3f2fd" }}>
-                        <CardHeader
-                            avatar={
-                                <Avatar sx={{ ml: 1 }}>
-                                    <ItsAvatar isAvatar={bill.from.isAvatar} userCodeOrBusinessBrand={bill.from.businessName} />
-                                </Avatar>
-                            }
-                            title={bill.from.businessBrand}
-                            subheader={bill.from.businessName}
+                        <Suspense fallback={<p>Loading feed...</p>}>
 
-                        />
+                            <CardActionArea onClick={() => router.push(`/${bill.from.businessName}`)}>
+
+                                <CardHeader
+                                    avatar={
+                                        <Avatar sx={{ ml: 1 }}>
+                                            <ItsAvatar isAvatar={bill.from.isAvatar} userCodeOrBusinessBrand={bill.from.businessName} />
+                                        </Avatar>
+                                    }
+                                    title={bill.from.businessBrand}
+                                    subheader={bill.from.businessName}
+                                />
+                            </CardActionArea>
+                        </Suspense>
 
                         <CardContent >
                             {bill.products.map(product => {
