@@ -1,6 +1,6 @@
 "use client"
 import { AppBar, Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AllBusinessesText, selectGuild } from '@/components/typoRepo';
 import { Accordion, AccordionDetails, Chip } from "@mui/material";
@@ -14,11 +14,16 @@ import ItsAvatar from '@/components/modules/ItsAvatar'
 export default function AllBusinesses({ businesses }) {
     const router = useRouter()
     const [expanded, setExpanded] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
     const goToIndex = () => {
         router.push("/")
     }
-    return (
 
+    return (mounted &&
         <>
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static">
