@@ -92,7 +92,7 @@ const MyRequestFrame = ({ request }) => {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText align='right' primary={acceptor.businessName} secondary={acceptor.businessBrand} />
-                                    <Typography sx={{ color: 'text.secondary' }}>{acceptor.bio}</Typography>
+                                    <Typography sx={{pr:5, color: 'text.secondary' }}>{acceptor.bio}</Typography>
                                 </ListItemButton>
                             </Box>
                     ))}
