@@ -46,10 +46,10 @@ export default function OthersRequest({ user, distinctGuilds }) {
   const userNonPrimeJobBusinesses = user.businesses.filter(
     (business) => business._id !== user.primeJob
   );
-  
+
   const userPrimeJobBusinessGuild = userPrimeJobBusinesses.map((business) => business.guildname)
   const userNonPrimeJobBusinessesGuilds = userNonPrimeJobBusinesses.map((business) => business.guildname)
-  const userBusinessesGuilds = [...userPrimeJobBusinessGuild,...userNonPrimeJobBusinessesGuilds]
+  const userBusinessesGuilds = [...userPrimeJobBusinessGuild, ...userNonPrimeJobBusinessesGuilds]
 
   useEffect(() => {
     const getRequests = async () => {
@@ -77,11 +77,11 @@ export default function OthersRequest({ user, distinctGuilds }) {
     return Number(business.agentCode) === user.code
   })
 
-  async function acceptOrAskForMoreInfo(MyAnswer, requestID) {
-    const res = await fetch('api/requests/acceptOrAskForMoreInfo', {
+  async function acceptRequest(requestID) {
+    const res = await fetch('api/requests/acceptRequest', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ MyAnswer, requestID })
+      body: JSON.stringify({ requestID })
     })
     if (res.status === 500) {
       console.log("server error", res);
@@ -98,7 +98,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
     const uniqueGuilds = [...new Set(requests.map((request) => request.guild))];
     return uniqueGuilds.map((guild) => (
       <Box key={guild}>
-        <Divider sx={{ mb: 1, fontSize: '12px' ,fontWeight: 'bold'}} className={"text-extrabold"} textAlign="left">
+        <Divider sx={{ mb: 1, fontSize: '12px', fontWeight: 'bold' }} className={"text-extrabold"} textAlign="left">
           {guild}
         </Divider>
         {requests.filter((request) => request.guild === guild).map((request) => {
@@ -106,7 +106,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
             return acceptor === user.primeJob
           })
           return (
-            <Accordion key={request._id} sx={{bgcolor : blue[50]}} >
+            <Accordion key={request._id} sx={{ bgcolor: blue[50] }} >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel3-content"
@@ -136,7 +136,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
               <AccordionActions>
                 {isUserAreBusinessAgent &&
                   <>
-                    <Button disabled={isAlredyAccepted} onClick={() => acceptOrAskForMoreInfo("accept", request._id)} variant="outlined">تایید درخواست</Button>
+                    <Button disabled={isAlredyAccepted} onClick={() => acceptRequest(request._id)} variant="outlined">تایید درخواست</Button>
                   </>
 
                 }

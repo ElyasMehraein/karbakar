@@ -7,7 +7,7 @@ import { GET } from "@/app/api/auth/me/route"
 export async function POST(req) {
     const response = await GET(req)
     const user = await response.json()
-    const { MyAnswer, requestID } = await req.json()
+    const { requestID } = await req.json()
 
     const userPrimeJobBusiness = await BusinessModel.findOne({ _id: user.primeJob })
 
@@ -22,8 +22,10 @@ export async function POST(req) {
                 { message: "you are not business Agent" },
                 { status: 406 })
         }
-        const update = MyAnswer === 'accept' ? { acceptedBy: user.primeJob } : { needMoreInfo: user.primeJob };
-        await RequestModel.findOneAndUpdate({ _id: requestID }, update)
+        const Request = await RequestModel.findOne({ _id: requestID })
+        Request.acceptedBy.addToSet(user.primeJob)
+        await Request.save();
+        
         return Response.json(
             { message: "your answer added to the Request" },
             { status: 201 }

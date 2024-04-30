@@ -83,21 +83,20 @@ const MyRequestFrame = ({ request }) => {
             </AccordionSummary>
             {
                 < AccordionDetails >
-                    {request.acceptedBy?.map((acceptor) => {
-                        return (
+                    {request.acceptedBy?.map((acceptor) => (
                             <Box key={acceptor._id}>
-                                <ListItemButton  onClick={() => router.push(`/${acceptor.businessName}`)}>
+                                <ListItemButton onClick={() => router.push(`/${acceptor.businessName}`)}>
                                     <ListItemAvatar >
                                         <Avatar sx={{ width: 40, height: 40 }}>
                                             <ItsAvatar isAvatar={acceptor.isAvatar} userCodeOrBusinessBrand={acceptor.businessName} alt="workers avatar" />
                                         </Avatar>
                                     </ListItemAvatar>
-                                    <ListItemText align='right' primary={request.requesterBusiness.businessName} secondary={request.requesterBusiness.businessBrand} />
+                                    <ListItemText align='right' primary={acceptor.businessName} secondary={acceptor.businessBrand} />
+                                    <Typography sx={{ color: 'text.secondary' }}>{acceptor.bio}</Typography>
                                 </ListItemButton>
-                                <Typography sx={{ color: 'text.secondary' }}>{request.requesterBusiness.bio}</Typography>
                             </Box>
-                        )
-                    })}
+                    ))}
+                
                 </AccordionDetails>
             }
         </Accordion>
