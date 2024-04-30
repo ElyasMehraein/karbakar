@@ -54,15 +54,15 @@ export default function MyRequests() {
               هیچ درخواستی یافت نشد
             </Typography>
           )}
-          {requests.some(request => request.acceptedBy) && (
+          {requests.some(request => request.acceptedBy[0]) && (
             <Divider sx={{ fontWeight: 'bold' }} textAlign="center">
               درخواست های دارای تایید اولیه
             </Divider>
           )
           }
           {requests.map((request) => (
-           request.acceptedBy[0] &&
-            <MyRequestFrame request={request} />
+            request.acceptedBy[0] &&
+          <MyRequestFrame request={request} key={request._id}/>
           ))
           }
           {requests.some(request => !request.acceptedBy[0]) && (

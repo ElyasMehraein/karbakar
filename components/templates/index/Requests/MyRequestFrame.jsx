@@ -21,10 +21,11 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { blue } from '@mui/material/colors';
+import { useRouter } from "next/navigation";
 
 
 const MyRequestFrame = ({ request }) => {
-    console.log("request", request);
+    const router = useRouter()
     return (
         <Accordion sx={{ bgcolor: blue[50], my: 1 }} >
             <AccordionSummary
@@ -71,7 +72,7 @@ const MyRequestFrame = ({ request }) => {
                     <AvatarGroup dir="ltr" max={4}>
                         {request.acceptedBy?.map((acceptor) => {
                             return (
-                                <Avatar key={acceptor}>
+                                <Avatar key={acceptor._id}>
                                     <ItsAvatar isAvatar={acceptor.isAvatar} userCodeOrBusinessBrand={acceptor.businessName} alt=" avatar" />
                                 </Avatar>
                             )
@@ -84,8 +85,8 @@ const MyRequestFrame = ({ request }) => {
                 < AccordionDetails >
                     {request.acceptedBy?.map((acceptor) => {
                         return (
-                            <>
-                                <ListItemButton key={acceptor} onClick={() => router.push(`/${request.requesterBusiness.businessName}`)}>
+                            <Box key={acceptor._id}>
+                                <ListItemButton  onClick={() => router.push(`/${acceptor.businessName}`)}>
                                     <ListItemAvatar >
                                         <Avatar sx={{ width: 40, height: 40 }}>
                                             <ItsAvatar isAvatar={acceptor.isAvatar} userCodeOrBusinessBrand={acceptor.businessName} alt="workers avatar" />
@@ -94,7 +95,7 @@ const MyRequestFrame = ({ request }) => {
                                     <ListItemText align='right' primary={request.requesterBusiness.businessName} secondary={request.requesterBusiness.businessBrand} />
                                 </ListItemButton>
                                 <Typography sx={{ color: 'text.secondary' }}>{request.requesterBusiness.bio}</Typography>
-                            </>
+                            </Box>
                         )
                     })}
                 </AccordionDetails>
