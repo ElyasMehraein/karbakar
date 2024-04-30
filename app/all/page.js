@@ -1,7 +1,7 @@
 import connectToDB from "@/configs/db";
 import BusinessModel from "@/models/Business";
-import AllBusinesses from "@/components/templates/allBusinesses/AllBusinesses";
-
+import dynamic from 'next/dynamic'
+const AllBusinesses = dynamic(() => import("@/components/templates/allBusinesses/AllBusinesses"))
 
 const page = async function () {
   try {
