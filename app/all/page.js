@@ -1,6 +1,7 @@
 // import connectToDB from "@/configs/db";
 // import BusinessModel from "@/models/Business";
 // import AllBusinesses from "@/components/templates/allBusinesses/AllBusinesses";
+import CreateBusiness from "@/components/templates/createBusiness/CreateBusiness";
 
 export default async function page() {
   // try {
@@ -10,7 +11,9 @@ export default async function page() {
 
     return (
       // <AllBusinesses businesses={businesses} />
-      <h1 className="inMiddle">تست</h1>
+      // <h1 className="inMiddle">تست</h1>
+      <CreateBusiness />
+
     );
   // } catch (err) {
     
