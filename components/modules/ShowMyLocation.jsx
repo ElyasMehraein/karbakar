@@ -16,7 +16,7 @@ import "leaflet-defaulticon-compatibility"
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Container } from "@mui/material";
 
-export default function EditLocation() {
+export default function EditLocation({setLocation}) {
     const [latitude, setLatitude] = React.useState("")
     const [longitude, setLongitude] = React.useState("")
     const [position, setPosition] = React.useState()
@@ -66,6 +66,7 @@ export default function EditLocation() {
             setPosition([latitude, longitude])
             setSuccess(true);
             setLoading(false);
+            setLocation(latitude, longitude)
         }
     }, [latitude, longitude]);
 

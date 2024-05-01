@@ -7,15 +7,24 @@ import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ItsAvatar from '@/components/modules/ItsAvatar'
-// import dynamic from 'next/dynamic'
-// const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
+import dynamic from 'next/dynamic'
+const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
 
 
 export default function AllBusinesses() {
+
   const router = useRouter()
   const [expanded, setExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [businesses, setBusinesses] = useState(false);
+  const [latitude, setLatitude] = useState("")
+  const [longitude, setLongitude] = useState("")
+
+  const setLocation = function (latitude, longitude) {
+    setLatitude(latitude)
+    setLongitude(longitude)
+  }
+  console.log("geo", latitude, longitude);
   useEffect(() => {
     const getBusinesses = async () => {
       try {
@@ -76,7 +85,9 @@ export default function AllBusinesses() {
               <AllBusinessesText />
             </AccordionDetails>
           </Accordion>
+          <ShowMyLocation setLocation={setLocation} />
           {businesses ? businesses.map((business) => {
+            console.log("business Geo", business.longitude ,business.latitude);
             return (
               <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                 <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
@@ -85,7 +96,7 @@ export default function AllBusinesses() {
                       <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
                     </Avatar>
                   </ListItemAvatar>
-                  <ListItem dense secondaryAction={<ListItemText sx={{ml:5}} align="right" primary={business.businessBrand} secondary={business.bio} />} >
+                  <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessBrand} secondary={business.bio} />} >
                     <ListItemText primary="14" secondary="km" />
                   </ListItem>
                 </ListItemButton>
