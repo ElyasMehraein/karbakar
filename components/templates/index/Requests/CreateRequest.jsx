@@ -26,7 +26,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 
 export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
-  const [signButtonDisabled, setSignButtonDisabled] = useState(false)
+  const [signButtonDisabled, setSignButtonDisabled] = useState(true)
 
   // Snackbar
   const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -51,7 +51,7 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
   };
   const handleOpen = () => {
     setOpen(true);
-    setSignButtonDisabled(true)
+    setSignButtonDisabled(false)
     createThisRequest(requestBox)
   };
   //
@@ -163,9 +163,9 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
                   </Button>
                   <Box style={{ flexGrow: 1 }}></Box>
                   <Button
-                  disabled={signButtonDisabled}
-                  color="success" variant="outlined" endIcon={<SendIcon />}
-                    onClick={() => handleOpen() }
+                    disabled={!(guild && title && message && signButtonDisabled)}
+                    color="success" variant="outlined" endIcon={<SendIcon />}
+                    onClick={() => handleOpen()}
                   >
                     تایید
                   </Button>
@@ -176,7 +176,7 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
             <Backdrop
               sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
               open={open}
-              // onClick={handleClose}
+            // onClick={handleClose}
             >
               <CircularProgress color="inherit" />
             </Backdrop>
