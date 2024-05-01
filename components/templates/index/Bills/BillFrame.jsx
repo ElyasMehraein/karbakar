@@ -47,7 +47,6 @@ export default function BillFrame({ user, bill }) {
                 billId: bill._id
             }),
         });
-        console.log("res", res);
         res.status === 200 ? setSnackbarReject(true) : setSnackbarServerError(true)
     }
 

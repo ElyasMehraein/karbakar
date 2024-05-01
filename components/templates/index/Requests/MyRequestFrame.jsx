@@ -1,20 +1,13 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
-import CardHeader from "@mui/material/CardHeader";
-import { red } from "@mui/material/colors";
 import Box from "@mui/material/Box";
-import Image from 'next/image'
-import { CardActionArea, Container } from "@mui/material";
+import { Button } from "@mui/material";
 import ItsAvatar from "@/components/modules/ItsAvatar";
 import ListItemButton from '@mui/material/ListItemButton';
-import SelectProvider from "./SelectProvider";
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -22,10 +15,25 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { blue } from '@mui/material/colors';
 import { useRouter } from "next/navigation";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 
 const MyRequestFrame = ({ request }) => {
     const router = useRouter()
+
+    const DeleteRequest = async () => {
+        const res = await fetch("/api/requests/deleteRequest", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                jobRequestId: request._id
+            }),
+        });
+        res.status === 200 && location.reload();
+        ;
+    }
     return (
         <Accordion sx={{ bgcolor: blue[50], my: 1 }} >
             <AccordionSummary
@@ -84,21 +92,38 @@ const MyRequestFrame = ({ request }) => {
             {
                 < AccordionDetails >
                     {request.acceptedBy?.map((acceptor) => (
-                            <Box key={acceptor._id}>
-                                <ListItemButton onClick={() => router.push(`/${acceptor.businessName}`)}>
-                                    <ListItemAvatar >
-                                        <Avatar sx={{ width: 40, height: 40 }}>
-                                            <ItsAvatar isAvatar={acceptor.isAvatar} userCodeOrBusinessBrand={acceptor.businessName} alt="workers avatar" />
-                                        </Avatar>
-                                    </ListItemAvatar>
-                                    <ListItemText align='right' primary={acceptor.businessName} secondary={acceptor.businessBrand} />
-                                    <Typography sx={{pr:5, color: 'text.secondary' }}>{acceptor.bio}</Typography>
-                                </ListItemButton>
-                            </Box>
+                        <Box key={acceptor._id}>
+                            <ListItemButton onClick={() => router.push(`/${acceptor.businessName}`)}>
+                                <ListItemAvatar >
+                                    <Avatar sx={{ width: 40, height: 40 }}>
+                                        <ItsAvatar isAvatar={acceptor.isAvatar} userCodeOrBusinessBrand={acceptor.businessName} alt="workers avatar" />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText align='right' primary={acceptor.businessName} secondary={acceptor.businessBrand} />
+                                <Typography sx={{ pr: 5, color: 'text.secondary' }}>{acceptor.bio}</Typography>
+                            </ListItemButton>
+                        </Box>
                     ))}
-                
+
                 </AccordionDetails>
             }
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "flex-end"
+                }}
+            >
+                <AccordionActions>
+                    <Button
+                        variant="outlined" color="error"
+                        endIcon={<DeleteIcon sx={{ ml: -2, mr: 1 }} />}
+                        onClick={() => DeleteRequest(request._id)}
+                    >
+                        حذف درخواست
+                    </Button>
+                </AccordionActions>
+            </Box>
         </Accordion>
     );
 };
