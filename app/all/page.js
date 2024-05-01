@@ -79,16 +79,16 @@ export default function AllBusinesses() {
           {businesses ? businesses.map((business) => {
             return (
               <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
-                <ListItem>
-                  <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
-                    <ListItemAvatar>
-                      <Avatar>
-                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
-                      </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText align='right' primary={business.businessBrand} secondary={business.bio} />
-                  </ListItemButton>
-                </ListItem>
+                <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItem dense secondaryAction={<ListItemText sx={{ml:5}} align="right" primary={business.businessBrand} secondary={business.bio} />} >
+                    <ListItemText primary="14" secondary="km" />
+                  </ListItem>
+                </ListItemButton>
               </List>
             )
           }) :
