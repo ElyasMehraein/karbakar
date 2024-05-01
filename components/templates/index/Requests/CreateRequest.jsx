@@ -19,12 +19,15 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { useEffect } from 'react';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert, Backdrop } from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
 
 export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
+  const [signButtonDisabled, setSignButtonDisabled] = useState(false)
+
   // Snackbar
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [snackbarMessage, setSnackbarMessage] = useState("خطای ناشناخته")
@@ -37,8 +40,21 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
   };
   const onCloseSnackbar = () => {
     setSnackbarOpen(false)
-    location.reload()
+    fabHandler()
+    // location.reload()
   }
+
+  // backDrop
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+    setSignButtonDisabled(true)
+    createThisRequest(requestBox)
+  };
+  //
 
   const [guild, setGuild] = useState("")
   const [title, setTitle] = useState("");
@@ -62,6 +78,7 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
     if (res.status === 500) {
       console.log("server error", res);
     } else if (res.status === 201) {
+      handleClose()
       console.log("Request signed successfully");
       callSnackbar("درخواست شما با موفقیت ثبت شد و در لیست درخواست های صنف مرتبط قرار گرفت")
     } else if (res.status === 406) {
@@ -145,8 +162,10 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
                     لغو
                   </Button>
                   <Box style={{ flexGrow: 1 }}></Box>
-                  <Button color="success" variant="outlined" endIcon={<SendIcon />}
-                    onClick={() => createThisRequest(requestBox)}
+                  <Button
+                  disabled={signButtonDisabled}
+                  color="success" variant="outlined" endIcon={<SendIcon />}
+                    onClick={() => handleOpen() }
                   >
                     تایید
                   </Button>
@@ -154,7 +173,13 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
               </CardActions>
 
             </Card>
-
+            <Backdrop
+              sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+              open={open}
+              // onClick={handleClose}
+            >
+              <CircularProgress color="inherit" />
+            </Backdrop>
           </>
 
         )
