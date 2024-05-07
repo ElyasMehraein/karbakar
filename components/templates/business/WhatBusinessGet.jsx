@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 
 
 const WhatBusinessGet = () => {
-    const [alignment, setAlignment] = React.useState('web');
+    const [alignment, setAlignment] = React.useState('one');
 
     const handleChange = (event, newAlignment) => {
         setAlignment(newAlignment);
@@ -26,7 +26,7 @@ const WhatBusinessGet = () => {
             <Paper
 
                 sx={{ width: "100%", maxWidth: 700, m: 1, backgroundColor: grey[200], borderRadius: '30px' }}>
-                <Typography sx={{ variant: "subtitle2", m: 1, fontWeight: 'bold' }}>
+                <Typography sx={{ textAlign:"center", variant: "subtitle2", m: 1, fontWeight: 'bold' }}>
                     محصولاتی که این کسب و کار از دیگران دریافت کرده
                 </Typography>
                 <Box
@@ -37,7 +37,7 @@ const WhatBusinessGet = () => {
 
                     <ToggleButtonGroup
                         color="primary"
-                        sx={{ mb: 1, borderRadius: '20px !important', backgroundColor: grey[50] }}
+                        sx={{ direction:"ltr", mb: 1, borderRadius: '20px !important', backgroundColor: grey[50] }}
                         value={alignment}
                         exclusive
                         onChange={handleChange}
@@ -47,11 +47,10 @@ const WhatBusinessGet = () => {
                     >
                         <ToggleButton sx={{ borderBottomLeftRadius: 20, borderTopLeftRadius: 20 }} value="one">از ابتدای تاسیس</ToggleButton>
                         <ToggleButton value="two">یکسال گذشته</ToggleButton>
-                        <ToggleButton value="three">یکماه گذشته</ToggleButton>
-                        <ToggleButton sx={{ borderBottomRightRadius: 20, borderTopRightRadius: 20 }} value="four">جدیدترین</ToggleButton>
+                        <ToggleButton sx={{ borderBottomRightRadius: 20, borderTopRightRadius: 20 }} value="three">یکماه گذشته</ToggleButton>
                     </ToggleButtonGroup>
                 </Box>
-                <Typography sx={{ dir:"rtl" , m: 1, fontWeight: 'bold' }}>
+                <Typography sx={{textAlign:"center", dir:"rtl" , m: 1, fontWeight: 'bold' }}>
                     تعداد 172 محصول از 42 کسب و کار
                 </Typography>
             </Paper>
