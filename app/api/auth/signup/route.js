@@ -42,7 +42,7 @@ export async function POST(req, res) {
             user = await UserModel.create({
                 phoneHash,
                 code: nextUserNumber,
-                userName: "",
+                userName: "کاربر جدید",
                 isAvatar:false,
                 isHeader:false,
                 bio: "",
