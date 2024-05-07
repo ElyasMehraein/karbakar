@@ -35,7 +35,7 @@ export default function ReportFrame({ user, report }) {
 
     return (
         <Box >
-            <Card sx={{ minWidth: 300, my: 1, bgcolor: "#e3f2fd" }}>
+            <Card sx={{ my: 1, bgcolor: "#e3f2fd" }}>
                 <CardContent sx={{ flex: '1 0 auto' }}>
                     <Typography component="div" variant="body2">
                         {report.title === "jobOffer" && "درخواست همکاری"}
@@ -45,7 +45,7 @@ export default function ReportFrame({ user, report }) {
 
                     </Typography>
                 </CardContent>
-                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                <Box sx={{ display: 'flex', alignItems: "center", flexDirection: { xs: 'column', sm: 'row' } }}>
                     <CardHeader
                         sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                         avatar={
@@ -56,7 +56,7 @@ export default function ReportFrame({ user, report }) {
                         title={report.business.businessBrand}
                         subheader={report.business.businessName}
                     />
-                    <ArrowBackIcon sx={{ margin: 'auto' }} />
+                    <ArrowBackIcon sx={{ transform: { xs: "rotate(-90deg)", sm: "rotate(0deg)" } }} />
                     <CardHeader
                         sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                         avatar={
@@ -81,21 +81,21 @@ export default function ReportFrame({ user, report }) {
                         </Button>
                     </Stack>
                     : (!report.isAnswerNeed &&
-                        <CardContent>
+                        <CardContent >
                             {report.title === "jobOffer" &&
-                                <Typography component="div" variant="body2">
+                                <Typography style={{ whiteSpace: 'pre-wrap' }}>
                                     {`  پیشنهاد کار توسط ${report.recepiant.userName || "کاربر"} پاسخ  ${report.answer ? "مثبت" : "منفی"} دریافت کرد`}
                                 </Typography>}
                             {report.title === "dismissal" &&
-                                <Typography component="div" variant="body2">
+                                <Typography style={{ whiteSpace: 'pre-wrap' }}>
                                     {`${report.recepiant.userName || "کاربر"}  از کسب و کار  ${report.business.businessBrand || report.business.businessName} اخراج شد`}
                                 </Typography>}
                             {report.title === "resignation" &&
-                                <Typography component="div" variant="body2">
+                                <Typography style={{ whiteSpace: 'pre-wrap' }}>
                                     {`${report.recepiant.userName || "کاربر"}  از کسب و کار  ${report.business.businessBrand || report.business.businessName} استعفا داد`}
                                 </Typography>}
                             {report.title === "YouAreAgent" &&
-                                <Typography component="div" variant="body2">
+                                <Typography style={{ whiteSpace: 'pre-wrap' }}>
                                     {`${report.recepiant.userName || "کاربر"}  در کسب و کار  ${report.business.businessBrand || report.business.businessName} نماینده کسب و کار شد`}
                                 </Typography>}
 
