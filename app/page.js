@@ -19,7 +19,7 @@ export default async function page() {
   ).populate("businesses")))
 
   const bills = await JSON.parse(JSON.stringify(await BillModel.find({
-    to: user?._id, isAccept: false
+    to: user?._id
   }).populate("from")))
 
   let distinctGuilds = []

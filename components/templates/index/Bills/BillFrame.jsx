@@ -118,14 +118,13 @@ export default function BillFrame({ user, bill }) {
                 <DialogTitle>تایید دریافت محصول یا خدمت</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                        <Typography sx={{ my: 2 }} color="error">
-                           تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
-                        </Typography>
+                        این عمل غیر قابل بازگشت است و
+                        تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>لغو</Button>
-                    <Button onClick={() => saveHandler(true)}>دریافت شد</Button>
+                    <Button onClick={() => saveHandler(true)}>محصول را دریافت نمودم</Button>
                 </DialogActions>
             </Dialog>
             <CustomSnackbar
