@@ -39,3 +39,5 @@ next-env.d.ts
 >>>>>>> Using-Pages-Router
 
 certificates
+app/api/auth/signup/route.js
+components/templates/welcome/Welcome.jsx
