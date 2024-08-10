@@ -92,20 +92,26 @@ export default function Wellcome() {
 
   function handleNext() {
     if (activeStep === 0) {
-      if (phoneFormatCheck(phone)) {
-        sendOtpSMS(phone)
-        setActiveStep(() => 1)
-        console.log("code vase shomare", phone, "ersal shod");
-      } else {
-        phoneError();
-      }
+
+
+      // dev test // remove for production *****
+
+
+      // if (phoneFormatCheck(phone)) {
+      // sendOtpSMS(phone)
+      setActiveStep(() => 1)
+      console.log("code vase shomare", phone, "ersal shod");
+      // } else {
+      //   phoneError();
+      // }
     } else {
-      if (SMSFormatCheck(SMSCode)) {
-        signup(phone, SMSCode)
-        console.log(`send ${phone} and ${SMSCode} to api and wait for register or login`);
-      } else {
-        phoneError()
-      }
+      // for production remove all comments
+      // if (SMSFormatCheck(SMSCode)) {
+      signup(phone, SMSCode)
+      console.log(`send ${phone} and ${SMSCode} to api and wait for register or login`);
+      // } else {
+      //   phoneError()
+      // }
     }
   }
 
