@@ -18,7 +18,8 @@ export async function POST(req) {
         if (!businessName.match(englishLetters)) {
             return Response.json({ message: "Business name must only contain English letters!" }, { status: 406 })
         }
-        if (businessName.length < 3) { 
+        
+        if (businessName.length <= 3) { 
             return Response.json({ message: "Business name must be more than 3 letters!" }, { status: 405 })
         }
 
