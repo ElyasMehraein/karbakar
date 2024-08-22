@@ -126,9 +126,10 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               aria-label="basic tabs example"
             >
 
-              <Tab label="محصولات قابل دریافت" {...a11yProps(0)} />
-              <Tab label="منابع کسب و کار" {...a11yProps(1)} />
+              <Tab label="هر چی میخوای بردار" {...a11yProps(0)} />
+              <Tab label="هرچی میخوای بگو" {...a11yProps(1)} />
               <Tab label="صورتحساب" {...a11yProps(2)} />
+              <Tab label="ویترین" {...a11yProps(3)} />
             </Tabs>
             :
             <Tabs
