@@ -80,7 +80,7 @@ export default function EditLocation({setLocation}) {
                         sx={buttonSx}
                         onClick={handleButtonClick}
                     >
-                        {success ? <CheckIcon /> : <PersonPinCircleIcon />}
+                        {/* {success ? <CheckIcon /> : <PersonPinCircleIcon />} */}
                     </Fab>
                     {loading && (
                         <CircularProgress
