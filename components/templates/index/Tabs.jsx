@@ -16,7 +16,8 @@ import MyRequests from './Requests/MyRequests';
 import CreateRequest from './Requests/CreateRequest';
 import OthersRequest from './Requests/OthersRequest';
 import OthersRequestForGusts from './Requests/OthersRequestForGusts';
-
+import FirstTab from './Requests/FirstTab';
+import SecondTab from './Requests/SecondTab';
 
 function CustomTabPanel(props) {
 
@@ -126,10 +127,10 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               aria-label="basic tabs example"
             >
 
-              <Tab label="هر چی میخوای بردار" {...a11yProps(0)} />
-              <Tab label="هرچی میخوای بگو" {...a11yProps(1)} />
-              <Tab label="صورتحساب" {...a11yProps(2)} />
-              <Tab label="ویترین" {...a11yProps(3)} />
+              <Tab label="محصولات" {...a11yProps(0)} />
+              <Tab label="بازار" {...a11yProps(1)} />
+              <Tab label="اتحاد" {...a11yProps(2)} />
+              <Tab label="صورتحساب" {...a11yProps(3)} />
             </Tabs>
             :
             <Tabs
@@ -141,7 +142,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="درخواستهای کاربران" {...a11yProps(1)} />
+              <Tab label="بازار" {...a11yProps(1)} />
             </Tabs>
           }
         </Container>
@@ -149,7 +150,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       <Container sx={{ position: "relative", height: "80%" }}>
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
           {user && user.businesses[0] ?
-            <OthersRequest user={user} distinctGuilds={distinctGuilds} />
+            <FirstTab user={user} distinctGuilds={distinctGuilds} />
             :
             <OthersRequestForGusts />
           }
@@ -157,14 +158,15 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
           {
             fabIndex === 1 ?
-              <CreateRequest {...{ fabHandler, user, distinctGuilds }} />
+              <SecondTab />
               :
-              <MyRequests {...{ user }} />
+              // <MyRequests {...{ user }} />
+              "nothing for now"
           }
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={2} dir={theme.direction}>
+        <CustomTabPanel value={value} index={3} dir={theme.direction}>
           {
-            fabIndex === 2 ?
+            fabIndex === 3 ?
               <CreateBill user={user} fabHandler={fabHandler} />
               :
               <Bill bills={bills} user={user} />
