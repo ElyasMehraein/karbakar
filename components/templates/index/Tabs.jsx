@@ -111,6 +111,13 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       label: 'Expand',
       children: ReportFabDynamicText
     },
+    {
+      color: 'inherit',
+      sx: { ...fabStyle, ...fabGreenStyle },
+      icon: ReportFabDynamicIcon,
+      label: 'Expand',
+      children: ReportFabDynamicText
+    },
   ];
   return (
     <Box sx={{ width: '100%', height: "100vh" }}>
