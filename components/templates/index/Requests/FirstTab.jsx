@@ -78,21 +78,21 @@ export default function FirstTab({ user }) {
                                     </ListItemButton>
                                         <Typography>کلید پریز</Typography>
                                     <ListItem>
-                                        <Box sx={{ width: '50%' }}>
+                                        <Box sx={{ width: '90%' }}>
                                             <LinearProgress
                                                 variant="determinate"
                                                 value={12}
                                             />
                                         </Box>
                                         <Box sx={{ minWidth: 35 }}>
-                                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                            <Typography variant="body2" sx={{ m:1, color: 'text.secondary' }}>
                                                 {1 + "/" + 7}
                                             </Typography>
                                         </Box>
                                     </ListItem>
                                         <Typography> پوستر رنگ آمیزی</Typography>
                                     <ListItem>
-                                        <Box sx={{ width: '50%' }}>
+                                        <Box sx={{ml:1, width: '90%' }}>
                                             <LinearProgress
                                                 variant="determinate"
                                                 value={40}

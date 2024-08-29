@@ -8,13 +8,11 @@ import theme from '@/styles/theme';
 import { Container } from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import { green } from '@mui/material/colors';
 import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import MyRequests from './Requests/MyRequests';
-import CreateRequest from './Requests/CreateRequest';
-import OthersRequest from './Requests/OthersRequest';
 import OthersRequestForGusts from './Requests/OthersRequestForGusts';
 import FirstTab from './Requests/FirstTab';
 import SecondTab from './Requests/SecondTab';
@@ -31,11 +29,9 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ py: 3 }}>
-          {children}
-        </Box>
-      )}
+      <Box sx={{ py: 3 }}>
+        {children}
+      </Box>
     </Box>
   );
 }
@@ -43,7 +39,6 @@ const fabStyle = {
   position: "fixed",
   bottom: 16,
   // right: 16,
-
 };
 
 const fabGreenStyle = {
@@ -78,10 +73,10 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
   };
   const [fabIndex, setFabIndex] = React.useState(10);
 
+  const FirstTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
+  const FirstTabFabDynamicText = fabIndex == value ? "بازگشت" : "اعلام نیاز"
   const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
   const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
-  const RequestFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
-  const RequestFabDynamicText = fabIndex == value ? "بازگشت به درخواست ها" : "ایجاد درخواست جدید"
 
   const fabHandler = () => {
     fabIndex == value ?
@@ -92,17 +87,17 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
   };
   const fabs = [
     {
+      color: 'primary',
+      sx: fabStyle,
+      icon: FirstTabFabDynamicIcon,
+      label: 'Add',
+      children: FirstTabFabDynamicText,
+    },
+    {
       color: 'secondary',
       sx: fabStyle,
       icon: <EditIcon />,
       label: 'Edit',
-    },
-    {
-      color: 'primary',
-      sx: fabStyle,
-      icon: RequestFabDynamicIcon,
-      label: 'Add',
-      children: RequestFabDynamicText,
     },
     {
       color: 'inherit',
@@ -171,6 +166,9 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               "nothing for now"
           }
         </CustomTabPanel>
+        <CustomTabPanel value={value} index={2} dir={theme.direction}>
+          "salam donta"
+        </CustomTabPanel>
         <CustomTabPanel value={value} index={3} dir={theme.direction}>
           {
             fabIndex === 3 ?
@@ -181,10 +179,10 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
         </CustomTabPanel>
 
 
-        {user?.businesses[0] && fabs.map((fab, index) => (
-          value !== 0 &&
+        {user?.businesses[0] &&
+        fabs.map((fab, index) => (
           <Zoom
-            key={fab.color}
+            key={index}
             in={value === index}
             timeout={transitionDuration}
             style={{
@@ -198,7 +196,8 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               {fab.icon}
             </Fab>
           </Zoom>
-        ))}
+        ))
+        }
       </Container>
     </Box>
   );
