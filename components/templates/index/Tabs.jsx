@@ -5,7 +5,7 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Bill from './Bills/Bill';
 import theme from '@/styles/theme';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -14,7 +14,8 @@ import { green } from '@mui/material/colors';
 import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import OthersRequestForGusts from './Requests/OthersRequestForGusts';
-import FirstTab from './Requests/FirstTab';
+import FirstTab from './Reports/FirstTab/FirstTab';
+import FirstTabFab from './Reports/FirstTab/FirstTabFab';
 import SecondTab from './Requests/SecondTab';
 
 function CustomTabPanel(props) {
@@ -72,6 +73,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
     exit: theme.transitions.duration.leavingScreen,
   };
   const [fabIndex, setFabIndex] = React.useState(10);
+  console.log("fabIndex", fabIndex);
 
   const FirstTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
   const FirstTabFabDynamicText = fabIndex == value ? "بازگشت" : "اعلام نیاز"
@@ -152,14 +154,17 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       <Container sx={{ position: "relative", height: "80%" }}>
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
           {user && user.businesses[0] ?
+          fabIndex !== value ?
             <FirstTab user={user} distinctGuilds={distinctGuilds} />
+            :
+            <FirstTabFab/>
             :
             <OthersRequestForGusts />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
           {
-            fabIndex === 1 ?
+            fabIndex === value ?
               <SecondTab />
               :
               // <MyRequests {...{ user }} />
