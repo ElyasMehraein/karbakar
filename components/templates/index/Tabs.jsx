@@ -18,6 +18,7 @@ import FirstTab from './FirstTab/FirstTab';
 import FirstTabFab from './FirstTab/FirstTabFab';
 import SecondTab from './SecondTab/SecondTab';
 import SecondTabFab from './SecondTab/SecondTabFab';
+import ThirdTab from './ThirdTab/ThirdTab';
 
 function CustomTabPanel(props) {
 
@@ -175,7 +176,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
-          "salam donta"
+          <ThirdTab/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3} dir={theme.direction}>
           {
