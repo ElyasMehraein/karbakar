@@ -14,9 +14,10 @@ import { green } from '@mui/material/colors';
 import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import OthersRequestForGusts from './Requests/OthersRequestForGusts';
-import FirstTab from './Reports/FirstTab/FirstTab';
-import FirstTabFab from './Reports/FirstTab/FirstTabFab';
-import SecondTab from './Requests/SecondTab';
+import FirstTab from './FirstTab/FirstTab';
+import FirstTabFab from './FirstTab/FirstTabFab';
+import SecondTab from './SecondTab/SecondTab';
+import SecondTabFab from './SecondTab/SecondTabFab';
 
 function CustomTabPanel(props) {
 
@@ -63,6 +64,8 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ user, bills, distinctGuilds }) {
+
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -73,10 +76,10 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
     exit: theme.transitions.duration.leavingScreen,
   };
   const [fabIndex, setFabIndex] = React.useState(10);
-  console.log("fabIndex", fabIndex);
-
   const FirstTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
   const FirstTabFabDynamicText = fabIndex == value ? "بازگشت" : "اعلام نیاز"
+  const SecondTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
+  const SecondTabFabDynamicText = fabIndex == value ? "بازگشت" : "تغییر ظرفیت تولید"
   const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
   const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
 
@@ -98,8 +101,9 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
     {
       color: 'secondary',
       sx: fabStyle,
-      icon: <EditIcon />,
+      icon: SecondTabFabDynamicIcon,
       label: 'Edit',
+      children: SecondTabFabDynamicText,
     },
     {
       color: 'inherit',
@@ -154,21 +158,20 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       <Container sx={{ position: "relative", height: "80%" }}>
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
           {user && user.businesses[0] ?
-          fabIndex !== value ?
-            <FirstTab user={user} distinctGuilds={distinctGuilds} />
-            :
-            <FirstTabFab/>
+            fabIndex !== value ?
+              <FirstTab user={user} distinctGuilds={distinctGuilds} />
+              :
+              <FirstTabFab user={user} />
             :
             <OthersRequestForGusts />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
           {
-            fabIndex === value ?
+            fabIndex !== value ?
               <SecondTab />
               :
-              // <MyRequests {...{ user }} />
-              "nothing for now"
+              <SecondTabFab {...{ user }} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
@@ -185,23 +188,23 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
 
 
         {user?.businesses[0] &&
-        fabs.map((fab, index) => (
-          <Zoom
-            key={index}
-            in={value === index}
-            timeout={transitionDuration}
-            style={{
-              transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
-            }}
-            unmountOnExit
-            onClick={fabHandler}
-          >
-            <Fab variant="extended" size="medium" sx={fab.sx} aria-label={fab.label} color={fab.color}>
-              {fab.children}
-              {fab.icon}
-            </Fab>
-          </Zoom>
-        ))
+          fabs.map((fab, index) => (
+            <Zoom
+              key={index}
+              in={value === index}
+              timeout={transitionDuration}
+              style={{
+                transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
+              }}
+              unmountOnExit
+              onClick={fabHandler}
+            >
+              <Fab variant="extended" size="medium" sx={fab.sx} aria-label={fab.label} color={fab.color}>
+                {fab.children}
+                {fab.icon}
+              </Fab>
+            </Zoom>
+          ))
         }
       </Container>
     </Box>
