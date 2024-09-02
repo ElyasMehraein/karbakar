@@ -17,23 +17,7 @@ import { blue } from '@mui/material/colors';
 import { useRouter } from "next/navigation";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-
-const ThirdTabFrame = ({ request }) => {
-    const router = useRouter()
-
-    const DeleteRequest = async () => {
-        const res = await fetch("/api/requests/deleteRequest", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                jobRequestId: request._id
-            }),
-        });
-        res.status === 200 && location.reload();
-        ;
-    }
+export default function ThirdTabUnionWaitForComplete({ request }) {
     return (
         <Accordion sx={{ bgcolor: blue[50], my: 1 }} >
             <AccordionSummary
@@ -60,7 +44,7 @@ const ThirdTabFrame = ({ request }) => {
 
                     >
                         <Typography sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }} textAlign={"right"}>
-                            {request.title}
+                            کسب و کار فلان من
                         </Typography>
                         <Typography
                             paragraph
@@ -74,36 +58,51 @@ const ThirdTabFrame = ({ request }) => {
                                 WebkitLineClamp: 2
                             }}
                             align="justify" dir="rtl" >
-                            {request.message}
+                            ده دستگاه خودرو ده دستگاه موتورسیکت مقدار محصول ماهانه ای که متعهد شدم
                         </Typography>
                     </Box>
-                    <AvatarGroup dir="ltr" max={4}>
-                        {request.acceptedBy?.map((acceptor) => {
-                            return (
-                                <Avatar key={acceptor._id}>
-                                    <ItsAvatar isAvatar={acceptor.isAvatar} userCodeOrBusinessBrand={acceptor.businessName} alt=" avatar" />
-                                </Avatar>
-                            )
-                        })}
-                    </AvatarGroup>
-                </Box>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "flex-start",
+                            flexDirection: "column",
+                            mr: 2
+                        }}
 
+                    >
+                        <Typography sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }} textAlign={"right"}>
+                            کسب و کار فلان من
+                        </Typography>
+                        <Typography
+                            paragraph
+                            // noWrap
+                            sx={{
+                                mr: 2, fontSize: 11,
+                                //later i deside if i need to use the below code
+                                display: '-webkit-box',
+                                overflow: 'hidden',
+                                WebkitBoxOrient: 'vertical',
+                                WebkitLineClamp: 2
+                            }}
+                            align="justify" dir="rtl" >
+                            ده دستگاه خودرو ده دستگاه موتورسیکت مقدار محصول ماهانه ای که متعهد شدم
+                        </Typography>
+                    </Box>
+                </Box> 
             </AccordionSummary>
             {
                 < AccordionDetails >
-                    {request.acceptedBy?.map((acceptor) => (
-                        <Box key={acceptor._id}>
-                            <ListItemButton onClick={() => router.push(`/${acceptor.businessName}`)}>
-                                <ListItemAvatar >
-                                    <Avatar sx={{ width: 40, height: 40 }}>
-                                        <ItsAvatar isAvatar={acceptor.isAvatar} userCodeOrBusinessBrand={acceptor.businessName} alt="workers avatar" />
-                                    </Avatar>
-                                </ListItemAvatar>
-                                <ListItemText align='right' primary={acceptor.businessName} secondary={acceptor.businessBrand} />
-                                <Typography sx={{ pr: 5, color: 'text.secondary' }}>{acceptor.bio}</Typography>
-                            </ListItemButton>
-                        </Box>
-                    ))}
+                    <Box >
+                        <ListItemButton >
+                            <ListItemAvatar >
+                                <Avatar sx={{ width: 40, height: 40 }}>
+                                    <ItsAvatar isAvatar={false} userCodeOrBusinessBrand={"1000"} alt="workers avatar" />
+                                </Avatar>
+                            </ListItemAvatar>
+                            <ListItemText align='right' primary={"کسب و کار فلان"} secondary={"businessBrand"} />
+                            <Typography sx={{ pr: 5, color: 'text.secondary' }}>{"bio"}</Typography>
+                        </ListItemButton>
+                    </Box>
 
                 </AccordionDetails>
             }
@@ -125,7 +124,7 @@ const ThirdTabFrame = ({ request }) => {
                 </AccordionActions>
             </Box>
         </Accordion>
+
     );
 };
-export default ThirdTabFrame;
 

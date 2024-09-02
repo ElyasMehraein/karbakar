@@ -10,7 +10,7 @@ import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { green } from '@mui/material/colors';
+import { cyan, green } from '@mui/material/colors';
 import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import OthersRequestForGusts from './Requests/OthersRequestForGusts';
@@ -19,6 +19,7 @@ import FirstTabFab from './FirstTab/FirstTabFab';
 import SecondTab from './SecondTab/SecondTab';
 import SecondTabFab from './SecondTab/SecondTabFab';
 import ThirdTab from './ThirdTab/ThirdTab';
+import ThirdTabFab from './ThirdTab/ThirdTabFab';
 
 function CustomTabPanel(props) {
 
@@ -81,6 +82,8 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
   const FirstTabFabDynamicText = fabIndex == value ? "بازگشت" : "اعلام نیاز"
   const SecondTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
   const SecondTabFabDynamicText = fabIndex == value ? "بازگشت" : "تغییر ظرفیت تولید"
+  const ThirdTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
+  const ThirdTabFabDynamicText = fabIndex == value ? "بازگشت" : "تشکیل اتحاد"
   const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
   const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
 
@@ -107,11 +110,11 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       children: SecondTabFabDynamicText,
     },
     {
-      color: 'inherit',
-      sx: { ...fabStyle, ...fabGreenStyle },
-      icon: ReportFabDynamicIcon,
+      color: 'success',
+      sx: fabStyle,
+      icon: ThirdTabFabDynamicIcon,
       label: 'Expand',
-      children: ReportFabDynamicText
+      children: ThirdTabFabDynamicText
     },
     {
       color: 'inherit',
@@ -176,7 +179,13 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
-          <ThirdTab/>
+          {
+            fabIndex !== value ?
+              <ThirdTab />
+              :
+              <ThirdTabFab {...{ user }} />
+          }
+
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3} dir={theme.direction}>
           {
