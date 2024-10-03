@@ -60,7 +60,21 @@ const schema = new Schema({
             thisYearDelivered: { type: Number, min: 1, max: 9999 },
             uniqueCustomer: { type: Number, min: 1, max: 9999 },
         }
-    ]
+    ],
+    receivers:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Business",
+            // index: { unique: true }
+        }
+    ],
+    providers:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Business",
+            // index: { unique: true }
+        }
+    ],
 }, { timestamps: true })
 
 const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)
