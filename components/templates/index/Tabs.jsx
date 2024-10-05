@@ -154,7 +154,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="بازار" {...a11yProps(1)} />
+              <Tab label="محصولات" {...a11yProps(1)} />
             </Tabs>
           }
         </Container>

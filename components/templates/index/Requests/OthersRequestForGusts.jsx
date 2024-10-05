@@ -72,7 +72,11 @@ const OthersRequestForGusts = () => {
           icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
         />
         <Typography fontSize={14}>
-          مشاهده جزئیات درخواست تنها برای اعضا صنف تامین کننده امکانپذیر است
+          محصولاتی که کسب و کارها با هم مبادله می کنند را مشاهده می نمایید
+          <br />
+          لیست تمام کسب و کارها را می توانید از منوی سمت راست ببینید
+          <br />
+          برای پیوستن به جامعه کارباکار ثبت نام کنید.
         </Typography>
 
         <AccordionDetails>
