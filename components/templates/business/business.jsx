@@ -10,8 +10,7 @@ import WhatBusinessGet from "@/components/templates/business/WhatBusinessGet";
 import Explain from "@/components/modules/Explain";
 import Name from "@/components/modules/Name";
 import dynamic from "next/dynamic";
-import Receivers from "@/components/modules/Receivers";
-import Providers from "@/components/modules/Providers";
+import ReceiversAndProviders from "@/components/modules/ReceiversAndProviders";
 const Map = dynamic(() => import("@/components/templates/business/Map"), { ssr: false })
 function Business({ business, logedUserCode , bills}) {
     return (
@@ -21,8 +20,7 @@ function Business({ business, logedUserCode , bills}) {
             <PageAvatar business={business} />
             <Name business={business} />
             <Bio business={business} />
-            <Receivers/>
-            <Providers/>
+            <ReceiversAndProviders/>
             <Contact business={business} />
             <Map business={business} />
             <Explain business={business} />
