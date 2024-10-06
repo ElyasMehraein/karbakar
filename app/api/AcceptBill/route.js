@@ -33,7 +33,7 @@ export async function PUT(req) {
         let business = await BusinessModel.findById(bill.from);
 
         for (let product of bill.products) {
-            let theBusinessProduct = business.products.find(businessProduct => businessProduct.productName === product.productName);
+            let theBusinessProduct = business.deliveredProducts.find(businessProduct => businessProduct.productName === product.productName);
             let uniqueCustomer = await BillModel.distinct('to', {
                 productName: bill.productName,
                 from: bill.from,
@@ -45,7 +45,7 @@ export async function PUT(req) {
                 await business.save()
 
             } else {
-                business.products.push({
+                business.deliveredProducts.push({
                     productName: product.productName,
                     unitOfMeasurement: product.unitOfMeasurement,
                     totalDelivered: product.amount,

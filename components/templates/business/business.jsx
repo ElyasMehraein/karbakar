@@ -11,6 +11,7 @@ import Explain from "@/components/modules/Explain";
 import Name from "@/components/modules/Name";
 import dynamic from "next/dynamic";
 import ReceiversAndProviders from "@/components/modules/ReceiversAndProviders";
+import TableBusiness2 from "./TableBusiness2";
 const Map = dynamic(() => import("@/components/templates/business/Map"), { ssr: false })
 function Business({ business, logedUserCode , bills}) {
     return (
@@ -25,6 +26,7 @@ function Business({ business, logedUserCode , bills}) {
             <Map business={business} />
             <Explain business={business} />
             <TableBusiness business={business} bills={bills} />
+            <TableBusiness2/>
             <EmployeeList business={business} />
             {/* <WhatBusinessGet business={business} /> */}
         </>

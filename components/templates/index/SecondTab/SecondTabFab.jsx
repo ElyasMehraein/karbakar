@@ -7,11 +7,17 @@ export default function SecondTabFab({ user }) {
     const [selectedProduct, setSelectedProduct] = React.useState("")
     const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
     const [amount, setAmount] = React.useState("")
+    
     const userBusinesses = user.businesses.map(business => {
         if (business.agentCode == user.code) {
             return business.businessName
-        }
+        } 
     })
+    const userBusinessProducts = 
+
+    
+    console.log("jajaj", userBusinesses);
+
     const addToGiveaway = () => {
     }
     const deleteFrame = () => {
@@ -23,6 +29,7 @@ export default function SecondTabFab({ user }) {
             <Autocomplete
                 blurOnSelect
                 id="combo-box-demo"
+                defaultValue={userBusinesses[0]}
                 options={userBusinesses}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
@@ -31,7 +38,7 @@ export default function SecondTabFab({ user }) {
             <Autocomplete
                 blurOnSelect
                 id="combo-box-demo"
-                options={["ورق فولاد", "پروفیل آهنی"]}
+                options={userBusinessProducts}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="انتخاب محصول" />}
                 onChange={(e, value) => setSelectedBusiness(value)}
@@ -60,10 +67,10 @@ export default function SecondTabFab({ user }) {
                 onClick={addToGiveaway}
             />
             <List dense={true}>
-                <ListItem sx={{ p: 2, width: '100%', minWidth: 300, bgcolor: '#e0e0e0' }} >
-                    <ListItemText primary="aa" />
-                    <ListItemText primary="aa" />
-                    <ListItemText primary="aa" />
+                <ListItem sx={{ p: 2, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0' }} >
+                    <ListItemText primary="50" />
+                    <ListItemText primary="کیلوگرم" />
+                    <ListItemText primary=" سیب زمینی خلالی با طعم خیار" />
 
                     <IconButton onClick={() => deleteFrame(id)}>
                         <DeleteIcon />

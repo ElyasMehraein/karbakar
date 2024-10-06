@@ -44,7 +44,6 @@ export async function POST(req) {
                 await UserModel.updateOne({ _id: user._id }, { primeJob: '66164cc526e2d5fe01b561dc' });
             }
 
-            console.log("why im here");
             await BusinessModel.updateOne(
                 { _id: Business._id },
                 { $pull: { workers: user._id } }
@@ -53,7 +52,6 @@ export async function POST(req) {
             return Response.json({ message: "you resign from your job successfully" }, { status: 201 })
         }
         const newAgent = await UserModel.findOne({ code: newAgentID })
-        console.log("ta inja omadam");
 
         if (newAgent.businesses.length >= 3) {
             return Response.json({ message: "any user can only be a member of a maximum of 3 businesses" }, { status: 406 })
