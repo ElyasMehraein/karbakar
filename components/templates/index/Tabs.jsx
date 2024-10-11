@@ -82,8 +82,8 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
   const FirstTabFabDynamicText = fabIndex == value ? "بازگشت" : "اعلام نیاز"
   const SecondTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
   const SecondTabFabDynamicText = fabIndex == value ? "بازگشت" : "تغییر ظرفیت تولید"
-  // const ThirdTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
-  // const ThirdTabFabDynamicText = fabIndex == value ? "بازگشت" : "تشکیل اتحاد"
+  const ThirdTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
+  const ThirdTabFabDynamicText = fabIndex == value ? "بازگشت" : "تشکیل اتحاد"
   const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
   const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
 
@@ -109,13 +109,13 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       label: 'Edit',
       children: SecondTabFabDynamicText,
     },
-    // {
-    //   color: 'success',
-    //   sx: fabStyle,
-    //   icon: ThirdTabFabDynamicIcon,
-    //   label: 'Expand',
-    //   children: ThirdTabFabDynamicText
-    // },
+    {
+      color: 'success',
+      sx: fabStyle,
+      icon: ThirdTabFabDynamicIcon,
+      label: 'Expand',
+      children: ThirdTabFabDynamicText
+    },
     {
       color: 'inherit',
       sx: { ...fabStyle, ...fabGreenStyle },
@@ -141,7 +141,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
 
               <Tab label="دریافت" {...a11yProps(0)} />
               <Tab label="ارائه" {...a11yProps(1)} />
-              {/* <Tab label="اتحاد" {...a11yProps(2)} /> */}
+              <Tab label="اتحاد" {...a11yProps(2)} />
               <Tab label="صورتحساب" {...a11yProps(3)} />
             </Tabs>
             :
@@ -178,7 +178,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               <SecondTabFab {...{ user }} />
           }
         </CustomTabPanel>
-        {/* <CustomTabPanel value={value} index={2} dir={theme.direction}>
+        <CustomTabPanel value={value} index={2} dir={theme.direction}>
           {
             fabIndex !== value ?
               <ThirdTab />
@@ -186,7 +186,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               <ThirdTabFab {...{ user }} />
           }
 
-        </CustomTabPanel> */}
+        </CustomTabPanel>
         <CustomTabPanel value={value} index={3} dir={theme.direction}>
           {
             fabIndex === 3 ?

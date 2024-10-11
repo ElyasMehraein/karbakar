@@ -13,11 +13,9 @@ export default function SecondTabFab({ user }) {
             return business.businessName
         } 
     })
-    const userBusinessProducts = 
+    const userBusinessProducts = ["felan", "test"]
 
     
-    console.log("jajaj", userBusinesses);
-
     const addToGiveaway = () => {
     }
     const deleteFrame = () => {

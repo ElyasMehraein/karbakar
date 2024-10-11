@@ -163,7 +163,9 @@ export default function SearchAppBar({ user, menuClickHandler }) {
           ورود یا ثبت نام
         </Button>) :
           <Box sx={{ display: 'flex' }}>
-            {reports && reports[0] && <Tooltip title="Account settings">
+            {
+            // reports && reports[0] && 
+            <Tooltip title="Account settings">
               <IconButton sx={{ width: 70, height: 70 }}
                 size="large"
                 aria-label="show 17 new notifications"

@@ -4,6 +4,7 @@ import BusinessModel from '@/models/Business';
 import BillModel from "@/models/Bill";
 // import { redirect } from 'next/navigation'
 import { GET } from "@/app/api/auth/me/route"
+import ReportModel from "@/models/Report";
 
 export async function POST(req) {
 
@@ -27,15 +28,25 @@ export async function POST(req) {
         if (customer.businesses.length === 0){
             return Response.json({ message: "customer have no business" }, { status: 407 })
         }
-        await BillModel.create({
+        const createdBill = await BillModel.create({
             guild: Business.guildname,
             from: Business._id,
             to: customer._id,
             products: bills,
             isAccept: false
         })
+        
+        await ReportModel.create({
+            recepiant: customer._id,
+            title:"bill",
+            business: Business._id,
+            bill:createdBill._id,
+            isSeen: false,
+            isAnswerNeed:false,
+            answer: false,
+        })
 
-        return Response.json({ message: "business created successfully" }, { status: 201 })
+        return Response.json({ message: "Bill & report created successfully" }, { status: 201 })
 
 
     } catch (err) {

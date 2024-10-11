@@ -58,7 +58,7 @@ export default function CreateBill({ user, fabHandler }) {
     if (res.status === 500) {
       console.log("server error");
     } else if (res.status === 201) {
-      console.log("bill signed successfully");
+      console.log("bill created successfully");
       handleShowSnackbar()
       setIsLoading(false)
     } else if (res.status === 404) {
