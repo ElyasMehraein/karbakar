@@ -14,7 +14,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 export default function Bill({ user, bills }) {
   const [expanded, setExpanded] = React.useState(false);
-  const [alignment, setAlignment] = React.useState('web');
+  const [alignment, setAlignment] = React.useState('new');
 
   const handleChange = (event, newAlignment) => {
     setAlignment(newAlignment);
@@ -60,11 +60,17 @@ export default function Bill({ user, bills }) {
               onChange={handleChange}
               aria-label="Platform"
             >
-              <ToggleButton value="web">جدید</ToggleButton>
-              <ToggleButton value="android">تایید شده</ToggleButton>
-              <ToggleButton value="ios">رد شده</ToggleButton>
+              <ToggleButton value="rejected">لغو شده</ToggleButton>
+              <ToggleButton value="accepted">تایید شده</ToggleButton>
+              <ToggleButton value="new">جدید</ToggleButton>
             </ToggleButtonGroup>
-            {bills.filter((bill) => bill.isAccept === true).map((bill) => {
+            {alignment === "new" && bills.filter((bill) => bill.status === "pending").map((bill) => {
+              return <BillFrame user={user} key={bill._id} bill={bill} />
+            })}
+            {alignment === "accepted" && bills.filter((bill) => bill.status === "accepted").map((bill) => {
+              return <BillFrame user={user} key={bill._id} bill={bill} />
+            })}
+            {alignment === "rejected" && bills.filter((bill) => bill.status === "rejected").map((bill) => {
               return <BillFrame user={user} key={bill._id} bill={bill} />
             })}
           </Box>

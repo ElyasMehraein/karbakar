@@ -20,8 +20,8 @@ export async function PUT(req) {
                 { status: 403 }
             )
         }
-        if (!bill.isAccept) {
-            bill.isAccept = true;
+        if (bill.status == "pending") {
+            bill.status = "rejected";
             await bill.save();
         } else {
             Response.json(

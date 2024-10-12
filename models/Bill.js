@@ -21,7 +21,7 @@ const schema = new Schema({
             amount: { type: Number, min: 1, max: 9999 },
         }
     ],
-    isAccept:Boolean
+    status:{ type: String }
 }, { timestamps: true })
 
 const BillModel = mongoose.models.Bill || mongoose.model("Bill", schema)

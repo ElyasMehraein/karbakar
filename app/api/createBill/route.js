@@ -25,7 +25,7 @@ export async function POST(req) {
         if (customer.code === user.code) {
             return Response.json({ message: "406 you can't sell things to yourself!" }, { status: 406 })
         }
-        if (customer.businesses.length === 0){
+        if (customer.businesses.length === 0) {
             return Response.json({ message: "customer have no business" }, { status: 407 })
         }
         const createdBill = await BillModel.create({
@@ -33,16 +33,16 @@ export async function POST(req) {
             from: Business._id,
             to: customer._id,
             products: bills,
-            isAccept: false
+            status: "pending"
         })
-        
+
         await ReportModel.create({
             recepiant: customer._id,
-            title:"bill",
+            title: "bill",
             business: Business._id,
-            bill:createdBill._id,
+            bill: createdBill._id,
             isSeen: false,
-            isAnswerNeed:false,
+            isAnswerNeed: false,
             answer: false,
         })
 

@@ -35,7 +35,7 @@ export default function BillFrame({ user, bill }) {
 
     const saveHandler = async () => {
         let billId = bill._id
-        const res = await fetch("/api/AcceptBill", {
+        const res = await fetch("/api/BillAccept", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -47,9 +47,9 @@ export default function BillFrame({ user, bill }) {
         res.status === 200 ? setSnackbarAccept(true) : setSnackbarServerError(true)
     }
 
-    const deleteHandler = async () => {
-        const res = await fetch("/api/billDelete", {
-            method: "DELETE",
+    const rejectHandler = async () => {
+        const res = await fetch("/api/BillReject", {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -92,7 +92,7 @@ export default function BillFrame({ user, bill }) {
                             }
                             <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
                                 <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
-                                    onClick={() => deleteHandler()}>
+                                    onClick={() => rejectHandler()}>
                                     لغو
                                 </Button>
                                 <Box style={{ flexGrow: 1 }}></Box>
