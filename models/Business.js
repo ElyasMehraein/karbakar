@@ -50,7 +50,10 @@ const schema = new Schema({
             // index: { unique: true }
         }
     ],
-    guildname: { type: String, required: true, maxlength: 30 },
+    guildname: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Guild", required: true
+    },
     deliveredProducts: [
         {
             productName: { type: String, maxlength: 30 },
