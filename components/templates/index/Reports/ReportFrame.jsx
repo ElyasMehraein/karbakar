@@ -42,6 +42,7 @@ export default function ReportFrame({ user, report }) {
                         {report.title === "dismissal" && "گزارش اخراج"}
                         {report.title === "resignation" && "گزارش استعفا"}
                         {report.title === "YouAreAgent" && "گزارش تغییر نماینده"}
+                        {report.title === "bill" && "گزارش دریافت صورتحساب جدید"}
 
                     </Typography>
                 </CardContent>
@@ -97,6 +98,10 @@ export default function ReportFrame({ user, report }) {
                             {report.title === "YouAreAgent" &&
                                 <Typography style={{ whiteSpace: 'pre-wrap' }}>
                                     {`${report.recepiant.userName || "کاربر"}  در کسب و کار  ${report.business.businessBrand || report.business.businessName} نماینده کسب و کار شد`}
+                                </Typography>}
+                            {report.title === "bill" &&
+                                <Typography style={{ whiteSpace: 'pre-wrap' }}>
+                                    شما یک صورتحساب جدید دریافت کردید لطفا جهت مشاهده وارد بخش صورتحساب شوید
                                 </Typography>}
 
                         </CardContent>
