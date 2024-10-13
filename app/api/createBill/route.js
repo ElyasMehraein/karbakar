@@ -29,7 +29,7 @@ export async function POST(req) {
             return Response.json({ message: "customer have no business" }, { status: 407 })
         }
         const createdBill = await BillModel.create({
-            guild: Business.guildname,
+            guild: Business.guildName,
             from: Business._id,
             to: customer._id,
             products: bills,

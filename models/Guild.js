@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { Schema } from "mongoose";
 
 const schema = new Schema({
-    guildname: { type: String, required: true, unique: true, },
+    guildName: { type: String, required: true, unique: true, },
     products: [
         {
             productName: { type: String, maxlength: 30, unique: true, },

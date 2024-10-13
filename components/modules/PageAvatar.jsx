@@ -49,7 +49,7 @@ export default function PageAvatar({ user, business }) {
           </Typography>
           {business ?
             <Typography display="inline" variant="subtitle2">
-              صنف :  {business.guildname}
+              صنف :  {business.guildName}
             </Typography>
             :
             <Typography display="inline" variant="subtitle2">

@@ -11,7 +11,7 @@ import { green } from '@mui/material/colors';
 export default function createBusiness({ distinctGuilds }) {
     const router = useRouter()
     const [businessName, setBusinessName] = useState("")
-    const [guildname, setGuildName] = useState("")
+    const [guildName, setGuildName] = useState("")
     const [snackbarError, setSnackbarError] = useState(false);
     const [snackbarErrorMessage, setSnackbarErrorMessage] = useState("");
     const [success, setSuccess] = useState(false);
@@ -25,15 +25,15 @@ export default function createBusiness({ distinctGuilds }) {
             },
         }),
     };
-    const updateGuildname = (newGuildname) => {
-        setGuildName(newGuildname);
+    const updateGuildName = (newGuildName) => {
+        setGuildName(newGuildName);
     };
 
-    async function createThisBusiness(businessName, guildname) {
+    async function createThisBusiness(businessName, guildName) {
         const res = await fetch('api/signbusiness', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessName, guildname })
+            body: JSON.stringify({ businessName, guildName })
         })
         if (res.status === 201) {
             setSuccess(true)
@@ -79,8 +79,8 @@ export default function createBusiness({ distinctGuilds }) {
                     />
                     <Typography sx={{ py: 1, textAlign: "center" ,fontSize:12 }}>{selectGuild}</Typography>
 
-                    <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} TextFieldText={"صنف شما"} />
-                    <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildname)} variant="contained">
+                    <Guild updateGuildName={updateGuildName} distinctGuilds={distinctGuilds} snackbarError={snackbarError} TextFieldText={"صنف شما"} />
+                    <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildName)} variant="contained">
                         ایجاد کسب و کار
                     </Button>
                 </Box>

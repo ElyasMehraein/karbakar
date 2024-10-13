@@ -47,8 +47,8 @@ export default function OthersRequest({ user, distinctGuilds }) {
     (business) => business._id !== user.primeJob
   );
 
-  const userPrimeJobBusinessGuild = userPrimeJobBusinesses.map((business) => business.guildname)
-  const userNonPrimeJobBusinessesGuilds = userNonPrimeJobBusinesses.map((business) => business.guildname)
+  const userPrimeJobBusinessGuild = userPrimeJobBusinesses.map((business) => business.guildName)
+  const userNonPrimeJobBusinessesGuilds = userNonPrimeJobBusinesses.map((business) => business.guildName)
   const userBusinessesGuilds = [...userPrimeJobBusinessGuild, ...userNonPrimeJobBusinessesGuilds]
 
   useEffect(() => {

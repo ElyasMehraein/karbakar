@@ -78,7 +78,7 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
             {user.businesses.map((business) => (
               user.primeJob === business._id && (
                 <React.Fragment key={business._id} >
-                  <ListItemText align="right" secondary={"صنف:" + business.guildname} sx={{ mr: 2, mt: 0 }} />
+                  <ListItemText align="right" secondary={"صنف:" + business.guildName} sx={{ mr: 2, mt: 0 }} />
                   <ListItemButton sx={{ mt: -1, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                     <ListItem >
                       <ListItemIcon>

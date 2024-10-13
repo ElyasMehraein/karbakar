@@ -50,7 +50,7 @@ const schema = new Schema({
             // index: { unique: true }
         }
     ],
-    guildname: {
+    guildName: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Guild", required: true
     },

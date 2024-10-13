@@ -11,8 +11,8 @@ export async function POST(req) {
 
     try {
         const body = await req.json()
-        const { businessName, guildname } = body;
-        if (!businessName.trim() || !guildname.trim()) {
+        const { businessName, guildName } = body;
+        if (!businessName.trim() || !guildName.trim()) {
             return Response.json({ message: "Entrance data is empty!" }, { status: 400 })
         }
         const englishLetters = /^[A-Za-z]+$/;
@@ -23,10 +23,9 @@ export async function POST(req) {
         if (businessName.length <= 3) {
             return Response.json({ message: "Business name must be more than 3 letters!" }, { status: 405 })
         }
-        
+
         let business = await BusinessModel.findOne({ businessName })
         if (!business) {
-            console.log("businesi nist", businessName);
             const token = cookies().get("token")?.value;
             const tokenPayLoad = verifyToken(token);
 
@@ -38,20 +37,20 @@ export async function POST(req) {
             if (user.businesses.length >= 3) {
                 return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 409 })
             }
+            console.log("guildName", guildName);
+            let getGuildFromDB = await GuildModel.findOne({ guildName })
+            console.log("guildInDB", guildInDB, "guildName", guildName);
+            let GuildInDB
+            if (!getGuildFromDB) {
 
-            let guildNameInDB = await GuildModel.findOne({ guildname })
-            console.log("faghat guildNameInDB ", guildNameInDB)
-            let guild = guildNameInDB;
-            if (!guildNameInDB) {
-                console.log("sakht gild jadid");
-
+                GuildInDB = newGuild
+            } else {
                 const newGuild = await GuildModel.create({
-                    guildname,
+                    guildName,
                     products: []
                 })
-                guild = newGuild
+                GuildInDB = newGuild
             }
-            console.log("guildNameInDB", guildNameInDB, "guild", guild);
             business = await BusinessModel.create({
                 businessName: businessName,
                 businessBrand: "کسب و کار جدید",
@@ -68,8 +67,8 @@ export async function POST(req) {
                 mapDetail: "",
                 agentCode: user.code,
                 workers: [user._id],
-                guildname: guild.guildname,
-                products: []
+                guildName,
+                deliveredProducts: []
             })
             business = business
 
