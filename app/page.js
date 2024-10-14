@@ -5,6 +5,8 @@ import connectToDB from '@/configs/db';
 import UserModel from '@/models/User';
 import { cookies } from "next/headers";
 import BillModel from '@/models/Bill';
+import BusinessModel from '@/models/Business';
+import Guild from '@/components/modules/Guild';
 
 export default async function page() {
   const token = cookies().get("token")?.value;
@@ -16,8 +18,14 @@ export default async function page() {
   connectToDB()
   const user = await JSON.parse(JSON.stringify(await UserModel.findOne(
     { _id: tokenPayLoad.id },
-  ).populate("businesses")))
+  ).populate("businesses").exec()))
+  let primeBusiness;
+  if (user) {
+    primeBusiness = await JSON.parse(JSON.stringify(await BusinessModel.findOne(
+      { _id: user.primeJob },
+    )?.populate("guild").exec()))
 
+  }
   const bills = await JSON.parse(JSON.stringify(await BillModel.find({
     to: user?._id
   }).populate("from")))
@@ -37,7 +45,7 @@ export default async function page() {
       console.error(err);
     });
   return (
-    <MyIndex {...{ user, bills, token, distinctGuilds }} />
+    <MyIndex {...{ user, bills, token, distinctGuilds, primeBusiness }} />
   )
 }
 

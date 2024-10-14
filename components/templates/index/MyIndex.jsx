@@ -6,7 +6,7 @@ import RightDrawer from "@/components/templates/index/RightDrawer";
 import Tabs from "@/components/templates/index/Tabs";
 
 
-export default function MyIndex({ user, bills, distinctGuilds }) {
+export default function MyIndex({ user, bills, distinctGuilds, primeBusiness }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -26,7 +26,9 @@ export default function MyIndex({ user, bills, distinctGuilds }) {
       <RightDrawer
         user={user}
         open={open}
-        handleDrawerClose={handleDrawerClose} />
+        handleDrawerClose={handleDrawerClose}
+        primeBusiness={primeBusiness}
+      />
       <SearchAppBar
         user={user}
         menuClickHandler={menuClickHandler} />
