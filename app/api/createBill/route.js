@@ -5,7 +5,7 @@ import BillModel from "@/models/Bill";
 // import { redirect } from 'next/navigation'
 import { GET } from "@/app/api/auth/me/route"
 import ReportModel from "@/models/Report";
-
+import GuildModel from "@/models/Guild";
 export async function POST(req) {
 
     try {
@@ -14,7 +14,9 @@ export async function POST(req) {
         connectToDB()
         const response = await GET(req)
         const user = await response.json()
-        const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ businessName: selectedBusiness })))
+        const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ businessName: selectedBusiness }).populate("guild")))
+        console.log("aajjjj", Business.guild);
+
         const customer = JSON.parse(JSON.stringify(await UserModel.findOne({ code: customerCode })))
         if (!customer) {
             return Response.json({ message: "customer not found" }, { status: 404 })
@@ -28,8 +30,9 @@ export async function POST(req) {
         if (customer.businesses.length === 0) {
             return Response.json({ message: "customer have no business" }, { status: 407 })
         }
+        console.log("888888888888", Business.guild);
         const createdBill = await BillModel.create({
-            guild: Business.guildName,
+            guild: Business.guild._id,
             from: Business._id,
             to: customer._id,
             products: bills,
