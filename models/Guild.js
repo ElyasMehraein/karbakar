@@ -5,7 +5,7 @@ const schema = new Schema({
     guildName: { type: String, required: true, unique: true, },
     products: [
         {
-            productName: { type: String, maxlength: 30, unique: true, },
+            productName: { type: String, maxlength: 30 },
             unitOfMeasurement: { type: String, maxlength: 20 },
         }
     ],
