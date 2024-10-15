@@ -90,17 +90,21 @@ export default function BillFrame({ user, bill }) {
                                 return <BillProductFrame key={product.productName} {...product} />
                             })
                             }
-                            <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
-                                <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
-                                    onClick={() => rejectHandler()}>
-                                    لغو
-                                </Button>
-                                <Box style={{ flexGrow: 1 }}></Box>
-                                <Button color="success" variant="outlined" endIcon={<SendIcon />}
-                                    onClick={() => setOpenDialog(true)}>
-                                    تایید
-                                </Button>
-                            </Stack>
+                            {bill.status === "pending" &&
+                                <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
+                                    <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
+                                        onClick={() => rejectHandler()}>
+                                        لغو
+                                    </Button>
+                                    <Box style={{ flexGrow: 1 }}></Box>
+                                    <Button color="success" variant="outlined" endIcon={<SendIcon />}
+                                        onClick={() => setOpenDialog(true)}>
+                                        تایید
+                                    </Button>
+                                </Stack>
+
+
+                            }
                         </CardContent>
 
                     </Card>

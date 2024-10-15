@@ -30,7 +30,6 @@ export async function POST(req) {
         if (customer.businesses.length === 0) {
             return Response.json({ message: "customer have no business" }, { status: 407 })
         }
-        console.log("888888888888", Business.guild);
         const createdBill = await BillModel.create({
             guild: Business.guild._id,
             from: Business._id,

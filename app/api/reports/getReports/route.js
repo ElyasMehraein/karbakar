@@ -26,11 +26,9 @@ export async function GET(req, res) {
         const logedUser = JSON.parse(JSON.stringify(await UserModel.findOne(
             { _id: tokenPayLoad.id },
         )))
-            // console.log("logedUserlogedUser", logedUser);
         const reports = await ReportModel.find(
                 { recepiant: logedUser._id }
         ).populate("business").populate("bill").populate("recepiant");
-        console.log("reportsreports", reports);
         return Response.json(
             { message: 'get reports successfully', data: reports },
             { status: 200 }

@@ -15,7 +15,7 @@ export async function PUT(req) {
             throw new Error('document not found');
         }
         if (bill.to.toString() !== user._id.toString()) {
-            Response.json(
+            return Response.json(
                 { message: `You are not authorized to update the bill ` },
                 { status: 403 }
             )
@@ -24,8 +24,8 @@ export async function PUT(req) {
             bill.status = "accepted";
             await bill.save();
         } else {
-            Response.json(
-                { message: `white hats are wellcome :)` },
+            return Response.json(
+                { message: "its not pending bill" },
                 { status: 400 }
             )
         }
