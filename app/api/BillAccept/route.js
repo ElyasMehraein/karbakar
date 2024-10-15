@@ -2,6 +2,7 @@ import UserModel from '@/models/User';
 import BusinessModel from '@/models/Business';
 import BillModel from '@/models/Bill';
 import { GET } from "@/app/api/auth/me/route"
+import GuildModel from '@/models/Guild';
 
 export async function PUT(req) {
     const body = await req.json()
@@ -20,16 +21,23 @@ export async function PUT(req) {
                 { status: 403 }
             )
         }
-        if (bill.status == "pending") {
-            bill.status = "accepted";
-            await bill.save();
-        } else {
+        if (bill.status !== "pending") {
             return Response.json(
                 { message: "its not pending bill" },
                 { status: 400 }
             )
         }
-
+        let guild = await GuildModel.findById(bill.guild);
+        for (let product of bill.products) {
+            let theGuildProduct = guild.products.find(guildProduct => guildProduct.productName === product.productName);
+            if (!theGuildProduct) {
+                guild.products.push({
+                    productName: product.productName,
+                    unitOfMeasurement: product.unitOfMeasurement,
+                })
+                await guild.save()
+            }
+        }
         let business = await BusinessModel.findById(bill.from);
 
         for (let product of bill.products) {
@@ -56,7 +64,8 @@ export async function PUT(req) {
                 await business.save()
             }
         }
-
+        bill.status = "accepted";
+        await bill.save();
         console.log(`the bill updated successfully.`);
         return Response.json(
             { message: `the bill updated successfully.` },
