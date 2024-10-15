@@ -164,22 +164,22 @@ export default function SearchAppBar({ user, menuClickHandler }) {
         </Button>) :
           <Box sx={{ display: 'flex' }}>
             {
-            // reports && reports[0] && 
-            <Tooltip title="Account settings">
-              <IconButton sx={{ width: 70, height: 70 }}
-                size="large"
-                aria-label="show 17 new notifications"
-                color="inherit"
-                onClick={clickReports}
-                aria-controls={open ? 'account-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-              >
-                <Badge badgeContent={unseenReportCounts} color="error">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-            </Tooltip>}
+              reports && reports[0] &&
+              <Tooltip title="Account settings">
+                <IconButton sx={{ width: 70, height: 70 }}
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                  onClick={clickReports}
+                  aria-controls={open ? 'account-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                >
+                  <Badge badgeContent={unseenReportCounts} color="error">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+              </Tooltip>}
             <ReportsMenu user={user} reports={reports} anchorEl={anchorEl} open={open} handleClose={handleClose} />
             <IconButton
               sx={{ m: 0, width: 70, height: 70 }}

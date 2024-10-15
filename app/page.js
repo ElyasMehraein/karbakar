@@ -6,7 +6,7 @@ import UserModel from '@/models/User';
 import { cookies } from "next/headers";
 import BillModel from '@/models/Bill';
 import BusinessModel from '@/models/Business';
-import Guild from '@/components/modules/Guild';
+import GuildModel from '@/models/Guild';
 
 export default async function page() {
   const token = cookies().get("token")?.value;
