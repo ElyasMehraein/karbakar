@@ -2,20 +2,34 @@ import React, { useState } from 'react'
 import { Autocomplete, Button, Container, IconButton, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function SecondTabFab({ user }) {
-    const [selectedBusiness, setSelectedBusiness] = React.useState("")
+export default function SecondTabFab({ user, primeBusiness }) {
+    const [selectedBusiness, setSelectedBusiness] = React.useState(primeBusiness)
+    const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness?.businessName)
     const [selectedProduct, setSelectedProduct] = React.useState("")
-    const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
+    const [unitOfMeasurement, setUnitOfMeasurement] = React.useState()
     const [amount, setAmount] = React.useState("")
-    
+    const [inputValue, setInputValue] = React.useState('');
+    const [inputValue2, setInputValue2] = React.useState('');
+
     const userBusinesses = user.businesses.map(business => {
         if (business.agentCode == user.code) {
             return business.businessName
-        } 
+        }
     })
-    const userBusinessProducts = ["felan", "test"]
+    const userBusinessProducts = user.businesses.map(business => {
+        return business.deliveredProducts
+    })
+    const selectedBusinessProducts = userBusinessProducts[0].map((product) => {
+        return product.productName
+    })
+    function selectProduct(value) {
+        setSelectedProduct(value)
+        let selectedProductUnitOfMeasurement = userBusinessProducts[0].filter((product) => {
+            return product.productName == value
+        })
+        setUnitOfMeasurement(selectedProductUnitOfMeasurement[0].unitOfMeasurement);
+    }
 
-    
     const addToGiveaway = () => {
     }
     const deleteFrame = () => {
@@ -25,40 +39,47 @@ export default function SecondTabFab({ user }) {
         <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>جهت ارائه چه مقدار از محصولات خود بصورت ماهانه متعهد می شوید؟</Typography>
             <Autocomplete
+                inputValue={inputValue2}
+                onInputChange={(event, newInputValue) => {
+                    setInputValue2(newInputValue);
+                }}
                 blurOnSelect
                 id="combo-box-demo"
-                defaultValue={userBusinesses[0]}
+                value={selectedBusinessName}
                 options={userBusinesses}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
                 onChange={(e, value) => setSelectedBusiness(value)}
             />
             <Autocomplete
+                inputValue={inputValue}
+                onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue);
+                }}
+                value={unitOfMeasurement}
                 blurOnSelect
                 id="combo-box-demo"
-                options={userBusinessProducts}
+                options={selectedBusinessProducts}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="انتخاب محصول" />}
-                onChange={(e, value) => setSelectedBusiness(value)}
+                onChange={(e, value) => selectProduct(value)}
             />
-            <TextField
-                value={selectedProduct}
-
-                placeholder='حداکثر 30 کارکتر' variant="outlined"
-                label="مقدار"
-                onChange={(e) => setSelectedProduct(e.target.value)}
-                sx={{ width: 300 }}
-            />
-            <Autocomplete
+            {/* <Autocomplete
                 blurOnSelect
                 id="combo-box-demo"
-                options={[" کیلوگرم", "متر "]}
+                options={unitOfMeasurement}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="واحد اندازه گیری" />}
-                onChange={(e, value) => setSelectedBusiness(value)}
+                onChange={(e, value) => setUnitOfMeasurement(value)}
+            />
+            <TextField
+                placeholder='حداکثر 30 کارکتر' variant="outlined"
+                label="مقدار"
+                onChange={(e) => setAmount(e.target.value)}
+                sx={{ width: 300 }}
             />
             <Button
-                sx={{ mt: 2 }}
+                sx={{ mt: 2, display: "block" }}
                 children={"اضافه نمودن به فاکتور"}
                 variant="contained"
                 disabled={selectedProduct && unitOfMeasurement && amount ? false : true}
@@ -75,7 +96,7 @@ export default function SecondTabFab({ user }) {
                     </IconButton>
 
                 </ListItem>
-            </List>
+            </List> */}
         </Container>
     )
 }

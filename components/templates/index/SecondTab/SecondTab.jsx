@@ -22,7 +22,6 @@ export default function SecondTab({ user, primeBusiness }) {
     const [expanded, setExpanded] = React.useState(false);
 
 
-    console.log("carrr", primeBusiness.guild.guildName);
     useEffect(() => {
         const getBusinesses = async () => {
             try {
@@ -84,7 +83,7 @@ export default function SecondTab({ user, primeBusiness }) {
                     <Autocomplete
                         disablePortal
                         options={guildNames}
-                        value={primeBusiness.guild.guildName}
+                        value={primeBusiness?.guild.guildName}
                         sx={{ width: 300, my: 1 }}
                         renderInput={(params) => <TextField {...params} label="انتخاب صنف" />}
                     />
