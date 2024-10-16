@@ -13,14 +13,16 @@ import { blue } from '@mui/material/colors';
 
 const color = blue[50];
 
-export default function SecondTab({ user }) {
+export default function SecondTab({ user, primeBusiness }) {
 
     const router = useRouter()
     const [mounted, setMounted] = useState(false);
     const [businesses, setBusinesses] = useState(false);
+    const [guildNames, setGuildNames] = useState(false);
     const [expanded, setExpanded] = React.useState(false);
 
 
+    console.log("carrr", primeBusiness.guild.guildName);
     useEffect(() => {
         const getBusinesses = async () => {
             try {
@@ -36,6 +38,22 @@ export default function SecondTab({ user }) {
             }
         }
         getBusinesses()
+        const getGuilds = async () => {
+            try {
+                const res = await fetch("/api/getGuilds", { method: "GET" })
+                if (res.status === 200) {
+                    const data = await res.json()
+                    setGuildNames(data.data.map((guild) => {
+                        return guild.guildName
+                    }))
+                } else if ((res.status === 403)) {
+                    console.log("unauthorized access");
+                }
+            } catch (error) {
+                console.error("Error fetching Businesses:", error);
+            }
+        }
+        getGuilds()
         setMounted(true)
 
     }, [])
@@ -65,7 +83,8 @@ export default function SecondTab({ user }) {
                     </Accordion>
                     <Autocomplete
                         disablePortal
-                        options={["آهن فروشی", "test2"]}
+                        options={guildNames}
+                        value={primeBusiness.guild.guildName}
                         sx={{ width: 300, my: 1 }}
                         renderInput={(params) => <TextField {...params} label="انتخاب صنف" />}
                     />
@@ -74,8 +93,8 @@ export default function SecondTab({ user }) {
                     {businesses ?
                         businesses.map((business) => {
                             return (
-                                <List key={business._id} sx={{ width: '100%', maxWidth: 700,  }}>
-                                    <ListItemButton sx={{bgcolor: color, borderRadius: 2 , py: 3 }} onClick={() => router.push(`/${business.businessName}`)}>
+                                <List key={business._id} sx={{ width: '100%', maxWidth: 700, }}>
+                                    <ListItemButton sx={{ bgcolor: color, borderRadius: 2, py: 3 }} onClick={() => router.push(`/${business.businessName}`)}>
                                         <ListItemAvatar>
                                             <Avatar>
                                                 <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />

@@ -65,7 +65,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ user, bills, distinctGuilds }) {
+export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness }) {
 
 
   const [value, setValue] = React.useState(0);
@@ -173,7 +173,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
           {
             fabIndex !== value ?
-              <SecondTab />
+              <SecondTab primeBusiness={primeBusiness} />
               :
               <SecondTabFab {...{ user }} />
           }

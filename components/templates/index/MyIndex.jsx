@@ -32,7 +32,7 @@ export default function MyIndex({ user, bills, distinctGuilds, primeBusiness }) 
       <SearchAppBar
         user={user}
         menuClickHandler={menuClickHandler} />
-      <Tabs {...{ distinctGuilds, user, bills }}
+      <Tabs {...{ distinctGuilds, user, bills,primeBusiness }}
       />
 
     </>
