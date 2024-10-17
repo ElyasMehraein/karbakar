@@ -17,16 +17,20 @@ export default function SecondTabFab({ user, primeBusiness }) {
     //second autoCompelete
     let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
 
-    const selectedBusinessProductNames = [""].concat(selectedBusiness.deliveredProducts.map(product => {
+    const selectedBusinessProductNames = [""].concat(selectedBusiness?.deliveredProducts.map(product => {
         return product.productName
     }));
     const [value, setValue] = React.useState(null);
 
-    console.log("selectedBusinessProductNames", selectedBusinessProductNames);
+    //third autoCompelete
+    let selectedProduct = selectedBusiness?.deliveredProducts.find(product => {
+        return product.productName == value
+    })
+    const DBunitOfMeasurement = selectedProduct?.unitOfMeasurement
+    console.log("UnitOfMeasurement", DBunitOfMeasurement);
     // const [selectedBusinessProductNames, setSelectedBusinessProductNames] = React.useState(userBusinessProducts[0].map((product) => {
     //     return product.productName
     // }))
-    // const [unitOfMeasurement, setUnitOfMeasurement] = React.useState()
     // const [amount, setAmount] = React.useState("")
 
     // const [inputValue2, setInputValue2] = React.useState('');
@@ -110,78 +114,18 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     <TextField {...params} label={"انتخاب محصول"} />
                 )}
             />
-            {/* <Autocomplete
-                value={selectedBusiness}
-                onChange={(event, newValue) => {
-                    if (typeof newValue === 'string') {
-                        setSelectedBusiness({
-                            productName: newValue,
-                        });
-                    } else if (newValue && newValue.inputValue) {
-                        // Create a new value from the user input
-                        setSelectedBusiness({
-                            productName: newValue.inputValue,
-                        });
-                    } else {
-                        setSelectedBusiness(newValue);
-                    }
-                }}
-                options={userBusinessProducts}
-                filterOptions={(options, params) => {
-                    const filtered = filter(options, params);
 
-                    const { inputValue } = params;
-                    // Suggest the creation of a new value
-                    const isExisting = options.some((option) => inputValue === option.productName);
-                    if (inputValue !== '' && !isExisting) {
-                        filtered.push({
-                            inputValue,
-                            productName: `اضافه کردن محصول جدید"${inputValue}"`,
-                        });
-                    }
-
-                    return filtered;
-                }}
-                selectOnFocus
-                clearOnBlur
-                handleHomeEndKeys
-                id="free-solo-with-text-demo"
-                getOptionLabel={(option) => {
-                    // Value selected with enter, right from the input
-                    if (typeof option === 'string') {
-                        return option;
-                    }
-                    // Add "xxx" option created dynamically
-                    if (option.inputValue) {
-                        return option.inputValue;
-                    }
-                    // Regular option
-                    return option.businessName;
-                }}
-                renderOption={(props, option) => {
-                    const { key, ...optionProps } = props;
-                    return (
-                        <li key={key} {...optionProps}>
-                            {option.businessName}
-                        </li>
-                    );
-                }}
-                sx={{ width: 300 }}
-                freeSolo
-                renderInput={(params) => (
-                    <TextField {...params} label="انتخاب محصول" />
-                )}
-            /> */}
-            {/*  <Autocomplete
-                disabled
+          {/*   <Autocomplete
+                value={DBunitOfMeasurement}
+                disabled={DBunitOfMeasurement}
                 blurOnSelect
                 id="combo-box-demo"
-                options={["ss","aa"]}
+                options={["ss", "aa"]}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="واحد اندازه گیری" />}
-                // onChange={(e, value) => setUnitOfMeasurement(value)}
+            // onChange={(e, value) => setUnitOfMeasurement(value)}
             />
-              <TextField
+                 <TextField
                 placeholder='حداکثر 30 کارکتر' variant="outlined"
                 label="مقدار"
                 onChange={(e) => setAmount(e.target.value)}
