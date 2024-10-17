@@ -1,84 +1,84 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Autocomplete, Button, Container, IconButton, List, ListItem, ListItemText, TextField, Typography, createFilterOptions } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 const filter = createFilterOptions();
 
 export default function SecondTabFab({ user, primeBusiness }) {
-    const [selectedBusiness, setSelectedBusiness] = React.useState(primeBusiness)
-    const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness?.businessName)
-    const [selectedProduct, setSelectedProduct] = React.useState("")
-    const [unitOfMeasurement, setUnitOfMeasurement] = React.useState()
-    const [amount, setAmount] = React.useState("")
-    const [inputValue, setInputValue] = React.useState('');
-    const [inputValue2, setInputValue2] = React.useState('');
-
+    //first autoCompelete
+    const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
     const userBusinesses = user.businesses.map(business => {
         if (business.agentCode == user.code) {
-            return business.businessName
+            return business
         }
     })
-    const userBusinessProducts = user.businesses.map(business => {
-        return business.deliveredProducts
-    })
-    const selectedBusinessProducts = userBusinessProducts[0].map((product) => {
+    const userBusinessesNames = userBusinesses.map(business => business.businessName)
+    const [inputValue, setInputValue] = React.useState("");
+
+    //second autoCompelete
+    let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
+
+    const selectedBusinessProductNames = [""].concat(selectedBusiness.deliveredProducts.map(product => {
         return product.productName
-    })
-    function selectProduct(value) {
-        setSelectedProduct(value)
-        let selectedProductUnitOfMeasurement = userBusinessProducts[0].filter((product) => {
-            return product.productName == value
-        })
-        selectedProductUnitOfMeasurement[0] && setUnitOfMeasurement(selectedProductUnitOfMeasurement[0].unitOfMeasurement);
-    }
+    }));
+    const [value, setValue] = React.useState(null);
 
-    const addToGiveaway = () => {
-    }
-    const deleteFrame = () => {
+    console.log("selectedBusinessProductNames", selectedBusinessProductNames);
+    // const [selectedBusinessProductNames, setSelectedBusinessProductNames] = React.useState(userBusinessProducts[0].map((product) => {
+    //     return product.productName
+    // }))
+    // const [unitOfMeasurement, setUnitOfMeasurement] = React.useState()
+    // const [amount, setAmount] = React.useState("")
 
-    }
+    // const [inputValue2, setInputValue2] = React.useState('');
+
+    // const selectedBusinessProducts = userBusinessProducts[0].map((product) => {
+    //     return product
+    // })
+
+    // function selectProduct(value) {
+    //     setSelectedBusinessProductNames(value)
+    //     let selectedProductUnitOfMeasurement = userBusinessProducts[0].filter((product) => {
+    //         return product.productName == value
+    //     })
+    //     selectedProductUnitOfMeasurement[0] && setUnitOfMeasurement(selectedProductUnitOfMeasurement[0].unitOfMeasurement);
+    // }
+
+    // const addToGiveaway = () => {
+    // }
+    // const deleteFrame = () => {
+
+    // }
     return (
         <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>جهت ارائه چه مقدار از محصولات خود بصورت ماهانه متعهد می شوید؟</Typography>
             <Autocomplete
-                inputValue={inputValue2}
-                onInputChange={(event, newInputValue) => {
-                    setInputValue2(newInputValue);
-                }}
-                blurOnSelect
-                id="combo-box-demo"
-                value={selectedBusinessName}
-                options={userBusinesses}
-                sx={{ m: 2, width: 300 }}
-                renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
-                onChange={(e, value) => setSelectedBusiness(value)}
-            />
-            {/* <Autocomplete
                 inputValue={inputValue}
                 onInputChange={(event, newInputValue) => {
                     setInputValue(newInputValue);
                 }}
                 blurOnSelect
                 id="combo-box-demo"
-                options={selectedBusinessProducts}
+                options={userBusinessesNames}
+                value={selectedBusinessName}
                 sx={{ m: 2, width: 300 }}
-                renderInput={(params) => <TextField {...params} label="انتخاب محصول" />}
-                onChange={(e, value) => selectProduct(value)}
-            /> */}
+                renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
+                onChange={(e, value) => { setValue(null), setSelectedBusinessName(value) }}
+            />
             <Autocomplete
+                value={value}
                 sx={{ m: 2, width: 300 }}
-                // size="small"
-                // className="inMiddle"
                 onInputChange={(event, newValue) => {
                     if (typeof newValue === 'string') {
                         // Create a new value from the user input
-                        selectProduct(newValue);
+                        setValue(newValue);
                     } else if (newValue && newValue.inputValue) {
                         // Create a new value from the user input
-                        selectProduct(newValue.inputValue);
+                        setValue(newValue.inputValue);
                     } else {
-                        selectProduct(newValue);
+                        setValue(newValue);
                     }
                 }}
+                options={selectedBusinessProductNames || []}
                 filterOptions={(options, params) => {
                     const filtered = filter(options, params);
                     const { inputValue } = params;
@@ -94,11 +94,58 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     return filtered;
                 }}
                 selectOnFocus
-                // clearOnBlur
-                // freeSolo
                 handleHomeEndKeys
                 id="free-solo-with-text-demo"
-                options={selectedBusinessProducts || []}
+                getOptionLabel={(option) => {
+                    if (typeof option === 'string') {
+                        return option;
+                    }
+                    if (option.inputValue) {
+                        return option.inputValue;
+                    }
+                    return option;
+                }}
+                renderOption={(props, option) => <li {...props} key={option}>{option.title ? option.title : option}</li>}
+                renderInput={(params) => (
+                    <TextField {...params} label={"انتخاب محصول"} />
+                )}
+            />
+            {/* <Autocomplete
+                value={selectedBusiness}
+                onChange={(event, newValue) => {
+                    if (typeof newValue === 'string') {
+                        setSelectedBusiness({
+                            productName: newValue,
+                        });
+                    } else if (newValue && newValue.inputValue) {
+                        // Create a new value from the user input
+                        setSelectedBusiness({
+                            productName: newValue.inputValue,
+                        });
+                    } else {
+                        setSelectedBusiness(newValue);
+                    }
+                }}
+                options={userBusinessProducts}
+                filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+
+                    const { inputValue } = params;
+                    // Suggest the creation of a new value
+                    const isExisting = options.some((option) => inputValue === option.productName);
+                    if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                            inputValue,
+                            productName: `اضافه کردن محصول جدید"${inputValue}"`,
+                        });
+                    }
+
+                    return filtered;
+                }}
+                selectOnFocus
+                clearOnBlur
+                handleHomeEndKeys
+                id="free-solo-with-text-demo"
                 getOptionLabel={(option) => {
                     // Value selected with enter, right from the input
                     if (typeof option === 'string') {
@@ -109,24 +156,32 @@ export default function SecondTabFab({ user, primeBusiness }) {
                         return option.inputValue;
                     }
                     // Regular option
-                    return option;
+                    return option.businessName;
                 }}
-                renderOption={(props, option) => <li {...props} key={option}>{option.title ? option.title : option}</li>}
-                // freeSolo
-                // fullWidth
+                renderOption={(props, option) => {
+                    const { key, ...optionProps } = props;
+                    return (
+                        <li key={key} {...optionProps}>
+                            {option.businessName}
+                        </li>
+                    );
+                }}
+                sx={{ width: 300 }}
+                freeSolo
                 renderInput={(params) => (
-                    <TextField {...params} label={"انتخاب محصول"} />
+                    <TextField {...params} label="انتخاب محصول" />
                 )}
-            />
-            {/* <Autocomplete
+            /> */}
+            {/*  <Autocomplete
+                disabled
                 blurOnSelect
                 id="combo-box-demo"
-                options={unitOfMeasurement}
+                options={["ss","aa"]}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="واحد اندازه گیری" />}
-                onChange={(e, value) => setUnitOfMeasurement(value)}
+                // onChange={(e, value) => setUnitOfMeasurement(value)}
             />
-            <TextField
+              <TextField
                 placeholder='حداکثر 30 کارکتر' variant="outlined"
                 label="مقدار"
                 onChange={(e) => setAmount(e.target.value)}
