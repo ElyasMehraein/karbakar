@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Autocomplete, Button, Container, IconButton, List, ListItem, ListItemText, TextField, Typography } from '@mui/material';
+import { Autocomplete, Button, Container, IconButton, List, ListItem, ListItemText, TextField, Typography, createFilterOptions } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+const filter = createFilterOptions();
 
 export default function SecondTabFab({ user, primeBusiness }) {
     const [selectedBusiness, setSelectedBusiness] = React.useState(primeBusiness)
@@ -27,7 +28,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
         let selectedProductUnitOfMeasurement = userBusinessProducts[0].filter((product) => {
             return product.productName == value
         })
-        setUnitOfMeasurement(selectedProductUnitOfMeasurement[0].unitOfMeasurement);
+        selectedProductUnitOfMeasurement[0] && setUnitOfMeasurement(selectedProductUnitOfMeasurement[0].unitOfMeasurement);
     }
 
     const addToGiveaway = () => {
@@ -51,18 +52,71 @@ export default function SecondTabFab({ user, primeBusiness }) {
                 renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
                 onChange={(e, value) => setSelectedBusiness(value)}
             />
-            <Autocomplete
+            {/* <Autocomplete
                 inputValue={inputValue}
                 onInputChange={(event, newInputValue) => {
                     setInputValue(newInputValue);
                 }}
-                value={unitOfMeasurement}
                 blurOnSelect
                 id="combo-box-demo"
                 options={selectedBusinessProducts}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="انتخاب محصول" />}
                 onChange={(e, value) => selectProduct(value)}
+            /> */}
+            <Autocomplete
+                sx={{ m: 2, width: 300 }}
+                // size="small"
+                // className="inMiddle"
+                onInputChange={(event, newValue) => {
+                    if (typeof newValue === 'string') {
+                        // Create a new value from the user input
+                        selectProduct(newValue);
+                    } else if (newValue && newValue.inputValue) {
+                        // Create a new value from the user input
+                        selectProduct(newValue.inputValue);
+                    } else {
+                        selectProduct(newValue);
+                    }
+                }}
+                filterOptions={(options, params) => {
+                    const filtered = filter(options, params);
+                    const { inputValue } = params;
+                    // Suggest the creation of a new value
+                    const isExisting = options.some((option) => inputValue === option);
+                    if (inputValue !== '' && !isExisting) {
+                        filtered.push({
+                            inputValue,
+                            title: `اضافه کردن صنف جدید "${inputValue}"`,
+                        });
+                    }
+
+                    return filtered;
+                }}
+                selectOnFocus
+                // clearOnBlur
+                // freeSolo
+                handleHomeEndKeys
+                id="free-solo-with-text-demo"
+                options={selectedBusinessProducts || []}
+                getOptionLabel={(option) => {
+                    // Value selected with enter, right from the input
+                    if (typeof option === 'string') {
+                        return option;
+                    }
+                    // Add "xxx" option created dynamically
+                    if (option.inputValue) {
+                        return option.inputValue;
+                    }
+                    // Regular option
+                    return option;
+                }}
+                renderOption={(props, option) => <li {...props} key={option}>{option.title ? option.title : option}</li>}
+                // freeSolo
+                // fullWidth
+                renderInput={(params) => (
+                    <TextField {...params} label={"انتخاب محصول"} />
+                )}
             />
             {/* <Autocomplete
                 blurOnSelect
