@@ -14,44 +14,32 @@ export default function SecondTabFab({ user, primeBusiness }) {
     const userBusinessesNames = userBusinesses.map(business => business.businessName)
     const [inputValue, setInputValue] = React.useState("");
 
+
+
+
+
     //second autoCompelete
     let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
-
     const selectedBusinessProductNames = [""].concat(selectedBusiness?.deliveredProducts.map(product => {
         return product.productName
     }));
-    const [value, setValue] = React.useState(null);
+    const [selectedProductName, setSelectedProductName] = React.useState("");
+
+
+
 
     //third autoCompelete
+    const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
     let selectedProduct = selectedBusiness?.deliveredProducts.find(product => {
-        return product.productName == value
+        return product.productName == selectedProductName
     })
     const DBunitOfMeasurement = selectedProduct?.unitOfMeasurement
-    console.log("UnitOfMeasurement", DBunitOfMeasurement);
-    // const [selectedBusinessProductNames, setSelectedBusinessProductNames] = React.useState(userBusinessProducts[0].map((product) => {
-    //     return product.productName
-    // }))
-    // const [amount, setAmount] = React.useState("")
 
-    // const [inputValue2, setInputValue2] = React.useState('');
 
-    // const selectedBusinessProducts = userBusinessProducts[0].map((product) => {
-    //     return product
-    // })
-
-    // function selectProduct(value) {
-    //     setSelectedBusinessProductNames(value)
-    //     let selectedProductUnitOfMeasurement = userBusinessProducts[0].filter((product) => {
-    //         return product.productName == value
-    //     })
-    //     selectedProductUnitOfMeasurement[0] && setUnitOfMeasurement(selectedProductUnitOfMeasurement[0].unitOfMeasurement);
-    // }
-
-    // const addToGiveaway = () => {
-    // }
-    // const deleteFrame = () => {
-
-    // }
+    const addToGiveaway = () => {
+    }
+    const deleteFrame = () => {
+    }
     return (
         <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>جهت ارائه چه مقدار از محصولات خود بصورت ماهانه متعهد می شوید؟</Typography>
@@ -66,20 +54,20 @@ export default function SecondTabFab({ user, primeBusiness }) {
                 value={selectedBusinessName}
                 sx={{ m: 2, width: 300 }}
                 renderInput={(params) => <TextField {...params} label="انتخاب کسب و کار" />}
-                onChange={(e, value) => { setValue(null), setSelectedBusinessName(value) }}
+                onChange={(e, value) => { setSelectedProductName(""), setSelectedBusinessName(value) }}
             />
             <Autocomplete
-                value={value}
+                value={selectedProductName}
                 sx={{ m: 2, width: 300 }}
                 onInputChange={(event, newValue) => {
                     if (typeof newValue === 'string') {
                         // Create a new value from the user input
-                        setValue(newValue);
+                        setSelectedProductName(newValue);
                     } else if (newValue && newValue.inputValue) {
                         // Create a new value from the user input
-                        setValue(newValue.inputValue);
+                        setSelectedProductName(newValue.inputValue);
                     } else {
-                        setValue(newValue);
+                        setSelectedProductName(newValue);
                     }
                 }}
                 options={selectedBusinessProductNames || []}
@@ -91,7 +79,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     if (inputValue !== '' && !isExisting) {
                         filtered.push({
                             inputValue,
-                            title: `اضافه کردن صنف جدید "${inputValue}"`,
+                            title: `اضافه کردن محصول جدید "${inputValue}"`,
                         });
                     }
 
@@ -104,39 +92,38 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     if (typeof option === 'string') {
                         return option;
                     }
-                    if (option.inputValue) {
+                    if (option?.inputValue) {
                         return option.inputValue;
                     }
                     return option;
                 }}
                 renderOption={(props, option) => <li {...props} key={option}>{option.title ? option.title : option}</li>}
                 renderInput={(params) => (
-                    <TextField {...params} label={"انتخاب محصول"} />
+                    <TextField {...params} label={" انتخاب یا ورود محصول جدید"} />
                 )}
             />
+            {DBunitOfMeasurement ?
+                <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
 
-          {/*   <Autocomplete
-                value={DBunitOfMeasurement}
-                disabled={DBunitOfMeasurement}
-                blurOnSelect
-                id="combo-box-demo"
-                options={["ss", "aa"]}
-                sx={{ m: 2, width: 300 }}
-                renderInput={(params) => <TextField {...params} label="واحد اندازه گیری" />}
-            // onChange={(e, value) => setUnitOfMeasurement(value)}
-            />
-                 <TextField
-                placeholder='حداکثر 30 کارکتر' variant="outlined"
-                label="مقدار"
-                onChange={(e) => setAmount(e.target.value)}
-                sx={{ width: 300 }}
-            />
+                    {` واحد اندازه گیری  : ${DBunitOfMeasurement}`}
+                </Typography>
+                :
+                <TextField
+                    sx={{ width: 300 }}
+                    id="outlined-controlled"
+                    label="واحد اندازه گیری"
+                    value={unitOfMeasurement}
+                    onChange={(event) => {
+                        setUnitOfMeasurement(event.target.value);
+                    }}
+                />}
+
             <Button
                 sx={{ mt: 2, display: "block" }}
                 children={"اضافه نمودن به فاکتور"}
                 variant="contained"
                 disabled={selectedProduct && unitOfMeasurement && amount ? false : true}
-                onClick={addToGiveaway}
+            onClick={addToGiveaway}
             />
             <List dense={true}>
                 <ListItem sx={{ p: 2, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0' }} >
@@ -149,7 +136,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     </IconButton>
 
                 </ListItem>
-            </List> */}
+            </List>
         </Container>
     )
 }
