@@ -3,14 +3,13 @@ import { Box, Button, Container, TextField, Typography, Autocomplete } from '@mu
 import MyAppBar from '@/components/modules/MyAppBar'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { selectGuild } from '@/components/typoRepo';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
 import jobCategoriesData from "@/public/jobCategories";
 
 export default function createBusiness() {
     const router = useRouter()
-    const [guilds, setGuilds] = useState("")
+    const [guilds, setGuilds] = useState([])
 
     const [businessName, setBusinessName] = useState("")
     const [guildName, setGuildName] = useState("")
@@ -25,8 +24,12 @@ export default function createBusiness() {
                 const res = await fetch("/api/getGuilds", { method: "GET" })
                 if (res.status === 200) {
                     const data = await res.json()
-
-                    setGuilds(data.data.map(guild => guild.guildName))
+                    let recivedGuilds = data.data.map(guild => {
+                        if (guild.jobCategory == jobCategory) {
+                            return guild.guildName
+                        }
+                    })
+                    recivedGuilds[0] ? setGuilds(recivedGuilds) : setGuilds([])
                 } else if ((res.status === 403)) {
                     console.log("unauthorized access");
                 }
@@ -35,17 +38,13 @@ export default function createBusiness() {
             }
         }
         getGuilds()
-    }, [])
-
-    console.log("guilds", guilds);
+    }, [jobCategory])
 
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
     );
 
-
-    let changeHandler = (e, value) => setJobCategory(value.label)
-
+    let changeHandler = (e, value) => setJobCategory(value?.label)
 
 
     const isOptionEqualToValue = (option, value) => {
@@ -104,26 +103,42 @@ export default function createBusiness() {
                         options={formattedOptions}
                         groupBy={(option) => option.group}
                         getOptionLabel={(option) => option.label}
-                        renderInput={(params) => <TextField {...params} label="انتخاب دسته" />}
+                        renderInput={(params) => <TextField {...params} label="انتخاب دسته بندی شغل" />}
                         isOptionEqualToValue={isOptionEqualToValue}
                         onChange={changeHandler}
                     />
-                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>{selectGuild}</Typography>
+                    {jobCategory &&
+                        <>
+                            {guilds[0] ?
+                                <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
+                                    اگر عنوان های صنف موجود به کسب و کار شما مرتبط نیست یک نام مناسب تایپ کنید
+                                    <br />
+                                    انتخاب صنف مناسب موجب بهتر دیده شدن کسب و کار شما می شود
+                                </Typography>
+                                :
+                                <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
+                                    در این دسته بندی هنوز صنفی ایجاد نشده است  لذا برای ایجاد صنف جدید عنوان مناسب را تایپ کنید
+                                </Typography>
+                            }
+                        </>
+                    }
                     <Autocomplete
                         size='small'
                         sx={{ m: 1 }}
                         id="add-product"
                         freeSolo
                         options={guilds}
-                        renderInput={(params) => <TextField {...params} label="انتخاب یاایجاد صنف جدید" />}
+                        renderInput={(params) => <TextField {...params} label="عنوان صنف" />}
                         onInputChange={(event, newInputValue) => {
                             setGuildName(newInputValue)
                         }}
                     />
-                    <Typography sx={{ my: 1, fontSize: 12 }} >
+                    {guildName &&
+                        <Typography sx={{ my: 1, fontSize: 12 }} >
                             .برند کسب و کار خود را وارد نمایید
                             کارکترهای مجاز : A-Z a-z فاصله و نقطه
-                    </Typography>
+                        </Typography>
+                    }
                     <TextField
                         required
                         size='small'
@@ -134,7 +149,7 @@ export default function createBusiness() {
                         onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
                     />
 
-                    <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildName)} variant="contained">
+                    <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildName, jobCategory)} variant="contained">
                         ایجاد کسب و کار
                     </Button>
                 </Box>

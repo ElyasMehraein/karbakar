@@ -8,7 +8,6 @@ import UserModel from "@/models/User";
 
 
 export default async function page() {
-
     const token = cookies().get("token")?.value;
     const tokenPayLoad = verifyToken(token);
     if (!tokenPayLoad) {
@@ -20,11 +19,7 @@ export default async function page() {
         "code"
     )
     if (!user) {
-        return {
-            redirect: {
-                destination: "/",
-            }
-        }
+        redirect('/')
     }
     return (
         <CreateBusiness />
