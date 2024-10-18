@@ -37,16 +37,16 @@ export default function SecondTabFab({ user, primeBusiness }) {
         return product.productName == selectedProductName
     })
     const DBunitOfMeasurement = selectedProduct?.unitOfMeasurement
-    
+
     // forth textfield
     const [count, setCount] = React.useState(null)
-    
+
     const addToGiveaway = () => {
     }
     const deleteFrame = () => {
     }
     return (
-        <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
+        <Container maxWidth="md" className="inMiddle" display="flex" align='center' >
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>جهت ارائه چه مقدار از محصولات خود بصورت ماهانه متعهد می شوید؟</Typography>
             <Autocomplete
                 inputValue={inputValue}
@@ -81,7 +81,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                 </Typography>
                 :
                 <TextField
-                    sx={{ width: 300 , display: "block"  }}
+                    sx={{ width: 300, display: "block" }}
                     id="outlined-controlled"
                     label="واحد اندازه گیری"
                     value={unitOfMeasurement}
@@ -90,7 +90,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     }}
                 />}
             <TextField
-                sx={{ m: 2, width: 300  }}
+                sx={{ m: 2, width: 300 }}
                 id="outlined-controlled"
                 label="مقدار(عدد)"
                 defaultValue={count}
@@ -100,7 +100,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
             />
             <Button
                 sx={{ mt: 2, display: "block" }}
-                children={"اضافه نمودن به فاکتور"}
+                children={"اضافه به سبد"}
                 variant="contained"
                 disabled={selectedBusinessName && selectedProductName && unitOfMeasurement}
                 onClick={addToGiveaway}
