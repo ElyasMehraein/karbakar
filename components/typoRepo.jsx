@@ -6,8 +6,7 @@ export const mainTabYourReqText = `
 شما انجام خواهند داد
 `
 export const selectGuild = `
-کسب و کاری که ثبت می کنید با چه صنفی مرتبط است؟
-
+انتخاب صنف مناسب موجب بهتر دیده شدن کسب و کار شما می شود
 `
 export const iconText = `
 هر کاربر می تواند تا سقف 3 کسب و کار عضو باشد 

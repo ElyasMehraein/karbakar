@@ -7,7 +7,7 @@ export async function GET(req) {
     try {
         await connectToDB();
         const guilds = JSON.parse(JSON.stringify(await GuildModel.find({},
-          "guildName products"
+          "guildName products jobCategory"
         )));
 
 

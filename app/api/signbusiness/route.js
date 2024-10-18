@@ -15,7 +15,7 @@ export async function POST(req) {
         if (!businessName.trim() || !guildName.trim() || !jobCategory.trim()) {
             return Response.json({ message: "Entrance data is empty!" }, { status: 400 })
         }
-        const englishLetters = /^[A-Za-z]+$/;
+        const englishLetters = /^[A-Za-z\-\_\.]+$/;
         if (!businessName.match(englishLetters)) {
             return Response.json({ message: "Business name must only contain English letters!" }, { status: 406 })
         }

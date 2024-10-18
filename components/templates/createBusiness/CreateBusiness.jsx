@@ -8,8 +8,10 @@ import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
 import jobCategoriesData from "@/public/jobCategories";
 
-export default function createBusiness({ distinctGuilds }) {
+export default function createBusiness() {
     const router = useRouter()
+    const [guilds, setGuilds] = useState("")
+
     const [businessName, setBusinessName] = useState("")
     const [guildName, setGuildName] = useState("")
     const [jobCategory, setJobCategory] = useState("")
@@ -17,15 +19,38 @@ export default function createBusiness({ distinctGuilds }) {
     const [snackbarErrorMessage, setSnackbarErrorMessage] = useState("");
     const [success, setSuccess] = useState(false);
 
-    console.log("jobCategory",jobCategory);
+    useEffect(() => {
+        const getGuilds = async () => {
+            try {
+                const res = await fetch("/api/getGuilds", { method: "GET" })
+                if (res.status === 200) {
+                    const data = await res.json()
+
+                    setGuilds(data.data.map(guild => guild.guildName))
+                } else if ((res.status === 403)) {
+                    console.log("unauthorized access");
+                }
+            } catch (error) {
+                console.error("Error fetching Guilds:", error);
+            }
+        }
+        getGuilds()
+    }, [])
+
+    console.log("guilds", guilds);
 
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
     );
+
+
     let changeHandler = (e, value) => setJobCategory(value.label)
+
+
+
     const isOptionEqualToValue = (option, value) => {
         return option.label === value.label;
-      };
+    };
     const buttonSx = {
         mt: 5,
         ...(success && {
@@ -35,15 +60,11 @@ export default function createBusiness({ distinctGuilds }) {
             },
         }),
     };
-    const updateGuildName = (newGuildName) => {
-        setGuildName(newGuildName);
-    };
-
     async function createThisBusiness(businessName, guildName) {
         const res = await fetch('api/signbusiness', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessName, guildName })
+            body: JSON.stringify({ businessName, guildName, jobCategory })
         })
         if (res.status === 201) {
             setSuccess(true)
@@ -78,7 +99,7 @@ export default function createBusiness({ distinctGuilds }) {
                     }}
                     display="flex" flexDirection="column">
                     <Autocomplete
-                        sx={{ my: 3 }}
+                        sx={{ m: 1 }}
                         size='small'
                         options={formattedOptions}
                         groupBy={(option) => option.group}
@@ -87,17 +108,31 @@ export default function createBusiness({ distinctGuilds }) {
                         isOptionEqualToValue={isOptionEqualToValue}
                         onChange={changeHandler}
                     />
-                    <Typography sx={{ fontSize: 12 }} >یک ID لاتین برای کسب و کار خود انتخاب کنید</Typography>
+                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>{selectGuild}</Typography>
+                    <Autocomplete
+                        size='small'
+                        sx={{ m: 1 }}
+                        id="add-product"
+                        freeSolo
+                        options={guilds}
+                        renderInput={(params) => <TextField {...params} label="انتخاب یاایجاد صنف جدید" />}
+                        onInputChange={(event, newInputValue) => {
+                            setGuildName(newInputValue)
+                        }}
+                    />
+                    <Typography sx={{ my: 1, fontSize: 12 }} >
+                            .برند کسب و کار خود را وارد نمایید
+                            کارکترهای مجاز : A-Z a-z فاصله و نقطه
+                    </Typography>
                     <TextField
                         required
                         size='small'
                         error={snackbarError}
-                        sx={{ my: 3 }}
+                        sx={{ my: 1 }}
                         placeholder='حداکثر 30 کارکتر' variant="outlined"
                         label="برند کسب و کار شما"
                         onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
                     />
-                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>{selectGuild}</Typography>
 
                     <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildName)} variant="contained">
                         ایجاد کسب و کار
