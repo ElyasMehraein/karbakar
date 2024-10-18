@@ -15,7 +15,6 @@ export async function POST(req) {
         const response = await GET(req)
         const user = await response.json()
         const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ businessName: selectedBusiness }).populate("guild")))
-        console.log("aajjjj", Business.guild);
 
         const customer = JSON.parse(JSON.stringify(await UserModel.findOne({ code: customerCode })))
         if (!customer) {
