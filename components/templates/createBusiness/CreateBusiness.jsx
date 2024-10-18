@@ -1,21 +1,31 @@
 "use client"
-import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, TextField, Typography, Autocomplete } from '@mui/material'
 import MyAppBar from '@/components/modules/MyAppBar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Guild from "@/components/modules/Guild"
 import { selectGuild } from '@/components/typoRepo';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
+import jobCategoriesData from "@/public/jobCategories";
 
 export default function createBusiness({ distinctGuilds }) {
     const router = useRouter()
     const [businessName, setBusinessName] = useState("")
     const [guildName, setGuildName] = useState("")
+    const [jobCategory, setJobCategory] = useState("")
     const [snackbarError, setSnackbarError] = useState(false);
     const [snackbarErrorMessage, setSnackbarErrorMessage] = useState("");
     const [success, setSuccess] = useState(false);
 
+    console.log("jobCategory",jobCategory);
+
+    const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
+        categories.map(category => ({ label: category, group }))
+    );
+    let changeHandler = (e, value) => setJobCategory(value.label)
+    const isOptionEqualToValue = (option, value) => {
+        return option.label === value.label;
+      };
     const buttonSx = {
         mt: 5,
         ...(success && {
@@ -67,7 +77,17 @@ export default function createBusiness({ distinctGuilds }) {
                         my: 3
                     }}
                     display="flex" flexDirection="column">
-                    <Typography sx={{fontSize:12}} >یک ID لاتین برای کسب و کار خود انتخاب کنید</Typography>
+                    <Autocomplete
+                        sx={{ my: 3 }}
+                        size='small'
+                        options={formattedOptions}
+                        groupBy={(option) => option.group}
+                        getOptionLabel={(option) => option.label}
+                        renderInput={(params) => <TextField {...params} label="انتخاب دسته" />}
+                        isOptionEqualToValue={isOptionEqualToValue}
+                        onChange={changeHandler}
+                    />
+                    <Typography sx={{ fontSize: 12 }} >یک ID لاتین برای کسب و کار خود انتخاب کنید</Typography>
                     <TextField
                         required
                         size='small'
@@ -77,9 +97,8 @@ export default function createBusiness({ distinctGuilds }) {
                         label="برند کسب و کار شما"
                         onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
                     />
-                    <Typography sx={{ py: 1, textAlign: "center" ,fontSize:12 }}>{selectGuild}</Typography>
+                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>{selectGuild}</Typography>
 
-                    <Guild updateGuildName={updateGuildName} distinctGuilds={distinctGuilds} snackbarError={snackbarError} TextFieldText={"صنف شما"} />
                     <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildName)} variant="contained">
                         ایجاد کسب و کار
                     </Button>

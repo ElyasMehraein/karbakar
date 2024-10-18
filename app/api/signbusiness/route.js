@@ -11,8 +11,8 @@ export async function POST(req) {
 
     try {
         const body = await req.json()
-        const { businessName, guildName } = body;
-        if (!businessName.trim() || !guildName.trim()) {
+        const { businessName, guildName, jobCategory } = body;
+        if (!businessName.trim() || !guildName.trim() || !jobCategory.trim()) {
             return Response.json({ message: "Entrance data is empty!" }, { status: 400 })
         }
         const englishLetters = /^[A-Za-z]+$/;
@@ -44,7 +44,8 @@ export async function POST(req) {
             } else {
                 const newGuild = await GuildModel.create({
                     guildName,
-                    products: []
+                    products: [],
+                    jobCategory
                 })
                 GuildInDB = newGuild
             }
