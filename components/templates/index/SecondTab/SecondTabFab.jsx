@@ -40,26 +40,23 @@ export default function SecondTabFab({ user, primeBusiness }) {
         }
     }, [selectedProductName])
 
-    // forth textfield
+    // last textfield
     const [amount, setAmount] = React.useState("")
-
-    //adding to basket
-
+    //button
+    let isButtonDisable = !Boolean(selectedProductName && unitOfMeasurement && amount);
+    //basket
     const [basket, setBasket] = React.useState([])
-
     const addToBasket = () => {
         setBasket([{ id: basket.length + 1, productName: selectedProductName, unitOfMeasurement, amount }, ...basket])
         setSelectedProductName("")
         setUnitOfMeasurement("")
         setAmount("")
     }
-
     //che khabare?
-    let isButtonDisable = !Boolean(selectedProductName && unitOfMeasurement && amount);
 
-    console.log("basket", basket);
 
-    const deleteFrame = () => {
+    const deleteFrame = (id) => {
+        setBasket((basket.filter(frame => frame.id !== id)))
     }
     return (
         <Container maxWidth="md" className="inMiddle" align='center' >
@@ -124,16 +121,19 @@ export default function SecondTabFab({ user, primeBusiness }) {
                 onClick={addToBasket}
             />
             <List dense={true}>
-                <ListItem sx={{ p: 2, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0' }} >
-                    <ListItemText primary="50" />
-                    <ListItemText primary="کیلوگرم" />
-                    <ListItemText primary=" سیب زمینی خلالی با طعم خیار" />
-
-                    <IconButton onClick={() => deleteFrame(id)}>
-                        <DeleteIcon />
-                    </IconButton>
-
-                </ListItem>
+                {basket.map(producrFrame => {
+                    return (
+                        <ListItem key={producrFrame.id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
+                            <ListItemText primary={producrFrame.amount} />
+                            <ListItemText primary={producrFrame.unitOfMeasurement} />
+                            <ListItemText primary={producrFrame.productName} />
+                            <IconButton onClick={() => deleteFrame(producrFrame.id)}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </ListItem>
+                    )
+                })
+                }
             </List>
         </Container>
     )
