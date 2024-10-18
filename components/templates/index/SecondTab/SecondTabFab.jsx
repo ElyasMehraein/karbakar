@@ -19,10 +19,16 @@ export default function SecondTabFab({ user, primeBusiness }) {
 
 
     //second autoCompelete
+    const [BusinessProducts, setBusinessProducts] = React.useState([]);
+
     let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
-    const selectedBusinessProductNames = [""].concat(selectedBusiness?.deliveredProducts.map(product => {
-        return product.productName
-    }));
+    useEffect(() => {
+        const selectedBusinessProductNames = selectedBusiness.deliveredProducts.map(product => {
+            return product.productName
+        })
+        setBusinessProducts(selectedBusinessProductNames)
+    }, [selectedBusinessName])
+
     const [selectedProductName, setSelectedProductName] = React.useState("");
 
 
@@ -62,7 +68,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
 
                 id="add-product"
                 freeSolo
-                options={selectedBusinessProductNames}
+                options={BusinessProducts}
                 renderInput={(params) => <TextField {...params} label="انتخاب محصولات موجود یا ورود محصول جدید" />}
                 onInputChange={(event, newInputValue) => {
                     setSelectedProductName(newInputValue)
