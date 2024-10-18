@@ -63,7 +63,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                 id="add-product"
                 freeSolo
                 options={selectedBusinessProductNames}
-                renderInput={(params) => <TextField {...params} label="انتخاب یا ورود محصول جدید" />}
+                renderInput={(params) => <TextField {...params} label="انتخاب محصولات موجود یا ورود محصول جدید" />}
                 onInputChange={(event, newInputValue) => {
                     setSelectedProductName(newInputValue)
                 }}
