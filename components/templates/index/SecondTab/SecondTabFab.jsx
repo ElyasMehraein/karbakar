@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Autocomplete, Button, Container, IconButton, List, ListItem, ListItemText, TextField, Typography, createFilterOptions } from '@mui/material';
+import { Autocomplete, Box, Button, Container, IconButton, List, ListItem, ListItemText, TextField, Typography, createFilterOptions } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 const filter = createFilterOptions();
 
@@ -13,10 +13,6 @@ export default function SecondTabFab({ user, primeBusiness }) {
     })
     const userBusinessesNames = userBusinesses.map(business => business.businessName)
     const [inputValue, setInputValue] = React.useState("");
-
-
-
-
 
     //second autoCompelete
     const [BusinessProducts, setBusinessProducts] = React.useState([]);
@@ -33,20 +29,40 @@ export default function SecondTabFab({ user, primeBusiness }) {
 
     //third autoCompelete
     const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
-    let selectedProduct = selectedBusiness?.deliveredProducts.find(product => {
-        return product.productName == selectedProductName
-    })
-    const DBunitOfMeasurement = selectedProduct?.unitOfMeasurement
+    useEffect(() => {
+        let selectedProduct = selectedBusiness?.deliveredProducts.find(product => {
+            return product.productName == selectedProductName
+        })
+        if (selectedProduct) {
+            setUnitOfMeasurement(selectedProduct.unitOfMeasurement)
+        } else {
+            setUnitOfMeasurement("")
+        }
+    }, [selectedProductName])
 
     // forth textfield
-    const [count, setCount] = React.useState(null)
+    const [amount, setAmount] = React.useState("")
 
-    const addToGiveaway = () => {
+    //adding to basket
+
+    const [basket, setBasket] = React.useState([])
+
+    const addToBasket = () => {
+        setBasket([{ id: basket.length + 1, productName: selectedProductName, unitOfMeasurement, amount }, ...basket])
+        setSelectedProductName("")
+        setUnitOfMeasurement("")
+        setAmount("")
     }
+
+    //che khabare?
+    let isButtonDisable = !Boolean(selectedProductName && unitOfMeasurement && amount);
+
+    console.log("basket", basket);
+
     const deleteFrame = () => {
     }
     return (
-        <Container maxWidth="md" className="inMiddle" display="flex" align='center' >
+        <Container maxWidth="md" className="inMiddle" align='center' >
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>جهت ارائه چه مقدار از محصولات خود بصورت ماهانه متعهد می شوید؟</Typography>
             <Autocomplete
                 inputValue={inputValue}
@@ -74,36 +90,38 @@ export default function SecondTabFab({ user, primeBusiness }) {
                 }}
             />
 
-            {DBunitOfMeasurement ?
+            {unitOfMeasurement ?
                 <Typography sx={{ m: 1, textAlign: "center", fontSize: 14 }}>
-
-                    {` واحد اندازه گیری  : ${DBunitOfMeasurement}`}
+                    {` واحد اندازه گیری  : ${unitOfMeasurement}`}
                 </Typography>
                 :
-                <TextField
-                    sx={{ width: 300, display: "block" }}
-                    id="outlined-controlled"
-                    label="واحد اندازه گیری"
-                    value={unitOfMeasurement}
-                    onChange={(event) => {
-                        setUnitOfMeasurement(event.target.value);
-                    }}
-                />}
+                <Box sx={{ width: "100%" }}>
+                    <TextField
+                        sx={{ mx: 2, width: 300 }}
+                        id="outlined-controlled"
+                        label="واحد اندازه گیری"
+                        value={unitOfMeasurement}
+                        onChange={(event) => {
+                            setUnitOfMeasurement(event.target.value);
+                        }}
+                    />
+                </Box>
+            }
             <TextField
                 sx={{ m: 2, width: 300 }}
-                id="outlined-controlled"
+                id="outlined-controlled2"
                 label="مقدار(عدد)"
-                defaultValue={count}
+                defaultValue={amount}
                 onChange={(event) => {
-                    setCount(event.target.value);
+                    setAmount(event.target.value);
                 }}
             />
             <Button
-                sx={{ mt: 2, display: "block" }}
+                sx={{ display: "block" }}
                 children={"اضافه به سبد"}
                 variant="contained"
-                disabled={selectedBusinessName && selectedProductName && unitOfMeasurement}
-                onClick={addToGiveaway}
+                disabled={isButtonDisable}
+                onClick={addToBasket}
             />
             <List dense={true}>
                 <ListItem sx={{ p: 2, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0' }} >
