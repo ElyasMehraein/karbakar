@@ -31,17 +31,16 @@ export default function SecondTabFab({ user, primeBusiness }) {
 
     const [selectedProductName, setSelectedProductName] = React.useState("");
 
-
-
-
     //third autoCompelete
     const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
     let selectedProduct = selectedBusiness?.deliveredProducts.find(product => {
         return product.productName == selectedProductName
     })
     const DBunitOfMeasurement = selectedProduct?.unitOfMeasurement
-
-
+    
+    // forth textfield
+    const [count, setCount] = React.useState(null)
+    
     const addToGiveaway = () => {
     }
     const deleteFrame = () => {
@@ -76,13 +75,13 @@ export default function SecondTabFab({ user, primeBusiness }) {
             />
 
             {DBunitOfMeasurement ?
-                <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
+                <Typography sx={{ m: 1, textAlign: "center", fontSize: 14 }}>
 
                     {` واحد اندازه گیری  : ${DBunitOfMeasurement}`}
                 </Typography>
                 :
                 <TextField
-                    sx={{ width: 300 }}
+                    sx={{ width: 300 , display: "block"  }}
                     id="outlined-controlled"
                     label="واحد اندازه گیری"
                     value={unitOfMeasurement}
@@ -90,7 +89,15 @@ export default function SecondTabFab({ user, primeBusiness }) {
                         setUnitOfMeasurement(event.target.value);
                     }}
                 />}
-
+            <TextField
+                sx={{ m: 2, width: 300  }}
+                id="outlined-controlled"
+                label="مقدار(عدد)"
+                defaultValue={count}
+                onChange={(event) => {
+                    setCount(event.target.value);
+                }}
+            />
             <Button
                 sx={{ mt: 2, display: "block" }}
                 children={"اضافه نمودن به فاکتور"}
