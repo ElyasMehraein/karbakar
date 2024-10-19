@@ -29,11 +29,11 @@ export default function SecondTabFab({ user, primeBusiness }) {
 
     let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
     useEffect(() => {
-        const selectedBusinessProductNames = selectedBusiness.deliveredProducts.map(product => {
-            return product.productName
-        })
-        setBusinessProducts(selectedBusinessProductNames)
-    }, [selectedBusinessName])
+            if (selectedBusiness) {
+            const selectedProductNames = selectedBusiness.deliveredProducts.map(product => product.productName);
+            setBusinessProducts(selectedProductNames);
+          }
+    }, [selectedBusiness])
 
     const [selectedProductName, setSelectedProductName] = React.useState("");
 
@@ -69,7 +69,6 @@ export default function SecondTabFab({ user, primeBusiness }) {
         setUnitOfMeasurement("")
         setAmount("")
     }
-    console.log("basketbala", basket);
 
     //delete frame
     const deleteFrame = (id) => {

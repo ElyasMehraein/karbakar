@@ -14,23 +14,20 @@ export async function PUT(req) {
         const response = await GET(req)
         const user = await response.json()
         const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: businessID })))
-        // const loggedUser = JSON.parse(JSON.stringify(await UserModel.findOne({ code: user.code })))
-        // if (!loggedUser) {
-        //     return Response.json({ message: "log in first" }, { status: 404 })
-        // }
-        // if (Number(Business.agentCode) !== user.code) {
-        //     return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
-        // }
-        // await BusinessModel.findByIdAndUpdate(Business._id, {
-        //     monthlyCommitment :
-        //     productName,
-        //     unitOfMeasurement,
-        //     amount,
-        //     isRetail,
-        // })
-
-        console.log("hala be inja beres ta bad", Business);
-        
+        const loggedUser = JSON.parse(JSON.stringify(await UserModel.findOne({ code: user.code })))
+        if (!loggedUser) {
+            return Response.json({ message: "log in first" }, { status: 404 })
+        }
+        if (Number(Business.agentCode) !== user.code) {
+            return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
+        }
+        console.log("basket", basket);
+        basket.forEach(async (product) => {
+            await BusinessModel.findOneAndUpdate(
+                { _id: businessID },
+                { $push: { deliveredProducts: product } }
+            );
+        });
 
         return Response.json({ message: "business created successfully" }, { status: 201 })
 
