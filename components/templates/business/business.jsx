@@ -21,7 +21,7 @@ function Business({ business, logedUserCode , bills}) {
             <PageAvatar business={business} />
             <Name business={business} />
             <Bio business={business} />
-            <ReceiversAndProviders/>
+            <ReceiversAndProviders business={business}/>
             <Contact business={business} />
             <Map business={business} />
             <Explain business={business} />
