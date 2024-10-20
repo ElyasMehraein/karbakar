@@ -29,10 +29,10 @@ export default function SecondTabFab({ user, primeBusiness }) {
 
     let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
     useEffect(() => {
-            if (selectedBusiness) {
+        if (selectedBusiness) {
             const selectedProductNames = selectedBusiness.deliveredProducts.map(product => product.productName);
             setBusinessProducts(selectedProductNames);
-          }
+        }
     }, [selectedBusiness])
 
     const [selectedProductName, setSelectedProductName] = React.useState("");
@@ -61,8 +61,16 @@ export default function SecondTabFab({ user, primeBusiness }) {
     //button
     let isButtonDisable = !Boolean(selectedProductName && unitOfMeasurement && amount);
     //basket
-    const [basket, setBasket] = React.useState([])
+    const [basket, setBasket] = React.useState(selectedBusiness.monthlyCommitment)
+
     const addToBasket = () => {
+        let isDuplicate = basket.filter((value) => {
+            return value.productName === selectedProductName;
+        });
+        if (isDuplicate[0]) {
+            setOpenSnackbarDublicateError(true)
+            return
+        }
         setBasket([{ id: basket.length + 1, productName: selectedProductName, unitOfMeasurement, amount, isRetail: radioGroupValue }, ...basket])
         setSelectedProductName("")
         setBusinessProducts([])
@@ -72,11 +80,11 @@ export default function SecondTabFab({ user, primeBusiness }) {
 
     //delete frame
     const deleteFrame = (id) => {
-        setBasket((basket.filter(frame => frame.id !== id)))
+        setBasket((basket.filter(frame => frame._id !== id)))
     }
     //Snackbars
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
-    const [openSnackbarError, setOpenSnackbarError] = React.useState(false);
+    const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = React.useState(false);
     const [openSnackbar500Error, setOpenSnackbar500Error] = React.useState(false);
     const [openSnackbar404Error, setOpenSnackbar404Error] = React.useState(false);
     const [openSnackbar407Error, setOpenSnackbar407Error] = React.useState(false);
@@ -84,6 +92,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
     const handleSnackbarClose = () => {
         setOpenSnackbar500Error(false)
         setOpenSnackbar(false);
+        setOpenSnackbarDublicateError(false);
     };
     const handleShowSnackbar = () => {
         setOpenSnackbar(true);
@@ -140,13 +149,13 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     />
                     <Autocomplete
                         sx={{ m: 2, width: 300 }}
-
                         id="add-product"
                         freeSolo
                         options={BusinessProducts}
                         renderInput={(params) => <TextField {...params} label="انتخاب محصولات موجود یا ورود محصول جدید" />}
                         onInputChange={(event, newInputValue) => {
                             setSelectedProductName(newInputValue)
+                            setAmount([])
                         }}
                     />
 
@@ -178,6 +187,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                             onChange={(event) => {
                                 setAmount(event.target.value);
                             }}
+                            value={amount}
                         />
                     </Box>
                     <FormControl>
@@ -203,7 +213,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     <List dense={true}>
                         {basket.map(producrFrame => {
                             return (
-                                <ListItem key={producrFrame.id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
+                                <ListItem key={producrFrame._id || producrFrame.id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
                                     {producrFrame.isRetail ?
                                         <ListItemIcon>
                                             <Groups2Icon />
@@ -214,7 +224,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                                         </ListItemIcon>
                                     }
                                     <ListItemText primary={producrFrame.productName} secondary={`${producrFrame.amount} - ${producrFrame.unitOfMeasurement}`} />
-                                    <IconButton onClick={() => deleteFrame(producrFrame.id)}>
+                                    <IconButton onClick={() => deleteFrame(producrFrame._id)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItem>
@@ -226,18 +236,25 @@ export default function SecondTabFab({ user, primeBusiness }) {
                         sx={{ display: "block" }}
                         children={"ذخیره تغییرات"}
                         variant="contained"
-                        disabled={!basket[0]}
+                        disabled={selectedBusiness.monthlyCommitment === basket}
                         onClick={updateMonthlyCommitment}
                     />
                     <CustomSnackbar
                         open={openSnackbar}
                         onClose={handleSnackbarClose}
-                        message="صورتحساب جهت تایید برای مشتری ارسال شد"
+                        message="تعهدات ماهانه این کسب و کار بروزرسانی شد"
                     />
                     <CustomSnackbar
                         open={openSnackbar500Error}
                         onClose={handleSnackbarClose}
                         message="خطا از سمت سرور"
+                        severity="error"
+
+                    />
+                    <CustomSnackbar
+                        open={openSnackbarDublicateError}
+                        onClose={handleSnackbarClose}
+                        message="این محصول قبلا به سبد اضافه شده است"
                         severity="error"
 
                     />

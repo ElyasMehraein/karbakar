@@ -66,7 +66,7 @@ const schema = new Schema({
     ],
     monthlyCommitment: [
         {
-            productName: { type: String, maxlength: 30 },
+            productName: { type: String, maxlength: 30, unique: true },
             unitOfMeasurement: { type: String, maxlength: 20 },
             amount: { type: Number, min: 1, max: 9999 },
             isRetail: Boolean,
