@@ -10,7 +10,6 @@ import Image from 'next/image'
 
 
 export default function PageAvatar({ user, business }) {
-
   const createdAt = new Date(user?.createdAt || business.createdAt)
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - createdAt.getTime();
@@ -49,7 +48,7 @@ export default function PageAvatar({ user, business }) {
           </Typography>
           {business ?
             <Typography display="inline" variant="subtitle2">
-              صنف :  {business.guildName}
+              صنف :  {business.guild.guildName}
             </Typography>
             :
             <Typography display="inline" variant="subtitle2">

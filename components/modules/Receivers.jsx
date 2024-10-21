@@ -1,8 +1,9 @@
+"use client"
 import { Avatar, AvatarGroup, Box, Button, Container, Typography } from '@mui/material'
 import React from 'react'
 import ItsAvatar from './ItsAvatar'
 
-export default function ReceiversAndProviders({business}) {
+export default function Receivers({business}) {
     const [receivers, setReceivers] = React.useState(business.receivers)
 
     async function addThisBusinessToMyBusinessReceivers() {
@@ -62,33 +63,6 @@ export default function ReceiversAndProviders({business}) {
                     <Typography color="NavyDarkSlateGray" variant="button" >
                         دریافت کنندگان
                     </Typography>
-                </Button>
-                <Button fullWidth sx={{ m: 1 }} dir="ltr" variant="outlined">
-                    <AvatarGroup max={4}>
-                        <Avatar>
-                            <ItsAvatar userCodeOrBusinessBrand={"nikkala"} isAvatar={true} alt="none" />
-                        </Avatar>
-                        <Avatar>
-
-                            <ItsAvatar userCodeOrBusinessBrand={"sobhanmine"} isAvatar={true} alt="none" />
-                        </Avatar>
-                        <Avatar>
-
-                            <ItsAvatar userCodeOrBusinessBrand={"modelpelast"} isAvatar={true} alt="none" />
-                        </Avatar>
-                        <Avatar>
-
-                            <ItsAvatar userCodeOrBusinessBrand={"shahramfarm"} isAvatar={true} alt="none" />
-                        </Avatar>
-
-                    </AvatarGroup>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Typography color="NavyDarkSlateGray" variant="button" >
-                        تامین کنندگان
-                    </Typography>
-                </Button>
-                <Button onClick={addThisBusinessToMyBusinessReceivers} fullWidth sx={{ m: 1 }} dir="ltr" variant="contained">
-                    ارائه محصول به این کسب و کار
                 </Button>
             </Box>
         </Container>

@@ -29,7 +29,7 @@ export default async function subDirectory({ params }) {
 
       const business = JSON.parse(JSON.stringify(await BusinessModel.findOne({
         businessName: params.subDirectory
-      }).populate("workers")));
+      }).populate("workers guild")));
 
       if (!business) {
         console.log("business not found in DB");
