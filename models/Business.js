@@ -72,20 +72,7 @@ const schema = new Schema({
             isRetail: Boolean,
         }
     ],
-    receivers: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Business",
-            // index: { unique: true }
-        }
-    ],
-    providers: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Business",
-            // index: { unique: true }
-        }
-    ],
+    
 }, { timestamps: true })
 
 const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)

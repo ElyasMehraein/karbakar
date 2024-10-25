@@ -117,7 +117,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
     router.push(`/${userCode(user)}`)
   }
   const signOut = async () => {
-    const res = await fetch("/api/auth/logout", { method: "POST" })
+    const res = await fetch("/api/auth/logout", { method: "GET" })
     if (res.status === 200) {
       router.push('/w')
     }
