@@ -15,24 +15,23 @@ import AddToReceiversButton from "@/components/modules/AddToReceiversButton";
 import Receivers from "@/components/modules/Receivers";
 import Providers from "@/components/modules/Providers";
 const Map = dynamic(() => import("@/components/templates/business/Map"), { ssr: false })
-function Business({ business, logedUserCode , bills}) {
+function Business({ business, logedUser , bills}) {
     return (
         <>
-            <MyAppBar logedUserCode={logedUserCode} business={business} />
+            <MyAppBar logedUser={logedUser} business={business} />
             <Header business={business} />
             <PageAvatar business={business} />
             <Name business={business} />
             <Bio business={business} />
             <Receivers business={business}/>
             <Providers business={business}/>
-            <AddToReceiversButton business={business}/>
+            <AddToReceiversButton logedUser={logedUser} business={business}/>
             <Contact business={business} />
             <Map business={business} />
             <Explain business={business} />
             <TableBusiness business={business} bills={bills} />
             <TableBusiness2/>
             <EmployeeList business={business} />
-            {/* <WhatBusinessGet business={business} /> */}
         </>
     )
 

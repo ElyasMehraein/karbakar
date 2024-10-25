@@ -9,7 +9,7 @@ import UserModel from '@/models/User';
 import Profile from '@/components/templates/Profile/Profile';
 import { redirect } from 'next/navigation';
 import { GET } from '../api/auth/logout/route';
-import BusinessRelationModel from '@/models/BusinessRelation'; // Import BusinessRelationModel
+import BusinessRelationModel from '@/models/BusinessRelation';
 
 export default async function subDirectory({ params }) {
 
@@ -18,24 +18,26 @@ export default async function subDirectory({ params }) {
     const tokenPayLoad = verifyToken(token);
 
     connectToDB();
-    let logedUserCode = null;
+    let logedUser = null;
 
     if (tokenPayLoad) {
-      logedUserCode = JSON.parse(JSON.stringify(await UserModel.findOne(
+      logedUser = JSON.parse(JSON.stringify(await UserModel.findOne(
         { _id: tokenPayLoad.id },
-        "-_id code"
-      ))).code;
+        "-_id code businesses"
+      ).populate([
+        "businesses",
+      ])));
     }
 
     if (isNaN(params.subDirectory)) {
 
       // Find Business with relationships (populated)
-      const business = await BusinessModel.findOne({
+      const business = JSON.parse(JSON.stringify(await BusinessModel.findOne({
         businessName: params.subDirectory
       }).populate([
         "workers",
         "guild",
-      ]);
+      ])));
 
       if (!business) {
         console.log("business not found in DB");
@@ -43,29 +45,25 @@ export default async function subDirectory({ params }) {
       }
 
       // Find relevant Bills
-      const bills = await BillModel.find({
+      const bills = JSON.parse(JSON.stringify(await BillModel.find({
         from: business._id,
         isAccept: true
-      }).populate("to");
+      }).populate("to")));
 
       // Get related businesses for logged-in user (if any)
-      let relations = await BusinessRelationModel.find({
+      let relations = JSON.parse(JSON.stringify(await BusinessRelationModel.find({
         $or: [
           { provider: business._id },
           { receiver: business._id },
         ],
-      });
-
-      let providers = relations.filter(relation => relation.provider.equals(business._id));
-      let receivers = relations.filter(relation => relation.receiver.equals(business._id));
-
+      })));
 
       return (
         <Business
           business={business}
-          logedUserCode={logedUserCode}
+          logedUser={logedUser}
           bills={bills}
-          relatedBusinesses={{ providers, receivers }} // Pass related businesses
+          relations={relations}
         />
       );
 
