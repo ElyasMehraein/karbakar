@@ -7,54 +7,48 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
-import TextField from '@mui/material/TextField';
-import FactCheckIcon from '@mui/icons-material/FactCheck';
 import ItsAvatar from './ItsAvatar';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import ListItem from '@mui/material/ListItem';
 import Checkbox from '@mui/material/Checkbox';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function AddToReceiversButton({ relations, logedUser, business }) {
-    const isNotOwner = Number(logedUser.Code) !== Number(business.agentCode)
-    const userBusinesses = logedUser.businesses.map(business => {
-        // if (business.agentCode === logedUser.code) {
-        return business
 
+    const isNotOwner = Number(logedUser.Code) !== Number(business.agentCode)
+
+    const userBusinesses = logedUser.businesses.map(business => {
+        if (business.agentCode == logedUser.code) {
+            return business
+        }
     })
-    console.log("userBusinesses", userBusinesses);
 
     const [answer, setAnswer] = React.useState(false)
     const [isAnswerNeed, setIsAnswerNeed] = React.useState(false)
     const [isDisable, setIsDisable] = React.useState(false)
     const [openDialog, setOpenDialog] = React.useState(false);
     const [newValue, setNewValue] = React.useState(null);
-    const [openSnackbar, setOpenSnackbar] = React.useState(false);
-    // const [dialogMessage, setDialogMessage] = React.useState("اضافه به کسب و کار");
+
 
     const ButtonText = isAnswerNeed ? "منتظر پاسخ" : answer ? `دریافت کننده محصولات${logedUser.code}` : "ارائه محصول به این کسب و کار"
 
-    const [checked, setChecked] = React.useState([1]);
+    //checkBox
+    const [selectedBusinesses, setSelectedBusinesses] = React.useState([]);
+    function handleToggle(e) {
+        const newValue = e.target.value;
+        const isSelected = selectedBusinesses.includes(newValue);
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
+        setSelectedBusinesses((prevSelectedBusinesses) => {
+            if (isSelected) {
+                return prevSelectedBusinesses.filter((item) => item !== newValue); // Remove from selection
+            } else {
+                return [...prevSelectedBusinesses, newValue]; // Add to selection
+            }
+        });
+    }
 
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
-        }
-
-        setChecked(newChecked);
-    };
 
     let providers = relations?.filter(relation => relation.provider.equals(business._id));
     let receivers = relations?.filter(relation => relation.receiver.equals(business._id));
@@ -65,71 +59,78 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         business,
         title: "jobOffer",
     }
-    const handleSnackbarClose = () => {
-        setOpenSnackbar(false);
+
+    //Snackbar
+    const [open201Snackbar, setOpen201Snackbar] = React.useState(false);
+    const [openSnackbar407Error, setOpenSnackbar407Error] = React.useState(false);
+    const [openSnackbar500Error, setOpenSnackbar500Error] = React.useState(false);
+    const [openSnackbarNonSelectedError, setOpenSnackbarNonSelectedError] = React.useState(false);
+
+    function handleSnackbarClose() {
+        setOpen201Snackbar(false);
+        setOpenSnackbar407Error(false);
+        setOpenSnackbarNonSelectedError(false);
     };
-    const handleShowSnackbar = () => {
-        setOpenSnackbar(true);
+    const handleShow201Snackbar = () => {
+        setOpen201Snackbar(true);
     };
 
-    const businessSelectHandler = (e) => {
-        setOpenDialog(!openDialog)
-    };
 
-    const signHandler = () => {
-        setDialogMessage("استخدام")
-        setOpen(true);
-    };
-    const dismissHandler = () => {
-        setDialogMessage("اخراج")
-        setOpen(true);
+    const confirmHandler = () => {
+        if (!selectedBusinesses[0]) {
+            setOpenSnackbarNonSelectedError(true)
+        } else {
+            selectedBusinesses.map((provider) => {
+                try {
+                    addThisBusinessToMyBusinessReceivers(provider, business._id)
+
+                } catch (err) {
+                    console.log("errr", err);
+                }
+            })
+        }
+
     };
 
     const handleClose = () => {
         setOpenDialog(false);
     };
-    const actionHandler = () => {
+    const [isLoading, setIsLoading] = React.useState(false);
 
-        if (dialogMessage === "استخدام") {
-            sendJobOffer()
-        }
-        if (dialogMessage === "اخراج") {
-            dismissalHandler()
-        }
-    };
-    async function addThisBusinessToMyBusinessReceivers() {
 
-        // const res = await fetch('api/setBusinessReceivers', {
-        //     method: "PUT",
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ businessID: selectedBusiness._id, receivers })
-        // })
-        // if (res.status === 500) {
-        //     console.log("server error");
-        //     setOpenSnackbar500Error(true)
-        //     setIsLoading(false)
-        // } else if (res.status === 201) {
-        console.log("updateMonthlyCommitment sited successfully");
-        handleShowSnackbar()
-        // setIsLoading(false)
-        // } else if (res.status === 404) {
-        //     setOpenSnackbar404Error(true)
-        //     setIsLoading(false)
-        // } else if (res.status === 406) {
-        //     setOpenSnackbarError(true)
-        //     setIsLoading(false)
-        // } else if (res.status === 407) {
-        //     setOpenSnackbar407Error(true)
-        //     setIsLoading(false)
-        // }
+    async function addThisBusinessToMyBusinessReceivers(provider, receiver) {
+
+        const res = await fetch('api/setBusinessReceiver', {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ provider, receiver })
+        })
+        if (res.status === 500) {
+            console.log("server error");
+            setOpenSnackbar500Error(true)
+            setIsLoading(false)
+        } else if (res.status === 201) {
+            console.log("set BusinessReceiver successfully");
+            handleShow201Snackbar()
+            setIsLoading(false)
+        } else if (res.status === 404) {
+            console.log("log in first");
+            setIsLoading(false)
+        } else if (res.status === 403) {
+            console.log("403 Unauthorized access");
+            setIsLoading(false)
+        } else if (res.status === 407) {
+            setOpenSnackbar407Error(true)
+            setIsLoading(false)
+        }
     }
     const clickHandler = () => {
         setOpenDialog(true)
         setIsDisable(true)
-
+        setIsLoading(true)
     }
     return (
-        isNotOwner &&
+        isNotOwner && userBusinesses[0] &&
         <Container
             sx={{ display: "flex", justifyContent: "center", alignItems: 'center' }}
         >
@@ -137,67 +138,89 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                 display: "flex", flexDirection: { xs: "column", md: "row" },
                 minWidth: { xs: 280, sm: 500, md: 900 },
             }} >
-                <Dialog
+                <Dialog sx={{
+                    maxWidth: 375
+
+                    // { xs: 280, sm: 300, md: 900 },
+                }}
+
                     open={openDialog}
                     onClose={handleClose}
                 >
-                    <DialogTitle>افزودن به لیست دریافت کنندگان</DialogTitle>
+                    <DialogTitle>توجه</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            مجاز به دریافت محصول از کدام کسب و کار شود؟
+                            {userBusinesses[1] ? "این کسب و کار مجاز به دریافت محصولات کدام کسب و کار شما شود؟" : "کسب و کار شما"}
                         </DialogContentText>
-                        <List>
-                            <Collapse in={openDialog} timeout="auto" unmountOnExit>
-                                <List component="div" disablePadding>
-                                    {userBusinesses.map((business) => (
-                                        <ListItem
-                                            key={business._id}
-                                            disablePadding
-                                        >
-                                            <ListItemButton
-                                                key={business._id}
+                        <List component="div" disablePadding>
+                            {userBusinesses.map((business) => (
+                                <ListItem
+                                    key={business._id}
+                                    disablePadding
+                                >
+                                    <ListItemButton
+                                        key={business._id}
+                                        value={business._id}
+                                        sx={{ minWidth: '250px' }}
+                                    // onClick={() => handleBusinessChange(business)}
+                                    >
+                                        <Avatar>
+                                            <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                                        </Avatar>
+                                        <ListItemText sx={{ mr: 1 }} align='right' primary={business.businessName} secondary={business.businessBrand} />
+                                        {userBusinesses[1] &&
+                                            <Checkbox
+                                                edge="end"
+                                                onChange={(e, value) => handleToggle(e, value)}
                                                 value={business._id}
-                                                sx={{ minWidth: '250px' }}
-                                            // onClick={() => handleBusinessChange(business)}
-                                            >
-                                                <Avatar>
-                                                    <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
-                                                </Avatar>
-                                                <ListItemText sx={{ mr: 1 }} align='right' primary={business.businessName} secondary={business.businessBrand} />
-                                                <Checkbox
-                                                    edge="end"
-                                                    // onChange={handleToggle(value)}
-                                                    // checked={checked.includes(value)}
-                                                    // inputProps={{ 'aria-labelledby': labelId }}
-                                                />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            </Collapse >
-                        </List >
-
+                                            />}
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                        <DialogContentText>
+                            به ارائه محصول به این کسب و کار متعهد می شوید؟
+                        </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>لغو</Button>
-                        <Button onClick={handleClose}>تایید</Button>
+                        <Button onClick={confirmHandler}>تایید</Button>
                     </DialogActions>
                 </Dialog>
-                <Button
+                <LoadingButton
                     dir="ltr"
                     onClick={clickHandler}
                     fullWidth
                     sx={{ m: 1 }}
                     variant="contained"
-                    disabled={isDisable}
+                    loading={isLoading}
+                    // disabled={isDisable}
 
                 >
                     {ButtonText}
-                </Button>
+                </LoadingButton>
                 <CustomSnackbar
-                    open={openSnackbar}
-                    onClose={() => { handleSnackbarClose, location.reload() }}
+                    open={open201Snackbar}
+                    onClose={() => { location.reload() }}
                     message={"درخواست شما با موفقیت ثبت شد"}
+                />
+                <CustomSnackbar
+                    open={openSnackbar407Error}
+                    onClose={() => { handleSnackbarClose() }}
+                    message={"درخواست تکراری"}
+                    severity="error"
+                />
+                <CustomSnackbar
+                    open={openSnackbarNonSelectedError}
+                    onClose={() => { handleSnackbarClose() }}
+                    message={"حداقل یک کسب و کار انتخاب کنید"}
+                    severity="error"
+                />
+                <CustomSnackbar
+                    open={openSnackbar500Error}
+                    onClose={() => { handleSnackbarClose() }}
+                    message={"خطای اتصال به سرور"}
+                    severity="error"
                 />
             </Box>
         </Container>

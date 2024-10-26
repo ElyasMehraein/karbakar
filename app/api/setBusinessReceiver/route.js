@@ -17,7 +17,8 @@ export async function PUT(req) {
             return Response.json({ message: "log in first" }, { status: 404 })
         }
         const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: provider })))
-        if (Number(Business.agentCode) !== user.code) {
+            console.log(Business.agentCode ,user.code );
+        if (Number(Business.agentCode) !== Number(user.code)) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
         }
         const existingRelation = await BusinessRelationModel.findOne({
@@ -26,7 +27,7 @@ export async function PUT(req) {
         });
 
         if (existingRelation) {
-            return Response.json({ message: "Relation already exists" }, { status: 400 });
+            return Response.json({ message: "Relation already exists" }, { status: 407 });
         }
         const newRelation = new BusinessRelationModel({
             provider: provider,
