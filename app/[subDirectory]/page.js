@@ -56,7 +56,7 @@ export default async function subDirectory({ params }) {
           { provider: business._id },
           { receiver: business._id },
         ],
-      })));
+      }).populate("receiver provider")));
 
       return (
         <Business

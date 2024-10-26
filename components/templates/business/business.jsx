@@ -23,8 +23,8 @@ function Business({ relations, business, logedUser, bills }) {
             <PageAvatar business={business} />
             <Name business={business} />
             <Bio business={business} />
-            <Receivers business={business} />
-            <Providers business={business} />
+            <Receivers relations={relations} business={business} />
+            <Providers relations={relations} business={business} />
             <AddToReceiversButton logedUser={logedUser} business={business} relations={relations} />
             <Contact business={business} />
             <Map business={business} />

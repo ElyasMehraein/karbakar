@@ -1,45 +1,54 @@
-import connectToDB from "@/configs/db"
-import UserModel from '@/models/User';
-import BusinessModel from '@/models/Business';
+import connectToDB from "@/configs/db";
+import UserModel from "@/models/User";
+import BusinessModel from "@/models/Business";
 import BusinessRelationModel from "@/models/BusinessRelation";
-import { GET } from "@/app/api/auth/me/route"
+import { GET } from "@/app/api/auth/me/route";
 
 export async function PUT(req) {
-
     try {
-        const body = await req.json()
+        await connectToDB(); // اطمینان از اتصال به دیتابیس
+        const body = await req.json();
         const { provider, receiver } = body;
-        connectToDB()
-        const response = await GET(req)
-        const user = await response.json()
-        const loggedUser = JSON.parse(JSON.stringify(await UserModel.findOne({ code: user.code })))
+
+        // بررسی و احراز هویت کاربر
+        const res = await GET(req);
+        const user = await res.json();
+
+        if (!user || !user.code) {
+            return Response.json({ message: "Please log in first" }, { status: 401 });
+        }
+
+        // دریافت اطلاعات کاربر
+        const loggedUser = await UserModel.findOne({ code: user.code });
         if (!loggedUser) {
-            return Response.json({ message: "log in first" }, { status: 404 })
+            return Response.json({ message: "User not found" }, { status: 404 });
         }
-        const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: provider })))
-            console.log(Business.agentCode ,user.code );
-        if (Number(Business.agentCode) !== Number(user.code)) {
-            return Response.json({ message: "403 Unauthorized access" }, { status: 403 })
-        }
-        const existingRelation = await BusinessRelationModel.findOne({
-            provider: provider,
-            receiver: receiver,
-        });
 
+        // بررسی و اعتبارسنجی Business
+        const business = await BusinessModel.findById(provider).lean();
+        if (!business) {
+            return Response.json({ message: "Business not found" }, { status: 404 });
+        }
+
+        // تطابق کد کاربر با کد عامل
+        if (Number(business.agentCode) !== Number(user.code)) {
+            return Response.json({ message: "Unauthorized access" }, { status: 403 });
+        }
+
+        // بررسی وجود رابطه
+        const existingRelation = await BusinessRelationModel.findOne({ provider, receiver });
         if (existingRelation) {
-            return Response.json({ message: "Relation already exists" }, { status: 407 });
+            return Response.json({ message: "Relation already exists" }, { status: 409 });
         }
-        const newRelation = new BusinessRelationModel({
-            provider: provider,
-            receiver: receiver,
-        });
 
+        // ایجاد رابطه جدید
+        const newRelation = new BusinessRelationModel({ provider, receiver });
         await newRelation.save();
 
-        return Response.json({ message: "add as receiver request sent successfully" }, { status: 201 })
+        return Response.json({ message: "Receiver request sent successfully" }, { status: 201 });
 
-
-    } catch (err) {
-        return Response.json({ message: "server error" }, { status: 500 })
+    } catch (error) {
+        console.error("Error in PUT /business/relations:", error);
+        return Response.json({ message: "Server error" }, { status: 500 });
     }
 }

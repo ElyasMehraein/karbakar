@@ -3,35 +3,16 @@ import { Avatar, AvatarGroup, Box, Button, Container, Typography } from '@mui/ma
 import React from 'react'
 import ItsAvatar from './ItsAvatar'
 
-export default function Providers({business}) {
-    const [receivers, setReceivers] = React.useState(business.receivers)
+export default function Providers({ relations, business }) {
 
-    async function addThisBusinessToMyBusinessReceivers() {
+    let receivers = relations?.filter((relation) => {
 
-        const res = await fetch('api/setBusinessReceivers', {
-            method: "PUT",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessID: selectedBusiness._id, receivers })
-        })
-        if (res.status === 500) {
-            console.log("server error");
-            setOpenSnackbar500Error(true)
-            setIsLoading(false)
-        } else if (res.status === 201) {
-            console.log("updateMonthlyCommitment sited successfully");
-            handleShowSnackbar()
-            setIsLoading(false)
-        } else if (res.status === 404) {
-            setOpenSnackbar404Error(true)
-            setIsLoading(false)
-        } else if (res.status === 406) {
-            setOpenSnackbarError(true)
-            setIsLoading(false)
-        } else if (res.status === 407) {
-            setOpenSnackbar407Error(true)
-            setIsLoading(false)
-        }
-    }
+        relation.receiver._id == business._id
+    })
+    
+    console.log("juju", receivers )
+
+
     return (
         <Container
             sx={{ display: "flex", justifyContent: "center", alignItems: 'center' }}
@@ -45,19 +26,6 @@ export default function Providers({business}) {
                         <Avatar>
                             <ItsAvatar userCodeOrBusinessBrand={"nikkala"} isAvatar={true} alt="none" />
                         </Avatar>
-                        <Avatar>
-
-                            <ItsAvatar userCodeOrBusinessBrand={"sobhanmine"} isAvatar={true} alt="none" />
-                        </Avatar>
-                        <Avatar>
-
-                            <ItsAvatar userCodeOrBusinessBrand={"modelpelast"} isAvatar={true} alt="none" />
-                        </Avatar>
-                        <Avatar>
-
-                            <ItsAvatar userCodeOrBusinessBrand={"shahramfarm"} isAvatar={true} alt="none" />
-                        </Avatar>
-
                     </AvatarGroup>
                     <Box sx={{ flexGrow: 1 }} />
                     <Typography color="NavyDarkSlateGray" variant="button" >

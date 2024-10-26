@@ -16,7 +16,7 @@ import Checkbox from '@mui/material/Checkbox';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function AddToReceiversButton({ relations, logedUser, business }) {
-    const isNotOwner = Number(logedUser.Code) !== Number(business.agentCode)
+    const isNotOwner = Number(logedUser.code) !== Number(business.agentCode)
 
     const userBusinesses = logedUser.businesses.map(business => {
         if (business.agentCode == logedUser.code) {
@@ -35,7 +35,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     const ButtonText = isAnswerNeed ? "منتظر پاسخ" : answer ? `دریافت کننده محصولات${logedUser.code}` : "ارائه محصول به این کسب و کار"
 
     //checkBox
-    const [selectedBusinesses, setSelectedBusinesses] = React.useState([]);
+    const [selectedBusinesses, setSelectedBusinesses] = React.useState(userBusinesses);
     function handleToggle(e) {
         const newValue = e.target.value;
         const isSelected = selectedBusinesses.includes(newValue);
@@ -53,13 +53,11 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     // let providers = relations?.filter(relation => relation.provider === business._id);
     // let receivers = relations?.filter(relation => relation.receiver === business._id);
     let test = relations.map((relation) => {
-         logedUser.businesses.filter(logedUserBusiness => {
-            console.log(" relation.provider", relation.provider);
-            console.log(" logedUserBusiness._id", logedUserBusiness._id);
+        logedUser.businesses.filter(logedUserBusiness => {
+            
             return relation.provider == logedUserBusiness._id
         })
     })
-    console.log("test", test);
 
     const ReportContentForJobOffer = {
         recepiantCode: newValue,
@@ -107,6 +105,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
 
     async function addThisBusinessToMyBusinessReceivers(provider, receiver) {
 
+        setIsLoading(true)
         const res = await fetch('api/setBusinessReceiver', {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
@@ -121,16 +120,21 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             setIsLoading(false)
             console.log("set BusinessReceiver successfully");
             handleShow201Snackbar()
-        } else if (res.status === 404) {
+        } else if (res.status === 401) {
             setIsLoading(false)
             console.log("log in first");
+        } else if (res.status === 404) {
+            setIsLoading(false)
+            console.log("not found");
         } else if (res.status === 403) {
             setIsLoading(false)
             console.log("403 Unauthorized access");
-        } else if (res.status === 407) {
+        } else if (res.status === 409) {
             setIsLoading(false)
             setOpenSnackbar407Error(true)
         }
+        setIsLoading(false)
+
     }
     const clickHandler = () => {
         setOpenDialog(true)
@@ -193,7 +197,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                     fullWidth
                     sx={{ m: 1 }}
                     variant="contained"
-                // loading={isLoading}
+                    loading={isLoading}
                 // disabled={isDisable}
 
                 >
