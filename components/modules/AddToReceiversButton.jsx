@@ -16,7 +16,6 @@ import Checkbox from '@mui/material/Checkbox';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function AddToReceiversButton({ relations, logedUser, business }) {
-
     const isNotOwner = Number(logedUser.Code) !== Number(business.agentCode)
 
     const userBusinesses = logedUser.businesses.map(business => {
@@ -24,6 +23,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             return business
         }
     })
+
 
     const [answer, setAnswer] = React.useState(false)
     const [isAnswerNeed, setIsAnswerNeed] = React.useState(false)
@@ -50,9 +50,16 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     }
 
 
-    let providers = relations?.filter(relation => relation.provider.equals(business._id));
-    let receivers = relations?.filter(relation => relation.receiver.equals(business._id));
-
+    // let providers = relations?.filter(relation => relation.provider === business._id);
+    // let receivers = relations?.filter(relation => relation.receiver === business._id);
+    let test = relations.map((relation) => {
+         logedUser.businesses.filter(logedUserBusiness => {
+            console.log(" relation.provider", relation.provider);
+            console.log(" logedUserBusiness._id", logedUserBusiness._id);
+            return relation.provider == logedUserBusiness._id
+        })
+    })
+    console.log("test", test);
 
     const ReportContentForJobOffer = {
         recepiantCode: newValue,
@@ -105,23 +112,24 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ provider, receiver })
         })
+        console.log("res", res);
         if (res.status === 500) {
             console.log("server error");
             setOpenSnackbar500Error(true)
             setIsLoading(false)
         } else if (res.status === 201) {
+            setIsLoading(false)
             console.log("set BusinessReceiver successfully");
             handleShow201Snackbar()
-            setIsLoading(false)
         } else if (res.status === 404) {
+            setIsLoading(false)
             console.log("log in first");
-            setIsLoading(false)
         } else if (res.status === 403) {
+            setIsLoading(false)
             console.log("403 Unauthorized access");
-            setIsLoading(false)
         } else if (res.status === 407) {
-            setOpenSnackbar407Error(true)
             setIsLoading(false)
+            setOpenSnackbar407Error(true)
         }
     }
     const clickHandler = () => {
@@ -134,16 +142,8 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         <Container
             sx={{ display: "flex", justifyContent: "center", alignItems: 'center' }}
         >
-            <Box sx={{
-                display: "flex", flexDirection: { xs: "column", md: "row" },
-                minWidth: { xs: 280, sm: 500, md: 900 },
-            }} >
-                <Dialog sx={{
-                    maxWidth: 375
-
-                    // { xs: 280, sm: 300, md: 900 },
-                }}
-
+            <Box >
+                <Dialog
                     open={openDialog}
                     onClose={handleClose}
                 >
@@ -193,8 +193,8 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                     fullWidth
                     sx={{ m: 1 }}
                     variant="contained"
-                    loading={isLoading}
-                    // disabled={isDisable}
+                // loading={isLoading}
+                // disabled={isDisable}
 
                 >
                     {ButtonText}
