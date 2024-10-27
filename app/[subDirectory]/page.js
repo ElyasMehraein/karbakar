@@ -79,7 +79,7 @@ export default async function subDirectory({ params }) {
       }
       return (
         <Profile user={user}
-          logedUserCode={logedUserCode}
+          logedUser={logedUser}
         />
       );
     }

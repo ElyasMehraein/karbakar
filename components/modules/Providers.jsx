@@ -10,7 +10,6 @@ export default function Providers({ relations, business }) {
         relation.receiver._id == business._id
     })
     
-    console.log("juju", receivers )
 
 
     return (

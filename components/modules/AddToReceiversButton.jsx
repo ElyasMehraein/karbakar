@@ -16,14 +16,6 @@ import Checkbox from '@mui/material/Checkbox';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function AddToReceiversButton({ relations, logedUser, business }) {
-    const isNotOwner = Number(logedUser.code) !== Number(business.agentCode)
-
-    const userBusinesses = logedUser.businesses.map(business => {
-        if (business.agentCode == logedUser.code) {
-            return business
-        }
-    })
-
 
     const [answer, setAnswer] = React.useState(false)
     const [isAnswerNeed, setIsAnswerNeed] = React.useState(false)
@@ -31,11 +23,33 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     const [openDialog, setOpenDialog] = React.useState(false);
     const [newValue, setNewValue] = React.useState(null);
 
+    const isNotOwner = Number(logedUser.code) !== Number(business.agentCode)
 
-    const ButtonText = isAnswerNeed ? "منتظر پاسخ" : answer ? `دریافت کننده محصولات${logedUser.code}` : "ارائه محصول به این کسب و کار"
+    const logedUserBusinesses = logedUser.businesses.map(business => {
+        if (business.agentCode == logedUser.code) {
+            return business
+        }
+    })
+
+    const providerBusinessNames = relations
+        .filter(relation => logedUserBusinesses.some(businessItem => businessItem._id === relation.provider._id))
+        .map(relation => {
+            const matchingBusiness = logedUserBusinesses.find(businessItem => businessItem._id === relation.provider._id);
+            return matchingBusiness.businessName;
+        });
+
+
+    let ButtonText = ""
+
+    // if(logedUserBusinessIsProvider[0]){
+
+    //     ButtonText = "feell"
+    // }
+
+    // isAnswerNeed ? "منتظر پاسخ" : answer ? `دریافت کننده محصولات${logedUser.code}` : "ارائه محصول به این کسب و کار"
 
     //checkBox
-    const [selectedBusinesses, setSelectedBusinesses] = React.useState(userBusinesses);
+    const [selectedBusinesses, setSelectedBusinesses] = React.useState(logedUserBusinesses);
     function handleToggle(e) {
         const newValue = e.target.value;
         const isSelected = selectedBusinesses.includes(newValue);
@@ -54,7 +68,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     // let receivers = relations?.filter(relation => relation.receiver === business._id);
     let test = relations.map((relation) => {
         logedUser.businesses.filter(logedUserBusiness => {
-            
+
             return relation.provider == logedUserBusiness._id
         })
     })
@@ -142,7 +156,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         setIsLoading(true)
     }
     return (
-        isNotOwner && userBusinesses[0] &&
+        isNotOwner && logedUserBusinesses[0] &&
         <Container
             sx={{ display: "flex", justifyContent: "center", alignItems: 'center' }}
         >
@@ -154,10 +168,10 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                     <DialogTitle>توجه</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            {userBusinesses[1] ? "این کسب و کار مجاز به دریافت محصولات کدام کسب و کار شما شود؟" : "کسب و کار شما"}
+                            {logedUserBusinesses[1] ? "این کسب و کار مجاز به دریافت محصولات کدام کسب و کار شما شود؟" : "کسب و کار شما"}
                         </DialogContentText>
                         <List component="div" disablePadding>
-                            {userBusinesses.map((business) => (
+                            {logedUserBusinesses.map((business) => (
                                 <ListItem
                                     key={business._id}
                                     disablePadding
@@ -172,7 +186,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                             <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
                                         </Avatar>
                                         <ListItemText sx={{ mr: 1 }} align='right' primary={business.businessName} secondary={business.businessBrand} />
-                                        {userBusinesses[1] &&
+                                        {logedUserBusinesses[1] &&
                                             <Checkbox
                                                 edge="end"
                                                 onChange={(e, value) => handleToggle(e, value)}
