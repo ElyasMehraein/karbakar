@@ -1,6 +1,6 @@
 "use client"
 import { Avatar, AvatarGroup, Box, Button, Container, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -17,11 +17,11 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function AddToReceiversButton({ relations, logedUser, business }) {
 
-    const [answer, setAnswer] = React.useState(false)
-    const [isAnswerNeed, setIsAnswerNeed] = React.useState(false)
-    const [isDisable, setIsDisable] = React.useState(false)
-    const [openDialog, setOpenDialog] = React.useState(false);
-    const [newValue, setNewValue] = React.useState(null);
+    const [answer, setAnswer] = useState(false)
+    const [isAnswerNeed, setIsAnswerNeed] = useState(false)
+    const [isDisable, setIsDisable] = useState(false)
+    const [openDialog, setOpenDialog] = useState(false);
+    const [newValue, setNewValue] = useState(null);
 
     const isNotOwner = Number(logedUser.code) !== Number(business.agentCode)
 
@@ -31,26 +31,42 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         }
     })
 
+    // buttonText
     const providerBusinessNames = relations
-        .filter(relation => logedUserBusinesses.some(businessItem => businessItem._id === relation.provider._id))
-        .map(relation => {
+        .filter((relation) => {
+            return logedUserBusinesses.some(businessItem => businessItem._id === relation.provider._id)
+        }).map(relation => {
             const matchingBusiness = logedUserBusinesses.find(businessItem => businessItem._id === relation.provider._id);
-            return matchingBusiness.businessName;
-        });
-
-
-    let ButtonText = ""
-
-    // if(logedUserBusinessIsProvider[0]){
-
-    //     ButtonText = "feell"
-    // }
-
-    // isAnswerNeed ? "منتظر پاسخ" : answer ? `دریافت کننده محصولات${logedUser.code}` : "ارائه محصول به این کسب و کار"
+            if (relation.isAnswerNeed) {
+                return `منتظر پاسخ ${matchingBusiness.businessBrand}`;
+            } else {
+                return `دریافت کننده محصول از ${matchingBusiness.businessBrand}`;
+            }
+        })
+    const buttonText = providerBusinessNames[0] ? `${[...providerBusinessNames]} ` : "ارائه محصول به این کسب و کار";
 
     //checkBox
-    const [selectedBusinesses, setSelectedBusinesses] = React.useState(logedUserBusinesses);
-    function handleToggle(e) {
+    const [selectedBusinesses, setSelectedBusinesses] = useState(logedUserBusinesses.map(business => business._id));
+    console.log("selectedBusinesses", selectedBusinesses);
+
+    // const ListItemButtonHandler = (event) => {
+    //     console.log("event", event.currentTarget.getAttribute('value'));
+    //     const currentIndex = selectedBusinesses.indexOf(value);
+    //     const newSelected = [...selectedBusinesses];
+
+    //     if (currentIndex === -1) {
+    //       // If the business is not selected, add it
+    //       newSelected.push(value);
+    //     } else {
+    //       // Otherwise, remove it
+    //       newSelected.splice(currentIndex, 1);
+    //     }
+
+    //     setSelectedBusinesses(newSelected);
+    // };
+    function handleToggle(e, value) {
+        console.log(value);
+
         const newValue = e.target.value;
         const isSelected = selectedBusinesses.includes(newValue);
 
@@ -80,10 +96,10 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     }
 
     //Snackbar
-    const [open201Snackbar, setOpen201Snackbar] = React.useState(false);
-    const [openSnackbar407Error, setOpenSnackbar407Error] = React.useState(false);
-    const [openSnackbar500Error, setOpenSnackbar500Error] = React.useState(false);
-    const [openSnackbarNonSelectedError, setOpenSnackbarNonSelectedError] = React.useState(false);
+    const [open201Snackbar, setOpen201Snackbar] = useState(false);
+    const [openSnackbar407Error, setOpenSnackbar407Error] = useState(false);
+    const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
+    const [openSnackbarNonSelectedError, setOpenSnackbarNonSelectedError] = useState(false);
 
     function handleSnackbarClose() {
         setOpen201Snackbar(false);
@@ -114,7 +130,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     const handleClose = () => {
         setOpenDialog(false);
     };
-    const [isLoading, setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
     async function addThisBusinessToMyBusinessReceivers(provider, receiver) {
@@ -180,7 +196,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                         key={business._id}
                                         value={business._id}
                                         sx={{ minWidth: '250px' }}
-                                    // onClick={() => handleBusinessChange(business)}
+                                    // onClick={(event) => ListItemButtonHandler(event)}
                                     >
                                         <Avatar>
                                             <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
@@ -191,6 +207,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                                 edge="end"
                                                 onChange={(e, value) => handleToggle(e, value)}
                                                 value={business._id}
+                                                checked={selectedBusinesses.some(selected => selected == business._id)}
                                             />}
                                     </ListItemButton>
                                 </ListItem>
@@ -212,10 +229,8 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                     sx={{ m: 1 }}
                     variant="contained"
                     loading={isLoading}
-                // disabled={isDisable}
-
                 >
-                    {ButtonText}
+                    {buttonText}
                 </LoadingButton>
                 <CustomSnackbar
                     open={open201Snackbar}

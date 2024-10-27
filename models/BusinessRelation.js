@@ -13,9 +13,6 @@ const schema = new Schema({
     },
     isSeen: Boolean,
     isAnswerNeed: Boolean,
-    answer: Boolean,
-
-
 }, { timestamps: true })
 
 const BusinessRelationModel = mongoose.models.BusinessRelation || mongoose.model("BusinessRelation", schema)
