@@ -50,7 +50,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     console.log("selectedBusinesses", selectedBusinesses);
 
     // const ListItemButtonHandler = (event) => {
-    //     console.log("event", event.currentTarget.getAttribute('value'));
+    //     console.log("event", );
     //     const currentIndex = selectedBusinesses.indexOf(value);
     //     const newSelected = [...selectedBusinesses];
 
@@ -67,14 +67,13 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     function handleToggle(e, value) {
         console.log(value);
 
-        const newValue = e.target.value;
-        const isSelected = selectedBusinesses.includes(newValue);
+       const isSelected = selectedBusinesses.includes(e);
 
         setSelectedBusinesses((prevSelectedBusinesses) => {
             if (isSelected) {
-                return prevSelectedBusinesses.filter((item) => item !== newValue); // Remove from selection
+                return prevSelectedBusinesses.filter((item) => item !== e); // Remove from selection
             } else {
-                return [...prevSelectedBusinesses, newValue]; // Add to selection
+                return [...prevSelectedBusinesses, e]; // Add to selection
             }
         });
     }
@@ -196,7 +195,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                         key={business._id}
                                         value={business._id}
                                         sx={{ minWidth: '250px' }}
-                                    // onClick={(event) => ListItemButtonHandler(event)}
+                                        onClick={(event) => handleToggle(event.currentTarget.getAttribute('value'))}
                                     >
                                         <Avatar>
                                             <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
@@ -205,7 +204,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                         {logedUserBusinesses[1] &&
                                             <Checkbox
                                                 edge="end"
-                                                onChange={(e, value) => handleToggle(e, value)}
+                                                onChange={(e, value) => handleToggle(e.target.value, value)}
                                                 value={business._id}
                                                 checked={selectedBusinesses.some(selected => selected == business._id)}
                                             />}
