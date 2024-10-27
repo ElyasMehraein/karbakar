@@ -30,7 +30,6 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             return business
         }
     })
-
     // buttonText
     const providerBusinessNames = relations
         .filter((relation) => {
@@ -46,47 +45,24 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     const buttonText = providerBusinessNames[0] ? `${[...providerBusinessNames]} ` : "ارائه محصول به این کسب و کار";
 
     //checkBox
-    const [selectedBusinesses, setSelectedBusinesses] = useState(logedUserBusinesses.map(business => business._id));
-    console.log("selectedBusinesses", selectedBusinesses);
+    const logedUserProviders = relations.filter(relation => {
+        return logedUserBusinesses.find(business => business._id === relation.provider._id);
+    }).map((relation) => relation.provider._id);
 
-    // const ListItemButtonHandler = (event) => {
-    //     console.log("event", );
-    //     const currentIndex = selectedBusinesses.indexOf(value);
-    //     const newSelected = [...selectedBusinesses];
+    const [selectedBusinesses, setSelectedBusinesses] = useState(logedUserProviders);
 
-    //     if (currentIndex === -1) {
-    //       // If the business is not selected, add it
-    //       newSelected.push(value);
-    //     } else {
-    //       // Otherwise, remove it
-    //       newSelected.splice(currentIndex, 1);
-    //     }
-
-    //     setSelectedBusinesses(newSelected);
-    // };
     function handleToggle(e, value) {
-        console.log(value);
-
-       const isSelected = selectedBusinesses.includes(e);
-
+        const isSelected = selectedBusinesses.includes(e);
         setSelectedBusinesses((prevSelectedBusinesses) => {
             if (isSelected) {
-                return prevSelectedBusinesses.filter((item) => item !== e); // Remove from selection
+                return prevSelectedBusinesses.filter((item) => item !== e);
             } else {
-                return [...prevSelectedBusinesses, e]; // Add to selection
+                return [...prevSelectedBusinesses, e];
             }
         });
     }
 
 
-    // let providers = relations?.filter(relation => relation.provider === business._id);
-    // let receivers = relations?.filter(relation => relation.receiver === business._id);
-    let test = relations.map((relation) => {
-        logedUser.businesses.filter(logedUserBusiness => {
-
-            return relation.provider == logedUserBusiness._id
-        })
-    })
 
     const ReportContentForJobOffer = {
         recepiantCode: newValue,
@@ -96,13 +72,13 @@ export default function AddToReceiversButton({ relations, logedUser, business })
 
     //Snackbar
     const [open201Snackbar, setOpen201Snackbar] = useState(false);
-    const [openSnackbar407Error, setOpenSnackbar407Error] = useState(false);
+    const [openSnackbar409Error, setOpenSnackbar409Error] = useState(false);
     const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
     const [openSnackbarNonSelectedError, setOpenSnackbarNonSelectedError] = useState(false);
 
     function handleSnackbarClose() {
         setOpen201Snackbar(false);
-        setOpenSnackbar407Error(false);
+        setOpenSnackbar409Error(false);
         setOpenSnackbarNonSelectedError(false);
     };
     const handleShow201Snackbar = () => {
@@ -117,7 +93,6 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             selectedBusinesses.map((provider) => {
                 try {
                     addThisBusinessToMyBusinessReceivers(provider, business._id)
-
                 } catch (err) {
                     console.log("errr", err);
                 }
@@ -160,7 +135,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             console.log("403 Unauthorized access");
         } else if (res.status === 409) {
             setIsLoading(false)
-            setOpenSnackbar407Error(true)
+            setOpenSnackbar409Error(true)
         }
         setIsLoading(false)
 
@@ -168,7 +143,6 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     const clickHandler = () => {
         setOpenDialog(true)
         setIsDisable(true)
-        setIsLoading(true)
     }
     return (
         isNotOwner && logedUserBusinesses[0] &&
@@ -206,7 +180,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                                 edge="end"
                                                 onChange={(e, value) => handleToggle(e.target.value, value)}
                                                 value={business._id}
-                                                checked={selectedBusinesses.some(selected => selected == business._id)}
+                                                checked={selectedBusinesses?.some(selected => selected == business._id)}
                                             />}
                                     </ListItemButton>
                                 </ListItem>
@@ -237,7 +211,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                     message={"درخواست شما با موفقیت ثبت شد"}
                 />
                 <CustomSnackbar
-                    open={openSnackbar407Error}
+                    open={openSnackbar409Error}
                     onClose={() => { handleSnackbarClose() }}
                     message={"درخواست تکراری"}
                     severity="error"
