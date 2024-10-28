@@ -60,7 +60,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             }
         });
     }
-console.log("ss", selectedBusinesses);
+    console.log("ss", selectedBusinesses);
 
 
 
@@ -94,13 +94,23 @@ console.log("ss", selectedBusinesses);
     const confirmHandler = () => {
         const ids1 = new Set(selectedBusinesses.map(id => id));
         const ids2 = new Set(logedUserProviders.map(id => id));
-          if (ids1.size === ids2.size && [...ids1].every(id => ids2.has(id))) {
+        if (ids1.size === ids2.size && [...ids1].every(id => ids2.has(id))) {
             setOpenSnackbarNoChangeError(true)
-          return;
+            return;
         }
-        if (!selectedBusinesses[0]) {
-            setOpenSnackbarNonSelectedError(true)
-        } else {
+        const removedItems = [...ids2].filter(id => !ids1.has(id));
+        if (removedItems.length > 0) {
+            removedItems.map((provider) => {
+                try {
+                    deleteABusinessRelation(provider, business._id)
+                } catch (err) {
+                    console.log("errr", err);
+                }
+                return
+            })
+        }
+        const addedItems = [...ids1].filter(id => !ids2.has(id));
+        if (addedItems.length > 0) {
             selectedBusinesses.map((provider) => {
                 try {
                     addThisBusinessToMyBusinessReceivers(provider, business._id)
@@ -164,8 +174,8 @@ console.log("ss", selectedBusinesses);
         } else if (res.status === 200) {
             setIsLoading(false)
             console.log("BusinessRelation removed successfully");
-            handleShow200Snackbar()
-        }else if (res.status === 401) {
+            setOpen200Snackbar(true)
+        } else if (res.status === 401) {
             setIsLoading(false)
             console.log("log in first");
         } else if (res.status === 404) {
@@ -247,7 +257,7 @@ console.log("ss", selectedBusinesses);
                     message={"درخواست شما با موفقیت ثبت شد"}
                 />
                 <CustomSnackbar
-                    open={open201Snackbar}
+                    open={open200Snackbar}
                     onClose={() => { location.reload() }}
                     message={"حذف رابطه با موفقیت انجام شد"}
                 />
