@@ -3,6 +3,7 @@ import UserModel from "@/models/User";
 import BusinessModel from "@/models/Business";
 import BusinessRelationModel from "@/models/BusinessRelation";
 import { GET } from "@/app/api/auth/me/route";
+import ReportModel from "@/models/Report";
 
 export async function PUT(req) {
     try {
@@ -42,9 +43,18 @@ export async function PUT(req) {
         }
 
         // ایجاد رابطه جدید
-        const newRelation = new BusinessRelationModel({ provider, receiver });
+        const newRelation = new BusinessRelationModel({ provider, receiver, isAnswerNeed: true });
         await newRelation.save();
 
+        const receiverBusinessAgend = await BusinessModel.findById(receiver).lean().agentCode
+
+        await ReportModel.create({
+            recepiant: receiverBusinessAgend,
+            title: "businessRelation",
+            businessRelation: newRelation._id,
+            isSeen: false,
+            isAnswerNeed: true,
+        })
         return Response.json({ message: "Receiver request sent successfully" }, { status: 201 });
 
     } catch (error) {

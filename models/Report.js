@@ -3,12 +3,14 @@ import { Schema } from "mongoose";
 import BusinessModel from './Business';
 import UserModel from './User';
 import BillModel from './Bill';
+import BusinessRelationModel from './BusinessRelation';
 
 const schema = new Schema({
     recepiant: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    title: { type: String, maxlength: 15, },
+    title: { type: String, maxlength: 20, },
     business: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     bill: { type: mongoose.Schema.Types.ObjectId, ref: "Bill" },
+    businessRelation: { type: mongoose.Schema.Types.ObjectId, ref: "BusinessRelation" },
     isSeen: Boolean,
     isAnswerNeed: Boolean,
     answer: Boolean,

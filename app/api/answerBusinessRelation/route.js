@@ -7,7 +7,7 @@ import { GET } from "@/app/api/auth/me/route";
 export async function PATCH(req) {
     try {
         const body = await req.json();
-        const { provider, receiver, isAnswerNeed, answer } = body;
+        const { provider, receiver } = body;
 
         connectToDB();
 
@@ -35,8 +35,7 @@ export async function PATCH(req) {
             return Response.json({ message: "Relation does not exist" }, { status: 404 });
         }
 
-        existingRelation.isAnswerNeed = isAnswerNeed;
-        existingRelation.answer = answer;
+        existingRelation.isAnswerNeed = false;
 
         await existingRelation.save();
 

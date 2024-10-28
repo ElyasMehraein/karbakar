@@ -4,12 +4,13 @@ import BusinessModel from '@/models/Business';
 import BillModel from "@/models/Bill";
 import { GET } from "@/app/api/auth/me/route"
 import ReportModel from "@/models/Report";
+import BusinessRelationModel from "@/models/BusinessRelation";
 
 export async function POST(req) {
     let isAnswerNeed = false
     try {
         const body = await req.json()
-        const { recepiantCode, business, title, bill } = body;
+        const { recepiantCode, business, title, bill, businessRelation } = body;
         connectToDB()
         const response = await GET(req)
         const user = await response.json()
@@ -24,7 +25,7 @@ export async function POST(req) {
         }
 
         if (title === "jobOffer") {
-            if(recepiant.businesses.length >= 3 ){
+            if (recepiant.businesses.length >= 3) {
                 return Response.json({ message: "users can only be a member of a maximum of 3 businesses" }, { status: 405 })
             }
             if (recepiant.code === user.code) {
@@ -44,13 +45,16 @@ export async function POST(req) {
             }
             isAnswerNeed = true
         }
-
+        if (title === "businessRelation"){
+            await BusinessRelationModel.findById(businessRelation)
+        }
 
         await ReportModel.create({
             recepiant: recepiant._id,
             title,
             business: Business._id,
             bill,
+            businessRelation,
             isSeen: false,
             isAnswerNeed,
             answer: false,

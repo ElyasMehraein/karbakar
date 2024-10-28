@@ -98,6 +98,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             setOpenSnackbarNoChangeError(true)
             return;
         }
+
         const removedItems = [...ids2].filter(id => !ids1.has(id));
         if (removedItems.length > 0) {
             removedItems.map((provider) => {
@@ -109,9 +110,10 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                 return
             })
         }
+
         const addedItems = [...ids1].filter(id => !ids2.has(id));
         if (addedItems.length > 0) {
-            selectedBusinesses.map((provider) => {
+            addedItems.map((provider) => {
                 try {
                     addThisBusinessToMyBusinessReceivers(provider, business._id)
                 } catch (err) {
@@ -161,6 +163,8 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         setIsLoading(false)
 
     }
+
+
     async function deleteABusinessRelation(provider, receiver) {
         const res = await fetch('api/deleteABusinessRelation', {
             method: "DELETE",
@@ -224,13 +228,12 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                             <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
                                         </Avatar>
                                         <ListItemText sx={{ mr: 1 }} align='right' primary={business.businessName} secondary={business.businessBrand} />
-                                        {logedUserBusinesses[1] &&
-                                            <Checkbox
-                                                edge="end"
-                                                // onChange={(e) => handleToggle(e.target.value)}
-                                                value={business._id}
-                                                checked={selectedBusinesses?.some(selected => selected == business._id)}
-                                            />}
+                                        <Checkbox
+                                            edge="end"
+                                            // onChange={(e) => handleToggle(e.target.value)}
+                                            value={business._id}
+                                            checked={selectedBusinesses?.some(selected => selected == business._id)}
+                                        />
                                     </ListItemButton>
                                 </ListItem>
                             ))}

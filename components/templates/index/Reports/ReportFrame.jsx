@@ -43,6 +43,7 @@ export default function ReportFrame({ user, report }) {
                         {report.title === "resignation" && "گزارش استعفا"}
                         {report.title === "YouAreAgent" && "گزارش تغییر نماینده"}
                         {report.title === "bill" && "گزارش دریافت صورتحساب جدید"}
+                        {report.title === "businessRelation" &&"تعهد ارائه محصولات "}
 
                     </Typography>
                 </CardContent>
@@ -102,6 +103,11 @@ export default function ReportFrame({ user, report }) {
                             {report.title === "bill" &&
                                 <Typography style={{ whiteSpace: 'pre-wrap' }}>
                                     شما یک صورتحساب جدید دریافت کردید لطفا جهت مشاهده وارد بخش صورتحساب شوید
+                                </Typography>}
+                            {report.title === "businessRelation" &&
+                                <Typography style={{ whiteSpace: 'pre-wrap' }}>
+                                    
+                            {`کسب و کار ${report.business.businessBrand || report.business.businessName} متعهد به ارائه محصول گردیده است آیا می پذیرید؟`}
                                 </Typography>}
 
                         </CardContent>
