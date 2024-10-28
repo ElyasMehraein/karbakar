@@ -67,7 +67,7 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
 
 
     async function sendJobOffer() {
-        const res = await fetch('/api/createReport', {
+        const res = await fetch('/api/reports/createReport', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ReportContentForJobOffer)

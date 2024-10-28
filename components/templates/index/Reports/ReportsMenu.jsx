@@ -18,10 +18,10 @@ export default function ReportsMenu({ reports, user, anchorEl, open, handleClose
             >
                 {reports &&
                     reports.map((report) => {
-
                         return (
-
-                            <MenuItem key={report._id} sx={{ display: 'flex', flexDirection: "column-reverse" }}
+                            <MenuItem
+                                key={report._id}
+                                sx={{ display: 'flex', flexDirection: "column-reverse" }}
                                 onClick={handleClose}
                             >
                                 <ReportFrame user={user} report={report} />

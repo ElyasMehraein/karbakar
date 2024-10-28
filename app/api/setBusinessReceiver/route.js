@@ -7,11 +7,10 @@ import ReportModel from "@/models/Report";
 
 export async function PUT(req) {
     try {
-        await connectToDB(); // اطمینان از اتصال به دیتابیس
+        await connectToDB();
         const body = await req.json();
         const { provider, receiver } = body;
 
-        // بررسی و احراز هویت کاربر
         const res = await GET(req);
         const user = await res.json();
 
@@ -19,43 +18,29 @@ export async function PUT(req) {
             return Response.json({ message: "Please log in first" }, { status: 401 });
         }
 
-        // دریافت اطلاعات کاربر
         const loggedUser = await UserModel.findOne({ code: user.code });
         if (!loggedUser) {
             return Response.json({ message: "User not found" }, { status: 404 });
         }
 
-        // بررسی و اعتبارسنجی Business
         const business = await BusinessModel.findById(provider).lean();
         if (!business) {
             return Response.json({ message: "Business not found" }, { status: 404 });
         }
 
-        // تطابق کد کاربر با کد عامل
         if (Number(business.agentCode) !== Number(user.code)) {
             return Response.json({ message: "Unauthorized access" }, { status: 403 });
         }
 
-        // بررسی وجود رابطه
         const existingRelation = await BusinessRelationModel.findOne({ provider, receiver });
         if (existingRelation) {
             return Response.json({ message: "Relation already exists" }, { status: 409 });
         }
 
-        // ایجاد رابطه جدید
         const newRelation = new BusinessRelationModel({ provider, receiver, isAnswerNeed: true });
         await newRelation.save();
 
-        const receiverBusinessAgend = await BusinessModel.findById(receiver).lean().agentCode
-
-        await ReportModel.create({
-            recepiant: receiverBusinessAgend,
-            title: "businessRelation",
-            businessRelation: newRelation._id,
-            isSeen: false,
-            isAnswerNeed: true,
-        })
-        return Response.json({ message: "Receiver request sent successfully" }, { status: 201 });
+        return Response.json({ message: "relation created successfully", data: newRelation }, { status: 201 });
 
     } catch (error) {
         console.error("Error in PUT /business/relations:", error);

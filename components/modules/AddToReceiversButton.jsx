@@ -60,15 +60,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             }
         });
     }
-    console.log("ss", selectedBusinesses);
 
-
-
-    const ReportContentForJobOffer = {
-        recepiantCode: newValue,
-        business,
-        title: "jobOffer",
-    }
 
     //Snackbar
     const [open200Snackbar, setOpen200Snackbar] = useState(false);
@@ -77,6 +69,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
     const [openSnackbarNonSelectedError, setOpenSnackbarNonSelectedError] = useState(false);
     const [openSnackbarNoChangeError, setOpenSnackbarNoChangeError] = useState(false);
+    const [businessRelationReportSnackbar, setBusinessRelationReportSnackbar] = useState(false);
 
     function handleSnackbarClose() {
         setOpen201Snackbar(false);
@@ -130,9 +123,24 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     };
     const [isLoading, setIsLoading] = useState(false);
 
-
+    async function sendBusinessRelationReport(businessRelation) {
+        const res = await fetch('api/reports/businessRelationReport', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ businessRelation })
+        })
+        if (res.status === 500) {
+            console.log("server error");
+            setOpenSnackbar500Error(true)
+            setIsLoading(false)
+        } else if (res.status === 201) {
+            setIsLoading(false)
+            console.log("businessRelationReport created successfully");
+            businessRelationReportSnackbar(true)
+            sendBusinessRelationReport(data._id)
+        }
+    }
     async function addThisBusinessToMyBusinessReceivers(provider, receiver) {
-
         setIsLoading(true)
         const res = await fetch('api/setBusinessReceiver', {
             method: "PUT",
@@ -144,9 +152,11 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             setOpenSnackbar500Error(true)
             setIsLoading(false)
         } else if (res.status === 201) {
+            const {data} = await res.json();
             setIsLoading(false)
             console.log("set BusinessReceiver successfully");
-            handleShow201Snackbar()
+            handleShow201Snackbar(true)
+            sendBusinessRelationReport(data._id)
         } else if (res.status === 401) {
             setIsLoading(false)
             console.log("log in first");
@@ -287,6 +297,11 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                     onClose={() => { handleSnackbarClose() }}
                     message={"خطای اتصال به سرور"}
                     severity="error"
+                />
+                <CustomSnackbar
+                    open={businessRelationReportSnackbar}
+                    onClose={() => { handleSnackbarClose() }}
+                    message={"گزارش درخواست ارائه محصول برای نماینده کسب و کار ارسال شد"}
                 />
             </Box>
         </Container>
