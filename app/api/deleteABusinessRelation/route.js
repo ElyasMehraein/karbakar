@@ -22,7 +22,7 @@ export async function DELETE(req) {
         const providerBusiness = JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: provider })));
         const receiverBusiness = JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: receiver })));
 
-        if (Number(providerBusiness.agentCode) !== user.code) {
+        if (Number(providerBusiness.agentCode) || Number(receiverBusiness.agentCode) !== user.code) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 });
         }
 

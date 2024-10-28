@@ -51,16 +51,16 @@ export default function AddToReceiversButton({ relations, logedUser, business })
 
     const [selectedBusinesses, setSelectedBusinesses] = useState(logedUserProviders);
 
-    function handleToggle(e, value) {
-        const isSelected = selectedBusinesses.includes(e);
+    function handleToggle(e) {
         setSelectedBusinesses((prevSelectedBusinesses) => {
-            if (isSelected) {
+            if (selectedBusinesses.includes(e)) {
                 return prevSelectedBusinesses.filter((item) => item !== e);
             } else {
                 return [...prevSelectedBusinesses, e];
             }
         });
     }
+console.log("ss", selectedBusinesses);
 
 
 
@@ -71,15 +71,20 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     }
 
     //Snackbar
+    const [open200Snackbar, setOpen200Snackbar] = useState(false);
     const [open201Snackbar, setOpen201Snackbar] = useState(false);
     const [openSnackbar409Error, setOpenSnackbar409Error] = useState(false);
     const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
     const [openSnackbarNonSelectedError, setOpenSnackbarNonSelectedError] = useState(false);
+    const [openSnackbarNoChangeError, setOpenSnackbarNoChangeError] = useState(false);
 
     function handleSnackbarClose() {
         setOpen201Snackbar(false);
+        setOpen200Snackbar(false);
         setOpenSnackbar409Error(false);
         setOpenSnackbarNonSelectedError(false);
+        setOpenSnackbarNoChangeError(false);
+        setOpenSnackbar500Error(false);
     };
     const handleShow201Snackbar = () => {
         setOpen201Snackbar(true);
@@ -87,6 +92,12 @@ export default function AddToReceiversButton({ relations, logedUser, business })
 
 
     const confirmHandler = () => {
+        const ids1 = new Set(selectedBusinesses.map(id => id));
+        const ids2 = new Set(logedUserProviders.map(id => id));
+          if (ids1.size === ids2.size && [...ids1].every(id => ids2.has(id))) {
+            setOpenSnackbarNoChangeError(true)
+          return;
+        }
         if (!selectedBusinesses[0]) {
             setOpenSnackbarNonSelectedError(true)
         } else {
@@ -98,8 +109,9 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                 }
             })
         }
+    }
 
-    };
+
 
     const handleClose = () => {
         setOpenDialog(false);
@@ -115,7 +127,6 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ provider, receiver })
         })
-        console.log("res", res);
         if (res.status === 500) {
             console.log("server error");
             setOpenSnackbar500Error(true)
@@ -140,6 +151,34 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         setIsLoading(false)
 
     }
+    async function deleteABusinessRelation(provider, receiver) {
+        const res = await fetch('api/deleteABusinessRelation', {
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ provider, receiver })
+        })
+        if (res.status === 500) {
+            console.log("server error");
+            setOpenSnackbar500Error(true)
+            setIsLoading(false)
+        } else if (res.status === 200) {
+            setIsLoading(false)
+            console.log("BusinessRelation removed successfully");
+            handleShow200Snackbar()
+        }else if (res.status === 401) {
+            setIsLoading(false)
+            console.log("log in first");
+        } else if (res.status === 404) {
+            setIsLoading(false)
+            console.log("not found");
+        } else if (res.status === 403) {
+            setIsLoading(false)
+            console.log("403 Unauthorized access");
+        } else if (res.status === 409) {
+            setIsLoading(false)
+            setOpenSnackbar409Error(true)
+        }
+    }
     const clickHandler = () => {
         setOpenDialog(true)
         setIsDisable(true)
@@ -154,11 +193,11 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                     open={openDialog}
                     onClose={handleClose}
                 >
-                    <DialogTitle>توجه</DialogTitle>
+                    <DialogTitle>تعهدات شما</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            {logedUserBusinesses[1] ? "این کسب و کار مجاز به دریافت محصولات کدام کسب و کار شما شود؟" : "کسب و کار شما"}
-                        </DialogContentText>
+                        {/* <DialogContentText>
+                            به این کسب و کار محصول می دهید؟
+                        </DialogContentText> */}
                         <List component="div" disablePadding>
                             {logedUserBusinesses.map((business) => (
                                 <ListItem
@@ -178,7 +217,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                         {logedUserBusinesses[1] &&
                                             <Checkbox
                                                 edge="end"
-                                                onChange={(e, value) => handleToggle(e.target.value, value)}
+                                                // onChange={(e) => handleToggle(e.target.value)}
                                                 value={business._id}
                                                 checked={selectedBusinesses?.some(selected => selected == business._id)}
                                             />}
@@ -186,9 +225,6 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                 </ListItem>
                             ))}
                         </List>
-                        <DialogContentText>
-                            به ارائه محصول به این کسب و کار متعهد می شوید؟
-                        </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>لغو</Button>
@@ -211,9 +247,20 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                     message={"درخواست شما با موفقیت ثبت شد"}
                 />
                 <CustomSnackbar
+                    open={open201Snackbar}
+                    onClose={() => { location.reload() }}
+                    message={"حذف رابطه با موفقیت انجام شد"}
+                />
+                <CustomSnackbar
                     open={openSnackbar409Error}
                     onClose={() => { handleSnackbarClose() }}
                     message={"درخواست تکراری"}
+                    severity="error"
+                />
+                <CustomSnackbar
+                    open={openSnackbarNoChangeError}
+                    onClose={() => { handleSnackbarClose() }}
+                    message={"هنوز تغییری اعمال نکرده اید"}
                     severity="error"
                 />
                 <CustomSnackbar
