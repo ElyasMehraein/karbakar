@@ -22,11 +22,7 @@ export default function BusinessRelationFrame({ report }) {
   const [positiveChoise, setPositiveChoise] = useState(false);
   const [negativeChoise, setNegativeChoise] = useState(true);
 
-  console.log("positiveChoise", positiveChoise);
-  console.log("negativeChoise", negativeChoise);
-
   const answer = async (businessRelationID, parameter) => {
-    console.log("businessRelationID", businessRelationID, "parameter", parameter);
 
     if (parameter) {
       setAcceptIsLoading(true)
@@ -42,9 +38,13 @@ export default function BusinessRelationFrame({ report }) {
       body: JSON.stringify({ businessRelationID, parameter, reportID: report._id }),
     });
     if (res.status === 201) {
+      if (parameter) {
+        setPositiveChoise(true)
+      } else {
+        setNegativeChoise(false);
+      }
       setHideQuestion(true)
       setSnackbarAccept(true)
-      setPositiveChoise(true)
       setRejectIsLoading(false)
       setAcceptIsLoading(true)
     }
@@ -58,26 +58,21 @@ export default function BusinessRelationFrame({ report }) {
     if (res.status === 500) {
       console.log("server error");
       // setOpenSnackbar500Error(true)
-      setIsLoading(false)
     } else if (res.status === 200) {
-      setIsLoading(false)
       setHideQuestion(true)
       console.log("BusinessRelation removed successfully");
       // setOpen200Snackbar(true)
     } else if (res.status === 401) {
-      setIsLoading(false)
       console.log("log in first");
     } else if (res.status === 404) {
-      setIsLoading(false)
       console.log("not found");
     } else if (res.status === 403) {
-      setIsLoading(false)
       console.log("403 Unauthorized access");
     } else if (res.status === 409) {
-      setIsLoading(false)
       console.log("409 conflict");
       // setOpenSnackbar409Error(true)
     }
+    setRejectIsLoading(false)
   }
   return (
     <Box >

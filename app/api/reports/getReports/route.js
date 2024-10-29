@@ -28,7 +28,7 @@ export async function GET(req, res) {
         )))
         const reports = await ReportModel.find(
                 { recepiant: logedUser._id }
-        ).populate("business bill recepiant providerBusiness receiverBusiness")
+        ).populate("business bill recepiant providerBusiness receiverBusiness").sort({ createdAt: -1 })
         return Response.json(
             { message: 'get reports successfully', data: reports },
             { status: 200 }
