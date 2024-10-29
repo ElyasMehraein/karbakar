@@ -34,7 +34,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         }).map(relation => {
             const matchingBusiness = logedUserBusinesses.find(businessItem => businessItem._id === relation.provider._id);
             if (relation.isAnswerNeed) {
-                return `منتظر پاسخ ${matchingBusiness.businessBrand}`;
+                return ` منتظر پاسخ به ${matchingBusiness.businessBrand}`;
             } else {
                 return `دریافت کننده محصول از ${matchingBusiness.businessBrand}`;
             }

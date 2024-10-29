@@ -9,7 +9,9 @@ export async function PUT(req) {
     try {
         connectToDB();
         const body = await req.json();
-        const { businessRelationID, answer , reportID} = body;
+        const { businessRelationID, parameter, reportID } = body;
+        console.log("businessRelationID", businessRelationID, "answer", parameter, "reportID", reportID);
+
         const response = await GET(req);
         const user = await response.json();
 
@@ -28,10 +30,8 @@ export async function PUT(req) {
         businessRelation.isAnswerNeed = false;
         await businessRelation.save();
         report.isAnswerNeed = false
-        report.answer = answer
+        report.answer = parameter
         await report.save();
-
-
 
         return Response.json({ message: "businessRelation updated successfully" }, { status: 201 });
     } catch (err) {

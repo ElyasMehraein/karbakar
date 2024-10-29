@@ -16,13 +16,26 @@ import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function BusinessRelationFrame({ report }) {
   const [hideQuestion, setHideQuestion] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [acceptIsLoading, setAcceptIsLoading] = useState(false);
+  const [rejectIsLoading, setRejectIsLoading] = useState(false);
   const [snackbarAccept, setSnackbarAccept] = useState(false);
+  const [positiveChoise, setPositiveChoise] = useState(false);
+  const [negativeChoise, setNegativeChoise] = useState(true);
+
+  console.log("positiveChoise", positiveChoise);
+  console.log("negativeChoise", negativeChoise);
 
   const answer = async (businessRelationID, parameter) => {
-    console.log("businessRelationID", businessRelationID);
+    console.log("businessRelationID", businessRelationID, "parameter", parameter);
 
-    setIsLoading(true)
+    if (parameter) {
+      setAcceptIsLoading(true)
+
+    } else {
+      deleteABusinessRelation(report.providerBusiness, report.receiverBusiness)
+      setNegativeChoise(false)
+      setRejectIsLoading(true)
+    }
     const res = await fetch("/api/reports/answerBusinessRelation", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -31,6 +44,39 @@ export default function BusinessRelationFrame({ report }) {
     if (res.status === 201) {
       setHideQuestion(true)
       setSnackbarAccept(true)
+      setPositiveChoise(true)
+      setRejectIsLoading(false)
+      setAcceptIsLoading(true)
+    }
+  }
+  async function deleteABusinessRelation(provider, receiver) {
+    const res = await fetch('api/deleteABusinessRelation', {
+      method: "DELETE",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ provider, receiver })
+    })
+    if (res.status === 500) {
+      console.log("server error");
+      // setOpenSnackbar500Error(true)
+      setIsLoading(false)
+    } else if (res.status === 200) {
+      setIsLoading(false)
+      setHideQuestion(true)
+      console.log("BusinessRelation removed successfully");
+      // setOpen200Snackbar(true)
+    } else if (res.status === 401) {
+      setIsLoading(false)
+      console.log("log in first");
+    } else if (res.status === 404) {
+      setIsLoading(false)
+      console.log("not found");
+    } else if (res.status === 403) {
+      setIsLoading(false)
+      console.log("403 Unauthorized access");
+    } else if (res.status === 409) {
+      setIsLoading(false)
+      console.log("409 conflict");
+      // setOpenSnackbar409Error(true)
     }
   }
   return (
@@ -66,27 +112,27 @@ export default function BusinessRelationFrame({ report }) {
         </Box>
         <CardContent >
           <Typography style={{ whiteSpace: 'pre-wrap' }}>
-            {report.isAnswerNeed ?
+            {report.isAnswerNeed && !hideQuestion ?
               "این کسب و کار متعهد به ارائه محصولات خود به کسب و کار شما گردیده است. آیا می پذیرید؟"
               :
-              report.answer ?
+              report.answer || positiveChoise ?
                 "شما به تعهد این کسب و کار جهت ارائه محصول پاسخ مثبت دادید"
                 :
                 "شما به تعهد این کسب و کار جهت ارائه محصول پاسخ منفی دادید"
             }
           </Typography>
         </CardContent>
-        {hideQuestion &&
+        {report.isAnswerNeed && !hideQuestion &&
           <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
-            <Button variant="outlined" color="error"
+            <LoadingButton variant="outlined" color="error" loading={rejectIsLoading}
               onClick={() => answer(report.businessRelation, false)}>
               رد
-            </Button>
+            </LoadingButton>
             <LoadingButton
               color="success"
               variant="outlined"
               onClick={() => answer(report.businessRelation, true)}
-              loading={isLoading}
+              loading={acceptIsLoading}
             >
               تایید
             </LoadingButton>
