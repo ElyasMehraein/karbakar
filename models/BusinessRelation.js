@@ -11,7 +11,6 @@ const schema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Business",
     },
-    isSeen: Boolean,
     isAnswerNeed: Boolean,
 }, { timestamps: true })
 

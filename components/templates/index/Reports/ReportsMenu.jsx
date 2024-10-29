@@ -22,7 +22,7 @@ export default function ReportsMenu({ reports, user, anchorEl, open, handleClose
                             <MenuItem
                                 key={report._id}
                                 sx={{ display: 'flex', flexDirection: "column-reverse" }}
-                                onClick={handleClose}
+                                // onClick={handleClose}
                             >
                                 <ReportFrame user={user} report={report} />
                             </MenuItem>

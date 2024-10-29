@@ -9,9 +9,6 @@ import ResignationFrame from './resignationFrame';
 
 
 export default function ReportFrame({ user, report }) {
-    console.log("rr", report.title);
-
-
     return (
         <>
             {report.title == "bill" && <BillReportFrame />}

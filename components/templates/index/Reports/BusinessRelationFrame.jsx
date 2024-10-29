@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Box from '@mui/material/Box';
 import ItsAvatar from "@/components/modules/ItsAvatar"
 import Typography from "@mui/material/Typography";
@@ -10,13 +10,29 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 
 
 export default function BusinessRelationFrame({ report }) {
-  console.log("report", report);
-  const [snackbarAccept, setSnackbarAccept] = React.useState(false);
+  const [hideQuestion, setHideQuestion] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [snackbarAccept, setSnackbarAccept] = useState(false);
 
+  const answer = async (businessRelationID, parameter) => {
+    console.log("businessRelationID", businessRelationID);
+
+    setIsLoading(true)
+    const res = await fetch("/api/reports/answerBusinessRelation", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ businessRelationID, parameter, reportID: report._id }),
+    });
+    if (res.status === 201) {
+      setHideQuestion(true)
+      setSnackbarAccept(true)
+    }
+  }
   return (
     <Box >
       <Card sx={{ my: 1, bgcolor: "#e3f2fd" }}>
@@ -36,7 +52,7 @@ export default function BusinessRelationFrame({ report }) {
             title={report.providerBusiness?.businessBrand}
             subheader={report.providerBusiness?.businessName}
           />
-          <ArrowBackIcon sx={{margin:{ sm: "auto" } , marginX:{xs:"20%"}, transform: { xs: "rotate(-90deg)", sm: "rotate(0deg)" } }} />
+          <ArrowBackIcon sx={{ margin: { sm: "auto" }, marginX: { xs: "20%" }, transform: { xs: "rotate(-90deg)", sm: "rotate(0deg)" } }} />
           <CardHeader
             sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
             avatar={
@@ -50,19 +66,30 @@ export default function BusinessRelationFrame({ report }) {
         </Box>
         <CardContent >
           <Typography style={{ whiteSpace: 'pre-wrap' }}>
-            {"این کسب و کار متعهد به ارائه محصولات خود به کسب و کار شما گردیده است. آیا می پذیرید؟"}
+            {report.isAnswerNeed ?
+              "این کسب و کار متعهد به ارائه محصولات خود به کسب و کار شما گردیده است. آیا می پذیرید؟"
+              :
+              report.answer ?
+                "شما به تعهد این کسب و کار جهت ارائه محصول پاسخ مثبت دادید"
+                :
+                "شما به تعهد این کسب و کار جهت ارائه محصول پاسخ منفی دادید"
+            }
           </Typography>
         </CardContent>
-        {report.isAnswerNeed &&
+        {hideQuestion &&
           <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
             <Button variant="outlined" color="error"
-              onClick={() => answer(report._id, false)}>
+              onClick={() => answer(report.businessRelation, false)}>
               رد
             </Button>
-            <Button color="success" variant="outlined"
-              onClick={() => answer(report._id, true)}>
+            <LoadingButton
+              color="success"
+              variant="outlined"
+              onClick={() => answer(report.businessRelation, true)}
+              loading={isLoading}
+            >
               تایید
-            </Button>
+            </LoadingButton>
           </Stack>}
 
       </Card>
