@@ -6,7 +6,7 @@ import BusinessModel from '@/models/Business'
 import { redirect } from 'next/navigation'
 import UserModel from '@/models/User'
 import ReportModel from '@/models/Report';
-
+import BusinessRelationModel from '@/models/BusinessRelation';
 
 export async function GET(req, res) {
 
@@ -28,7 +28,7 @@ export async function GET(req, res) {
         )))
         const reports = await ReportModel.find(
                 { recepiant: logedUser._id }
-        ).populate("business").populate("bill").populate("recepiant");
+        ).populate("business bill recepiant providerBusiness receiverBusiness")
         return Response.json(
             { message: 'get reports successfully', data: reports },
             { status: 200 }

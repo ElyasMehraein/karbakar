@@ -11,6 +11,8 @@ const schema = new Schema({
     business: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     bill: { type: mongoose.Schema.Types.ObjectId, ref: "Bill" },
     businessRelation: { type: mongoose.Schema.Types.ObjectId, ref: "BusinessRelation" },
+    providerBusiness:{ type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+    receiverBusiness:{ type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     isSeen: Boolean,
     isAnswerNeed: Boolean,
     answer: Boolean,

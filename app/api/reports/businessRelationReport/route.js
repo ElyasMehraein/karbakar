@@ -1,8 +1,6 @@
 import connectToDB from "@/configs/db"
 import UserModel from '@/models/User';
 import BusinessModel from '@/models/Business';
-import BillModel from "@/models/Bill";
-import { GET } from "@/app/api/auth/me/route"
 import ReportModel from "@/models/Report";
 import BusinessRelationModel from "@/models/BusinessRelation";
 
@@ -16,16 +14,19 @@ export async function POST(req) {
         }
 
         const BusinessRelation = await BusinessRelationModel.findOne({ _id: businessRelation })
-        const Business = await BusinessModel.findOne({ _id: BusinessRelation.provider })
-        const recepiant = await UserModel.findOne({ code: Business.agentCode })
+        const receiverBusiness = await BusinessModel.findOne({ _id: BusinessRelation.receiver })
+        const recepiant = await UserModel.findOne({ code: receiverBusiness.agentCode })
         if (!recepiant) {
             return Response.json({ message: "404 user not found" }, { status: 404 })
         }
+        const providerBusiness = await BusinessModel.findOne({ _id: BusinessRelation.provider })
 
         await ReportModel.create({
             recepiant: recepiant._id,
             title: "businessRelation",
             businessRelation,
+            providerBusiness,
+            receiverBusiness,
             isSeen: false,
             isAnswerNeed: true,
             answer: false,
