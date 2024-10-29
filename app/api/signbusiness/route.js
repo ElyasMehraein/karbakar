@@ -66,7 +66,8 @@ export async function POST(req) {
                 agentCode: user.code,
                 workers: [user._id],
                 guild: GuildInDB._id,
-                deliveredProducts: []
+                deliveredProducts: [],
+                monthlyCommitment: []
             })
             business = business
 

@@ -66,13 +66,13 @@ const schema = new Schema({
     ],
     monthlyCommitment: [
         {
-            productName: { type: String, maxlength: 30, unique: true },
+            productName: { type: String, maxlength: 30 },
             unitOfMeasurement: { type: String, maxlength: 20 },
             amount: { type: Number, min: 1, max: 9999 },
             isRetail: Boolean,
         }
     ],
-    
+
 }, { timestamps: true })
 
 const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)

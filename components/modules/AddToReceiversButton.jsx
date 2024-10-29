@@ -19,9 +19,6 @@ export default function AddToReceiversButton({ relations, logedUser, business })
 
     const [answer, setAnswer] = useState(false)
     const [isAnswerNeed, setIsAnswerNeed] = useState(false)
-    const [isDisable, setIsDisable] = useState(false)
-    const [openDialog, setOpenDialog] = useState(false);
-    const [newValue, setNewValue] = useState(null);
 
     const isNotOwner = Number(logedUser.code) !== Number(business.agentCode)
 
@@ -63,6 +60,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
 
 
     //Snackbar
+
     const [open200Snackbar, setOpen200Snackbar] = useState(false);
     const [open201Snackbar, setOpen201Snackbar] = useState(false);
     const [openSnackbar409Error, setOpenSnackbar409Error] = useState(false);
@@ -78,12 +76,22 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         setOpenSnackbarNonSelectedError(false);
         setOpenSnackbarNoChangeError(false);
         setOpenSnackbar500Error(false);
+        setBusinessRelationReportSnackbar(false);
     };
     const handleShow201Snackbar = () => {
         setOpen201Snackbar(true);
     };
 
 
+    // Dialog
+    const [openDialog, setOpenDialog] = useState(false);
+    const handleOpen = () => {
+        setOpenDialog(true)
+    }
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
+    const [isLoading, setIsLoading] = useState(false);
     const confirmHandler = () => {
         const ids1 = new Set(selectedBusinesses.map(id => id));
         const ids2 = new Set(logedUserProviders.map(id => id));
@@ -117,13 +125,9 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     }
 
 
-
-    const handleClose = () => {
-        setOpenDialog(false);
-    };
-    const [isLoading, setIsLoading] = useState(false);
-
+    //Server Actions
     async function sendBusinessRelationReport(businessRelation) {
+
         const res = await fetch('api/reports/businessRelationReport', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -136,8 +140,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
         } else if (res.status === 201) {
             setIsLoading(false)
             console.log("businessRelationReport created successfully");
-            businessRelationReportSnackbar(true)
-            sendBusinessRelationReport(data._id)
+            setBusinessRelationReportSnackbar(true)
         }
     }
     async function addThisBusinessToMyBusinessReceivers(provider, receiver) {
@@ -152,7 +155,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             setOpenSnackbar500Error(true)
             setIsLoading(false)
         } else if (res.status === 201) {
-            const {data} = await res.json();
+            const { data } = await res.json();
             setIsLoading(false)
             console.log("set BusinessReceiver successfully");
             handleShow201Snackbar(true)
@@ -203,10 +206,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
             setOpenSnackbar409Error(true)
         }
     }
-    const clickHandler = () => {
-        setOpenDialog(true)
-        setIsDisable(true)
-    }
+
     return (
         isNotOwner && logedUserBusinesses[0] &&
         <Container
@@ -256,7 +256,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                 </Dialog>
                 <LoadingButton
                     dir="ltr"
-                    onClick={clickHandler}
+                    onClick={handleOpen}
                     fullWidth
                     sx={{ m: 1 }}
                     variant="contained"
