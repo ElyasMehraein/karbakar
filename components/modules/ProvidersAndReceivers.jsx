@@ -23,7 +23,7 @@ export default function ProvidersAndReceivers({ filteredRelations, title }) {
             <Container
                 sx={{ width: "100%", display: "flex", justifyContent: "center", alignItems: 'center' }}
             >
-            این کسب و کار فاقد {title} می باشد
+                این کسب و کار فاقد {title} می باشد
             </Container>
         )
     }
@@ -67,7 +67,15 @@ export default function ProvidersAndReceivers({ filteredRelations, title }) {
                                 {filteredRelations.map(relation => {
                                     return (
                                         <Avatar key={relation._id}>
-                                            <ItsAvatar userCodeOrBusinessBrand={relation.provider.businessName} isAvatar={relation.provider.isAvatar} alt="businessBrand" />
+                                            <ItsAvatar
+                                                userCodeOrBusinessBrand={
+                                                    title == "تامین کنندگان" ? relation.provider.businessName
+                                                        :
+                                                        relation.receiver.businessName}
+                                                isAvatar={
+                                                    title == "تامین کنندگان" ? relation.provider.isAvatar
+                                                        :
+                                                        relation.receiver.isAvatar} alt="businessBrand" />
                                         </Avatar>
                                     )
                                 })}
@@ -80,19 +88,37 @@ export default function ProvidersAndReceivers({ filteredRelations, title }) {
                         {filteredRelations?.map((relation) => (
                             <Box key={relation._id}>
                                 <ListItemButton
-                                    onClick={() => router.push(`/${relation.provider.businessName}`)}
+                                    onClick={() => router.push(`/${title == "تامین کنندگان" ? relation.provider.businessName
+                                        :
+                                        relation.receiver.businessName}`)}
                                 >
                                     <Box sx={{ display: "flex", flexDirection: "column" }}
                                     >
                                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
                                             <Avatar sx={{ ml: 2, width: 40, height: 40 }}>
-                                                <ItsAvatar isAvatar={relation.provider.isAvatar} userCodeOrBusinessBrand={relation.provider.businessName} alt="workers avatar" />
+                                                <ItsAvatar
+                                                    userCodeOrBusinessBrand={
+                                                        title == "تامین کنندگان" ? relation.provider.businessName
+                                                            :
+                                                            relation.receiver.businessName}
+                                                    isAvatar={
+                                                        title == "تامین کنندگان" ? relation.provider.isAvatar
+                                                            :
+                                                            relation.receiver.isAvatar} alt="businessBrand" />
                                             </Avatar>
                                             <ListItemAvatar >
-                                                <ListItemText align='right' primary={relation.provider.businessName} secondary={relation.provider.businessBrand} />
+                                                <ListItemText align='right' primary={title == "تامین کنندگان" ? relation.provider.businessName
+                                                    :
+                                                    relation.receiver.businessName} secondary={title == "تامین کنندگان" ? relation.provider.businessBrand
+                                                        :
+                                                        relation.receiver.businessBrand} />
                                             </ListItemAvatar>
                                         </Box>
-                                        <Typography align='right' variant="caption" sx={{ color: 'text.secondary' }}>{relation.provider.bio}</Typography>
+                                        <Typography align='right' variant="caption" sx={{ color: 'text.secondary' }}>
+                                            {title == "تامین کنندگان" ? relation.provider.bio
+                                                :
+                                                relation.receiver.bio}
+                                        </Typography>
                                     </Box>
                                 </ListItemButton>
                             </Box>
