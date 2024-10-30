@@ -16,6 +16,7 @@ import ProvidersAndReceivers from "@/components/modules/ProvidersAndReceivers";
 
 const Map = dynamic(() => import("@/components/templates/business/Map"), { ssr: false })
 function Business({ relations, business, logedUser, bills }) {
+
     let providerRelations = relations?.filter((relation) => {
         if (!relation.isAnswerNeed) {
             return relation.receiver._id == business._id
@@ -26,6 +27,7 @@ function Business({ relations, business, logedUser, bills }) {
             return relation.provider._id == business._id
         }
     })
+    
     return (
         <>
             <MyAppBar logedUser={logedUser} business={business} />

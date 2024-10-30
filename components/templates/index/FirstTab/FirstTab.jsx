@@ -9,11 +9,11 @@ import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import ItsAvatar from '@/components/modules/ItsAvatar'
 import LinearProgress from '@mui/material/LinearProgress';
 
-import { blue }from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 
 const color = blue[50];
 
-export default function FirstTab({ user }) {
+export default function FirstTab({ user, relations }) {
 
     const router = useRouter()
     const [mounted, setMounted] = useState(false);
@@ -66,7 +66,7 @@ export default function FirstTab({ user }) {
                     {businesses ?
                         businesses.map((business) => {
                             return (
-                                <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor:color, borderRadius:2 ,m:1, p:2  }}>
+                                <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: color, borderRadius: 2, m: 1, p: 2 }}>
                                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                                         <ListItemAvatar>
                                             <Avatar>
@@ -76,7 +76,7 @@ export default function FirstTab({ user }) {
                                         <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessBrand} secondary={business.bio} />} >
                                         </ListItem>
                                     </ListItemButton>
-                                        <Typography>کلید پریز</Typography>
+                                    <Typography>کلید پریز</Typography>
                                     <ListItem>
                                         <Box sx={{ width: '90%' }}>
                                             <LinearProgress
@@ -85,14 +85,14 @@ export default function FirstTab({ user }) {
                                             />
                                         </Box>
                                         <Box sx={{ minWidth: 35 }}>
-                                            <Typography variant="body2" sx={{ m:1, color: 'text.secondary' }}>
+                                            <Typography variant="body2" sx={{ m: 1, color: 'text.secondary' }}>
                                                 {1 + "/" + 7}
                                             </Typography>
                                         </Box>
                                     </ListItem>
-                                        <Typography> پوستر رنگ آمیزی</Typography>
+                                    <Typography> پوستر رنگ آمیزی</Typography>
                                     <ListItem>
-                                        <Box sx={{ml:1, width: '90%' }}>
+                                        <Box sx={{ ml: 1, width: '90%' }}>
                                             <LinearProgress
                                                 variant="determinate"
                                                 value={40}

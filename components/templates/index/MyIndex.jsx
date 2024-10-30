@@ -6,7 +6,7 @@ import RightDrawer from "@/components/templates/index/RightDrawer";
 import Tabs from "@/components/templates/index/Tabs";
 
 
-export default function MyIndex({ user, bills, distinctGuilds, primeBusiness }) {
+export default function MyIndex({ user, bills, distinctGuilds, primeBusiness, relations }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -32,7 +32,7 @@ export default function MyIndex({ user, bills, distinctGuilds, primeBusiness }) 
       <SearchAppBar
         user={user}
         menuClickHandler={menuClickHandler} />
-      <Tabs {...{ distinctGuilds, user, bills,primeBusiness }}
+      <Tabs {...{ distinctGuilds, user, bills, primeBusiness, relations }}
       />
 
     </>

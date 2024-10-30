@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import BillModel from '@/models/Bill';
 import BusinessModel from '@/models/Business';
 import GuildModel from '@/models/Guild';
+import BusinessRelationModel from '@/models/BusinessRelation';
 
 export default async function page() {
   const token = cookies().get("token")?.value;
@@ -44,8 +45,15 @@ export default async function page() {
     .catch(err => {
       console.error(err);
     });
+
+  let relations = JSON.parse(JSON.stringify(await BusinessRelationModel.find({
+    $or: [
+      { provider: business._id },
+      { receiver: business._id },
+    ],
+  }).populate("receiver provider")));
   return (
-    <MyIndex {...{ user, bills, token, distinctGuilds, primeBusiness }} />
+    <MyIndex {...{ user, bills, token, distinctGuilds, primeBusiness, relations }} />
   )
 }
 
