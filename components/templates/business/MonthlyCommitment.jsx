@@ -24,7 +24,7 @@ export default function MonthlyCommitment({ business }) {
       sx={{ pb: 2, width: "100%", display: "flex", justifyContent: "center", alignItems: 'center' }}
     >
       {!rows[0] ?
-        <Typography align='center' color="error">این کسب و کار تا بحال هیچ محصولی به کسی تحویل نداده است </Typography>
+        <Typography align='center' color="error">این کسب و کار فاقد تعهد ارائه محصول بصورت ماهانه است </Typography>
         :
         <TableContainer component={Paper}>
           <Table sx={{ minWidth: 300 }} aria-label="caption table">
