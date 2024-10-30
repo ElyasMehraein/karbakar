@@ -17,19 +17,24 @@ export default async function page() {
     return <MyIndex />
   }
   connectToDB()
-  const user = await JSON.parse(JSON.stringify(await UserModel.findOne(
+  const user = await UserModel.findOne(
     { _id: tokenPayLoad.id },
-  ).populate("businesses").exec()))
+  ).populate("businesses").lean().exec()
   let primeBusiness;
   if (user) {
-    primeBusiness = await JSON.parse(JSON.stringify(await BusinessModel.findOne(
+    primeBusiness = await BusinessModel.findOne(
       { _id: user.primeJob },
-    )?.populate("guild").exec()))
-
+    )?.populate("guild").lean().exec()
   }
-  const bills = await JSON.parse(JSON.stringify(await BillModel.find({
+
+  const relations = await BusinessRelationModel.find({
+    receiver: { $in: user.businesses.map(business => business._id) },
+    isAnswerNeed: false 
+  }).populate('provider').lean().exec();
+
+  const bills = await  BillModel.find({
     to: user?._id
-  }).populate("from")))
+  }).populate("from").lean().exec()
 
   let distinctGuilds = []
   await BillModel.find({ isAccept: true })
@@ -46,12 +51,7 @@ export default async function page() {
       console.error(err);
     });
 
-  let relations = JSON.parse(JSON.stringify(await BusinessRelationModel.find({
-    $or: [
-      { provider: business._id },
-      { receiver: business._id },
-    ],
-  }).populate("receiver provider")));
+
   return (
     <MyIndex {...{ user, bills, token, distinctGuilds, primeBusiness, relations }} />
   )
