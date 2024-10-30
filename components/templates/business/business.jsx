@@ -10,7 +10,7 @@ import WhatBusinessGet from "@/components/templates/business/WhatBusinessGet";
 import Explain from "@/components/modules/Explain";
 import Name from "@/components/modules/Name";
 import dynamic from "next/dynamic";
-import TableBusiness2 from "./TableBusiness2";
+import MonthlyCommitment from "./MonthlyCommitment";
 import AddToReceiversButton from "@/components/modules/AddToReceiversButton";
 import ProvidersAndReceivers from "@/components/modules/ProvidersAndReceivers";
 
@@ -41,8 +41,8 @@ function Business({ relations, business, logedUser, bills }) {
             <Contact business={business} />
             <Map business={business} />
             <Explain business={business} />
-            <TableBusiness business={business} bills={bills} />
-            <TableBusiness2 />
+            <MonthlyCommitment business={business} />
+            {/* <TableBusiness business={business} bills={bills} /> */}
             <EmployeeList business={business} />
         </>
     )
