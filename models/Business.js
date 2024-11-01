@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import mongoose from "mongoose"
+import GuildModel from "./Guild";
 
 const schema = new Schema({
     businessName: {
@@ -47,7 +48,6 @@ const schema = new Schema({
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
-            // index: { unique: true }
         }
     ],
     guild: {
@@ -56,8 +56,7 @@ const schema = new Schema({
     },
     deliveredProducts: [
         {
-            productName: { type: String, maxlength: 30 },
-            unitOfMeasurement: { type: String, maxlength: 20 },
+            product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
             totalDelivered: { type: Number, min: 1, max: 9999 },
             thisMonthDelivered: { type: Number, min: 0, max: 9999 },
             thisYearDelivered: { type: Number, min: 1, max: 9999 },
@@ -66,8 +65,7 @@ const schema = new Schema({
     ],
     monthlyCommitment: [
         {
-            productName: { type: String, maxlength: 30 },
-            unitOfMeasurement: { type: String, maxlength: 20 },
+            product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
             amount: { type: Number, min: 1, max: 9999 },
             isRetail: Boolean,
         }

@@ -28,11 +28,18 @@ export default async function page() {
   }
 
   const relations = await BusinessRelationModel.find({
-    receiver: { $in: user.businesses.map(business => business._id) },
-    isAnswerNeed: false 
-  }).populate('provider').lean().exec();
+    receiver: { $in: user?.businesses?.map(business => business._id) },
+    isAnswerNeed: false
+  }).populate("provider")
+    .populate({
+      path: 'monthlyCommitment.product',
+      populate: {
+        path: 'provider'
+      }
+    })
+    .lean().exec()
 
-  const bills = await  BillModel.find({
+  const bills = await BillModel.find({
     to: user?._id
   }).populate("from").lean().exec()
 

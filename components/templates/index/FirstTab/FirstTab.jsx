@@ -24,7 +24,7 @@ export default function FirstTab({ user, relations }) {
         }
     })
     console.log("businesses", businesses);
-
+    
     return (
         <Container maxWidth="md">
             <Box className='inMiddle'
@@ -63,6 +63,8 @@ export default function FirstTab({ user, relations }) {
                                         <Typography align='right' variant="caption" sx={{ color: 'text.secondary' }}>{business.provider.bio}</Typography>
 
                                         {business.provider.monthlyCommitment.map((product) => {
+                                            console.log("product", product);
+                                            
                                             return (
                                                 <Box key={product.productName}>
                                                     <Typography align='right'>{product.productName}</Typography>
@@ -70,7 +72,7 @@ export default function FirstTab({ user, relations }) {
                                                         <Box sx={{ width: '90%' }}>
                                                             <LinearProgress
                                                                 variant="determinate"
-                                                                value={98}
+                                                                value={80}
                                                             />
                                                         </Box>
                                                         <Box sx={{ minWidth: 35 }}>
