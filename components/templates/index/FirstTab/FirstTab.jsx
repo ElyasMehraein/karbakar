@@ -23,7 +23,7 @@ export default function FirstTab({ user, relations }) {
             return relation.provider;
         }
     })
-    console.log("businesses", businesses);
+    console.log("relations", relations[0]);
     
     return (
         <Container maxWidth="md">

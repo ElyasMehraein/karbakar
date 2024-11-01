@@ -67,7 +67,6 @@ const schema = new Schema({
         {
             product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
             amount: { type: Number, min: 1, max: 9999 },
-            isRetail: Boolean,
         }
     ],
 

@@ -2,6 +2,7 @@ import connectToDB from "@/configs/db";
 import UserModel from "@/models/User";
 import BusinessModel from "@/models/Business";
 import GuildModel from "@/models/Guild";
+import ProductModel from "@/models/Product";
 import { GET } from "@/app/api/auth/me/route";
 
 export async function PUT(req) {
@@ -11,61 +12,62 @@ export async function PUT(req) {
 
         await connectToDB();
 
-        // دریافت اطلاعات کاربر لاگین شده
+        // Get logged-in user information
         const response = await GET(req);
         const user = await response.json();
         const loggedUser = await UserModel.findOne({ code: user.code });
-        
+
         if (!loggedUser) {
-            return Response.json({ message: "لطفا ابتدا وارد شوید" }, { status: 404 });
+            return Response.json({ message: "Please log in first" }, { status: 404 });
         }
 
-        // بررسی اینکه کاربر مجوز لازم برای تغییرات در کسب و کار را دارد
-        const Business = await BusinessModel.findById(businessID);
-        if (!Business || Number(Business.agentCode) !== user.code) {
-            return Response.json({ message: "403 دسترسی غیر مجاز" }, { status: 403 });
+        // Verify user permissions to modify the business
+        const business = await BusinessModel.findById(businessID).populate("guild");
+        if (!business || Number(business.agentCode) !== user.code) {
+            return Response.json({ message: "403 Unauthorized access" }, { status: 403 });
         }
 
-        // یافتن گیلد مربوط به کسب و کار
-        const guild = await GuildModel.findById(Business.guild);
-
-        // بررسی محصولات موجود در basket و افزودن به Guild.products در صورت عدم وجود
-        const updatedBasket = [];
+        // Check and update products in the basket
         for (const item of basket) {
-            // چک می‌کنیم آیا محصول در Guild.products وجود دارد
-            let product = guild.products.find(
-                (p) => p.productName === item.productName && p.unitOfMeasurement === item.unitOfMeasurement
-            );
+            const { productName, unitOfMeasurement, amount, isRetail } = item.product;
+            console.log("productName, unitOfMeasurement, amount, isRetail", productName, unitOfMeasurement, amount, isRetail);
 
-            // اگر محصول وجود ندارد، آن را اضافه کرده و ذخیره می‌کنیم
-            if (!product) {
-                product = guild.products.create({
-                    productName: item.productName,
-                    unitOfMeasurement: item.unitOfMeasurement,
+            // Verify that the product guild matches the business guild
+            const productExists = await ProductModel.findOne({
+                guild: business.guild._id,
+                productName,
+            });
+
+            if (!productExists) {
+                // If product does not exist in the guild, create a new product entry
+                await ProductModel.create({
+                    productName,
+                    unitOfMeasurement,
+                    guild: business.guild._id,
+                    isRetail,
                 });
-                guild.products.push(product);
-                await guild.save();
             }
 
-            // اضافه کردن اطلاعات محصول با استفاده از ObjectId محصول موجود در گیلد
-            updatedBasket.push({
-                product: product._id,
-                amount: item.amount,
-                isRetail: item.isRetail,
-            });
+            // Update the business's monthly commitment or add it as needed
+            await BusinessModel.findByIdAndUpdate(
+                businessID,
+                {
+                    $addToSet: {
+                        monthlyCommitment: {
+                            product: productExists ? productExists._id : (await ProductModel.findOne({ productName, guild: business.guild._id }))._id,
+                            amount,
+                            
+                        },
+                    },
+                },
+                { new: true }
+            );
         }
 
-        // ذخیره updatedBasket در فیلد monthlyCommitment کسب و کار
-        await BusinessModel.findByIdAndUpdate(
-            businessID,
-            { $set: { monthlyCommitment: updatedBasket } },
-            { new: true }
-        );
-
-        return Response.json({ message: "کسب و کار با موفقیت بروز شد" }, { status: 201 });
+        return Response.json({ message: "Business successfully updated" }, { status: 201 });
 
     } catch (err) {
         console.error(err);
-        return Response.json({ message: "خطای سرور" }, { status: 500 });
+        return Response.json({ message: "Server error" }, { status: 500 });
     }
 }

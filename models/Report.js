@@ -6,13 +6,13 @@ import BillModel from './Bill';
 import BusinessRelationModel from './BusinessRelation';
 
 const schema = new Schema({
-    recepiant: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    title: { type: String, maxlength: 20, },
+    recepiant: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    title: { type: String, maxlength: 20, required: true },
     business: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     bill: { type: mongoose.Schema.Types.ObjectId, ref: "Bill" },
     businessRelation: { type: mongoose.Schema.Types.ObjectId, ref: "BusinessRelation" },
-    providerBusiness:{ type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-    receiverBusiness:{ type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+    providerBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+    receiverBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     isSeen: Boolean,
     isAnswerNeed: Boolean,
     answer: Boolean,

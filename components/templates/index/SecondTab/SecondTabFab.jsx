@@ -21,6 +21,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
             return business
         }
     })
+
     const userBusinessesNames = userBusinesses.map(business => business.businessName)
     const [inputValue, setInputValue] = React.useState("");
 
@@ -71,7 +72,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
             setOpenSnackbarDublicateError(true)
             return
         }
-        setBasket([{ id: basket.length + 1, productName: selectedProductName, unitOfMeasurement, amount, isRetail: radioGroupValue }, ...basket])
+        setBasket([{ product: { id: basket.length + 1, productName: selectedProductName, unitOfMeasurement, amount, isRetail: radioGroupValue } }, ...basket])
         setSelectedProductName("")
         setBusinessProducts([])
         setUnitOfMeasurement("")
@@ -213,8 +214,8 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     <List dense={true}>
                         {basket.map(producrFrame => {
                             return (
-                                <ListItem key={producrFrame._id || producrFrame.id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
-                                    {producrFrame.isRetail ?
+                                <ListItem key={producrFrame._id || producrFrame.product.id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
+                                    {producrFrame.product.isRetail == "true" ?
                                         <ListItemIcon>
                                             <Groups2Icon />
                                         </ListItemIcon>
@@ -223,7 +224,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                                             <BusinessRoundedIcon />
                                         </ListItemIcon>
                                     }
-                                    <ListItemText primary={producrFrame.productName} secondary={`${producrFrame.amount} - ${producrFrame.unitOfMeasurement}`} />
+                                    <ListItemText primary={producrFrame.product.productName} secondary={`${producrFrame.product.amount} - ${producrFrame.product.unitOfMeasurement}`} />
                                     <IconButton onClick={() => deleteFrame(producrFrame._id)}>
                                         <DeleteIcon />
                                     </IconButton>

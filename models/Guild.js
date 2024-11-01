@@ -2,10 +2,10 @@ import * as mongoose from 'mongoose';
 import { Schema } from "mongoose";
 
 const schema = new Schema({
-    guildName: { type: String, required: true, unique: true, },
+    guildName: { type: String, required: true, unique: true, required: true },
     products: [
         {
-            product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+            product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
         }
     ],
     jobCategory: {
