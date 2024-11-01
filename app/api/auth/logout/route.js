@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-export async function POST(req) {
+export async function GET(req) {
   cookies().delete("token");
   return Response.json({ message: "User sign out !!" },{status: 200});
 }

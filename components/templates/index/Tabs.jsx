@@ -5,18 +5,21 @@ import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import Bill from './Bills/Bill';
 import theme from '@/styles/theme';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
-import { green } from '@mui/material/colors';
+import { cyan, green } from '@mui/material/colors';
 import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import MyRequests from './Requests/MyRequests';
-import CreateRequest from './Requests/CreateRequest';
-import OthersRequest from './Requests/OthersRequest';
 import OthersRequestForGusts from './Requests/OthersRequestForGusts';
-
+import FirstTab from './FirstTab/FirstTab';
+import FirstTabFab from './FirstTab/FirstTabFab';
+import SecondTab from './SecondTab/SecondTab';
+import SecondTabFab from './SecondTab/SecondTabFab';
+import ThirdTab from './ThirdTab/ThirdTab';
+import ThirdTabFab from './ThirdTab/ThirdTabFab';
 
 function CustomTabPanel(props) {
 
@@ -30,11 +33,9 @@ function CustomTabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ py: 3 }}>
-          {children}
-        </Box>
-      )}
+      <Box sx={{ py: 3 }}>
+        {children}
+      </Box>
     </Box>
   );
 }
@@ -42,7 +43,6 @@ const fabStyle = {
   position: "fixed",
   bottom: 16,
   // right: 16,
-
 };
 
 const fabGreenStyle = {
@@ -65,7 +65,9 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ user, bills, distinctGuilds }) {
+export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, relations }) {
+
+
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -76,11 +78,14 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
     exit: theme.transitions.duration.leavingScreen,
   };
   const [fabIndex, setFabIndex] = React.useState(10);
-
+  const FirstTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
+  const FirstTabFabDynamicText = fabIndex == value ? "بازگشت" : "اعلام نیاز"
+  const SecondTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
+  const SecondTabFabDynamicText = fabIndex == value ? "بازگشت" : "تغییر ظرفیت تولید"
+  const ThirdTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
+  const ThirdTabFabDynamicText = fabIndex == value ? "بازگشت" : "تشکیل اتحاد"
   const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
   const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
-  const RequestFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
-  const RequestFabDynamicText = fabIndex == value ? "بازگشت به درخواست ها" : "ایجاد درخواست جدید"
 
   const fabHandler = () => {
     fabIndex == value ?
@@ -91,17 +96,25 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
   };
   const fabs = [
     {
-      color: 'secondary',
-      sx: fabStyle,
-      icon: <EditIcon />,
-      label: 'Edit',
-    },
-    {
       color: 'primary',
       sx: fabStyle,
-      icon: RequestFabDynamicIcon,
+      icon: FirstTabFabDynamicIcon,
       label: 'Add',
-      children: RequestFabDynamicText,
+      children: FirstTabFabDynamicText,
+    },
+    {
+      color: 'secondary',
+      sx: fabStyle,
+      icon: SecondTabFabDynamicIcon,
+      label: 'Edit',
+      children: SecondTabFabDynamicText,
+    },
+    {
+      color: 'success',
+      sx: fabStyle,
+      icon: ThirdTabFabDynamicIcon,
+      label: 'Expand',
+      children: ThirdTabFabDynamicText
     },
     {
       color: 'inherit',
@@ -126,9 +139,10 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               aria-label="basic tabs example"
             >
 
-              <Tab label="درخواستهای دیگران" {...a11yProps(0)} />
-              <Tab label="درخواستهای من" {...a11yProps(1)} />
-              <Tab label="صورتحساب" {...a11yProps(2)} />
+              <Tab label="دریافت" {...a11yProps(0)} />
+              <Tab label="ارائه" {...a11yProps(1)} />
+              <Tab label="اتحاد" {...a11yProps(2)} />
+              <Tab label="صورتحساب" {...a11yProps(3)} />
             </Tabs>
             :
             <Tabs
@@ -140,7 +154,7 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="درخواستهای کاربران" {...a11yProps(1)} />
+              <Tab label="محصولات" {...a11yProps(1)} />
             </Tabs>
           }
         </Container>
@@ -148,22 +162,34 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
       <Container sx={{ position: "relative", height: "80%" }}>
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
           {user && user.businesses[0] ?
-            <OthersRequest user={user} distinctGuilds={distinctGuilds} />
+            fabIndex !== value ?
+              <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
+              :
+              <FirstTabFab user={user} />
             :
             <OthersRequestForGusts />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
           {
-            fabIndex === 1 ?
-              <CreateRequest {...{ fabHandler, user, distinctGuilds }} />
+            fabIndex !== value ?
+              <SecondTab primeBusiness={primeBusiness} />
               :
-              <MyRequests {...{ user }} />
+              <SecondTabFab {...{ user, primeBusiness }} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
           {
-            fabIndex === 2 ?
+            fabIndex !== value ?
+              <ThirdTab />
+              :
+              <ThirdTabFab {...{ user }} />
+          }
+
+        </CustomTabPanel>
+        <CustomTabPanel value={value} index={3} dir={theme.direction}>
+          {
+            fabIndex === 3 ?
               <CreateBill user={user} fabHandler={fabHandler} />
               :
               <Bill bills={bills} user={user} />
@@ -171,24 +197,25 @@ export default function BasicTabs({ user, bills, distinctGuilds }) {
         </CustomTabPanel>
 
 
-        {user?.businesses[0] && fabs.map((fab, index) => (
-          value !== 0 &&
-          <Zoom
-            key={fab.color}
-            in={value === index}
-            timeout={transitionDuration}
-            style={{
-              transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
-            }}
-            unmountOnExit
-            onClick={fabHandler}
-          >
-            <Fab variant="extended" size="medium" sx={fab.sx} aria-label={fab.label} color={fab.color}>
-              {fab.children}
-              {fab.icon}
-            </Fab>
-          </Zoom>
-        ))}
+        {user?.businesses[0] &&
+          fabs.map((fab, index) => (
+            <Zoom
+              key={index}
+              in={value === index}
+              timeout={transitionDuration}
+              style={{
+                transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
+              }}
+              unmountOnExit
+              onClick={fabHandler}
+            >
+              <Fab variant="extended" size="medium" sx={fab.sx} aria-label={fab.label} color={fab.color}>
+                {fab.children}
+                {fab.icon}
+              </Fab>
+            </Zoom>
+          ))
+        }
       </Container>
     </Box>
   );

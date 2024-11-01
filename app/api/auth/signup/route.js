@@ -20,18 +20,18 @@ export async function POST(req, res) {
         }
         console.log("Entrance data is not empty");
 
+        // remove for production
+        // if (!phoneFormatCheck(phone) || !SMSFormatCheck(SMSCode)) {
+        //     return Response.json({ message: "Entrance data is not valid!" },{status:402})
+        // }
+        // console.log("phone number and smmcode format validate successfully");
 
-        if (!phoneFormatCheck(phone) || !SMSFormatCheck(SMSCode)) {
-            return Response.json({ message: "Entrance data is not valid!" },{status:402})
-        }
-        console.log("phone number and smmcode format validate successfully");
 
-
-        const isOtpSMSValid = await SMSOtpvalidator(phone, SMSCode)
-        if (!isOtpSMSValid) {
-            console.log(res.status);
-            return Response.json({ message: "SMS Code is not valid" },{status:406})
-        }
+        // const isOtpSMSValid = await SMSOtpvalidator(phone, SMSCode)
+        // if (!isOtpSMSValid) {
+        //     console.log(res.status);
+        //     return Response.json({ message: "SMS Code is not valid" },{status:406})
+        // }
 
 
         const phoneHash = createHash("sha256").update(phone + process.env.PAPER).digest("hex");
@@ -42,7 +42,7 @@ export async function POST(req, res) {
             user = await UserModel.create({
                 phoneHash,
                 code: nextUserNumber,
-                userName: "",
+                userName: "کاربر جدید",
                 isAvatar:false,
                 isHeader:false,
                 bio: "",

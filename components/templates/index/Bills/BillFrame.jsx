@@ -15,6 +15,17 @@ import Stack from '@mui/material/Stack';
 import BillProductFrame from './BillProductFrame';
 import { useRouter } from 'next/navigation';
 import { Suspense } from 'react'
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 export default function BillFrame({ user, bill }) {
     const [snackbarAccept, setSnackbarAccept] = React.useState(false);
@@ -24,7 +35,7 @@ export default function BillFrame({ user, bill }) {
 
     const saveHandler = async () => {
         let billId = bill._id
-        const res = await fetch("/api/AcceptBill", {
+        const res = await fetch("/api/BillAccept", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -33,13 +44,12 @@ export default function BillFrame({ user, bill }) {
                 billId,
             }),
         });
-        console.log("res", res);
         res.status === 200 ? setSnackbarAccept(true) : setSnackbarServerError(true)
     }
 
-    const deleteHandler = async () => {
-        const res = await fetch("/api/billDelete", {
-            method: "DELETE",
+    const rejectHandler = async () => {
+        const res = await fetch("/api/BillReject", {
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -49,7 +59,11 @@ export default function BillFrame({ user, bill }) {
         });
         res.status === 200 ? setSnackbarReject(true) : setSnackbarServerError(true)
     }
+    const [openDialog, setOpenDialog] = React.useState(false);
 
+    const handleClose = () => {
+        setOpenDialog(false);
+    };
     return (
         <Box >
             <Container maxWidth="md">
@@ -76,17 +90,21 @@ export default function BillFrame({ user, bill }) {
                                 return <BillProductFrame key={product.productName} {...product} />
                             })
                             }
-                            <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
-                                <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
-                                    onClick={() => deleteHandler()}>
-                                    لغو
-                                </Button>
-                                <Box style={{ flexGrow: 1 }}></Box>
-                                <Button color="success" variant="outlined" endIcon={<SendIcon />}
-                                    onClick={() => saveHandler(true)}>
-                                    تایید
-                                </Button>
-                            </Stack>
+                            {bill.status === "pending" &&
+                                <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
+                                    <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
+                                        onClick={() => rejectHandler()}>
+                                        لغو
+                                    </Button>
+                                    <Box style={{ flexGrow: 1 }}></Box>
+                                    <Button color="success" variant="outlined" endIcon={<SendIcon />}
+                                        onClick={() => setOpenDialog(true)}>
+                                        تایید
+                                    </Button>
+                                </Stack>
+
+
+                            }
                         </CardContent>
 
                     </Card>
@@ -94,6 +112,25 @@ export default function BillFrame({ user, bill }) {
                 </Box>
 
             </Container>
+            <Dialog
+                open={openDialog}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>تایید دریافت محصول یا خدمت</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                        این عمل غیر قابل بازگشت است و
+                        تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>لغو</Button>
+                    <Button onClick={() => saveHandler(true)}>محصول را دریافت نمودم</Button>
+                </DialogActions>
+            </Dialog>
             <CustomSnackbar
                 open={snackbarAccept}
                 onClose={() => { setSnackbarAccept(false), location.reload() }}

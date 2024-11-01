@@ -1,21 +1,55 @@
 "use client"
-import { Box, Button, Container, TextField, Typography } from '@mui/material'
+import { Box, Button, Container, TextField, Typography, Autocomplete } from '@mui/material'
 import MyAppBar from '@/components/modules/MyAppBar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import Guild from "@/components/modules/Guild"
-import { selectGuild } from '@/components/typoRepo';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
+import jobCategoriesData from "@/public/jobCategories";
 
-export default function createBusiness({ distinctGuilds }) {
+export default function createBusiness() {
     const router = useRouter()
+    const [guilds, setGuilds] = useState([])
+
     const [businessName, setBusinessName] = useState("")
-    const [guildname, setGuildName] = useState("")
+    const [guildName, setGuildName] = useState("")
+    const [jobCategory, setJobCategory] = useState("")
     const [snackbarError, setSnackbarError] = useState(false);
     const [snackbarErrorMessage, setSnackbarErrorMessage] = useState("");
     const [success, setSuccess] = useState(false);
 
+    useEffect(() => {
+        const getGuilds = async () => {
+            try {
+                const res = await fetch("/api/getGuilds", { method: "GET" })
+                if (res.status === 200) {
+                    const data = await res.json()
+                    let recivedGuilds = data.data.map(guild => {
+                        if (guild.jobCategory == jobCategory) {
+                            return guild.guildName
+                        }
+                    })
+                    recivedGuilds[0] ? setGuilds(recivedGuilds) : setGuilds([])
+                } else if ((res.status === 403)) {
+                    console.log("unauthorized access");
+                }
+            } catch (error) {
+                console.error("Error fetching Guilds:", error);
+            }
+        }
+        getGuilds()
+    }, [jobCategory])
+
+    const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
+        categories.map(category => ({ label: category, group }))
+    );
+
+    let changeHandler = (e, value) => setJobCategory(value?.label)
+
+
+    const isOptionEqualToValue = (option, value) => {
+        return option.label === value.label;
+    };
     const buttonSx = {
         mt: 5,
         ...(success && {
@@ -25,15 +59,11 @@ export default function createBusiness({ distinctGuilds }) {
             },
         }),
     };
-    const updateGuildname = (newGuildname) => {
-        setGuildName(newGuildname);
-    };
-
-    async function createThisBusiness(businessName, guildname) {
+    async function createThisBusiness(businessName, guildName) {
         const res = await fetch('api/signbusiness', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessName, guildname })
+            body: JSON.stringify({ businessName, guildName, jobCategory })
         })
         if (res.status === 201) {
             setSuccess(true)
@@ -67,20 +97,59 @@ export default function createBusiness({ distinctGuilds }) {
                         my: 3
                     }}
                     display="flex" flexDirection="column">
-                    <Typography sx={{fontSize:12}} >یک ID لاتین برای کسب و کار خود انتخاب کنید</Typography>
+                    <Autocomplete
+                        sx={{ m: 1 }}
+                        size='small'
+                        options={formattedOptions}
+                        groupBy={(option) => option.group}
+                        getOptionLabel={(option) => option.label}
+                        renderInput={(params) => <TextField {...params} label="انتخاب دسته بندی شغل" />}
+                        isOptionEqualToValue={isOptionEqualToValue}
+                        onChange={changeHandler}
+                    />
+                    {jobCategory &&
+                        <>
+                            {guilds[0] ?
+                                <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
+                                    اگر عنوان های صنف موجود به کسب و کار شما مرتبط نیست یک نام مناسب تایپ کنید
+                                    <br />
+                                    انتخاب صنف مناسب موجب بهتر دیده شدن کسب و کار شما می شود
+                                </Typography>
+                                :
+                                <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
+                                    در این دسته بندی هنوز صنفی ایجاد نشده است  لذا برای ایجاد صنف جدید عنوان مناسب را تایپ کنید
+                                </Typography>
+                            }
+                        </>
+                    }
+                    <Autocomplete
+                        size='small'
+                        sx={{ m: 1 }}
+                        id="add-product"
+                        freeSolo
+                        options={guilds}
+                        renderInput={(params) => <TextField {...params} label="عنوان صنف" />}
+                        onInputChange={(event, newInputValue) => {
+                            setGuildName(newInputValue)
+                        }}
+                    />
+                    {guildName &&
+                        <Typography sx={{ my: 1, fontSize: 12 }} >
+                            .برند کسب و کار خود را وارد نمایید
+                            کارکترهای مجاز : A-Z a-z فاصله و نقطه
+                        </Typography>
+                    }
                     <TextField
                         required
                         size='small'
                         error={snackbarError}
-                        sx={{ my: 3 }}
+                        sx={{ my: 1 }}
                         placeholder='حداکثر 30 کارکتر' variant="outlined"
                         label="برند کسب و کار شما"
                         onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value) }}
                     />
-                    <Typography sx={{ py: 1, textAlign: "center" ,fontSize:12 }}>{selectGuild}</Typography>
 
-                    <Guild updateGuildname={updateGuildname} distinctGuilds={distinctGuilds} snackbarError={snackbarError} TextFieldText={"صنف شما"} />
-                    <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildname)} variant="contained">
+                    <Button sx={buttonSx} onClick={() => createThisBusiness(businessName, guildName, jobCategory)} variant="contained">
                         ایجاد کسب و کار
                     </Button>
                 </Box>

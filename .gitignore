@@ -17,6 +17,9 @@
 
 # production
 /build
+/public/fonts
+/public/avatars
+/public/headers
 
 # misc
 .DS_Store
@@ -39,3 +42,5 @@ next-env.d.ts
 >>>>>>> Using-Pages-Router
 
 certificates
+app/api/auth/signup/route.js
+components/templates/welcome/Welcome.jsx

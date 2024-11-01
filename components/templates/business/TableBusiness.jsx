@@ -36,7 +36,7 @@ const columns = [
 ];
 export default function TableBusiness({ business }) {
 
-  const rows = business.products.map(product => {
+  const rows = business.deliveredProducts.map(product => {
     return { name: product.uniqueCustomer, code: product.productName, population: product.unitOfMeasurement, size: product.totalDelivered }
   });
 

@@ -4,24 +4,26 @@ import { verifyToken } from "@/controllers/auth";
 import UserModel from '@/models/User';
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation'
+import GuildModel from "@/models/Guild";
 
 export async function POST(req) {
 
 
     try {
         const body = await req.json()
-        const { businessName, guildname } = body;
-        if (!businessName.trim() || !guildname.trim()) {
+        const { businessName, guildName, jobCategory } = body;
+        if (!businessName.trim() || !guildName.trim() || !jobCategory.trim()) {
             return Response.json({ message: "Entrance data is empty!" }, { status: 400 })
         }
-        const englishLetters = /^[A-Za-z]+$/;
+        const englishLetters = /^[A-Za-z\-\_\.]+$/;
         if (!businessName.match(englishLetters)) {
             return Response.json({ message: "Business name must only contain English letters!" }, { status: 406 })
         }
-        if (businessName.length < 3) { 
+
+        if (businessName.length <= 3) {
             return Response.json({ message: "Business name must be more than 3 letters!" }, { status: 405 })
         }
-
+        connectToDB()
         let business = await BusinessModel.findOne({ businessName })
         if (!business) {
             const token = cookies().get("token")?.value;
@@ -35,10 +37,21 @@ export async function POST(req) {
             if (user.businesses.length >= 3) {
                 return Response.json({ message: "You can be a member of a maximum of 3 businesses" }, { status: 409 })
             }
-
+            let getGuildFromDB = await GuildModel.findOne({ guildName })
+            let GuildInDB;
+            if (getGuildFromDB) {
+                GuildInDB = getGuildFromDB
+            } else {
+                const newGuild = await GuildModel.create({
+                    guildName,
+                    products: [],
+                    jobCategory
+                })
+                GuildInDB = newGuild
+            }
             business = await BusinessModel.create({
                 businessName: businessName,
-                businessBrand: "",
+                businessBrand: "کسب و کار جدید",
                 isAvatar: false,
                 isHeader: false,
                 bio: "",
@@ -52,8 +65,9 @@ export async function POST(req) {
                 mapDetail: "",
                 agentCode: user.code,
                 workers: [user._id],
-                guildname: guildname,
-                products: []
+                guild: GuildInDB._id,
+                deliveredProducts: [],
+                monthlyCommitment: []
             })
             business = business
 

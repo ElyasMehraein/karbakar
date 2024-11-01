@@ -9,6 +9,9 @@ export default function Name({ user , business}) {
                 <Typography sx={{ fontWeight: 'bold' }}>
                     {name}
                 </Typography>
+                <Typography sx={{ fontWeight: 'bold' }}>
+                    {business?.businessName}
+                </Typography>
             </Box>
         </Container>
     )

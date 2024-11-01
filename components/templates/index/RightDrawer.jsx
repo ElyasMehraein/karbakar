@@ -36,11 +36,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-start',
 }));
 
-export default function DrawerRight({ user, open, handleDrawerClose }) {
+export default function DrawerRight({ user, open, handleDrawerClose, primeBusiness }) {
   const router = useRouter()
   const theme = useTheme();
   const signOut = async () => {
-    const res = await fetch("/api/auth/logout", { method: "POST" });
+    const res = await fetch("/api/auth/logout", { method: "GET" });
     if (res.status === 200) {
       router.push("/w");
     } else {
@@ -75,22 +75,19 @@ export default function DrawerRight({ user, open, handleDrawerClose }) {
               </Divider>
             </>
             <HelpIcon iconText={iconText} />
-            {user.businesses.map((business) => (
-              user.primeJob === business._id && (
-                <React.Fragment key={business._id} >
-                  <ListItemText align="right" secondary={"صنف:" + business.guildname} sx={{ mr: 2, mt: 0 }} />
-                  <ListItemButton sx={{ mt: -1, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
-                    <ListItem >
-                      <ListItemIcon>
-                        <Avatar>
-                          <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
-                        </Avatar>
-                      </ListItemIcon>
-                      <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
-                    </ListItem>
-                  </ListItemButton>
-                </React.Fragment>
-              )))}
+            <React.Fragment key={primeBusiness._id} >
+              <ListItemText align="right" secondary={"صنف:" + primeBusiness.guild.guildName} sx={{ mr: 2, mt: 0 }} />
+              <ListItemButton sx={{ mt: -1, p: 0 }} onClick={() => router.push(`/${primeBusiness.businessName}`)}>
+                <ListItem >
+                  <ListItemIcon>
+                    <Avatar>
+                      <ItsAvatar isAvatar={primeBusiness.isAvatar} userCodeOrBusinessBrand={primeBusiness.businessName} />
+                    </Avatar>
+                  </ListItemIcon>
+                  <ListItemText align="right" primary={primeBusiness.businessName} secondary={primeBusiness.businessBrand} sx={{ m: 0 }} />
+                </ListItem>
+              </ListItemButton>
+            </React.Fragment>
 
             {user.businesses.length > 1 && <>
               <PrimeJobSelect user={user} />

@@ -7,14 +7,14 @@ const schema = new Schema({
         required: true,
         unique: true,
         maxlength: 30,
-        minlength:4,
+        minlength: 4,
     },
     businessBrand: {
         type: String,
         maxlength: 30,
     },
-    isAvatar:Boolean,
-    isHeader:Boolean,
+    isAvatar: Boolean,
+    isHeader: Boolean,
     bio: {
         type: String,
         maxlength: 150,
@@ -50,17 +50,29 @@ const schema = new Schema({
             // index: { unique: true }
         }
     ],
-    guildname: { type: String, required: true, maxlength: 30 },
-    products: [
+    guild: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Guild", required: true
+    },
+    deliveredProducts: [
         {
             productName: { type: String, maxlength: 30 },
             unitOfMeasurement: { type: String, maxlength: 20 },
             totalDelivered: { type: Number, min: 1, max: 9999 },
-            lastYearDelivered: { type: Number, min: 0, max: 9999 },
+            thisMonthDelivered: { type: Number, min: 0, max: 9999 },
             thisYearDelivered: { type: Number, min: 1, max: 9999 },
             uniqueCustomer: { type: Number, min: 1, max: 9999 },
         }
-    ]
+    ],
+    monthlyCommitment: [
+        {
+            productName: { type: String, maxlength: 30 },
+            unitOfMeasurement: { type: String, maxlength: 20 },
+            amount: { type: Number, min: 1, max: 9999 },
+            isRetail: Boolean,
+        }
+    ],
+
 }, { timestamps: true })
 
 const BusinessModel = mongoose.models.Business || mongoose.model("Business", schema)

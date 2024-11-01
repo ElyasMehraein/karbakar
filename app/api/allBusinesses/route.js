@@ -1,5 +1,6 @@
 import connectToDB from "@/configs/db";
 import BusinessModel from "@/models/Business";
+import GuildModel from "@/models/Guild";
 
 
 export async function GET(req) {

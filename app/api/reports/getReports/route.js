@@ -6,7 +6,7 @@ import BusinessModel from '@/models/Business'
 import { redirect } from 'next/navigation'
 import UserModel from '@/models/User'
 import ReportModel from '@/models/Report';
-
+import BusinessRelationModel from '@/models/BusinessRelation';
 
 export async function GET(req, res) {
 
@@ -26,16 +26,9 @@ export async function GET(req, res) {
         const logedUser = JSON.parse(JSON.stringify(await UserModel.findOne(
             { _id: tokenPayLoad.id },
         )))
-
-        const reports = await ReportModel.find({
-            $or: [
-                { recepiant: logedUser._id },
-                {
-                    business: { $in: logedUser.businesses },
-                }
-            ]
-        }).populate("business").populate("bill").populate("recepiant");
-
+        const reports = await ReportModel.find(
+                { recepiant: logedUser._id }
+        ).populate("business bill recepiant providerBusiness receiverBusiness").sort({ createdAt: -1 })
         return Response.json(
             { message: 'get reports successfully', data: reports },
             { status: 200 }

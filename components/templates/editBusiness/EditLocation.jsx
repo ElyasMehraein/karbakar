@@ -17,6 +17,7 @@ export default function EditLocation({ business }) {
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [snackbarOpenOnError, setSnackbarOpenOnError] = React.useState(false);
     const buttonSx = {
         ...(success && {
             bgcolor: green[500],
@@ -46,10 +47,13 @@ export default function EditLocation({ business }) {
     }
     async function handleButtonClick() {
         if (!loading) {
+            setLoading(true);
             try {
                 await saveState()
             } catch (error) {
                 console.error(error);
+                setLoading(false);
+                setSnackbarOpenOnError(true)
             }
         }
     }
@@ -133,6 +137,15 @@ export default function EditLocation({ business }) {
             >
                 <Alert variant="filled" icon={<CheckIcon fontSize="inherit" />} severity="success">
                     موقعیت شما به روز است
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={snackbarOpenOnError}
+                autoHideDuration={2000}
+                onClose={() => setSnackbarOpenOnError(false)}
+            >
+                <Alert variant="filled" icon={<CheckIcon fontSize="inherit" />} severity="success">
+                    عدم دسترسی به geolocation 
                 </Alert>
             </Snackbar>
 

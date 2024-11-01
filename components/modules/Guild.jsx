@@ -8,8 +8,8 @@ import { useEffect } from 'react';
 
 const filter = createFilterOptions();
 
-export default function Guild({ updateGuildname, distinctGuilds, user,TextFieldText }) {
-  const primeJobguildname = user?.businesses.find((business) => business._id === user.primeJob)?.guildname
+export default function Guild({ updateGuildName, distinctGuilds, user,TextFieldText }) {
+  const primeJobguildname = user?.businesses.find((business) => business._id === user.primeJob)?.guildName
 
 
   return (
@@ -20,12 +20,12 @@ export default function Guild({ updateGuildname, distinctGuilds, user,TextFieldT
       onInputChange={(event, newValue) => {
         if (typeof newValue === 'string') {
           // Create a new value from the user input
-          updateGuildname(newValue);
+          updateGuildName(newValue);
         } else if (newValue && newValue.inputValue) {
           // Create a new value from the user input
-          updateGuildname(newValue.inputValue);
+          updateGuildName(newValue.inputValue);
         } else {
-          updateGuildname(newValue);
+          updateGuildName(newValue);
         }
       }}
       filterOptions={(options, params) => {

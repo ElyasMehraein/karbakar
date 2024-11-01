@@ -4,11 +4,10 @@ import { redirect } from 'next/navigation'
 import { cookies } from "next/headers";
 import connectToDB from "@/configs/db";
 import UserModel from "@/models/User";
-import BillModel from "@/models/Bill";
+
 
 
 export default async function page() {
-
     const token = cookies().get("token")?.value;
     const tokenPayLoad = verifyToken(token);
     if (!tokenPayLoad) {
@@ -20,29 +19,10 @@ export default async function page() {
         "code"
     )
     if (!user) {
-        return {
-            redirect: {
-                destination: "/",
-            }
-        }
+        redirect('/')
     }
-    let distinctGuilds = []
-    await BillModel.find({ isAccept: true })
-        .then(docs => {
-            if (docs.length > 0) {
-                const guilds = docs.map(doc => doc.guild);
-                distinctGuilds = [...new Set(guilds)];
-
-            } else {
-                console.log('No guilds to show.');
-            }
-        })
-        .catch(err => {
-            console.error(err);
-        });
-
     return (
-        <CreateBusiness distinctGuilds={distinctGuilds} />
+        <CreateBusiness />
     )
 
 }

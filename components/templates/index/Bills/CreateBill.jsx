@@ -20,11 +20,11 @@ export default function CreateBill({ user, fabHandler }) {
     }
   })
   const [selectedBusiness, setSelectedBusiness] = React.useState("")
-  const [selectedProduct, setSelectedProduct] = React.useState("")
-  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
-  const [amount, setAmount] = React.useState("")
+  const [selectedProduct, setSelectedProduct] = React.useState("تست فروشی")
+  const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("کیلوگرم")
+  const [amount, setAmount] = React.useState("100")
   const [bills, setbills] = React.useState([])
-  const [customerCode, setCustomerCode] = React.useState("")
+  const [customerCode, setCustomerCode] = React.useState("1000")
 
   const addToBills = () => {
     setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount }, ...bills])
@@ -58,7 +58,7 @@ export default function CreateBill({ user, fabHandler }) {
     if (res.status === 500) {
       console.log("server error");
     } else if (res.status === 201) {
-      console.log("bill signed successfully");
+      console.log("bill created successfully");
       handleShowSnackbar()
       setIsLoading(false)
     } else if (res.status === 404) {
