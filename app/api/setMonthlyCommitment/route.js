@@ -30,7 +30,6 @@ export async function PUT(req) {
         // Check and update products in the basket
         for (const item of basket) {
             const { productName, unitOfMeasurement, amount, isRetail } = item.product;
-            console.log("productName, unitOfMeasurement, amount, isRetail", productName, unitOfMeasurement, amount, isRetail);
 
             // Verify that the product guild matches the business guild
             const productExists = await ProductModel.findOne({
@@ -56,7 +55,7 @@ export async function PUT(req) {
                         monthlyCommitment: {
                             product: productExists ? productExists._id : (await ProductModel.findOne({ productName, guild: business.guild._id }))._id,
                             amount,
-                            
+                            delivered: 0,
                         },
                     },
                 },

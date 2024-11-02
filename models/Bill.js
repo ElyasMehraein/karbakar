@@ -11,7 +11,6 @@ const schema = new Schema({
     products: [
         {
             product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
-            totalDelivered: { type: Number, min: 1, max: 9999, required: true },
             amount: { type: Number, min: 1, max: 9999 , required: true},
         }
     ],

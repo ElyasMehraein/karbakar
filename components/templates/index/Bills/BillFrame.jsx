@@ -87,7 +87,9 @@ export default function BillFrame({ user, bill }) {
 
                         <CardContent >
                             {bill.products.map(product => {
-                                return <BillProductFrame key={product.productName} {...product} />
+                                console.log("product", product);
+                                
+                                return <BillProductFrame key={product._id} {...product.product} amount={product.amount} />
                             })
                             }
                             {bill.status === "pending" &&

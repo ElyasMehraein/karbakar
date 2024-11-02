@@ -20,66 +20,60 @@ export default function Bill({ user, bills }) {
     setAlignment(newAlignment);
   };
 
+  if (!bills[0]) {
+    return (
+      <Typography color="error">
+        هیچ صورتحسابی برای شما ارسال نشده است
+      </Typography>
+    )
+  }
   return (
     <Container maxWidth="md" >
-      {!user?.businesses[0] ?
-        <Typography color="error">
-          برای دریافت صورتحساب بایستی حداقل عضو یک کسب و کار باشید
-        </Typography>
-        :
-        <>
-          <Box display="flex"
-            justifyContent="center"
-            alignItems="center"
-            flexDirection={"column"}
-          >
-            <Box >
-              <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-                <Chip
-                  label="راهنمایی"
-                  sx={{ direction: 'ltr' }}
-                  onClick={() => setExpanded(!expanded)}
-                  icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-                />
-                <AccordionDetails>
-                  <Typography>
-                    این صورتحساب ها توسط کسب و کارهایی که از آنها محصول یا خدمات دریافت می کنید ارسال می شود
-
-                  </Typography>
-                  <Typography sx={{ my: 2 }} color="error">
-                    * تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
-                  </Typography>
-                </AccordionDetails>
-              </Accordion>
-            </Box>
-            <ToggleButtonGroup
-            sx={{direction:"ltr", my:1}}
-              color="primary"
-              value={alignment}
-              exclusive
-              onChange={handleChange}
-              aria-label="Platform"
-            >
-              <ToggleButton value="rejected">لغو شده</ToggleButton>
-              <ToggleButton value="accepted">تایید شده</ToggleButton>
-              <ToggleButton value="new">جدید</ToggleButton>
-            </ToggleButtonGroup>
-            {alignment === "new" && bills.filter((bill) => bill.status === "pending").map((bill) => {
-              return <BillFrame user={user} key={bill._id} bill={bill} />
-            })}
-            {alignment === "accepted" && bills.filter((bill) => bill.status === "accepted").map((bill) => {
-              return <BillFrame user={user} key={bill._id} bill={bill} />
-            })}
-            {alignment === "rejected" && bills.filter((bill) => bill.status === "rejected").map((bill) => {
-              return <BillFrame user={user} key={bill._id} bill={bill} />
-            })}
-          </Box>
-          {!bills[0] &&
-            <Typography color="error">
-              هیچ صورتحساب جدیدی برای شما ارسال نشده است
-            </Typography>}
-        </>
-      }
+      <Box display="flex"
+        justifyContent="center"
+        alignItems="center"
+        flexDirection={"column"}
+      >
+        <Box >
+          <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
+            <Chip
+              label="راهنمایی"
+              sx={{ direction: 'ltr' }}
+              onClick={() => setExpanded(!expanded)}
+              icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
+            />
+            <AccordionDetails>
+              <Typography>
+                این صورتحساب ها توسط کسب و کارهایی که از آنها محصول یا خدمات دریافت می کنید ارسال می شود
+              </Typography>
+              <Typography sx={{ my: 2 }} color="error">
+                * تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </Box>
+        <ToggleButtonGroup
+          sx={{ direction: "ltr", my: 1 }}
+          color="primary"
+          value={alignment}
+          exclusive
+          onChange={handleChange}
+          aria-label="Platform"
+        >
+          <ToggleButton value="rejected">لغو شده</ToggleButton>
+          <ToggleButton value="accepted">تایید شده</ToggleButton>
+          <ToggleButton value="new">جدید</ToggleButton>
+        </ToggleButtonGroup>
+        {alignment === "new" && bills.filter((bill) => bill.status === "pending").map((bill) => {
+          return <BillFrame user={user} key={bill._id} bill={bill} />
+        })}
+        {alignment === "accepted" && bills.filter((bill) => bill.status === "accepted").map((bill) => {
+          return <BillFrame user={user} key={bill._id} bill={bill} />
+        })}
+        {alignment === "rejected" && bills.filter((bill) => bill.status === "rejected").map((bill) => {
+          return <BillFrame user={user} key={bill._id} bill={bill} />
+        })}
+      </Box>
     </Container>
   );
 }

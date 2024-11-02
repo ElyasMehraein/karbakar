@@ -23,8 +23,7 @@ export default function FirstTab({ user, relations }) {
             return relation.provider;
         }
     })
-    console.log("relations", relations[0]);
-    
+
     return (
         <Container maxWidth="md">
             <Box className='inMiddle'
@@ -63,21 +62,20 @@ export default function FirstTab({ user, relations }) {
                                         <Typography align='right' variant="caption" sx={{ color: 'text.secondary' }}>{business.provider.bio}</Typography>
 
                                         {business.provider.monthlyCommitment.map((product) => {
-                                            console.log("product", product);
-                                            
+
                                             return (
-                                                <Box key={product.productName}>
-                                                    <Typography align='right'>{product.productName}</Typography>
+                                                <Box key={product._id}>
+                                                    <Typography align='right'>{product.product.productName}</Typography>
                                                     <ListItem>
                                                         <Box sx={{ width: '90%' }}>
                                                             <LinearProgress
                                                                 variant="determinate"
-                                                                value={80}
+                                                                value={product.delivered / product.amount * 100}
                                                             />
                                                         </Box>
                                                         <Box sx={{ minWidth: 35 }}>
                                                             <Typography variant="body2" sx={{ m: 1, color: 'text.secondary' }}>
-                                                                {1 + "/" + 7}
+                                                                {product.delivered + "/" + product.amount}
                                                             </Typography>
                                                         </Box>
                                                     </ListItem>

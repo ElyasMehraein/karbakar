@@ -67,7 +67,8 @@ const schema = new Schema({
         {
             product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
             amount: { type: Number, min: 1, max: 9999 },
-        }
+            delivered: { type: Number, min: 1, max: 9999 },
+        }, { timestamps: true }
     ],
 
 }, { timestamps: true })
