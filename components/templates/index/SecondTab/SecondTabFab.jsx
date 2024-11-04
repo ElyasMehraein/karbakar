@@ -29,12 +29,23 @@ export default function SecondTabFab({ user, primeBusiness }) {
     const [BusinessProducts, setBusinessProducts] = React.useState([]);
 
     let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
+
     useEffect(() => {
-        if (selectedBusiness) {
-            const selectedProductNames = selectedBusiness.deliveredProducts.map(product => product.productName);
-            setBusinessProducts(selectedProductNames);
-        }
-    }, [selectedBusiness])
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`/api/getBusinessProduct?businessId=${selectedBusiness._id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const data = await response.json();
+                setBusinessProducts(data.data);
+            } catch (err) {
+                console.log(err.message);
+            }
+        };
+
+        fetchProducts();
+    }, [selectedBusiness]);
 
     const [selectedProductName, setSelectedProductName] = React.useState("");
 
@@ -42,7 +53,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
     const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
     const [isUnitOfMeasurementExistInDB, setIsUnitOfMeasurementExistInDB] = React.useState("")
     useEffect(() => {
-        let selectedProduct = selectedBusiness?.deliveredProducts.find(product => {
+        let selectedProduct = BusinessProducts.find(product => {
             return product.productName == selectedProductName
         })
         if (selectedProduct) {

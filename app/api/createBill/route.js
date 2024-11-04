@@ -32,43 +32,46 @@ export async function POST(req) {
             return Response.json({ message: "Customer has no business" }, { status: 407 });
         }
 
-        console.log("bills", bills);
 
         // Create an array to store Product IDs
-        const productIds = [];
+        const products = [];
 
         // Loop through each bill item to create a Product
         for (const bill of bills) {
-            const product = await ProductModel.create({
-                productName: bill.productName,
-                unitOfMeasurement: bill.unitOfMeasurement,
-                isRetail: bill.isRetail,
-                guild: Business.guild._id,
-            });
-            productIds.push({
-                product: product._id,
-                amount: bill.amount
-            });
+            let billsProduct = await ProductModel.findOne({ productName: bill.productName });
+            if (billsProduct) {
+                products.push({
+                    product: billsProduct._id,
+                    amount: bill.amount
+                });
+            } else {
+                const product = await ProductModel.create({
+                    productName: bill.productName,
+                    unitOfMeasurement: bill.unitOfMeasurement,
+                    guild: Business.guild._id,
+                    isRetail: bill.isRetail,
+                });
+                products.push({
+                    product: product._id,
+                    amount: bill.amount
+                })
+            }
         }
 
         // Create a Bill with all the product IDs
-        const createdBill = await BillModel.create({
+        await BillModel.create({
             guild: Business.guild._id,
             from: Business._id,
             to: customer._id,
-            products: productIds, // Add all product IDs to the bill
-            status: "pending"
+            recipientBusiness: customer.primeJob,
+            products,
         });
 
         // Create a report for the created bill
         await ReportModel.create({
             recepiant: customer._id,
             title: "bill",
-            business: Business._id,
-            bill: createdBill._id,
             isSeen: false,
-            isAnswerNeed: false,
-            answer: false,
         });
 
         return Response.json({ message: "Bill & report created successfully" }, { status: 201 });

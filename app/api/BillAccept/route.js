@@ -21,56 +21,58 @@ export async function PUT(req) {
                 { status: 403 }
             )
         }
-        if (bill.status !== "pending") {
+        if (bill.accepted) {
             return Response.json(
                 { message: "its not pending bill" },
                 { status: 400 }
             )
         }
-        let guild = await GuildModel.findById(bill.guild);
-        for (let product of bill.products) {
-            let theGuildProduct = guild.products.find(guildProduct => guildProduct.productName === product.productName);
-            if (!theGuildProduct) {
-                guild.products.push({
-                    productName: product.productName,
-                    unitOfMeasurement: product.unitOfMeasurement,
-                })
-                await guild.save()
-            }
-        }
-        let business = await BusinessModel.findById(bill.from);
+        console.log("bill", bill);
+        
+        // let product = await GuildModel.findById(bill.guild);
+        // for (let product of bill.products) {
+        //     let theGuildProduct = guild.products.find(guildProduct => guildProduct.productName === product.productName);
+        //     if (!theGuildProduct) {
+        //         guild.products.push({
+        //             productName: product.productName,
+        //             unitOfMeasurement: product.unitOfMeasurement,
+        //         })
+        //         await guild.save()
+        //     }
+        // }
+        // let business = await BusinessModel.findById(bill.from);
 
-        for (let product of bill.products) {
-            let theBusinessProduct = business.deliveredProducts.find(businessProduct => businessProduct.productName === product.productName);
-            let uniqueCustomer = await BillModel.distinct('to', {
-                productName: bill.productName,
-                from: bill.from,
-            });
-            if (theBusinessProduct) {
-                theBusinessProduct.totalDelivered += product.amount;
-                theBusinessProduct.thisYearDelivered += product.amount
-                theBusinessProduct.uniqueCustomer = uniqueCustomer.length
-                await business.save()
+        // for (let product of bill.products) {
+        //     let theBusinessProduct = business.deliveredProducts.find(businessProduct => businessProduct.productName === product.productName);
+        //     let uniqueCustomer = await BillModel.distinct('to', {
+        //         productName: bill.productName,
+        //         from: bill.from,
+        //     });
+        //     if (theBusinessProduct) {
+        //         theBusinessProduct.totalDelivered += product.amount;
+        //         theBusinessProduct.thisYearDelivered += product.amount
+        //         theBusinessProduct.uniqueCustomer = uniqueCustomer.length
+        //         await business.save()
 
-            } else {
-                business.deliveredProducts.push({
-                    productName: product.productName,
-                    unitOfMeasurement: product.unitOfMeasurement,
-                    totalDelivered: product.amount,
-                    lastYearDelivered: 0,
-                    thisYearDelivered: product.amount,
-                    uniqueCustomer: 1,
-                });
-                await business.save()
-            }
-        }
-        bill.status = "accepted";
-        await bill.save();
-        console.log(`the bill updated successfully.`);
-        return Response.json(
-            { message: `the bill updated successfully.` },
-            { status: 200 }
-        );
+        //     } else {
+        //         business.deliveredProducts.push({
+        //             productName: product.productName,
+        //             unitOfMeasurement: product.unitOfMeasurement,
+        //             totalDelivered: product.amount,
+        //             lastYearDelivered: 0,
+        //             thisYearDelivered: product.amount,
+        //             uniqueCustomer: 1,
+        //         });
+        //         await business.save()
+        //     }
+        // }
+        // bill.status = "accepted";
+        // await bill.save();
+        // console.log(`the bill updated successfully.`);
+        // return Response.json(
+        //     { message: `the bill updated successfully.` },
+        //     { status: 200 }
+        // );
     } catch (error) {
         console.error(`Error updating the bill:`, error);
         Response.json(

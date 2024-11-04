@@ -13,7 +13,19 @@ function createData(productName, unitOfMeasurement, amount,) {
   return { productName, unitOfMeasurement, amount, };
 }
 
+
 export default function MonthlyCommitment({ business }) {
+
+  // const isRelation = await BusinessRelationModel.findOne({
+  //   provider: business._id,
+  //   receiver: recipientBusiness,
+  //   isAnswerNeed: false,
+  // })
+  // let businessMonthlyCommitment = business.monthlyCommitment.find(monthlyCommitmentProduct => monthlyCommitmentProduct.productName === product.productName);
+  // if (businessMonthlyCommitment && isRelation) {
+  //     businessMonthlyCommitment.delivered += product.amount;
+  //     await business.save()
+  // }
 
   const rows = business.monthlyCommitment.map((product) => {
     return createData(product.productName, product.unitOfMeasurement, product.amount)

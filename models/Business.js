@@ -16,50 +16,28 @@ const schema = new Schema({
     },
     isAvatar: Boolean,
     isHeader: Boolean,
-    bio: {
-        type: String,
-        maxlength: 150,
-    },
-    explain: {
-        type: String,
-        maxlength: 300,
-    },
-    phone: {
-        type: String,
-        maxlength: 11,
-    },
-    email: {
-        type: String,
-        maxlength: 30,
-    },
-    personalPage: {
-        type: String, maxlength: 30,
-
-    },
+    bio: { type: String, maxlength: 150, },
+    explain: { type: String, maxlength: 300, },
+    phone: { type: String, maxlength: 11, },
+    email: { type: String, maxlength: 30, },
+    personalPage: { type: String, maxlength: 30, },
     instagram: {
         type: String, maxlength: 30,
-
     },
     longitude: { type: String, maxlength: 30, },
     latitude: { type: String, maxlength: 30, },
     mapDetail: { type: String, maxlength: 30, },
     agentCode: { type: String, maxlength: 30, },
-    workers: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        }
-    ],
+    workers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     guild: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Guild", required: true
     },
-    deliveredProducts: [
+    recipientProducts: [
         {
-            product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+            guild: { type: mongoose.Schema.Types.ObjectId, ref: "Guild" },
+            unitOfMeasurement: { type: String, maxlength: 20 },
             totalDelivered: { type: Number, min: 1, max: 9999 },
-            thisMonthDelivered: { type: Number, min: 0, max: 9999 },
-            thisYearDelivered: { type: Number, min: 1, max: 9999 },
             uniqueCustomer: { type: Number, min: 1, max: 9999 },
         }
     ],
@@ -68,7 +46,8 @@ const schema = new Schema({
             product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
             amount: { type: Number, min: 1, max: 9999 },
             delivered: { type: Number, min: 1, max: 9999 },
-        }, { timestamps: true }
+            commitmentDate: { type: Date, default: Date.now }
+        }
     ],
 
 }, { timestamps: true })

@@ -6,6 +6,7 @@ const schema = new Schema({
     unitOfMeasurement: { type: String, maxlength: 20, required: true },
     guild: { type: mongoose.Schema.Types.ObjectId, ref: "Guild", required: true },
     isRetail: { type: Boolean, required: true },
+    billConfirm: { type: Boolean, default: false },
 }, { timestamps: true })
 const ProductModel = mongoose.models.Product || mongoose.model("Product", schema)
 export default ProductModel

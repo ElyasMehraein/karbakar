@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
 import Autocomplete from '@mui/material/Autocomplete';
-import { Accordion, AccordionDetails, Chip, CircularProgress, Container } from "@mui/material";
+import { Accordion, AccordionDetails, Chip, CircularProgress, Container, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import CreateBillFrame from "./CreateBillFrame";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
@@ -15,7 +15,9 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-
+import Groups2Icon from '@mui/icons-material/Groups2';
+import DeleteIcon from '@mui/icons-material/Delete';
+import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 
 export default function CreateBill({ user, fabHandler }) {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -34,7 +36,7 @@ export default function CreateBill({ user, fabHandler }) {
   const [radioGroupValue, setRadioGroupValue] = React.useState("true")
 
   const addToBills = () => {
-    setbills([{id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount,isRetail:radioGroupValue }, ...bills])
+    setbills([{ id: bills.length + 1, productName: selectedProduct, unitOfMeasurement, amount, isRetail: radioGroupValue }, ...bills])
     setSelectedProduct("")
     setUnitOfMeasurement("")
     setAmount("")
@@ -136,7 +138,7 @@ export default function CreateBill({ user, fabHandler }) {
                 justifyContent: "space-between",
                 // justifyContent:"space-around",
                 width: "100%",
-                pl:1
+                pl: 1
               }}
             >
               <Typography sx={{ mr: 5, mt: 1 }}>ایجاد صورتحساب</Typography>
@@ -183,19 +185,19 @@ export default function CreateBill({ user, fabHandler }) {
                   onChange={(e) => setAmount(e.target.value)}
                   sx={{ mt: 2, width: 300 }}
                 />
-                 <FormControl>
-                        <FormLabel id="demo-controlled-radio-buttons-group">مصرف کننده</FormLabel>
-                        <RadioGroup
-                            row
-                            aria-labelledby="demo-controlled-radio-buttons-group"
-                            name="controlled-radio-buttons-group"
-                            value={radioGroupValue}
-                            onChange={(e, value) => setRadioGroupValue(value)}
-                        >
-                            <FormControlLabel value="false" control={<Radio />} label="کسب و کارها" />
-                            <FormControlLabel value="true" control={<Radio />} label="اعضای کسب و کار" />
-                        </RadioGroup>
-                    </FormControl>
+                <FormControl>
+                  <FormLabel id="demo-controlled-radio-buttons-group">مصرف کننده</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    value={radioGroupValue}
+                    onChange={(e, value) => setRadioGroupValue(value)}
+                  >
+                    <FormControlLabel value="false" control={<Radio />} label="کسب و کارها" />
+                    <FormControlLabel value="true" control={<Radio />} label="اعضای کسب و کار" />
+                  </RadioGroup>
+                </FormControl>
 
                 <Button
                   sx={{ mt: 2 }}
@@ -206,11 +208,28 @@ export default function CreateBill({ user, fabHandler }) {
                 />
                 {bills[0] &&
                   <>
-                    {bills.map(bill => {
-                      return <CreateBillFrame key={bill.id} {...bill} deleteFrame={deleteFrame} />
-
-                    })
-                    }
+                    <List dense={true}>
+                        {bills.map(bills => {
+                            return (
+                                <ListItem key={bills.id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
+                                    {bills.isRetail == "true" ?
+                                        <ListItemIcon>
+                                            <Groups2Icon />
+                                        </ListItemIcon>
+                                        :
+                                        <ListItemIcon>
+                                            <BusinessRoundedIcon />
+                                        </ListItemIcon>
+                                    }
+                                    <ListItemText primary={bills.productName} secondary={`${bills.amount} - ${bills.unitOfMeasurement}`} />
+                                    <IconButton onClick={() => deleteFrame(bills._id)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </ListItem>
+                            )
+                        })
+                        }
+                    </List>
                     <TextField
                       value={customerCode}
                       placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"

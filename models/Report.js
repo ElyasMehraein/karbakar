@@ -16,8 +16,7 @@ const schema = new Schema({
     isSeen: Boolean,
     isAnswerNeed: Boolean,
     answer: Boolean,
-
-}, { timestamps: true })
+})
 
 const ReportModel = mongoose.models.Report || mongoose.model("Report", schema)
 export default ReportModel

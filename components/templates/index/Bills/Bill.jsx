@@ -60,17 +60,13 @@ export default function Bill({ user, bills }) {
           onChange={handleChange}
           aria-label="Platform"
         >
-          <ToggleButton value="rejected">لغو شده</ToggleButton>
           <ToggleButton value="accepted">تایید شده</ToggleButton>
           <ToggleButton value="new">جدید</ToggleButton>
         </ToggleButtonGroup>
-        {alignment === "new" && bills.filter((bill) => bill.status === "pending").map((bill) => {
+        {alignment === "new" && bills.filter((bill) => bill.accepted == false).map((bill) => {
           return <BillFrame user={user} key={bill._id} bill={bill} />
         })}
-        {alignment === "accepted" && bills.filter((bill) => bill.status === "accepted").map((bill) => {
-          return <BillFrame user={user} key={bill._id} bill={bill} />
-        })}
-        {alignment === "rejected" && bills.filter((bill) => bill.status === "rejected").map((bill) => {
+        {alignment === "accepted" && bills.filter((bill) => bill.accepted == true).map((bill) => {
           return <BillFrame user={user} key={bill._id} bill={bill} />
         })}
       </Box>
