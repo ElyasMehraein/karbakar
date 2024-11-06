@@ -27,6 +27,14 @@ export async function PUT(req) {
             }
             businessRelation.isAnswerNeed = false;
             await businessRelation.save();
+            const providerBusiness = JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: businessRelation.provider })));
+
+            const providerBusinessAgent = await UserModel.findOne({ code: providerBusiness.agentCode })
+            await ReportModel.create({
+                recepiant: providerBusinessAgent._id,
+                title: "RelationAccepted",
+                receiverBusiness,
+            });
         }
         return Response.json({ message: "businessRelation report updated successfully" }, { status: 201 });
     } catch (err) {

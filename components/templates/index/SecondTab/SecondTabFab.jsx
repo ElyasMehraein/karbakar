@@ -91,8 +91,8 @@ export default function SecondTabFab({ user, primeBusiness }) {
     }
 
     //delete frame
-    const deleteFrame = (id) => {
-        setBasket((basket.filter(frame => frame._id !== id)))
+    const deleteFrame = (productName) => {
+        setBasket((basket.filter(frame => frame.productName == productName)))
     }
     //Snackbars
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
@@ -191,7 +191,6 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     }
                     <Box sx={{ width: "100%" }}>
                         <TextField
-                            type="number"
                             placeholder="بصورت عدد وارد نمایید مثلا 5"
                             sx={{ m: 2, width: 300 }}
                             id="outlined-controlled2"
@@ -236,7 +235,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                                         </ListItemIcon>
                                     }
                                     <ListItemText primary={producrFrame.product.productName} secondary={`${producrFrame.product.amount} - ${producrFrame.product.unitOfMeasurement}`} />
-                                    <IconButton onClick={() => deleteFrame(producrFrame._id)}>
+                                    <IconButton onClick={() => deleteFrame(producrFrame.productName || producrFrame.product.productName)}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </ListItem>

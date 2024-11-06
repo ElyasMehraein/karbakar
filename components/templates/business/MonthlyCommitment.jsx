@@ -16,6 +16,9 @@ function createData(productName, unitOfMeasurement, amount,) {
 
 export default function MonthlyCommitment({ business }) {
 
+
+  // const haveRelation = await BusinessRelationModel.findOne({ provider: bill.from, receiver: bill.recipientBusiness })
+
   // const isRelation = await BusinessRelationModel.findOne({
   //   provider: business._id,
   //   receiver: recipientBusiness,

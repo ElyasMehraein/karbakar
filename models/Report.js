@@ -10,10 +10,16 @@ const schema = new Schema({
     title: { type: String, maxlength: 20, required: true },
     business: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     bill: { type: mongoose.Schema.Types.ObjectId, ref: "Bill" },
+    products: [
+        {
+            product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+            amount: { type: Number, min: 1, max: 9999, required: true },
+        }
+    ],
     businessRelation: { type: mongoose.Schema.Types.ObjectId, ref: "BusinessRelation" },
     providerBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     receiverBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-    isSeen: Boolean,
+    isSeen: { type: Boolean, default: false },
     isAnswerNeed: Boolean,
     answer: Boolean,
 })

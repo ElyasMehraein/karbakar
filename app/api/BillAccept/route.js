@@ -1,82 +1,111 @@
 import UserModel from '@/models/User';
 import BusinessModel from '@/models/Business';
 import BillModel from '@/models/Bill';
-import { GET } from "@/app/api/auth/me/route"
-import GuildModel from '@/models/Guild';
+import ProductModel from '@/models/Product';
+import { GET } from "@/app/api/auth/me/route";
+import ReportModel from '@/models/Report';
 
 export async function PUT(req) {
-    const body = await req.json()
-    let { billId } = body
-    const response = await GET(req)
-    const user = await response.json()
+    const body = await req.json();
+    const { billId } = body;
+    const response = await GET(req);
+    const user = await response.json();
 
     try {
         const bill = await BillModel.findById(billId);
         if (!bill) {
-            throw new Error('document not found');
+            throw new Error('Document not found');
         }
-        if (bill.to.toString() !== user._id.toString()) {
-            return Response.json(
-                { message: `You are not authorized to update the bill ` },
+        if (bill.to?.toString() !== user._id.toString()) {
+            return new Response(
+                JSON.stringify({ message: "You are not authorized to update the bill" }),
                 { status: 403 }
-            )
+            );
         }
         if (bill.accepted) {
-            return Response.json(
-                { message: "its not pending bill" },
+            return new Response(
+                JSON.stringify({ message: "It's not a pending bill" }),
                 { status: 400 }
-            )
+            );
         }
-        console.log("bill", bill);
+
+        const recipientBusiness = await BusinessModel.findById(bill.recipientBusiness);
+        if (!recipientBusiness) {
+            return new Response(
+                JSON.stringify({ message: "Recipient business not found" }),
+                { status: 404 }
+            );
+        }
+
+        const providerBusiness = await BusinessModel.findById(bill.from);
+        if (!providerBusiness) {
+            return new Response(
+                JSON.stringify({ message: "Provider business not found" }),
+                { status: 404 }
+            );
+        }
+        const products = []
+        for (let billProduct of bill.products) {
+            const product = await ProductModel.findById(billProduct.product);
+            if (!product) {
+                return new Response(
+                    JSON.stringify({ message: `Product not found: ${billProduct.product}` }),
+                    { status: 404 }
+                );
+            }
+            products.push({
+                product: product._id,
+                amount: billProduct.amount
+            })
+            let existingRecipientProduct = recipientBusiness.recipientProducts.find(
+                (recipientProduct) =>
+                    recipientProduct.guild?.toString() === product.guild.toString() &&
+                    recipientProduct.unitOfMeasurement === product.unitOfMeasurement
+            );
+
+            if (existingRecipientProduct) {
+                existingRecipientProduct.totalDelivered += billProduct.amount;
+            } else {
+                recipientBusiness.recipientProducts.push({
+                    guild: product.guild,
+                    unitOfMeasurement: product.unitOfMeasurement,
+                    totalDelivered: billProduct.amount
+                });
+            }
+
+            billProduct.accepted = true;
+
+            await ProductModel.updateOne(
+                { _id: billProduct.product },
+                { $set: { billConfirm: true } }
+            );
+        }
         
-        // let product = await GuildModel.findById(bill.guild);
-        // for (let product of bill.products) {
-        //     let theGuildProduct = guild.products.find(guildProduct => guildProduct.productName === product.productName);
-        //     if (!theGuildProduct) {
-        //         guild.products.push({
-        //             productName: product.productName,
-        //             unitOfMeasurement: product.unitOfMeasurement,
-        //         })
-        //         await guild.save()
-        //     }
-        // }
-        // let business = await BusinessModel.findById(bill.from);
+        await recipientBusiness.save();
+        const recepiantUser = await UserModel.findOne({ code: providerBusiness.agentCode })
+        await ReportModel.create({
+            recepiant: recepiantUser._id,
+            title: "billAccept",
+            products,
+            isSeen: false,
+        });
+        await BillModel.updateOne(
+            { _id: billId },
+            {
+                $unset: { to: "", recipientBusiness: "" },
+                $set: { accepted: true }
+            }
+        );
 
-        // for (let product of bill.products) {
-        //     let theBusinessProduct = business.deliveredProducts.find(businessProduct => businessProduct.productName === product.productName);
-        //     let uniqueCustomer = await BillModel.distinct('to', {
-        //         productName: bill.productName,
-        //         from: bill.from,
-        //     });
-        //     if (theBusinessProduct) {
-        //         theBusinessProduct.totalDelivered += product.amount;
-        //         theBusinessProduct.thisYearDelivered += product.amount
-        //         theBusinessProduct.uniqueCustomer = uniqueCustomer.length
-        //         await business.save()
-
-        //     } else {
-        //         business.deliveredProducts.push({
-        //             productName: product.productName,
-        //             unitOfMeasurement: product.unitOfMeasurement,
-        //             totalDelivered: product.amount,
-        //             lastYearDelivered: 0,
-        //             thisYearDelivered: product.amount,
-        //             uniqueCustomer: 1,
-        //         });
-        //         await business.save()
-        //     }
-        // }
-        // bill.status = "accepted";
-        // await bill.save();
-        // console.log(`the bill updated successfully.`);
-        // return Response.json(
-        //     { message: `the bill updated successfully.` },
-        //     { status: 200 }
-        // );
+        return new Response(
+            JSON.stringify({ message: "The bill was updated successfully" }),
+            { status: 200 }
+        );
     } catch (error) {
-        console.error(`Error updating the bill:`, error);
-        Response.json(
-            { message: `Error updating the bill `, error },
-            { status: 500 })
+        console.error("Error updating the bill:", error);
+        return new Response(
+            JSON.stringify({ message: "Error updating the bill", error: error.message }),
+            { status: 500 }
+        );
     }
 }

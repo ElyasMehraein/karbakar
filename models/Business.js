@@ -38,14 +38,12 @@ const schema = new Schema({
             guild: { type: mongoose.Schema.Types.ObjectId, ref: "Guild" },
             unitOfMeasurement: { type: String, maxlength: 20 },
             totalDelivered: { type: Number, min: 1, max: 9999 },
-            uniqueCustomer: { type: Number, min: 1, max: 9999 },
         }
     ],
     monthlyCommitment: [
         {
             product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
             amount: { type: Number, min: 1, max: 9999 },
-            delivered: { type: Number, min: 1, max: 9999 },
             commitmentDate: { type: Date, default: Date.now }
         }
     ],
