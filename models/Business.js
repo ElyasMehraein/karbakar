@@ -24,8 +24,8 @@ const schema = new Schema({
     instagram: {
         type: String, maxlength: 30,
     },
-    longitude: { type: String, maxlength: 30, },
-    latitude: { type: String, maxlength: 30, },
+    longitude: { type: Schema.Types.Decimal128 },
+    latitude: { type: Schema.Types.Decimal128 },
     mapDetail: { type: String, maxlength: 30, },
     agentCode: { type: String, maxlength: 30, },
     workers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
@@ -44,7 +44,9 @@ const schema = new Schema({
         {
             product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
             amount: { type: Number, min: 1, max: 9999 },
-            commitmentDate: { type: Date, default: Date.now }
+            lastMonthDelivered: { type: Number, min: 1, max: 9999 },
+            previousMonthDelivered: { type: Number, min: 1, max: 9999 },
+            lastDeliveredMonth: { type: Number, default: () => new Date().getMonth() + 1 }
         }
     ],
 

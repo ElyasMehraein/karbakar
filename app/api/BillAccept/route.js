@@ -4,6 +4,7 @@ import BillModel from '@/models/Bill';
 import ProductModel from '@/models/Product';
 import { GET } from "@/app/api/auth/me/route";
 import ReportModel from '@/models/Report';
+import BusinessRelationModel from '@/models/BusinessRelation';
 
 export async function PUT(req) {
     const body = await req.json();
@@ -44,6 +45,11 @@ export async function PUT(req) {
                 { status: 404 }
             );
         }
+        const businessRelation = await BusinessRelationModel.findOne({
+            provider: providerBusiness._id,
+            receiver: recipientBusiness._id,
+        });
+
         const products = []
         for (let billProduct of bill.products) {
             const product = await ProductModel.findById(billProduct.product);
@@ -79,9 +85,27 @@ export async function PUT(req) {
                 { _id: billProduct.product },
                 { $set: { billConfirm: true } }
             );
+            if (businessRelation) {
+                const existingProductInCommitment = providerBusiness.monthlyCommitment.find(
+                    (commitmentProduct) => commitmentProduct.product.toString() === product._id.toString()
+                );
+
+                if (existingProductInCommitment) {
+                    const currentMonth = new Date().getMonth() + 1;
+
+                    if (existingProductInCommitment.lastDeliveredMonth === currentMonth) {
+                        existingProductInCommitment.lastMonthDelivered += billProduct.amount;
+                    } else if (existingProductInCommitment.lastDeliveredMonth === currentMonth - 1) {
+                        existingProductInCommitment.previousMonthDelivered = existingProductInCommitment.lastMonthDelivered;
+                        existingProductInCommitment.lastMonthDelivered = billProduct.amount;
+                        existingProductInCommitment.lastDeliveredMonth = currentMonth;
+                    }
+                }
+            }
         }
-        
+
         await recipientBusiness.save();
+        await providerBusiness.save();
         const recepiantUser = await UserModel.findOne({ code: providerBusiness.agentCode })
         await ReportModel.create({
             recepiant: recepiantUser._id,

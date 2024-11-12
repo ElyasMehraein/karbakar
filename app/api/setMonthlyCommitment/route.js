@@ -1,7 +1,6 @@
 import connectToDB from "@/configs/db";
 import UserModel from "@/models/User";
 import BusinessModel from "@/models/Business";
-import GuildModel from "@/models/Guild";
 import ProductModel from "@/models/Product";
 import { GET } from "@/app/api/auth/me/route";
 
@@ -31,15 +30,15 @@ export async function PUT(req) {
         for (const item of basket) {
             const { productName, unitOfMeasurement, amount, isRetail } = item.product;
 
-            // Verify that the product guild matches the business guild
-            const productExists = await ProductModel.findOne({
+            // Find the product in the business's guild
+            let product = await ProductModel.findOne({
                 guild: business.guild._id,
                 productName,
             });
 
-            if (!productExists) {
-                // If product does not exist in the guild, create a new product entry
-                await ProductModel.create({
+            // If the product does not exist, create a new one
+            if (!product) {
+                product = await ProductModel.create({
                     productName,
                     unitOfMeasurement,
                     guild: business.guild._id,
@@ -47,20 +46,28 @@ export async function PUT(req) {
                 });
             }
 
-            // Update the business's monthly commitment or add it as needed
-            await BusinessModel.findByIdAndUpdate(
-                businessID,
-                {
-                    $addToSet: {
-                        monthlyCommitment: {
-                            product: productExists ? productExists._id : (await ProductModel.findOne({ productName, guild: business.guild._id }))._id,
-                            amount,
-                            delivered: 0,
+            // Check if the product already exists in the business's monthly commitment
+            const existingCommitment = business.monthlyCommitment.find(
+                commitment => commitment.product.toString() === product._id.toString()
+            );
+
+            // If the product is not already in the monthly commitment, add it
+            if (!existingCommitment) {
+                await BusinessModel.findByIdAndUpdate(
+                    businessID,
+                    {
+                        $addToSet: {
+                            monthlyCommitment: {
+                                product: product._id,
+                                amount,
+                                lastMonthDelivered: 0,
+                                lastDeliveredMonth: new Date().getMonth() + 1,
+                            },
                         },
                     },
-                },
-                { new: true }
-            );
+                    { new: true }
+                );
+            }
         }
 
         return Response.json({ message: "Business successfully updated" }, { status: 201 });

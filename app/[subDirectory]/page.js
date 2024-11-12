@@ -37,6 +37,7 @@ export default async function subDirectory({ params }) {
       }).populate([
         "workers",
         "guild",
+        "monthlyCommitment.product"
       ])));
 
       if (!business) {

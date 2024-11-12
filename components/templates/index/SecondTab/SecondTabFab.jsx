@@ -38,7 +38,8 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     throw new Error('Failed to fetch products');
                 }
                 const data = await response.json();
-                setBusinessProducts(data.data);
+                const BusinessProducts = data.data.map((product) => product.product.productName)
+                setBusinessProducts(BusinessProducts);
             } catch (err) {
                 console.log(err.message);
             }

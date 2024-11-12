@@ -20,7 +20,7 @@ export default function Bill({ user, bills }) {
     setAlignment(newAlignment);
   };
 
-  if (!bills[0]) {
+  if (!bills || !bills[0]) {
     return (
       <Typography color="error">
         هیچ صورتحسابی برای شما ارسال نشده است
