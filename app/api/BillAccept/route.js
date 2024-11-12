@@ -45,12 +45,13 @@ export async function PUT(req) {
                 { status: 404 }
             );
         }
+        
         const businessRelation = await BusinessRelationModel.findOne({
             provider: providerBusiness._id,
             receiver: recipientBusiness._id,
         });
 
-        const products = []
+        const products = [];
         for (let billProduct of bill.products) {
             const product = await ProductModel.findById(billProduct.product);
             if (!product) {
@@ -62,7 +63,8 @@ export async function PUT(req) {
             products.push({
                 product: product._id,
                 amount: billProduct.amount
-            })
+            });
+            
             let existingRecipientProduct = recipientBusiness.recipientProducts.find(
                 (recipientProduct) =>
                     recipientProduct.guild?.toString() === product.guild.toString() &&
@@ -85,14 +87,16 @@ export async function PUT(req) {
                 { _id: billProduct.product },
                 { $set: { billConfirm: true } }
             );
+
             if (businessRelation) {
                 const existingProductInCommitment = providerBusiness.monthlyCommitment.find(
                     (commitmentProduct) => commitmentProduct.product.toString() === product._id.toString()
                 );
 
-                if (existingProductInCommitment) {
-                    const currentMonth = new Date().getMonth() + 1;
+                const currentMonth = new Date().getMonth() + 1;
 
+                if (existingProductInCommitment) {
+                    // Update the existing commitment entry if it exists
                     if (existingProductInCommitment.lastDeliveredMonth === currentMonth) {
                         existingProductInCommitment.lastMonthDelivered += billProduct.amount;
                     } else if (existingProductInCommitment.lastDeliveredMonth === currentMonth - 1) {
@@ -106,13 +110,15 @@ export async function PUT(req) {
 
         await recipientBusiness.save();
         await providerBusiness.save();
-        const recepiantUser = await UserModel.findOne({ code: providerBusiness.agentCode })
+        
+        const recipientUser = await UserModel.findOne({ code: providerBusiness.agentCode });
         await ReportModel.create({
-            recepiant: recepiantUser._id,
+            recepiant: recipientUser._id,
             title: "billAccept",
             products,
             isSeen: false,
         });
+
         await BillModel.updateOne(
             { _id: billId },
             {

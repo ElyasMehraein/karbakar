@@ -13,7 +13,6 @@ export default function MonthlyCommitment({ business }) {
 
   const rows = business.monthlyCommitment.map((product) => {
     const isInSameMonth = product.lastDeliveredMonth === new Date().getMonth() + 1;
-    console.log("isInSameMonth", isInSameMonth);
     return {
       productName: product.product.productName,
       unitOfMeasurement: product.product.unitOfMeasurement,
@@ -23,7 +22,7 @@ export default function MonthlyCommitment({ business }) {
       lastDeliveredMonth: product.lastDeliveredMonth,
     }
   })
-  const calculatePercentage = (amount, Delivered) => {
+  const calculatePercentage = (amount, Delivered = 0) => {
     return (Delivered / amount) * 100;
   };
   const averagePreviousMonth = () => {
@@ -39,7 +38,7 @@ export default function MonthlyCommitment({ business }) {
     return previousMonthDelivered < 50 ? 'red' : previousMonthDelivered > 80 ? 'green' : 'Chocolate';
   }
   let captionText = () => {
-    if (rows[0].lastDeliveredMonth === new Date().getMonth() + 1 && rows[0].lastMonthDelivered === 0) {
+    if (rows[0].lastDeliveredMonth === new Date().getMonth() + 1 && rows[0].lastMonthDelivered === undefined) {
       return <caption style={{ color: "OrangeRed" }}>لیست تعهدات در ماه جاری بروزرسانی شده است</caption>
     } else if (rows[0].lastDeliveredMonth !== new Date().getMonth() + 1) {
       return <caption style={{ color: "red" }}>از آخرین باری که این کسب و کار به دریافت کنندگان خود محصولی تحویل داده بیش از یک ماه گذشته است</caption>

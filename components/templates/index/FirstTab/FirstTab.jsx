@@ -62,13 +62,6 @@ export default function FirstTab({ user, relations }) {
                                         <Typography align='right' variant="caption" sx={{ color: 'text.secondary' }}>{business.provider.bio}</Typography>
 
                                         {business.provider.monthlyCommitment.map((product) => {
-                                            // console.log("Date", new Date().getMonth() + 1);
-                                            let today = new Date();
-                                            console.log("تاریخ فعلی:", today);
-
-                                            // ماه را به ماه بعد تغییر می‌دهیم
-                                            today.setMonth(today.getMonth() + 1);
-                                            console.log("تاریخ جدید:", today);
                                             return (
                                                 <Box key={product._id}>
                                                     <Typography fontSize={12} align='right'>{product.product.productName}</Typography>

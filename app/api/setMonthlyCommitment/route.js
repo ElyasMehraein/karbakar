@@ -60,8 +60,6 @@ export async function PUT(req) {
                             monthlyCommitment: {
                                 product: product._id,
                                 amount,
-                                lastMonthDelivered: 0,
-                                lastDeliveredMonth: new Date().getMonth() + 1,
                             },
                         },
                     },

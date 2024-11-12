@@ -163,7 +163,8 @@ export default function CreateBill({ user, fabHandler }) {
                   :
                   <>
                     <TextField
-                      value={selectedProduct}
+                      // value={selectedProduct}
+                      options={userBusinesses}
                       placeholder='حداکثر 30 کارکتر' variant="outlined"
                       label="محصولی که ارائه نموده اید"
                       onChange={(e) => setSelectedProduct(e.target.value)}
