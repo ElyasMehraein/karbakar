@@ -164,8 +164,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
           {user && user.businesses[0] ?
             fabIndex !== value ?
-              <ProductBasket user={user} primeBusiness={primeBusiness} distinctGuilds={distinctGuilds} relations={relations} />
-              // <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
+              <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
               :
               <FirstTabFab user={user} />
             :
