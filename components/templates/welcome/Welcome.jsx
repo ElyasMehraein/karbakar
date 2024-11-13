@@ -138,10 +138,9 @@ export default function Wellcome() {
       {
         show ? (
           <div className={styles.wellcomeHeader}>
-            <h2 className={styles.aitch2}>باهم برای هم برای زندگی آزاد</h2>
+            <h2 className={styles.aitch2}>اقتصادِ تولیدکنندگان</h2>
             <p className={styles.paragraph}>
-              اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد
-              و کسب و کارهای مولد
+              اقتصاد اجتماعی غیرپولی برای مبادله مستقیم محصولات و خدمات بین کسب‌وکارهای مولد
             </p>
             <Button onClick={changeShow} variant="contained">
               ورود یا ثبت نام

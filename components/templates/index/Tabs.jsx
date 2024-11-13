@@ -20,6 +20,7 @@ import SecondTab from './SecondTab/SecondTab';
 import SecondTabFab from './SecondTab/SecondTabFab';
 import ThirdTab from './ThirdTab/ThirdTab';
 import ThirdTabFab from './ThirdTab/ThirdTabFab';
+import ProductBasket from '@/components/modules/ProductBasket';
 
 function CustomTabPanel(props) {
 
@@ -163,7 +164,8 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
         <CustomTabPanel value={value} index={0} dir={theme.direction}>
           {user && user.businesses[0] ?
             fabIndex !== value ?
-              <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
+              <ProductBasket user={user} primeBusiness={primeBusiness} distinctGuilds={distinctGuilds} relations={relations} />
+              // <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
               :
               <FirstTabFab user={user} />
             :
