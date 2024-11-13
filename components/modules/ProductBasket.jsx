@@ -111,6 +111,30 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
 
     return (
         <Container maxWidth="md" className="inMiddle" align='center' >
+            <List dense={true}>
+                {selectedBusiness.monthlyCommitment.map(producrFrame => {
+                    console.log("selectedBusiness",producrFrame);
+                    
+                    return (
+                        <ListItem key={producrFrame.product._id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
+                            {producrFrame.product.isRetail == "true" ?
+                                <ListItemIcon>
+                                    <Groups2Icon />
+                                </ListItemIcon>
+                                :
+                                <ListItemIcon>
+                                    <BusinessRoundedIcon />
+                                </ListItemIcon>
+                            }
+                            <ListItemText primary={producrFrame.product.productName} secondary={`${producrFrame.product.amount} - ${producrFrame.product.unitOfMeasurement}`} />
+                            <IconButton onClick={() => deleteFrame(producrFrame.product.productName)}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </ListItem>
+                    )
+                })
+                }
+            </List>
             <FormControl sx={{ m: 2, width: 300 }}>
                 <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
                 <Select
