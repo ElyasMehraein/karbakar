@@ -48,7 +48,7 @@ export default async function page() {
       populate: {
         path: "monthlyCommitment.product",
         model: "Product",
-        select: "productName",
+        select: "productName unitOfMeasurement",
       },
     })
     .lean()))

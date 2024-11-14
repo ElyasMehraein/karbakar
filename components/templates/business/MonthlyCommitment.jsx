@@ -38,7 +38,7 @@ export default function MonthlyCommitment({ business }) {
     return previousMonthDelivered < 50 ? 'red' : previousMonthDelivered > 80 ? 'green' : 'Chocolate';
   }
   let captionText = () => {
-    if (rows[0].lastDeliveredMonth === new Date().getMonth() + 1 && rows[0].lastMonthDelivered === undefined) {
+    if (rows[0].lastDeliveredMonth === new Date().getMonth() + 1 && rows[0].previousMonthDelivered === undefined) {
       return <caption style={{ color: "OrangeRed" }}>لیست تعهدات در ماه جاری بروزرسانی شده است</caption>
     } else if (rows[0].lastDeliveredMonth !== new Date().getMonth() + 1) {
       return <caption style={{ color: "red" }}>از آخرین باری که این کسب و کار به دریافت کنندگان خود محصولی تحویل داده بیش از یک ماه گذشته است</caption>

@@ -94,7 +94,6 @@ export default function CreateBill({ user, primeBusiness }) {
             parentSetBusinessID={addBusinessID}
           />
           <TextField
-            value={customerCode}
             placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
             label="کد کاربری مشتری"
             onChange={(e) => setCustomerCode(e.target.value)}

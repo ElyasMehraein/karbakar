@@ -50,7 +50,7 @@ export default function FirstTab({ user, relations }) {
                         return (
                             <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: color, borderRadius: 2, m: 1, p: 2 }}>
                                 <ListItemButton onClick={() => router.push(`/${business.provider.businessName}`)}>
-                                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                                    <Box sx={{ display: "flex", flexDirection: "column", width:"100%", height:"100%" }}>
                                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
                                             <Avatar sx={{ ml: 2, width: 40, height: 40 }}>
                                                 <ItsAvatar userCodeOrBusinessBrand={business.provider.businessName} isAvatar={business.provider.isAvatar} alt="workers avatar" />
@@ -69,14 +69,17 @@ export default function FirstTab({ user, relations }) {
                                                         <Box sx={{ width: '90%' }}>
                                                             <LinearProgress
                                                                 variant="determinate"
-                                                                value={product.lastMonthDelivered || 0 / product.amount * 100}
+                                                                value={(product.lastMonthDelivered || 0) / product.amount * 100}
                                                             />
                                                         </Box>
                                                         <Box sx={{ minWidth: 35 }}>
                                                             <Typography variant="body2" sx={{ m: 1, color: 'text.secondary' }}>
-                                                                {product.lastMonthDelivered || 0 + "/" + product.amount}
+                                                                {(product.lastMonthDelivered || 0) + "/" + product.amount}
                                                             </Typography>
                                                         </Box>
+                                                            <Typography fontSize={12} sx={{ mr: 2, color: 'text.secondary' }}>
+                                                                {product.product.unitOfMeasurement}
+                                                            </Typography>
                                                     </ListItem>
                                                 </Box>
                                             )

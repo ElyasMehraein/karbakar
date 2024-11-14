@@ -12,6 +12,7 @@ export async function PUT(req) {
     const response = await GET(req);
     const user = await response.json();
 
+
     try {
         const bill = await BillModel.findById(billId);
         if (!bill) {
@@ -45,13 +46,14 @@ export async function PUT(req) {
                 { status: 404 }
             );
         }
-        
+
         const businessRelation = await BusinessRelationModel.findOne({
             provider: providerBusiness._id,
             receiver: recipientBusiness._id,
         });
 
         const products = [];
+
         for (let billProduct of bill.products) {
             const product = await ProductModel.findById(billProduct.product);
             if (!product) {
@@ -64,7 +66,6 @@ export async function PUT(req) {
                 product: product._id,
                 amount: billProduct.amount
             });
-            
             let existingRecipientProduct = recipientBusiness.recipientProducts.find(
                 (recipientProduct) =>
                     recipientProduct.guild?.toString() === product.guild.toString() &&
@@ -92,13 +93,16 @@ export async function PUT(req) {
                 const existingProductInCommitment = providerBusiness.monthlyCommitment.find(
                     (commitmentProduct) => commitmentProduct.product.toString() === product._id.toString()
                 );
-
                 const currentMonth = new Date().getMonth() + 1;
 
                 if (existingProductInCommitment) {
-                    // Update the existing commitment entry if it exists
                     if (existingProductInCommitment.lastDeliveredMonth === currentMonth) {
-                        existingProductInCommitment.lastMonthDelivered += billProduct.amount;
+                        if (existingProductInCommitment.lastMonthDelivered) {
+                            existingProductInCommitment.lastMonthDelivered += billProduct.amount;
+                        } else {
+                            existingProductInCommitment.lastMonthDelivered = billProduct.amount;
+                        }
+
                     } else if (existingProductInCommitment.lastDeliveredMonth === currentMonth - 1) {
                         existingProductInCommitment.previousMonthDelivered = existingProductInCommitment.lastMonthDelivered;
                         existingProductInCommitment.lastMonthDelivered = billProduct.amount;
@@ -110,7 +114,7 @@ export async function PUT(req) {
 
         await recipientBusiness.save();
         await providerBusiness.save();
-        
+
         const recipientUser = await UserModel.findOne({ code: providerBusiness.agentCode });
         await ReportModel.create({
             recepiant: recipientUser._id,
@@ -118,6 +122,7 @@ export async function PUT(req) {
             products,
             isSeen: false,
         });
+
 
         await BillModel.updateOne(
             { _id: billId },
