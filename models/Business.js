@@ -49,6 +49,12 @@ const schema = new Schema({
             lastDeliveredMonth: { type: Number, default: () => new Date().getMonth() + 1 }
         }
     ],
+    demandsForGuilds: [
+        {
+            guild: { type: mongoose.Schema.Types.ObjectId, ref: "Guild" },
+            requestText: { type: String, maxlength: 150, },
+        }
+    ],
 
 }, { timestamps: true })
 

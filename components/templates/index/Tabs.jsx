@@ -164,7 +164,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
             fabIndex !== value ?
               <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
               :
-              <FirstTabFab user={user} />
+              <FirstTabFab {...{ user, primeBusiness, relations, distinctGuilds }} />
             :
             <OthersRequestForGusts />
           }
