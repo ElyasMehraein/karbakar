@@ -14,7 +14,9 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
 export default function ProductBasket({ user, primeBusiness, parentBasketFunction, parentSetBusinessID }) {
+
     //first autoCompelete
+
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
     const userBusinesses = user.businesses.map(business => {
         if (business.agentCode == user.code) {
@@ -75,6 +77,26 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
     let isButtonDisable = !Boolean(selectedProductName && unitOfMeasurement && amount);
     //basket
     const [basket, setBasket] = React.useState([])
+    console.log("basket", basket);
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const response = await fetch(`/api/getBusinessMonthlyCommitment?businessId=${selectedBusiness._id}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch products');
+                }
+                const { data } = await response.json();
+                setBasket(data.monthlyCommitment.map(product => product));
+            } catch (err) {
+                setOpenSnackbar500Error(true)
+                console.log(err.message);
+            }
+        };
+
+        fetchProducts();
+    }, [selectedBusinessName]);
+
+
 
     const addToBasket = () => {
         let isDuplicate = basket.some((value) => {
@@ -84,7 +106,7 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
             setOpenSnackbarDublicateError(true)
             return
         }
-        const updatedBasket = [{ product: { id: Math.floor(Math.random() * 100), productName: selectedProductName, unitOfMeasurement, amount, isRetail: radioGroupValue } }, ...basket]
+        const updatedBasket = [{ product: { _id: Math.floor(Math.random() * 100), productName: selectedProductName, unitOfMeasurement, isRetail: radioGroupValue }, amount }, ...basket]
         parentBasketFunction(updatedBasket);
         setBasket(updatedBasket)
         setSelectedProductName("")
@@ -95,7 +117,9 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
 
     //delete frame
     const deleteFrame = (productName) => {
-        setBasket((basket.filter(frame => frame.product.productName !== productName)))
+        const updatedBasket = basket.filter(frame => frame.product.productName !== productName)
+        parentBasketFunction(updatedBasket);
+        setBasket(updatedBasket)
     }
     //Snackbars
     const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = React.useState(false);
@@ -111,30 +135,6 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
 
     return (
         <Container maxWidth="md" className="inMiddle" align='center' >
-            <List dense={true}>
-                {selectedBusiness.monthlyCommitment.map(producrFrame => {
-                    console.log("selectedBusiness",producrFrame);
-                    
-                    return (
-                        <ListItem key={producrFrame.product._id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
-                            {producrFrame.product.isRetail == "true" ?
-                                <ListItemIcon>
-                                    <Groups2Icon />
-                                </ListItemIcon>
-                                :
-                                <ListItemIcon>
-                                    <BusinessRoundedIcon />
-                                </ListItemIcon>
-                            }
-                            <ListItemText primary={producrFrame.product.productName} secondary={`${producrFrame.product.amount} - ${producrFrame.product.unitOfMeasurement}`} />
-                            <IconButton onClick={() => deleteFrame(producrFrame.product.productName)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItem>
-                    )
-                })
-                }
-            </List>
             <FormControl sx={{ m: 2, width: 300 }}>
                 <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
                 <Select
@@ -217,9 +217,10 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
                 onClick={addToBasket}
             />
             <List dense={true}>
+                <ListItemText primary="سبد فعلی"/>
                 {basket.map(producrFrame => {
                     return (
-                        <ListItem key={producrFrame.product.id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
+                        <ListItem key={producrFrame.product._id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
                             {producrFrame.product.isRetail == "true" ?
                                 <ListItemIcon>
                                     <Groups2Icon />
@@ -229,7 +230,7 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
                                     <BusinessRoundedIcon />
                                 </ListItemIcon>
                             }
-                            <ListItemText primary={producrFrame.product.productName} secondary={`${producrFrame.product.amount} - ${producrFrame.product.unitOfMeasurement}`} />
+                            <ListItemText primary={producrFrame.product.productName} secondary={`${producrFrame.amount} - ${producrFrame.product.unitOfMeasurement}`} />
                             <IconButton onClick={() => deleteFrame(producrFrame.productName || producrFrame.product.productName)}>
                                 <DeleteIcon />
                             </IconButton>
@@ -238,7 +239,6 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
                 })
                 }
             </List>
-
             <CustomSnackbar
                 open={openSnackbar500Error}
                 onClose={handleSnackbarClose}

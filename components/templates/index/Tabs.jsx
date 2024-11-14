@@ -176,7 +176,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
             fabIndex !== value ?
               <SecondTab primeBusiness={primeBusiness} />
               :
-              <SecondTabFab {...{ user, primeBusiness }} />
+              <SecondTabFab {...{ user, primeBusiness, relations }} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>

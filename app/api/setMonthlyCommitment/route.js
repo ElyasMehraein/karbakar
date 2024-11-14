@@ -28,7 +28,8 @@ export async function PUT(req) {
 
         // Check and update products in the basket
         for (const item of basket) {
-            const { productName, unitOfMeasurement, amount, isRetail } = item.product;
+            const { productName, unitOfMeasurement, isRetail } = item.product;
+            const { amount } = item;
 
             // Find the product in the business's guild
             let product = await ProductModel.findOne({

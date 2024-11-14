@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, CircularProgress, Container } from '@mui/material';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import ProductBasket from '@/components/modules/ProductBasket';
@@ -6,11 +6,12 @@ import ProductBasket from '@/components/modules/ProductBasket';
 
 export default function SecondTabFab({ user, primeBusiness }) {
     const [isLoading, setIsLoading] = React.useState(false);
+
     const [businessID, setBusinessID] = React.useState()
     const addBusinessID = (value) => {
         setBusinessID(value)
     }
-    const [basket, setBasket] = React.useState()
+    const [basket, setBasket] = React.useState([])
 
     const addBasket = (value) => {
         setBasket(value)
@@ -56,13 +57,13 @@ export default function SecondTabFab({ user, primeBusiness }) {
                         parentBasketFunction={addBasket}
                         parentSetBusinessID={addBusinessID}
                     />
-                    <Button
+                    {basket[0] && <Button
                         sx={{ display: "block" }}
                         children={"ذخیره تغییرات"}
                         variant="contained"
-                        disabled={!basket}
+                        // disabled={saveChangeButtonDisabled}
                         onClick={updateMonthlyCommitment}
-                    />
+                    />}
                     <CustomSnackbar
                         open={openSnackbar}
                         onClose={handleSnackbarClose}
