@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, CircularProgress, Container } from '@mui/material';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import ProductBasket from '@/components/modules/ProductBasket';
@@ -11,14 +11,17 @@ export default function SecondTabFab({ user, primeBusiness }) {
     const addBusinessID = (value) => {
         setBusinessID(value)
     }
-    const [basket, setBasket] = React.useState([])
+    const [basket, setBasket] = useState([])
+    const [isBasketChanged, setIsBasketChanged] = useState(true);
 
-    const addBasket = (value) => {
+    const addBasket = (value , isBasketChanged) => {
         setBasket(value)
+        setIsBasketChanged(isBasketChanged)
     }
 
     //Snackbars
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
+    const [openSnackbar200, setOpenSnackbar200] = React.useState(false);
     const [openSnackbar500Error, setOpenSnackbar500Error] = React.useState(false);
 
 
@@ -43,6 +46,14 @@ export default function SecondTabFab({ user, primeBusiness }) {
         } else if (res.status === 201) {
             console.log("updateMonthlyCommitment sited successfully");
             setOpenSnackbar(true)
+            setIsBasketChanged(true)
+            setIsLoading(false)
+
+        } else if (res.status === 200) {
+            console.log("MonthlyCommitment deleted successfully");
+            setOpenSnackbar200(true)
+            setIsBasketChanged(true)
+            setBasket([])
             setIsLoading(false)
         }
     }
@@ -57,17 +68,22 @@ export default function SecondTabFab({ user, primeBusiness }) {
                         parentBasketFunction={addBasket}
                         parentSetBusinessID={addBusinessID}
                     />
-                    {basket[0] && <Button
+                    <Button
                         sx={{ display: "block" }}
                         children={"ذخیره تغییرات"}
                         variant="contained"
-                        // disabled={saveChangeButtonDisabled}
+                        disabled={isBasketChanged}
                         onClick={updateMonthlyCommitment}
-                    />}
+                    />
                     <CustomSnackbar
                         open={openSnackbar}
                         onClose={handleSnackbarClose}
-                        message="تعهدات ماهانه این کسب و کار بروزرسانی شد"
+                        message="تعهدات ماهانه بروزرسانی شد"
+                    />
+                    <CustomSnackbar
+                        open={openSnackbar200}
+                        onClose={handleSnackbarClose}
+                        message="تعهدات ماهانه پاک شد"
                     />
                     <CustomSnackbar
                         open={openSnackbar500Error}

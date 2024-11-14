@@ -22,7 +22,6 @@ export async function GET(req) {
         },
             "monthlyCommitment"
         ).populate("monthlyCommitment.product")));
-        console.log("dataaaa", data);
 
         return Response.json(
             { message: 'Get Business products successfully', data },

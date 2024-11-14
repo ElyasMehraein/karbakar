@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Autocomplete, Box, Button, Container, IconButton, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Radio from '@mui/material/Radio';
@@ -76,8 +76,10 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
     //button
     let isButtonDisable = !Boolean(selectedProductName && unitOfMeasurement && amount);
     //basket
-    const [basket, setBasket] = React.useState([])
-    console.log("basket", basket);
+    const [basket, setBasket] = useState([])
+    const [isBasketChanged, setIsBasketChanged] = useState(true);
+    const [initialBasketRef, setInitialBasketRef] = useState([]);
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -87,6 +89,7 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
                 }
                 const { data } = await response.json();
                 setBasket(data.monthlyCommitment.map(product => product));
+                setInitialBasketRef(data.monthlyCommitment.map(product => product));
             } catch (err) {
                 setOpenSnackbar500Error(true)
                 console.log(err.message);
@@ -96,7 +99,9 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
         fetchProducts();
     }, [selectedBusinessName]);
 
-
+    useEffect(() => {
+        setIsBasketChanged(JSON.stringify(basket) === JSON.stringify(initialBasketRef.current));
+    }, [basket]);
 
     const addToBasket = () => {
         let isDuplicate = basket.some((value) => {
@@ -107,7 +112,7 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
             return
         }
         const updatedBasket = [{ product: { _id: Math.floor(Math.random() * 100), productName: selectedProductName, unitOfMeasurement, isRetail: radioGroupValue }, amount }, ...basket]
-        parentBasketFunction(updatedBasket);
+        parentBasketFunction(updatedBasket, isBasketChanged);
         setBasket(updatedBasket)
         setSelectedProductName("")
         setUnitOfMeasurement("")
@@ -118,8 +123,10 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
     //delete frame
     const deleteFrame = (productName) => {
         const updatedBasket = basket.filter(frame => frame.product.productName !== productName)
-        parentBasketFunction(updatedBasket);
+        parentBasketFunction(updatedBasket, isBasketChanged);
         setBasket(updatedBasket)
+        parentSetBusinessID(selectedBusiness._id)
+
     }
     //Snackbars
     const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = React.useState(false);
@@ -217,7 +224,6 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
                 onClick={addToBasket}
             />
             <List dense={true}>
-                <ListItemText primary="سبد فعلی"/>
                 {basket.map(producrFrame => {
                     return (
                         <ListItem key={producrFrame.product._id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >

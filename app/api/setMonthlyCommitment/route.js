@@ -26,6 +26,14 @@ export async function PUT(req) {
             return Response.json({ message: "403 Unauthorized access" }, { status: 403 });
         }
 
+        if (basket.length === 0) {
+            await BusinessModel.findByIdAndUpdate(
+                businessID,
+                { $set: { monthlyCommitment: [] } },
+                { new: true }
+            );
+            return Response.json({ message: "Monthly commitment cleared as basket is empty" }, { status: 200 });
+        }
         // Check and update products in the basket
         for (const item of basket) {
             const { productName, unitOfMeasurement, isRetail } = item.product;
