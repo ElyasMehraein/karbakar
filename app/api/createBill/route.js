@@ -11,12 +11,12 @@ import ProductModel from "@/models/Product";
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { selectedBusiness, customerCode, bills } = body;
+        const { businessID, customerCode, basket } = body;
 
         await connectToDB();
         const response = await GET(req);
         const user = await response.json();
-        const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ businessName: selectedBusiness }).populate("guild")));
+        const Business = JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: businessID }).populate("guild")));
 
         const customer = JSON.parse(JSON.stringify(await UserModel.findOne({ code: customerCode })));
         if (!customer) {
@@ -37,23 +37,26 @@ export async function POST(req) {
         const products = [];
 
         // Loop through each bill item to create a Product
-        for (const bill of bills) {
-            let billsProduct = await ProductModel.findOne({ productName: bill.productName });
-            if (billsProduct) {
+        for (const item of basket) {
+            const { productName, unitOfMeasurement, isRetail } = item.product;
+            const { amount } = item;
+
+            let basketProduct = await ProductModel.findOne({ productName });
+            if (basketProduct) {
                 products.push({
-                    product: billsProduct._id,
-                    amount: bill.amount
+                    product: basketProduct._id,
+                    amount,
                 });
             } else {
                 const product = await ProductModel.create({
-                    productName: bill.productName,
-                    unitOfMeasurement: bill.unitOfMeasurement,
+                    productName,
+                    unitOfMeasurement,
                     guild: Business.guild._id,
-                    isRetail: bill.isRetail,
+                    isRetail,
                 });
                 products.push({
                     product: product._id,
-                    amount: bill.amount
+                    amount,
                 })
             }
         }

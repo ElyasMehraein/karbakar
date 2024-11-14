@@ -69,12 +69,12 @@ export default function FirstTab({ user, relations }) {
                                                         <Box sx={{ width: '90%' }}>
                                                             <LinearProgress
                                                                 variant="determinate"
-                                                                value={product.delivered / product.amount * 100}
+                                                                value={product.lastMonthDelivered || 0 / product.amount * 100}
                                                             />
                                                         </Box>
                                                         <Box sx={{ minWidth: 35 }}>
                                                             <Typography variant="body2" sx={{ m: 1, color: 'text.secondary' }}>
-                                                                {product.delivered + "/" + product.amount}
+                                                                {product.lastMonthDelivered || 0 + "/" + product.amount}
                                                             </Typography>
                                                         </Box>
                                                     </ListItem>

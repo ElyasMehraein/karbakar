@@ -92,8 +92,6 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
     fabIndex == value ?
       setFabIndex(10) :
       setFabIndex(value);
-
-
   };
   const fabs = [
     {
@@ -191,7 +189,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
         <CustomTabPanel value={value} index={3} dir={theme.direction}>
           {
             fabIndex === 3 ?
-              <CreateBill user={user} fabHandler={fabHandler} />
+              <CreateBill user={user} primeBusiness={primeBusiness} />
               :
               <Bill bills={bills} user={user} />
           }

@@ -13,7 +13,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
-export default function ProductBasket({ user, primeBusiness, parentBasketFunction, parentSetBusinessID }) {
+export default function ProductBasket({ user, primeBusiness, parentBasketFunction, parentSetBusinessID, useFor }) {
 
     //first autoCompelete
 
@@ -81,23 +81,25 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
     const [initialBasketRef, setInitialBasketRef] = useState([]);
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch(`/api/getBusinessMonthlyCommitment?businessId=${selectedBusiness._id}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch products');
+        if (useFor === "setMonthlyCommitment") {
+            const fetchProducts = async () => {
+                try {
+                    const response = await fetch(`/api/getBusinessMonthlyCommitment?businessId=${selectedBusiness._id}`);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch products');
+                    }
+                    const { data } = await response.json();
+                    setBasket(data.monthlyCommitment.map(product => product));
+                    setInitialBasketRef(data.monthlyCommitment.map(product => product));
+                } catch (err) {
+                    setOpenSnackbar500Error(true)
+                    console.log(err.message);
                 }
-                const { data } = await response.json();
-                setBasket(data.monthlyCommitment.map(product => product));
-                setInitialBasketRef(data.monthlyCommitment.map(product => product));
-            } catch (err) {
-                setOpenSnackbar500Error(true)
-                console.log(err.message);
-            }
-        };
-
-        fetchProducts();
+            };
+            fetchProducts();
+        }
     }, [selectedBusinessName]);
+
 
     useEffect(() => {
         setIsBasketChanged(JSON.stringify(basket) === JSON.stringify(initialBasketRef.current));

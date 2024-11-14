@@ -14,7 +14,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
     const [basket, setBasket] = useState([])
     const [isBasketChanged, setIsBasketChanged] = useState(true);
 
-    const addBasket = (value , isBasketChanged) => {
+    const addBasket = (value, isBasketChanged) => {
         setBasket(value)
         setIsBasketChanged(isBasketChanged)
     }
@@ -57,6 +57,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
             setIsLoading(false)
         }
     }
+    const useFor = "setMonthlyCommitment"
     return (
         <Container maxWidth="md" className="inMiddle" align='center' >
             {isLoading ?
@@ -64,7 +65,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                 :
                 <>
                     <ProductBasket
-                        {...{ user, primeBusiness }}
+                        {...{ user, primeBusiness, useFor }}
                         parentBasketFunction={addBasket}
                         parentSetBusinessID={addBusinessID}
                     />
