@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import { Autocomplete, Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import jobCategoriesData from "@/public/jobCategories";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import {CircularProgress} from '@mui/material';
+import { CircularProgress } from '@mui/material';
 // import dynamic from "next/dynamic";
 // const Map = dynamic(() => import("@/components/templates/index/FirstTab/Map"), { ssr: false })
 
@@ -44,7 +44,6 @@ export default function FirstTabFab({ user, primeBusiness }) {
                     let recivedGuilds = data.data
                         .filter(guild => guild.jobCategory === jobCategory)
                         .map(guild => guild.guildName);
-
                     setGuilds(recivedGuilds.length ? recivedGuilds : []);
 
                     const demandsGuilds = selectedBusiness.demandsForGuilds.map(demandGuild => {
@@ -64,7 +63,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
             }
         };
         getGuilds();
-    }, []);
+    }, [jobCategory]);
 
 
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>

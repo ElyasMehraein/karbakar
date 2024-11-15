@@ -21,24 +21,24 @@ export default function createBusiness() {
     useEffect(() => {
         const getGuilds = async () => {
             try {
-                const res = await fetch("/api/getGuilds", { method: "GET" })
+                const res = await fetch("/api/getGuilds", { method: "GET" });
                 if (res.status === 200) {
-                    const data = await res.json()
-                    let recivedGuilds = data.data.map(guild => {
-                        if (guild.jobCategory == jobCategory) {
-                            return guild.guildName
-                        }
-                    })
-                    recivedGuilds[0] ? setGuilds(recivedGuilds) : setGuilds([])
-                } else if ((res.status === 403)) {
+                    const {data} = await res.json();
+                    let recivedGuilds = data
+                        .filter(guild => guild.jobCategory === jobCategory)
+                        .map(guild => guild.guildName);
+
+                    setGuilds(recivedGuilds.length ? recivedGuilds : []);
+
+               } else if (res.status === 403) {
                     console.log("unauthorized access");
                 }
             } catch (error) {
                 console.error("Error fetching Guilds:", error);
             }
-        }
-        getGuilds()
-    }, [jobCategory])
+        };
+        getGuilds();
+    }, [jobCategory]);
 
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
