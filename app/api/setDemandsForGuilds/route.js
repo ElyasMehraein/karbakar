@@ -9,7 +9,6 @@ export async function PUT(req) {
     try {
         const body = await req.json();
         const { businessID, selectedGuild, requestText, jobCategory } = body;
-        console.log(" businessID, selectedGuild, requestText, jobCategory", businessID, selectedGuild, requestText, jobCategory);
         await connectToDB();
 
         // Get logged-in user information
@@ -20,6 +19,9 @@ export async function PUT(req) {
         if (!loggedUser) {
             return Response.json({ message: "Please log in first" }, { status: 404 });
         }
+        if (!jobCategory) {
+            return Response.json({ message: "jobCategory is required." }, { status: 407 });
+        }
 
         // Verify user permissions to modify the business
         const business = await BusinessModel.findById(businessID);
@@ -28,21 +30,17 @@ export async function PUT(req) {
         if (!selectedGuild) {
             return Response.json({ message: "no guild selected" }, { status: 400 });
         }
-        // hame betonan senf doros konan vase business
-        // bayad negah kone che senf haee vojod dare
-        // vaghti type kard senf nabod chizi ke type mikone tabdil be senf beshe
-        // badesh ba id senf toye business gharar begire
+
 
         let guild;
         const isGuildExist = await GuildModel.findOne({ guildName: selectedGuild })
         if (isGuildExist) {
             guild = isGuildExist
         } else {
-            newGuild = await GuildModel.create({
+            guild = await GuildModel.create({
                 guildName: selectedGuild,
                 jobCategory,
             });
-            guild = newGuild
         }
 
         const existingDemand = business.demandsForGuilds.some((demand) => {
@@ -56,7 +54,7 @@ export async function PUT(req) {
                     $addToSet: {
                         demandsForGuilds: {
                             guild: guild._id,
-                            requestText,
+                            requestText: requestText && requestText.length > 0 ? requestText : undefined
                         },
                     },
                 },

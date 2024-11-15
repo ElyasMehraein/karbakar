@@ -11,9 +11,9 @@ export default function FirstTabFab({ user, primeBusiness }) {
 
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
     const userBusinesses = user.businesses.map(business => business.businessName)
-    const businessID = user.businesses.map((business) => {
+    const selectedBusiness = user.businesses.find((business) => {
         if (business.businessName == selectedBusinessName) {
-            return business._id
+            return business
         }
     })
 
@@ -25,69 +25,100 @@ export default function FirstTabFab({ user, primeBusiness }) {
     const [guilds, setGuilds] = useState([])
 
     const [selectedGuild, setsSelectedGuild] = useState("")
-    console.log("selectedGuild", selectedGuild);
+
     const [requestText, setrequestText] = useState([])
+    const [chips, setChips] = useState([])
+    console.log("chips", chips);
+    console.log("selectedGuild", selectedGuild);
+    const [chipsObjectTrigger, setChipsObjectTrigger] = useState(false)
 
     useEffect(() => {
         const getGuilds = async () => {
             try {
-                const res = await fetch("/api/getGuilds", { method: "GET" })
+                const res = await fetch("/api/getGuilds", { method: "GET" });
                 if (res.status === 200) {
-                    const data = await res.json()
-                    let recivedGuilds = data.data.map(guild => {
-                        if (guild.jobCategory == jobCategory) {
-                            return guild.guildName
-                        }
-                    })
-                    recivedGuilds[0] ? setGuilds(recivedGuilds) : setGuilds([])
-                } else if ((res.status === 403)) {
+                    const data = await res.json();
+                    let recivedGuilds = data.data
+                        .filter(guild => guild.jobCategory === jobCategory)
+                        .map(guild => guild.guildName);
+
+                    setGuilds(recivedGuilds.length ? recivedGuilds : []);
+
+                    const demandsGuilds = selectedBusiness.demandsForGuilds.map(demandGuild => {
+                        const guild = data.data.find(guild => guild._id === demandGuild.guild);
+                        return guild ? guild : null;
+                    }).filter(guild => guild);
+
+                    const uniqueChips = new Set([...chips, ...demandsGuilds]);
+                    setChips(Array.from(uniqueChips));
+
+                } else if (res.status === 403) {
                     console.log("unauthorized access");
                 }
             } catch (error) {
                 console.error("Error fetching Guilds:", error);
             }
-        }
-        getGuilds()
-    }, [])
+        };
+        getGuilds();
+    }, []);
+
+
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
     );
     const isOptionEqualToValue = (option, value) => {
         return option.label === value.label;
     };
+
+
     async function setDemandsForGuilds() {
 
         const res = await fetch('api/setDemandsForGuilds', {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessID, selectedGuild, requestText, jobCategory })
+            body: JSON.stringify({ businessID: selectedBusiness._id, selectedGuild, requestText, jobCategory })
         })
         if (res.status === 500) {
             console.log("server error");
         } else if (res.status === 201) {
-            console.log("Demands For the Guild sited successfully");
-        } else if (res.status === 200) {
-            console.log("Demands For the Guild deleted successfully");
+            console.log("Demand For the Guild sited successfully");
+          const majid = chips.push({_id: Math.floor(Math.random() * 100),guildName:selectedGuild})
+            console.log("majid", majid);
         }
     }
-    function handleDelete() {
 
+    async function deleteDemandsForGuild(demandID) {
+
+        const res = await fetch('api/deleteDemandsForGuild', {
+            method: "DELETE",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ businessID: selectedBusiness._id, demandID })
+        })
+        if (res.status === 500) {
+            console.log("server error");
+        } else if (res.status === 200) {
+            setChipsObjectTrigger(!chipsObjectTrigger)
+            setChips((prevChips) => prevChips.filter((chip) => chip._id !== demandID));
+            console.log("Demand For the Guild deleted successfully");
+        }
     }
 
     return (
         <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
 
             <Box >
-                <Chip sx={{ m: 0.5, direction: 'ltr' }} label="ذوب آهن" variant="outlined" onDelete={handleDelete} />
-                <Chip sx={{ direction: 'ltr' }} label="بقالی" variant="outlined" onDelete={handleDelete} />
-                <Chip sx={{ direction: 'ltr' }} label="تولید فولاد سرد و گرم و خشک و مرطوب" variant="outlined" onDelete={handleDelete} />
-                <Chip sx={{ direction: 'ltr' }} label="zsvdfdsfdsdv" variant="outlined" onDelete={handleDelete} />
-                <Chip sx={{ direction: 'ltr' }} label="zsdsfsdfassdczsvdsdv" variant="outlined" onDelete={handleDelete} />
-                <Chip sx={{ direction: 'ltr' }} label="aa" variant="outlined" onDelete={handleDelete} />
-                <Chip sx={{ direction: 'ltr' }} label="ssdd" variant="outlined" onDelete={handleDelete} />
-                <Chip sx={{ direction: 'ltr' }} label="aa" variant="outlined" onDelete={handleDelete} />
-                <Chip sx={{ direction: 'ltr' }} label="zsdsfsdfassdczsvdsdv" variant="outlined" onDelete={handleDelete} />
-
+                {chips.map(chip => {
+                    return (
+                        <Chip
+                            key={chip._id}
+                            sx={{ m: 0.5, direction: 'ltr' }}
+                            label={chip.guildName}
+                            value={chip._Id}
+                            variant="outlined"
+                            onDelete={() => deleteDemandsForGuild(chip._id)}
+                        />
+                    )
+                })}
             </Box>
             <FormControl sx={{ mt: 3, width: 300 }}>
                 <InputLabel id="chose-business-lable">برای این کسب و کار ثبت شود</InputLabel>
@@ -147,7 +178,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
                 sx={{ mt: 2 }}
                 children={"ثبت درخواست"}
                 variant="contained"
-                // disabled={selectedProduct && unitOfMeasurement && amount ? false : true}
+                disabled={jobCategory && selectedGuild ? false : true}
                 onClick={() => setDemandsForGuilds()}
             />
         </Container>
