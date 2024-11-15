@@ -33,7 +33,7 @@ export async function PUT(req) {
 
 
         let guild;
-        const isGuildExist = await GuildModel.findOne({ guildName: selectedGuild })
+        const isGuildExist = await GuildModel.findOne({ guildName: selectedGuild, jobCategory })
         if (isGuildExist) {
             guild = isGuildExist
         } else {
@@ -43,8 +43,12 @@ export async function PUT(req) {
             });
         }
 
+        const isItMoreThan30 = Boolean(business.demandsForGuilds.length > 30)
+        if (isItMoreThan30) {
+            return Response.json({ message: "you can not have more than 30 demands for guilds" }, { status: 422 });
+        }
         const existingDemand = business.demandsForGuilds.some((demand) => {
-            demand._id.toString() === guild._id.toString()
+            return demand.guild.toString() === guild._id.toString()
         });
 
         if (!existingDemand) {
@@ -64,7 +68,7 @@ export async function PUT(req) {
             return Response.json({ message: "demand already exist" }, { status: 406 });
 
         }
-        return Response.json({ message: "Business successfully updated" }, { status: 201 });
+        return Response.json({ message: "Business successfully updated", data: guild._id }, { status: 201 });
 
     } catch (err) {
         console.error(err);
