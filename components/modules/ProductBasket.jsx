@@ -26,7 +26,6 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
 
     //second autoCompelete
     const [BusinessProducts, setBusinessProducts] = React.useState([]);
-
     let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
 
     useEffect(() => {
@@ -143,7 +142,7 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
 
     return (
         <Container maxWidth="md" className="inMiddle" align='center' >
-            {useFor !== "Demand" &&
+            {useFor[0] &&
                 <FormControl sx={{ my: 2, width: 300 }}>
                     <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
                     <Select

@@ -6,6 +6,7 @@ const schema = new Schema({
     slogan: { type: String, maxlength: 150, },
     validityPeriod: { type: Number, required: true, max: 365 },
     extensionPeriod: { type: Number, required: true, max: 365 },
+    createdBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true }],
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true }],
     votes: [{
         voter: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
@@ -22,7 +23,7 @@ const schema = new Schema({
             quantity: { type: Number, required: true }
         }]
     }],
-    isActive: { type: Boolean, }
+    isActive: { type: Boolean, default: false }
 }, { timestamps: true });
 
 const UnionModel = mongoose.models.Union || mongoose.model("Union", schema);

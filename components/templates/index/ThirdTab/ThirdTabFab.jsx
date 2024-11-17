@@ -9,6 +9,7 @@ import { Autocomplete, Button, Container, FormControl, InputLabel, MenuItem, Sel
 import jobCategoriesData from "@/public/jobCategories";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { CircularProgress } from '@mui/material';
+import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
 
 export default function ThirdTabFab({ user, primeBusiness }) {
 
@@ -25,35 +26,34 @@ export default function ThirdTabFab({ user, primeBusiness }) {
     //اتحاد را ثبت می کنید
 
     // selecting your business
-
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
     const userBusinesses = user.businesses.map(business => business.businessName)
 
     // entering union name
-
     const [selectedUnionName, setSelectedUnionName] = React.useState("")
 
     // entering description
     const [descriptionText, setDescriptionText] = useState([])
 
     // entering union duration
-
     const [unionDuration, setUnionDuration] = useState([])
 
-    //the basket you providing
-
+    //the basket you offer
 
     const [offerbasket, setOfferBasket] = useState([])
+    console.log("offerbasket", offerbasket);
     const addOfferBasket = (value, isBasketChanged) => {
         setOfferBasket(value)
         // setIsBasketChanged(isBasketChanged)
     }
-    const [businessID, setBusinessID] = React.useState()
-    const addBusinessID = (value) => {
-        setBusinessID(value)
-    }
-    //the basket you providing
 
+
+    //the basket you demand
+    const [demandGuild, setDemandGuild] = useState([])
+
+    const getGuildFromChild = (guild) => {
+        setDemandGuild(guild)
+    }
 
     const [demandbasket, setDemandBasket] = useState([])
     const addDemandBasket = (value, isBasketChanged) => {
@@ -62,6 +62,39 @@ export default function ThirdTabFab({ user, primeBusiness }) {
     }
 
     // create Union Button
+    async function createUnion() {
+
+        const res = await fetch('api/createUnion', {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ businessID: selectedBusiness._id, selectedGuild, requestText, jobCategory })
+        })
+        if (res.status === 500) {
+            console.log("server error");
+        }
+        if (res.status === 422) {
+            setOpen422Snackbar(true)
+        }
+        if (res.status === 406) {
+            setOpen406Snackbar(true)
+            setsSelectedGuild("")
+        } else if (res.status === 201) {
+            const { data } = await res.json();
+            console.log("Demand For the Guild sited successfully", res);
+            setChips([...chips, { _id: data, guildName: selectedGuild }]);
+            setsSelectedGuild("")
+            setrequestText("")
+        }
+    }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -130,30 +163,7 @@ export default function ThirdTabFab({ user, primeBusiness }) {
     };
 
 
-    async function setDemandsForGuilds() {
 
-        const res = await fetch('api/setDemandsForGuilds', {
-            method: "PUT",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessID: selectedBusiness._id, selectedGuild, requestText, jobCategory })
-        })
-        if (res.status === 500) {
-            console.log("server error");
-        }
-        if (res.status === 422) {
-            setOpen422Snackbar(true)
-        }
-        if (res.status === 406) {
-            setOpen406Snackbar(true)
-            setsSelectedGuild("")
-        } else if (res.status === 201) {
-            const { data } = await res.json();
-            console.log("Demand For the Guild sited successfully", res);
-            setChips([...chips, { _id: data, guildName: selectedGuild }]);
-            setsSelectedGuild("")
-            setrequestText("")
-        }
-    }
 
     async function deleteDemandsForGuild(demandID) {
 
@@ -178,6 +188,23 @@ export default function ThirdTabFab({ user, primeBusiness }) {
             <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 برای ساخت اتحاد ابتدا کسب و کار خود را انتخاب می کنید
             </Typography>
+            <FormControl sx={{ my: 2, width: 300 }}>
+                <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
+                <Select
+                    labelId="chose-business-lable"
+                    id="chose-business"
+                    value={selectedBusinessName}
+                    label="انتخاب کسب و کار"
+                    onChange={(e) => {
+                        setSelectedBusinessName(e.target.value);
+                    }}
+                >
+                    {userBusinesses.map((userBusinessesName) => {
+                        return <MenuItem key={userBusinessesName} value={userBusinessesName}>{userBusinessesName}</MenuItem>
+                    })}
+                </Select>
+
+            </FormControl>
             <TextField
                 value={selectedUnionName}
                 placeholder='حداکثر 40 کارکتر' variant="outlined"
@@ -209,16 +236,16 @@ export default function ThirdTabFab({ user, primeBusiness }) {
             </Typography>
             <ProductBasket
                 {...{ user, primeBusiness }}
-                useFor="Offer"
+                useFor={[false, "offer"]}
                 parentBasketFunction={addOfferBasket}
-                parentSetBusinessID={addBusinessID}
             />
             <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 سبد محصولاتی که می خواهید دریافت کنید
             </Typography>
+            <SelectCategoryAndGuild sendGuildToParent={getGuildFromChild} />
             <ProductBasket
                 {...{ user, primeBusiness }}
-                useFor="Demand"
+                useFor={[false, "demand"]}
                 parentBasketFunction={addDemandBasket}
                 parentSetBusinessID={addBusinessID}
             />
