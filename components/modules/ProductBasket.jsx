@@ -14,7 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
 export default function ProductBasket({ user, primeBusiness, parentBasketFunction, parentSetBusinessID, useFor }) {
-
     //first autoCompelete
 
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
@@ -144,26 +143,28 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
 
     return (
         <Container maxWidth="md" className="inMiddle" align='center' >
-            <FormControl sx={{ m: 2, width: 300 }}>
-                <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
-                <Select
-                    labelId="chose-business-lable"
-                    id="chose-business"
-                    value={selectedBusinessName}
-                    label="انتخاب کسب و کار"
-                    onChange={(e) => {
-                        setSelectedBusinessName(e.target.value);
-                        setSelectedProductName("");
-                    }}
-                >
-                    {userBusinessesNames.map((userBusinessesName) => {
-                        return <MenuItem key={userBusinessesName} value={userBusinessesName}>{userBusinessesName}</MenuItem>
-                    })}
-                </Select>
+            {useFor !== "Demand" &&
+                <FormControl sx={{ my: 2, width: 300 }}>
+                    <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
+                    <Select
+                        labelId="chose-business-lable"
+                        id="chose-business"
+                        value={selectedBusinessName}
+                        label="انتخاب کسب و کار"
+                        onChange={(e) => {
+                            setSelectedBusinessName(e.target.value);
+                            setSelectedProductName("");
+                        }}
+                    >
+                        {userBusinessesNames.map((userBusinessesName) => {
+                            return <MenuItem key={userBusinessesName} value={userBusinessesName}>{userBusinessesName}</MenuItem>
+                        })}
+                    </Select>
 
-            </FormControl>
+                </FormControl>
+            }
             <Autocomplete
-                sx={{ m: 2, width: 300 }}
+                sx={{ width: 300 }}
                 id="add-product"
                 freeSolo
                 inputValue={selectedProductName}
@@ -177,13 +178,13 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
 
 
             {isUnitOfMeasurementExistInDB ?
-                <Typography sx={{ m: 1, textAlign: "center", fontSize: 14 }}>
+                <Typography sx={{ textAlign: "center", fontSize: 14 }}>
                     {` واحد اندازه گیری  : ${unitOfMeasurement}`}
                 </Typography>
                 :
-                <Box sx={{ width: "100%" }}>
+                <Box >
                     <TextField
-                        sx={{ mx: 2, width: 300 }}
+                        sx={{ my: 2, width: 300 }}
                         id="outlined-controlled"
                         label="واحد اندازه گیری"
                         value={unitOfMeasurement}
@@ -193,10 +194,10 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
                     />
                 </Box>
             }
-            <Box sx={{ width: "100%" }}>
+            <Box >
                 <TextField
                     placeholder="بصورت عدد وارد نمایید مثلا 5"
-                    sx={{ m: 2, width: 300 }}
+                    sx={{ width: 300 }}
                     id="outlined-controlled2"
                     label="مقدار(عدد)"
                     onChange={(event) => {
@@ -228,7 +229,7 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
             <List dense={true}>
                 {basket.map(producrFrame => {
                     return (
-                        <ListItem key={producrFrame.product._id} sx={{ m: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
+                        <ListItem key={producrFrame.product._id} sx={{ my: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
                             {producrFrame.product.isRetail == "true" ?
                                 <ListItemIcon>
                                     <Groups2Icon />

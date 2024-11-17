@@ -4,8 +4,8 @@ import { Schema } from "mongoose";
 const schema = new Schema({
     unionName: { type: String, required: true, maxlength: 40, minlength: 4, },
     slogan: { type: String, maxlength: 150, },
-    validityPeriod: { type: Number, required: true },
-    extensionPeriod: { type: Number, required: true },
+    validityPeriod: { type: Number, required: true, max: 365 },
+    extensionPeriod: { type: Number, required: true, max: 365 },
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true }],
     votes: [{
         voter: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
@@ -17,8 +17,10 @@ const schema = new Schema({
     transactions: [{
         provider: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
         recipient: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
-        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
-        quantity: { type: Number, required: true }
+        products: [{
+            product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+            quantity: { type: Number, required: true }
+        }]
     }],
     isActive: { type: Boolean, }
 }, { timestamps: true });

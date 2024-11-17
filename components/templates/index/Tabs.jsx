@@ -182,7 +182,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
             fabIndex !== value ?
               <ThirdTab />
               :
-              <ThirdTabFab {...{ user }} />
+              <ThirdTabFab {...{ primeBusiness, user }} />
           }
 
         </CustomTabPanel>
