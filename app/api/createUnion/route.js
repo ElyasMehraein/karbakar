@@ -4,12 +4,13 @@ import BusinessModel from "@/models/Business";
 import { GET } from "@/app/api/auth/me/route";
 import ReportModel from "@/models/Report";
 import UnionModel from "@/models/Union";
+import ProductModel from "../models/Product"
 
 export async function POST(req) {
     try {
         await connectToDB();
         const body = await req.json();
-        const { unionName, slogan, validityPeriod, offerBasket, demandBasket, businessID } = body;
+        const { unionName, slogan, deadline, offerBasket, demandBasket, businessID } = body;
 
         const res = await GET(req);
         const user = await res.json();
@@ -41,25 +42,55 @@ export async function POST(req) {
         if (unionsCount >= 5) {
             return Response.json({ message: "Each business can only create 5 unions in a month" }, { status: 409 });
         }
-        const validatedOfferBasket = offerBasket?.map(item => ({
-            proposer: item.proposer,
-            product: item.product,
-            quantity: item.quantity
-        })) || [];
 
-        const validatedDemandBasket = demandBasket?.map(item => ({
-            proposer: item.proposer,
-            product: item.product,
-            quantity: item.quantity
-        })) || [];
+
+        const validateAndCreateProducts = async (basket) => {
+            const validatedBasket = [];
+
+            for (const product of basket) {
+                const { productName, unitOfMeasurement, guild, isRetail } = product;
+
+                if (!productName || !unitOfMeasurement || !guild) {
+                    throw new Error("undefined parameter in basket");
+                }
+
+                try {
+                    let existingProduct = await ProductModel.findOne({
+                        productName,
+                        guild,
+                    });
+
+                    if (!existingProduct) {
+                        existingProduct = new ProductModel({
+                            productName,
+                            unitOfMeasurement,
+                            guild,
+                            isRetail,
+                        });
+                        await existingProduct.save();
+                    }
+
+                    validatedBasket.push({
+                        product: existingProduct._id,
+                        amount: product.amount,
+                    });
+                    return validatedBasket;
+                } catch (error) {
+                    console.error("error creating product of basket", error);
+                    throw new Error("error creating product of basket");
+                }
+            }
+        }
+        const validatedOfferBasket = await validateAndCreateProducts(offerBasket);
+        const validatedDemandBasket = await validateAndCreateProducts(demandBasket)
+
         const newUnion = new UnionModel({
             unionName,
             slogan,
-            validityPeriod,
+            deadline,
             createdBy: businessID,
-            members: [businessID],
-            offerBasket: validatedOfferBasket,
-            demandBasket: validatedDemandBasket
+            members: [{ member: businessID, offerBasket: validatedOfferBasket, demandBasket: validatedDemandBasket }],
+
         });
         await newUnion.save();
 
