@@ -26,7 +26,6 @@ export default function SelectCategoryAndGuild({ sendGuildToParent }) {
     const [guilds, setGuilds] = useState([])
     const [guild, setGuild] = useState("")
 
-    console.log("guild", guild);
     useEffect(() => {
         const getGuilds = async () => {
             try {

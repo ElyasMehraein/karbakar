@@ -10,6 +10,7 @@ import jobCategoriesData from "@/public/jobCategories";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { CircularProgress } from '@mui/material';
 import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
+import BasketSelection from '@/components/modules/BasketSelection';
 
 export default function ThirdTabFab({ user, primeBusiness }) {
 
@@ -49,7 +50,7 @@ export default function ThirdTabFab({ user, primeBusiness }) {
     //the basket you offer
 
     const [offerBasket, setOfferBasket] = useState([])
-    console.log("offerbasket", offerBasket);
+
     const addOfferBasket = (value, isBasketChanged) => {
         setOfferBasket(value)
         // setIsBasketChanged(isBasketChanged)
@@ -57,13 +58,14 @@ export default function ThirdTabFab({ user, primeBusiness }) {
 
 
     //the basket you demand
-    const [demandGuild, setDemandGuild] = useState([])
+    const [demandGuild, setDemandGuild] = useState(null)
 
     const getGuildFromChild = (guild) => {
         setDemandGuild(guild)
     }
 
     const [demandBasket, setDemandBasket] = useState([])
+
     const addDemandBasket = (value, isBasketChanged) => {
         setDemandBasket(value)
         // setIsBasketChanged(isBasketChanged)
@@ -94,7 +96,6 @@ export default function ThirdTabFab({ user, primeBusiness }) {
             setrequestText("")
         }
     }
-
 
     return (
         <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
@@ -147,29 +148,26 @@ export default function ThirdTabFab({ user, primeBusiness }) {
             <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 سبد محصولاتی که می خواهید عرضه کنید
             </Typography>
-            <ProductBasket
-                {...{ user, primeBusiness }}
-                useFor={[false, "offer"]}
+
+            <BasketSelection
                 parentBasketFunction={addOfferBasket}
-                parentSetBusinessID={addBusinessID}
+                business={selectedBusiness}
 
             />
             <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 سبد محصولاتی که می خواهید دریافت کنید
             </Typography>
             <SelectCategoryAndGuild sendGuildToParent={getGuildFromChild} />
-            <ProductBasket
-                {...{ user, primeBusiness }}
-                useFor={[false, "demand"]}
+            <BasketSelection
                 parentBasketFunction={addDemandBasket}
-                parentSetBusinessID={addBusinessID}
+                guild={demandGuild}
             />
             <Button
                 sx={{ mb: 10 }}
                 children={"ایجاد اتحاد"}
                 variant="contained"
                 fullWidth
-                disabled={unionName && descriptionText && unionDuration && offerBasket && demandBasket}
+                disabled={!(unionName && descriptionText && unionDuration && offerBasket.length && demandBasket.length)}
                 onClick={() => createUnion()}
             />
         </Container>

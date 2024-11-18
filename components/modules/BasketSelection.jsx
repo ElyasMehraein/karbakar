@@ -9,9 +9,6 @@ import FormLabel from '@mui/material/FormLabel';
 import Groups2Icon from '@mui/icons-material/Groups2';
 import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
 
 export default function BasketSelection({ business, guild, parentBasketFunction }) {
 
@@ -21,23 +18,25 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     const fetchAddress = business ? `/api/getBusinessProduct?businessId=${business._id}` : guild && `/api/getGuildProduct?guildID=${guild._id}`;
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch(fetchAddress);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch products');
+        if (business || guild) {
+            const fetchProducts = async () => {
+                try {
+                    const response = await fetch(fetchAddress);
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch products');
+                    }
+                    const data = await response.json();
+                    const Products = data.data.map((product) => business ? product.product : guild && product)
+                    setProducts(Products);
                 }
-                const data = await response.json();
-                const Products = data.data.map((product) => business ? product.product : guild && product)
-                setProducts(Products);
-            } catch (err) {
-                setOpenSnackbar500Error(true)
-                console.log(err.message);
-            }
-        };
-
-        fetchProducts();
-    }, [business]);
+                catch (err) {
+                    setOpenSnackbar500Error(true)
+                    console.log(err.message);
+                }
+            };
+            fetchProducts();
+        }
+    }, [business || guild]);
 
     const [selectedProductName, setSelectedProductName] = React.useState("");
     // select unitOfMasurment
@@ -95,13 +94,10 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = React.useState(false);
     const [openSnackbar500Error, setOpenSnackbar500Error] = React.useState(false);
 
-
     const handleSnackbarClose = () => {
         setOpenSnackbarDublicateError(false);
         setOpenSnackbar500Error(false)
     };
-
-
 
     return (
         <Container maxWidth="md" className="inMiddle" align='center' >
