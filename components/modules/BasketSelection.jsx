@@ -12,6 +12,7 @@ import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
 export default function BasketSelection({ business, guild, parentBasketFunction }) {
 
+    const guildID = guild?._id || business?.guild
     // select product
 
     const [products, setProducts] = React.useState([]);
@@ -76,7 +77,7 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
             setOpenSnackbarDublicateError(true)
             return
         }
-        const updatedBasket = [{ product: { _id: Math.floor(Math.random() * 100), productName: selectedProductName, unitOfMeasurement, isRetail: radioGroupValue }, amount }, ...basket]
+        const updatedBasket = [{ product: { _id: Math.floor(Math.random() * 100), productName: selectedProductName, unitOfMeasurement, isRetail: radioGroupValue, guildID }, amount }, ...basket]
         parentBasketFunction(updatedBasket);
         setBasket(updatedBasket)
         setSelectedProductName("")

@@ -4,7 +4,8 @@ import BusinessModel from "@/models/Business";
 import { GET } from "@/app/api/auth/me/route";
 import ReportModel from "@/models/Report";
 import UnionModel from "@/models/Union";
-import ProductModel from "../models/Product"
+import ProductModel from "@/models/Product";
+import GuildModel from "@/models/Guild";
 
 export async function POST(req) {
     try {
@@ -32,6 +33,7 @@ export async function POST(req) {
         if (Number(business.agentCode) !== Number(user.code)) {
             return Response.json({ message: "Unauthorized access" }, { status: 403 });
         }
+
         const oneMonthAgo = new Date();
         oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
         const unionsCount = await UnionModel.countDocuments({
@@ -43,28 +45,41 @@ export async function POST(req) {
             return Response.json({ message: "Each business can only create 5 unions in a month" }, { status: 409 });
         }
 
-
         const validateAndCreateProducts = async (basket) => {
             const validatedBasket = [];
 
             for (const product of basket) {
-                const { productName, unitOfMeasurement, guild, isRetail } = product;
-
-                if (!productName || !unitOfMeasurement || !guild) {
-                    throw new Error("undefined parameter in basket");
+                const { productName, unitOfMeasurement, guildID, guildName, jobCategory, isRetail } = product.product;
+                console.log("ccccc", productName, unitOfMeasurement, guildID, guildName, jobCategory, isRetail);
+                if (!productName || !unitOfMeasurement || (!guildID && (!guildName || !jobCategory))) {
+                    throw new Error("Incomplete product information in basket");
                 }
 
                 try {
+                    let GuildInDB = guildID
+                        ? await GuildModel.findById(guildID)
+                        : await GuildModel.findOne({ guildName });
+
+                    // Create a new guild if it doesn't exist
+                    if (!GuildInDB) {
+                        const newGuild = await GuildModel.create({
+                            guildName,
+                            jobCategory,
+                        });
+                        GuildInDB = newGuild;
+                    }
+
                     let existingProduct = await ProductModel.findOne({
                         productName,
-                        guild,
+                        guild: GuildInDB._id,
                     });
 
+                    // Create a new product if it doesn't exist
                     if (!existingProduct) {
                         existingProduct = new ProductModel({
                             productName,
                             unitOfMeasurement,
-                            guild,
+                            guild: GuildInDB._id,
                             isRetail,
                         });
                         await existingProduct.save();
@@ -74,15 +89,17 @@ export async function POST(req) {
                         product: existingProduct._id,
                         amount: product.amount,
                     });
-                    return validatedBasket;
                 } catch (error) {
-                    console.error("error creating product of basket", error);
-                    throw new Error("error creating product of basket");
+                    console.error("Error while validating or creating product or guild:", error);
+                    throw new Error("Error while validating or creating product or guild");
                 }
             }
-        }
+
+            return validatedBasket;
+        };
+
         const validatedOfferBasket = await validateAndCreateProducts(offerBasket);
-        const validatedDemandBasket = await validateAndCreateProducts(demandBasket)
+        const validatedDemandBasket = await validateAndCreateProducts(demandBasket);
 
         const newUnion = new UnionModel({
             unionName,
@@ -90,8 +107,8 @@ export async function POST(req) {
             deadline,
             createdBy: businessID,
             members: [{ member: businessID, offerBasket: validatedOfferBasket, demandBasket: validatedDemandBasket }],
-
         });
+
         await newUnion.save();
 
         return Response.json({ message: "Union created successfully", data: newUnion }, { status: 201 });

@@ -9,6 +9,5 @@ const schema = new Schema({
     billConfirm: { type: Boolean, default: false },
 
 }, { timestamps: true })
-schema.index({ guild: 1, productName: 1 }, { unique: true });
 const ProductModel = mongoose.models.Product || mongoose.model("Product", schema)
 export default ProductModel

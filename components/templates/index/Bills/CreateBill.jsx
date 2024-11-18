@@ -89,7 +89,7 @@ export default function CreateBill({ user, primeBusiness }) {
         :
         <>
           <ProductBasket
-            {...{ user, primeBusiness }}
+            {...{ user, primeBusiness, useFor: "bill" }}
             parentBasketFunction={addBasket}
             parentSetBusinessID={addBusinessID}
           />

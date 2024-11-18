@@ -7,7 +7,7 @@ import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
 import jobCategoriesData from "@/public/jobCategories";
 
-export default function SelectCategoryAndGuild({ sendGuildToParent }) {
+export default function SelectCategoryAndGuild({ sendDataToParent }) {
 
     // select category
 
@@ -49,7 +49,7 @@ export default function SelectCategoryAndGuild({ sendGuildToParent }) {
 
     // send guild to parent
     useEffect(() => {
-        sendGuildToParent(guild);
+        sendDataToParent(guild, jobCategory);
     }, [guild]);
 
     return (

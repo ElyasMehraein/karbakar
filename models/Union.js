@@ -5,7 +5,7 @@ const schema = new Schema({
     unionName: { type: String, required: true, maxlength: 40, minlength: 4, },
     slogan: { type: String, maxlength: 150, },
     deadline: { type: Number, required: true, max: 365 },
-    extension: { type: Number, required: true, max: 365 },
+    extension: { type: Number, max: 365 },
     createdBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true }],
     members: [{
         member: { type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true },

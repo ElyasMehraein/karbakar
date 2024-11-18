@@ -13,18 +13,9 @@ import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild'
 import BasketSelection from '@/components/modules/BasketSelection';
 
 export default function ThirdTabFab({ user, primeBusiness }) {
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
+    const [open409Snackbar, setOpen409Snackbar] = React.useState(false);
 
-
-    ////////////////////////////////////////////////////////////////////////
-    // تمام کسب و کارها می توانند در این قسمت اتحاد بسازند
-    //برای ساخت اتحاد ابتدا کسب و کار خود را انتخاب می کنید
-    //یک نام برای اتحاد انتخاب می کنید
-    //یک توضیحات برای اتحاد وارد می کنید
-    //مدت اتحاد را تعیین می کنید
-    //محصولاتی که میخواهید ارائه دهید را بهمراه مقدار مشخص می کنید و سبر ارائه را تشکیل می دهید
-    //صنفی که میخواهید از آن محصول بگیرید را پیدا و انتخاب می کنید
-    //سبد محصولاتی که می خواهید را مشخص می کنید
-    //اتحاد را ثبت می کنید
 
     // selecting your business
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
@@ -59,9 +50,11 @@ export default function ThirdTabFab({ user, primeBusiness }) {
 
     //the basket you demand
     const [demandGuild, setDemandGuild] = useState(null)
+    const [demandJobCategory, setDemandJobCategory] = useState(null)
 
-    const getGuildFromChild = (guild) => {
+    const getDataFromChild = (guild, jobCategory) => {
         setDemandGuild(guild)
+        setDemandJobCategory(jobCategory)
     }
 
     const [demandBasket, setDemandBasket] = useState([])
@@ -77,23 +70,28 @@ export default function ThirdTabFab({ user, primeBusiness }) {
         const res = await fetch('api/createUnion', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ unionName, slogan: descriptionText, validityPeriod: unionDuration, offerBasket, demandBasket, businessID: selectedBusiness._id })
+            body: JSON.stringify({
+                unionName,
+                slogan: descriptionText,
+                deadline: unionDuration,
+                offerBasket,
+                demandBasket,
+                businessID: selectedBusiness._id,
+                jobCategory: demandJobCategory
+            })
         })
         if (res.status === 500) {
             console.log("server error");
-        }
-        if (res.status === 409) {
+        } else if (res.status === 409) {
             setOpen409Snackbar(true)
-        }
-        if (res.status === 406) {
-            setOpen406Snackbar(true)
-            setsSelectedGuild("")
         } else if (res.status === 201) {
-            const { data } = await res.json();
-            console.log("Demand For the Guild sited successfully", res);
-            setChips([...chips, { _id: data, guildName: selectedGuild }]);
-            setsSelectedGuild("")
-            setrequestText("")
+            console.log("union created successfully", res);
+            setUnionName("")
+            setDescriptionText("")
+            setUnionDuration("")
+            setOfferBasket([])
+            setDemandBasket([])
+            setOpenSnackbar(true)
         }
     }
 
@@ -157,7 +155,7 @@ export default function ThirdTabFab({ user, primeBusiness }) {
             <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 سبد محصولاتی که می خواهید دریافت کنید
             </Typography>
-            <SelectCategoryAndGuild sendGuildToParent={getGuildFromChild} />
+            <SelectCategoryAndGuild sendDataToParent={getDataFromChild} />
             <BasketSelection
                 parentBasketFunction={addDemandBasket}
                 guild={demandGuild}
@@ -169,6 +167,17 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 fullWidth
                 disabled={!(unionName && descriptionText && unionDuration && offerBasket.length && demandBasket.length)}
                 onClick={() => createUnion()}
+            />
+            <CustomSnackbar
+                open={openSnackbar}
+                onClose={() => setOpenSnackbar(false)}
+                message="اتحاد ایجاد شد"
+            />
+            <CustomSnackbar
+                open={open409Snackbar}
+                onClose={() => setOpen409Snackbar(false)}
+                message="هر کسب و کار در هر ماه تنها می توان 5 اتحاد تشکیل دهد"
+                severity="error"
             />
         </Container>
     )
