@@ -28,9 +28,17 @@ export default function ThirdTabFab({ user, primeBusiness }) {
     // selecting your business
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
     const userBusinesses = user.businesses.map(business => business.businessName)
+    const selectedBusiness = user.businesses.find((business) => {
+        if (business.businessName == selectedBusinessName) {
+            return business
+        }
+    })
 
+    const addBusinessID = () => {
+        // alaki
+    }
     // entering union name
-    const [selectedUnionName, setSelectedUnionName] = React.useState("")
+    const [unionName, setUnionName] = React.useState("")
 
     // entering description
     const [descriptionText, setDescriptionText] = useState([])
@@ -40,8 +48,8 @@ export default function ThirdTabFab({ user, primeBusiness }) {
 
     //the basket you offer
 
-    const [offerbasket, setOfferBasket] = useState([])
-    console.log("offerbasket", offerbasket);
+    const [offerBasket, setOfferBasket] = useState([])
+    console.log("offerbasket", offerBasket);
     const addOfferBasket = (value, isBasketChanged) => {
         setOfferBasket(value)
         // setIsBasketChanged(isBasketChanged)
@@ -55,7 +63,7 @@ export default function ThirdTabFab({ user, primeBusiness }) {
         setDemandGuild(guild)
     }
 
-    const [demandbasket, setDemandBasket] = useState([])
+    const [demandBasket, setDemandBasket] = useState([])
     const addDemandBasket = (value, isBasketChanged) => {
         setDemandBasket(value)
         // setIsBasketChanged(isBasketChanged)
@@ -65,15 +73,15 @@ export default function ThirdTabFab({ user, primeBusiness }) {
     async function createUnion() {
 
         const res = await fetch('api/createUnion', {
-            method: "PUT",
+            method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessID: selectedBusiness._id, selectedGuild, requestText, jobCategory })
+            body: JSON.stringify({ unionName, slogan: descriptionText, validityPeriod: unionDuration, offerBasket, demandBasket, businessID: selectedBusiness._id })
         })
         if (res.status === 500) {
             console.log("server error");
         }
-        if (res.status === 422) {
-            setOpen422Snackbar(true)
+        if (res.status === 409) {
+            setOpen409Snackbar(true)
         }
         if (res.status === 406) {
             setOpen406Snackbar(true)
@@ -87,101 +95,6 @@ export default function ThirdTabFab({ user, primeBusiness }) {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
-    const [amount, setAmount] = React.useState("")
-    const [isLoading, setIsLoading] = useState(true);
-    const [open406Snackbar, setOpen406Snackbar] = useState(false);
-    const [open422Snackbar, setOpen422Snackbar] = useState(false);
-
-    const selectedBusiness = user.businesses.find((business) => {
-        if (business.businessName == selectedBusinessName) {
-            return business
-        }
-    })
-
-
-    const [jobCategory, setJobCategory] = useState("")
-    let changeHandler = (e, value) => setJobCategory(value?.label)
-
-
-    const [guilds, setGuilds] = useState([])
-
-    const [selectedGuild, setsSelectedGuild] = useState("")
-
-    const [requestText, setrequestText] = useState([])
-    const [chips, setChips] = useState([])
-    const [chipsObjectTrigger, setChipsObjectTrigger] = useState(false)
-
-    useEffect(() => {
-        const getGuilds = async () => {
-            try {
-                const res = await fetch("/api/getGuilds", { method: "GET" });
-                if (res.status === 200) {
-                    const data = await res.json();
-                    let recivedGuilds = data.data
-                        .filter(guild => guild.jobCategory === jobCategory)
-                        .map(guild => guild.guildName);
-                    setGuilds(recivedGuilds.length ? recivedGuilds : []);
-
-                    const demandsGuilds = selectedBusiness.demandsForGuilds.map(demandGuild => {
-                        const guild = data.data.find(guild => guild._id === demandGuild.guild);
-                        return guild ? guild : null;
-                    }).filter(guild => guild);
-
-                    const uniqueChips = new Set([...chips, ...demandsGuilds]);
-                    setChips(Array.from(uniqueChips));
-                    setIsLoading(false)
-
-                } else if (res.status === 403) {
-                    console.log("unauthorized access");
-                }
-            } catch (error) {
-                console.error("Error fetching Guilds:", error);
-            }
-        };
-        getGuilds();
-    }, [jobCategory]);
-
-
-    const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
-        categories.map(category => ({ label: category, group }))
-    );
-    const isOptionEqualToValue = (option, value) => {
-        return option.label === value.label;
-    };
-
-
-
-
-    async function deleteDemandsForGuild(demandID) {
-
-        const res = await fetch('api/deleteDemandsForGuild', {
-            method: "DELETE",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessID: selectedBusiness._id, demandID })
-        })
-        if (res.status === 500) {
-            console.log("server error");
-        } else if (res.status === 200) {
-            setChipsObjectTrigger(!chipsObjectTrigger)
-            setChips((prevChips) => prevChips.filter((chip) => chip._id !== demandID));
-            console.log("Demand For the Guild deleted successfully");
-            setsSelectedGuild("")
-            setrequestText("")
-        }
-    }
 
     return (
         <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
@@ -206,10 +119,10 @@ export default function ThirdTabFab({ user, primeBusiness }) {
 
             </FormControl>
             <TextField
-                value={selectedUnionName}
+                value={unionName}
                 placeholder='حداکثر 40 کارکتر' variant="outlined"
                 label="برای اتحاد خود یک عنوان انتخاب کنید"
-                onChange={(e) => setSelectedUnionName(e.target.value)}
+                onChange={(e) => setUnionName(e.target.value)}
                 sx={{ width: 300 }}
             />
             <TextField
@@ -238,6 +151,8 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 {...{ user, primeBusiness }}
                 useFor={[false, "offer"]}
                 parentBasketFunction={addOfferBasket}
+                parentSetBusinessID={addBusinessID}
+
             />
             <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 سبد محصولاتی که می خواهید دریافت کنید
@@ -254,8 +169,8 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 children={"ایجاد اتحاد"}
                 variant="contained"
                 fullWidth
-                disabled={selectedUnionName && unitOfMeasurement && amount ? false : true}
-            // onClick={addToGiveaway}
+                disabled={unionName && descriptionText && unionDuration && offerBasket && demandBasket}
+                onClick={() => createUnion()}
             />
         </Container>
     )

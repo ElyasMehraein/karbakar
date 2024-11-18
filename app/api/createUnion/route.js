@@ -9,7 +9,7 @@ export async function POST(req) {
     try {
         await connectToDB();
         const body = await req.json();
-        const { unionName, slogan, validityPeriod, businessID } = body;
+        const { unionName, slogan, validityPeriod, offerBasket, demandBasket, businessID } = body;
 
         const res = await GET(req);
         const user = await res.json();
@@ -41,13 +41,25 @@ export async function POST(req) {
         if (unionsCount >= 5) {
             return Response.json({ message: "Each business can only create 5 unions in a month" }, { status: 409 });
         }
+        const validatedOfferBasket = offerBasket?.map(item => ({
+            proposer: item.proposer,
+            product: item.product,
+            quantity: item.quantity
+        })) || [];
 
+        const validatedDemandBasket = demandBasket?.map(item => ({
+            proposer: item.proposer,
+            product: item.product,
+            quantity: item.quantity
+        })) || [];
         const newUnion = new UnionModel({
             unionName,
             slogan,
             validityPeriod,
             createdBy: businessID,
             members: [businessID],
+            offerBasket: validatedOfferBasket,
+            demandBasket: validatedDemandBasket
         });
         await newUnion.save();
 

@@ -7,6 +7,16 @@ const schema = new Schema({
     validityPeriod: { type: Number, required: true, max: 365 },
     extensionPeriod: { type: Number, required: true, max: 365 },
     createdBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true }],
+    offerBasket: [{
+        proposer: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
+        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+        quantity: { type: Number, required: true }
+    }],
+    demandBasket: [{
+        proposer: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
+        product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+        quantity: { type: Number, required: true }
+    }],
     members: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Business', required: true }],
     votes: [{
         voter: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
