@@ -11,7 +11,7 @@ export async function POST(req) {
     try {
         await connectToDB();
         const body = await req.json();
-        const { unionName, slogan, deadline, offerBasket, demandBasket, businessID } = body;
+        const { unionName, slogan, deadline, offerBasket, demandBasket, businessID, jobCategory, guildID, guildName, } = body;
 
         const res = await GET(req);
         const user = await res.json();
@@ -49,8 +49,7 @@ export async function POST(req) {
             const validatedBasket = [];
 
             for (const product of basket) {
-                const { productName, unitOfMeasurement, guildID, guildName, jobCategory, isRetail } = product.product;
-                console.log("ccccc", productName, unitOfMeasurement, guildID, guildName, jobCategory, isRetail);
+                const { productName, unitOfMeasurement, isRetail } = product.product;
                 if (!productName || !unitOfMeasurement || (!guildID && (!guildName || !jobCategory))) {
                     throw new Error("Incomplete product information in basket");
                 }

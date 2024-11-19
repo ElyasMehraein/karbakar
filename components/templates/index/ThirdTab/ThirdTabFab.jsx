@@ -66,7 +66,6 @@ export default function ThirdTabFab({ user, primeBusiness }) {
 
     // create Union Button
     async function createUnion() {
-
         const res = await fetch('api/createUnion', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -77,6 +76,7 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 offerBasket,
                 demandBasket,
                 businessID: selectedBusiness._id,
+                guildName: demandGuild,
                 jobCategory: demandJobCategory
             })
         })

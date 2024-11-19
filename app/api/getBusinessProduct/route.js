@@ -7,7 +7,7 @@ export async function GET(req) {
         await connectToDB();
         const { searchParams } = new URL(req.url);
         const businessId = searchParams.get("businessId");
-        
+
         if (!businessId) {
             return Response.json(
                 { message: 'Business ID is required' },
@@ -15,13 +15,12 @@ export async function GET(req) {
             );
         }
 
-        const bills = await BillModel.find({ 
+        const bills = await BillModel.find({
             accepted: true,
-            from: businessId 
+            from: businessId
         }).populate("products.product");
 
         const productTotals = {};
-
         bills.forEach(bill => {
             bill.products.forEach(({ product, amount }) => {
                 if (product.billConfirm === true) {
@@ -37,7 +36,6 @@ export async function GET(req) {
                 }
             });
         });
-
         const data = Object.values(productTotals);
 
         return Response.json(

@@ -93,9 +93,19 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
                     options={guilds.map(guild => guild.guildName)}
                     renderInput={(params) => <TextField {...params} label="عنوان صنف" />}
                     onInputChange={(event, newInputValue) => {
-                        setGuild(guilds.find(guild => guild.guildName === newInputValue))
+                        if (newInputValue) {
+                            setGuild(newInputValue);
+                        }
+                    }}
+                    onChange={(event, value) => {
+                        if (value && typeof value === "string") {
+                            setGuild(value);
+                        } else if (value && value.guildName) {
+                            setGuild(value.guildName);
+                        }
                     }}
                 />
+
             </Box>
         </Container>
     )

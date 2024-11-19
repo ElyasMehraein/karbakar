@@ -16,10 +16,10 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     // select product
 
     const [products, setProducts] = React.useState([]);
-    const fetchAddress = business ? `/api/getBusinessProduct?businessId=${business._id}` : guild && `/api/getGuildProduct?guildID=${guild._id}`;
+    const fetchAddress = business ? `/api/getBusinessProduct?businessId=${business._id}` : guild && `/api/getGuildProduct?guildID=${guild?._id}`;
 
     useEffect(() => {
-        if (business || guild) {
+        if (business || guild._id) {
             const fetchProducts = async () => {
                 try {
                     const response = await fetch(fetchAddress);
