@@ -11,12 +11,18 @@ import { blue } from '@mui/material/colors';
 import { grey } from '@mui/material/colors';
 import ThirdTabUnionWaitForComplete from './ThirdTabUnionWaitForComplete';
 import ThirdTabUnionsWhichNeedYourProducts from './ThirdTabUnionsWhichNeedYourProducts';
+import ThirdTabOtherUnions from './ThirdTabOtherUnions';
 
 export default function ThirdTab() {
-
+    // - تمام اتحادهای دیگر
+    //   - اتحاد هایی که به محصولات کسب و کارهای شما نیاز دارند
+    //   - اتحادهای منتظر تکمیل توسط شما
+    //   - اتحادهای منتظر تکمیل توسط سایر اعضا
+    //   - اتحادهای تکمیل شده منتظر تایید
+    //   - اتحاد های فعال شما
 
     return (
-        <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
+        <Container sx={{ mb: 10 }} maxWidth="md" className="inMiddle" display="flex" align='center'>
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
                 اتحاد های فعال شما
             </Typography>
@@ -44,7 +50,12 @@ export default function ThirdTab() {
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
                 اتحادهایی که به محصولات شما نیاز دارند
             </Typography>
-            <ThirdTabUnionsWhichNeedYourProducts/>
+            <ThirdTabUnionsWhichNeedYourProducts />
+            <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
+                سایر اتحادها
+            </Typography>
+            <ThirdTabUnionsWhichNeedYourProducts />
+            <ThirdTabOtherUnions />
         </Container>
     )
 }

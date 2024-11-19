@@ -17,12 +17,12 @@ import { useRouter } from "next/navigation";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
 
-export default function ThirdTabUnionsWhichNeedYourProducts({ request }) {
+export default function ThirdTabOtherUnions({ request }) {
     const [unions, setUnions] = useState([]);
-    console.log("unions", unions);
     useEffect(() => {
         const getUnions = async () => {
             try {
+                console.log("unionssss", unions);
                 const res = await fetch("/api/getUnions", { method: "GET" });
                 if (res.status === 200) {
                     const { data } = await res.json();
