@@ -17,27 +17,7 @@ import { useRouter } from "next/navigation";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect, useState } from "react";
 
-export default function ThirdTabOtherUnions({ request }) {
-    const [unions, setUnions] = useState([]);
-    useEffect(() => {
-        const getUnions = async () => {
-            try {
-                console.log("unionssss", unions);
-                const res = await fetch("/api/getUnions", { method: "GET" });
-                if (res.status === 200) {
-                    const { data } = await res.json();
-                    console.log("data", data);
-                    setUnions(data)
-                } else if (res.status === 403) {
-                    console.log("unauthorized access");
-                }
-            } catch (error) {
-                console.error("Error fetching Unions:", error);
-            }
-        };
-        getUnions();
-    }, []);
-
+export default function ThirdTabOtherUnions({ union }) {
     return (
         <Accordion sx={{ bgcolor: blue[50], my: 1 }} >
             <AccordionSummary
@@ -64,7 +44,7 @@ export default function ThirdTabOtherUnions({ request }) {
 
                     >
                         <Typography sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }} textAlign={"right"}>
-                            کسب و کار فلان من
+                            {union.unionName}
                         </Typography>
                         <Typography
                             paragraph
@@ -134,7 +114,6 @@ export default function ThirdTabOtherUnions({ request }) {
                 </AccordionActions>
             </Box>
         </Accordion>
-
-    );
+    )
 };
 

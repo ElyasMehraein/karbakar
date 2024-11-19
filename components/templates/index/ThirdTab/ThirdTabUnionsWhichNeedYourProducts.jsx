@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 
 export default function ThirdTabUnionsWhichNeedYourProducts({ request }) {
     const [unions, setUnions] = useState([]);
-    console.log("unions", unions);
     useEffect(() => {
         const getUnions = async () => {
             try {

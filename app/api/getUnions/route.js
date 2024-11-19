@@ -9,7 +9,6 @@ export async function GET(req) {
         await connectToDB();
         const unions = JSON.parse(JSON.stringify(await UnionModel.find()));
 
-        console.log("unions", unions);
         return Response.json(
             { message: 'get unions successfully', data: unions },
             { status: 200 }

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ThirdTabFrame from './ThirdTabActiveUnion'
 import { AvatarGroup, Container, Typography } from '@mui/material'
 import Avatar from '@mui/material/Avatar';
@@ -20,7 +20,24 @@ export default function ThirdTab() {
     //   - اتحادهای منتظر تکمیل توسط سایر اعضا
     //   - اتحادهای تکمیل شده منتظر تایید
     //   - اتحاد های فعال شما
-
+    const [unions, setUnions] = useState([]);
+    useEffect(() => {
+        const getUnions = async () => {
+            try {
+                const res = await fetch("/api/getUnions", { method: "GET" });
+                if (res.status === 200) {
+                    const { data } = await res.json();
+                    console.log("data", data);
+                    setUnions(data)
+                } else if (res.status === 403) {
+                    console.log("unauthorized access");
+                }
+            } catch (error) {
+                console.error("Error fetching Unions:", error);
+            }
+        };
+        getUnions();
+    }, []);
     return (
         <Container sx={{ mb: 10 }} maxWidth="md" className="inMiddle" display="flex" align='center'>
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
@@ -54,8 +71,9 @@ export default function ThirdTab() {
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
                 سایر اتحادها
             </Typography>
-            <ThirdTabUnionsWhichNeedYourProducts />
-            <ThirdTabOtherUnions />
+            {unions.map((union) => {
+                return <ThirdTabOtherUnions union={union} />
+            })}
         </Container>
     )
 }
