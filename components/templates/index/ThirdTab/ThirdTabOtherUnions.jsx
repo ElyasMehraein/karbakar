@@ -18,6 +18,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import Divider from '@mui/material/Divider';
 
 export default function ThirdTabOtherUnions({ union }) {
+    const router = useRouter()
+
     return (
         <Accordion disableGutters sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: "100%" }} >
             <AccordionSummary
@@ -72,7 +74,7 @@ export default function ThirdTabOtherUnions({ union }) {
                 {union.members.map((member) => {
                     return (
                         <Box key={member._id} sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
-                            <ListItemButton sx={{ flex: 1, textAlign: 'center' }} >
+                            <ListItemButton onClick={() => router.push(`/${member.member.businessName}`)} sx={{ flex: 1, textAlign: 'center' }} >
                                 <ListItemAvatar >
                                     <Avatar sx={{ width: 40, height: 40 }}>
                                         <ItsAvatar isAvatar={member.member.isAvatar} userCodeOrBusinessBrand={member.member.businessName} alt="business avatar" />
