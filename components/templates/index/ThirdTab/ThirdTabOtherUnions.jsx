@@ -15,104 +15,108 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { blue } from '@mui/material/colors';
 import { useRouter } from "next/navigation";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useEffect, useState } from "react";
+import Divider from '@mui/material/Divider';
 
 export default function ThirdTabOtherUnions({ union }) {
     return (
-        <Accordion sx={{ bgcolor: blue[50], my: 1 }} >
+        <Accordion disableGutters sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: "100%" }} >
             <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon sx={{ alignSelf: 'flex-start' }} />}
                 aria-controls="pane-content"
                 id="pane-header"
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    pl: 1,
+                    minHeight: 56,
+                    position: 'relative',
+                }}
             >
                 <Box
                     sx={{
-                        width: "100%",
                         display: "flex",
-                        alignItems: "center",
-                        flexDirection: "row",
-                        justifyContent: "space-between"
+                        alignItems: "flex-start",
+                        flexDirection: "column",
+
                     }}
                 >
-                    <Box
+                    <Typography sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }} textAlign={"right"}>
+                        {union.unionName}
+                    </Typography>
+                    <Typography
                         sx={{
-                            display: "flex",
-                            alignItems: "flex-start",
-                            flexDirection: "column",
-                            mr: 2
+                            fontSize: 11,
+                            overflow: 'hidden',
+                            WebkitBoxOrient: 'vertical',
+                            WebkitLineClamp: 2
                         }}
-
-                    >
-                        <Typography sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }} textAlign={"right"}>
-                            {union.unionName}
-                        </Typography>
-                        <Typography
-                            paragraph
-                            // noWrap
-                            sx={{
-                                mr: 2, fontSize: 11,
-                                //later i deside if i need to use the below code
-                                display: '-webkit-box',
-                                overflow: 'hidden',
-                                WebkitBoxOrient: 'vertical',
-                                WebkitLineClamp: 2
-                            }}
-                            align="justify" dir="rtl" >
-                            ده دستگاه خودرو ده دستگاه موتورسیکت مقدار محصول ماهانه ای که متعهد شدم
-                        </Typography>
-                    </Box>
-                    <AvatarGroup dir="ltr" max={4}>
-                        <Avatar>
-                            <ItsAvatar isAvatar={true} userCodeOrBusinessBrand={"1000"} alt=" avatar" />
-                        </Avatar>
-                        <Avatar>
-                            <ItsAvatar isAvatar={false} userCodeOrBusinessBrand={"1001"} alt=" avatar" />
-                        </Avatar>
-                        <Avatar>
-                            <ItsAvatar isAvatar={false} userCodeOrBusinessBrand={"1001"} alt=" avatar" />
-                        </Avatar>
-                        <Avatar>
-                            <ItsAvatar isAvatar={false} userCodeOrBusinessBrand={"1001"} alt=" avatar" />
-                        </Avatar>
-                        <Avatar>
-                            <ItsAvatar isAvatar={false} userCodeOrBusinessBrand={"1001"} alt=" avatar" />
-                        </Avatar>
-                    </AvatarGroup>
+                        align="justify" dir="rtl" >
+                        {union.slogan}
+                    </Typography>
                 </Box>
             </AccordionSummary>
-            {
-                < AccordionDetails >
-                    <Box >
-                        <ListItemButton >
-                            <ListItemAvatar >
-                                <Avatar sx={{ width: 40, height: 40 }}>
-                                    <ItsAvatar isAvatar={false} userCodeOrBusinessBrand={"1000"} alt="workers avatar" />
-                                </Avatar>
-                            </ListItemAvatar>
-                            <ListItemText align='right' primary={"کسب و کار فلان"} secondary={"businessBrand"} />
-                            <Typography sx={{ pr: 5, color: 'text.secondary' }}>{"bio"}</Typography>
-                        </ListItemButton>
-                    </Box>
-
-                </AccordionDetails>
-            }
-            <Box
+            < AccordionDetails
                 sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-end"
-                }}
-            >
-                <AccordionActions>
+                    bgcolor: "white",
+                    borderTop: `1px solid ${blue[100]}`,
+
+                }} >
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, display: { xs: 'none', sm: 'flex' } }}>
+                    <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px' }}>اعضای اتحادیه</Typography>
+                    <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px' }}>پیشنهاد ها</Typography>
+                    <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px' }}>نیازها</Typography>
+                </Box>
+
+                {union.members.map((member) => {
+                    return (
+                        <Box key={member._id} sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
+                            <ListItemButton sx={{ flex: 1, textAlign: 'center' }} >
+                                <ListItemAvatar >
+                                    <Avatar sx={{ width: 40, height: 40 }}>
+                                        <ItsAvatar isAvatar={member.member.isAvatar} userCodeOrBusinessBrand={member.member.businessName} alt="business avatar" />
+                                    </Avatar>
+                                </ListItemAvatar>
+                                <ListItemText align='right' primary={<Typography sx={{ fontSize: '12px' }}>{member.member.businessBrand}</Typography>} secondary={member.member.businessName} />
+                            </ListItemButton>
+                            <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: { xs: 'block', sm: 'none' } }}>پیشنهاد ها</Typography>
+                            {member.offerBasket.map((offer) => (
+                                <Typography key={offer.product._id} sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                                    {offer.product.productName} - {offer.amount} {offer.product.unitOfMeasurement}
+                                </Typography>
+                            ))}
+                            <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: { xs: 'block', sm: 'none' } }}>نیازها</Typography>
+                            {member.demandBasket.map((demand) => (
+                                <Typography key={demand.product._id} sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                                    {demand.product.productName} - {demand.amount} {demand.product.unitOfMeasurement}
+                                </Typography>
+                            ))}
+                        </Box>
+
+                    )
+                })}
+            </AccordionDetails>
+            <AccordionActions>
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        width: "100%",
+                    }}
+                >
+                    <Typography sx={{ mr: 1, fontSize: '12px' }}>{`مدت اتحاد: ${union.deadline} روز`}</Typography>
                     <Button
-                        variant="outlined" color="error"
-                        endIcon={<DeleteIcon sx={{ ml: -2, mr: 1 }} />}
-                        onClick={() => DeleteRequest(request._id)}
+                        variant="contained"
+                        color="primary"
+                        onClick={() => { }}
                     >
-                        حذف درخواست
+                        عضویت
                     </Button>
-                </AccordionActions>
-            </Box>
+                </Box>
+            </AccordionActions>
+
         </Accordion>
     )
 };

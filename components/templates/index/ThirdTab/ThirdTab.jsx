@@ -40,7 +40,7 @@ export default function ThirdTab() {
     }, []);
     return (
         <Container sx={{ mb: 10 }} maxWidth="md" className="inMiddle" display="flex" align='center'>
-            <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
+            {/* <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
                 اتحاد های فعال شما
             </Typography>
             <ThirdTabActiveUnion />
@@ -67,12 +67,12 @@ export default function ThirdTab() {
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
                 اتحادهایی که به محصولات شما نیاز دارند
             </Typography>
-            <ThirdTabUnionsWhichNeedYourProducts />
-            <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
+            <ThirdTabUnionsWhichNeedYourProducts /> */}
+            <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 سایر اتحادها
             </Typography>
             {unions.map((union) => {
-                return <ThirdTabOtherUnions union={union} />
+                return <ThirdTabOtherUnions union={union} key={union._id} />
             })}
         </Container>
     )

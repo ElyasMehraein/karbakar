@@ -7,7 +7,10 @@ import UnionModel from "@/models/Union";
 export async function GET(req) {
     try {
         await connectToDB();
-        const unions = JSON.parse(JSON.stringify(await UnionModel.find()));
+        const unions = await UnionModel.find()
+            .populate('members.member')
+            .populate('members.offerBasket.product members.demandBasket.product')
+            .lean();
 
         return Response.json(
             { message: 'get unions successfully', data: unions },
