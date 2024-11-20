@@ -5,7 +5,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import Box from "@mui/material/Box";
-import { Button, Container, FormControl } from "@mui/material";
+import { Button, Container, Divider, FormControl } from "@mui/material";
 import ItsAvatar from "@/components/modules/ItsAvatar";
 import ListItemButton from '@mui/material/ListItemButton';
 import Accordion from '@mui/material/Accordion';
@@ -87,8 +87,8 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
         // setIsBasketChanged(isBasketChanged)
     }
     // join Union funtion
-    async function createUnion() {
-        const res = await fetch('api/createUnion', {
+    async function joinAUnion() {
+        const res = await fetch('api/joinAUnion', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -104,15 +104,15 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
         if (res.status === 500) {
             console.log("server error");
         } else if (res.status === 409) {
-            setOpen409Snackbar(true)
+            // setOpen409Snackbar(true)
         } else if (res.status === 201) {
-            console.log("union created successfully", res);
+            console.log("joined union successfully", res);
             setUnionName("")
             setDescriptionText("")
             setUnionDuration("")
             setOfferBasket([])
             setDemandBasket([])
-            setOpenSnackbar(true)
+            // setOpenSnackbar(true)
         }
     }
 
@@ -167,15 +167,13 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
 
                     </Container>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>لغو</Button>
+                <DialogActions >
+                    <Button sx={{ m: 2 }} color="info" variant="contained" onClick={handleClose}>بازگشت</Button>
                     <Button
-                        sx={{ mb: 10 }}
-                        children={"ایجاد اتحاد"}
+                        children={"عضویت در اتحاد"}
                         variant="contained"
-                        fullWidth
-                        disabled={!(unionName && descriptionText && unionDuration && offerBasket.length && demandBasket.length)}
-                        onClick={() => createUnion()}
+                        disabled={!(offerBasket.length && demandBasket.length)}
+                        onClick={() => joinAUnion()}
                     />
                 </DialogActions>
             </Dialog>
@@ -224,15 +222,15 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
 
                     }} >
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, display: { xs: 'none', sm: 'flex' } }}>
-                        <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px' }}>اعضای اتحادیه</Typography>
-                        <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px' }}>پیشنهاد ها</Typography>
-                        <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px' }}>نیازها</Typography>
+                        <Typography sx={{ textAlign: "right", flex: 1, fontSize: '12px' }}>اعضای اتحادیه</Typography>
+                        <Typography sx={{ textAlign: "right", flex: 1, fontSize: '12px' }}>پیشنهاد ها</Typography>
+                        <Typography sx={{ textAlign: "right", flex: 1, fontSize: '12px' }}>نیازها</Typography>
                     </Box>
 
                     {union.members.map((member) => {
                         return (
                             <Box key={member._id} sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
-                                <ListItemButton onClick={() => router.push(`/${member.member.businessName}`)} sx={{ flex: 1, textAlign: 'center' }} >
+                                <ListItemButton onClick={() => router.push(`/${member.member.businessName}`)} sx={{ ml: 2, flex: 1, textAlign: 'center' }} >
                                     <ListItemAvatar >
                                         <Avatar sx={{ width: 40, height: 40 }}>
                                             <ItsAvatar isAvatar={member.member.isAvatar} userCodeOrBusinessBrand={member.member.businessName} alt="business avatar" />
@@ -240,18 +238,21 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
                                     </ListItemAvatar>
                                     <ListItemText align='right' primary={<Typography sx={{ fontSize: '12px' }}>{member.member.businessBrand}</Typography>} secondary={member.member.businessName} />
                                 </ListItemButton>
-                                <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: { xs: 'block', sm: 'none' } }}>پیشنهاد ها</Typography>
+                                <Divider orientation="vertical" flexItem />
+                                <Typography sx={{ flex: 1, textAlign: 'right', mr: 2, fontSize: '14px', fontWeight: 500, display: { xs: 'block', sm: 'none' } }}>پیشنهاد ها</Typography>
                                 {member.offerBasket.map((offer) => (
                                     <Typography key={offer.product._id} sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                                         {offer.product.productName} - {offer.amount} {offer.product.unitOfMeasurement}
                                     </Typography>
                                 ))}
-                                <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: { xs: 'block', sm: 'none' } }}>نیازها</Typography>
+                                <Divider orientation="vertical" flexItem />
+                                <Typography sx={{ flex: 1, textAlign: 'right', mr: 2, fontSize: '14px', fontWeight: 500, display: { xs: 'block', sm: 'none' } }}>نیازها</Typography>
                                 {member.demandBasket.map((demand) => (
                                     <Typography key={demand.product._id} sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                                         {demand.product.productName} - {demand.amount} {demand.product.unitOfMeasurement}
                                     </Typography>
                                 ))}
+                                <Divider orientation="horizental" flexItem />
                             </Box>
 
                         )

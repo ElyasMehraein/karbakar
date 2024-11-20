@@ -22,6 +22,7 @@ export async function POST(req) {
             guildID,
             guildName,
         } = body;
+
         const res = await GET(req);
         const user = await res.json();
 
@@ -54,26 +55,41 @@ export async function POST(req) {
             return Response.json({ message: "Each business can only create 5 unions in a month" }, { status: 409 });
         }
 
-        const validateAndCreateProducts = async (basket) => {
+        // Validate and create products for the baskets (offer and demand)
+        const validateAndCreateProducts = async (basket, useBusinessGuild = false) => {
             const validatedBasket = [];
             for (const product of basket) {
                 const { productName, unitOfMeasurement, isRetail } = product.product;
+
+                // Check if the required fields for the product are present
                 if (!productName || !unitOfMeasurement || (!guildID && (!guildName || !jobCategory))) {
                     throw new Error("Incomplete product information in basket");
                 }
 
                 try {
-                    let GuildInDB = guildID
-                        ? await GuildModel.findById(guildID)
-                        : await GuildModel.findOne({ guildName });
+                    let GuildInDB;
 
-                    // Create a new guild if it doesn't exist
-                    if (!GuildInDB) {
-                        const newGuild = await GuildModel.create({
-                            guildName,
-                            jobCategory,
-                        });
-                        GuildInDB = newGuild;
+                    // Use the appropriate guild based on the basket type
+                    if (useBusinessGuild) {
+                        // For offerBasket, use the guild associated with the business
+                        GuildInDB = await GuildModel.findById(business.guild);
+                        if (!GuildInDB) {
+                            throw new Error("Guild associated with the business not found");
+                        }
+                    } else {
+                        // For demandBasket, find or create the guild based on the provided guildID or guildName
+                        GuildInDB = guildID
+                            ? await GuildModel.findById(guildID)
+                            : await GuildModel.findOne({ guildName });
+
+                        // If the guild doesn't exist, create a new one
+                        if (!GuildInDB) {
+                            const newGuild = await GuildModel.create({
+                                guildName,
+                                jobCategory,
+                            });
+                            GuildInDB = newGuild;
+                        }
                     }
 
                     let existingProduct = await ProductModel.findOne({
@@ -105,8 +121,9 @@ export async function POST(req) {
             return validatedBasket;
         };
 
-        const validatedOfferBasket = await validateAndCreateProducts(offerBasket);
-        const validatedDemandBasket = await validateAndCreateProducts(demandBasket);
+        // Validate and create products for both offer and demand baskets
+        const validatedOfferBasket = await validateAndCreateProducts(offerBasket, true);  // For offerBasket, use the business's guild
+        const validatedDemandBasket = await validateAndCreateProducts(demandBasket);       // For demandBasket, use the provided guild or create a new one
 
         const newUnion = new UnionModel({
             unionName,
