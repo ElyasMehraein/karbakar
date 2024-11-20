@@ -9,7 +9,7 @@ export async function GET(req) {
         await connectToDB();
         const unions = await UnionModel.find()
             .populate('members.member')
-            .populate('members.offerBasket.product members.demandBasket.product')
+            .populate('members.offerBasket.product members.demandBasket.product members.member.guild')
             .lean();
 
         return Response.json(

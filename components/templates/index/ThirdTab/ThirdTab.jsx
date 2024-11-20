@@ -63,11 +63,11 @@ export default function ThirdTab({ primeBusiness, user }) {
                     <Typography>درخواست شما از دیگران</Typography>
                 </Box>
             </Box>
-            <ThirdTabUnionWaitForComplete />
+            <ThirdTabUnionWaitForComplete /> */}
             <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
                 اتحادهایی که به محصولات شما نیاز دارند
             </Typography>
-            <ThirdTabUnionsWhichNeedYourProducts /> */}
+            {/* <ThirdTabUnionsWhichNeedYourProducts /> */}
             <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 سایر اتحادها
             </Typography>

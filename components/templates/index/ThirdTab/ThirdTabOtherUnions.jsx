@@ -32,6 +32,62 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
+    const calculateProductDifferences = (unionData) => {
+        const results = [];
+
+        if (!unionData || !unionData.members) {
+            console.error("Invalid union data:", unionData);
+            return results;
+        }
+
+        unionData.members.forEach((member) => {
+            const offerMap = new Map();
+            const demandMap = new Map();
+
+            member.offerBasket.forEach((offer) => {
+                if (offer?.product?._id) {
+                    offerMap.set(offer.product._id.toString(), offer.amount);
+                } else {
+                    console.warn("Invalid offer detected:", offer);
+                }
+            });
+
+            member.demandBasket.forEach((demand) => {
+                if (demand?.product?._id) {
+                    demandMap.set(demand.product._id.toString(), demand.amount);
+                } else {
+                    console.warn("Invalid demand detected:", demand);
+                }
+            });
+
+            offerMap.forEach((offerAmount, productId) => {
+                if (demandMap.has(productId)) {
+                    const demandAmount = demandMap.get(productId);
+                    const difference = offerAmount - demandAmount;
+
+                    results.push({
+                        productId,
+                        productName: member.offerBasket.find((offer) => offer.product._id.toString() === productId).product.productName,
+                        difference,
+                        status: difference >= 0 ? 'اضافه' : 'کمبود',
+                        supplyStatus: difference >= 0 ? `${difference} اضافه` : `${Math.abs(difference)} کمبود`,
+                    });
+                } else {
+                    console.info(`No match for product ID: ${productId}`);
+                }
+            });
+        });
+
+        if (results.length === 0) {
+            console.info("No differences found.");
+        }
+
+        console.log("Final Results:", results);
+        return results;
+    };
+
+    calculateProductDifferences(union)
+
     //dialog
     const [open, setOpen] = useState(false);
     const handleClose = () => {
@@ -70,7 +126,6 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
 
     //the basket you demand
     const [demandGuild, setDemandGuild] = useState(null)
-    console.log("demandGuild", demandGuild);
     const [demandGuildName, setDemandGuildName] = useState(null)
     const [demandJobCategory, setDemandJobCategory] = useState(null)
 
@@ -219,7 +274,6 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
                     sx={{
                         bgcolor: "white",
                         borderTop: `1px solid ${blue[100]}`,
-
                     }} >
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, display: { xs: 'none', sm: 'flex' } }}>
                         <Typography sx={{ textAlign: "right", flex: 1, fontSize: '12px' }}>اعضای اتحادیه</Typography>
@@ -229,6 +283,7 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
 
                     {union.members.map((member) => {
                         return (
+
                             <Box key={member._id} sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
                                 <ListItemButton onClick={() => router.push(`/${member.member.businessName}`)} sx={{ ml: 2, flex: 1, textAlign: 'center' }} >
                                     <ListItemAvatar >
@@ -237,27 +292,47 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
                                         </Avatar>
                                     </ListItemAvatar>
                                     <ListItemText align='right' primary={<Typography sx={{ fontSize: '12px' }}>{member.member.businessBrand}</Typography>} secondary={member.member.businessName} />
+                                    {/* <ListItemText align='right' primary={member.member.guild.guildName} /> */}
                                 </ListItemButton>
                                 <Divider orientation="vertical" flexItem />
-                                <Typography sx={{ flex: 1, textAlign: 'right', mr: 2, fontSize: '14px', fontWeight: 500, display: { xs: 'block', sm: 'none' } }}>پیشنهاد ها</Typography>
+                                <Typography sx={{ flex: 1, textAlign: 'right', mr: 2, fontSize: '14px', fontWeight: 500, display: { xs: 'block', sm: 'none' } }}> پیشنهاد ها :</Typography>
                                 {member.offerBasket.map((offer) => (
                                     <Typography key={offer.product._id} sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                                         {offer.product.productName} - {offer.amount} {offer.product.unitOfMeasurement}
                                     </Typography>
                                 ))}
                                 <Divider orientation="vertical" flexItem />
-                                <Typography sx={{ flex: 1, textAlign: 'right', mr: 2, fontSize: '14px', fontWeight: 500, display: { xs: 'block', sm: 'none' } }}>نیازها</Typography>
+                                <Typography sx={{ flex: 1, textAlign: 'right', mr: 2, fontSize: '14px', fontWeight: 500, display: { xs: 'block', sm: 'none' } }}>نیازها :</Typography>
                                 {member.demandBasket.map((demand) => (
                                     <Typography key={demand.product._id} sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                                         {demand.product.productName} - {demand.amount} {demand.product.unitOfMeasurement}
                                     </Typography>
                                 ))}
-                                <Divider orientation="horizental" flexItem />
                             </Box>
-
                         )
                     })}
-                </AccordionDetails>
+                    <Divider orientation="horizental" flexItem />
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, display: { xs: 'none', sm: 'flex' } }}>
+                        <Typography sx={{ textAlign: "right", flex: 1, fontSize: '12px' }}>تراز</Typography>
+                        <Typography sx={{ textAlign: "right", flex: 1, fontSize: '12px' }}>پیشنهاد های باقی مانده</Typography>
+                        <Typography sx={{ textAlign: "right", flex: 1, fontSize: '12px' }}>نیازهای باقی مانده</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
+                        <Divider orientation="vertical" flexItem />
+                        <Typography sx={{ flex: 1, textAlign: 'right', mr: 2, fontSize: '14px', fontWeight: 500, display: { xs: 'block', sm: 'none' } }}> پیشنهاد ها :</Typography>
+                        <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+
+                            سلام
+                        </Typography>
+                        <Divider orientation="vertical" flexItem />
+                        <Typography sx={{ flex: 1, textAlign: 'right', mr: 2, fontSize: '14px', fontWeight: 500, display: { xs: 'block', sm: 'none' } }}>نیازها :</Typography>
+                        <Typography sx={{ flex: 1, textAlign: 'center', fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+
+                            خدافظ
+                        </Typography>
+                    </Box>
+                    <Divider orientation="horizental" flexItem />
+                </AccordionDetails >
                 <AccordionActions>
                     <Box
                         sx={{
