@@ -11,8 +11,17 @@ export async function POST(req) {
     try {
         await connectToDB();
         const body = await req.json();
-        const { unionName, slogan, deadline, offerBasket, demandBasket, businessID, jobCategory, guildID, guildName, } = body;
-
+        const {
+            unionName,
+            slogan,
+            deadline,
+            offerBasket,
+            demandBasket,
+            businessID,
+            jobCategory,
+            guildID,
+            guildName,
+        } = body;
         const res = await GET(req);
         const user = await res.json();
 
@@ -47,7 +56,6 @@ export async function POST(req) {
 
         const validateAndCreateProducts = async (basket) => {
             const validatedBasket = [];
-
             for (const product of basket) {
                 const { productName, unitOfMeasurement, isRetail } = product.product;
                 if (!productName || !unitOfMeasurement || (!guildID && (!guildName || !jobCategory))) {

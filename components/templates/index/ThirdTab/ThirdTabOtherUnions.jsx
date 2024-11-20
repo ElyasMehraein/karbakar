@@ -5,7 +5,7 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import AvatarGroup from "@mui/material/AvatarGroup";
 import Box from "@mui/material/Box";
-import { Button } from "@mui/material";
+import { Button, Container, FormControl } from "@mui/material";
 import ItsAvatar from "@/components/modules/ItsAvatar";
 import ListItemButton from '@mui/material/ListItemButton';
 import Accordion from '@mui/material/Accordion';
@@ -15,55 +15,171 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { blue } from '@mui/material/colors';
 import { useRouter } from "next/navigation";
-import DeleteIcon from '@mui/icons-material/Delete';
-import Divider from '@mui/material/Divider';
 import { useState } from "react";
-import JoinUnionDialog from "./JoinUnionDialog";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import BasketSelection from '@/components/modules/BasketSelection';
+import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
 
+//dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
-  });
-  
-export default function ThirdTabOtherUnions({ union }) {
-    const [open, setOpen] = React.useState(false);
+});
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
+export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
+    //dialog
+    const [open, setOpen] = useState(false);
     const handleClose = () => {
-      setOpen(false);
+        setOpen(false);
     };
+    // selecting your business
+    const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
+    const userBusinesses = user.businesses.map(business => business.businessName)
+    const selectedBusiness = user.businesses.find((business) => {
+        if (business.businessName == selectedBusinessName) {
+            return business
+        }
+    })
+
+    const addBusinessID = () => {
+        // alaki
+    }
+    // entering union name
+    const [unionName, setUnionName] = React.useState("")
+
+    // entering description
+    const [descriptionText, setDescriptionText] = useState([])
+
+    // entering union duration
+    const [unionDuration, setUnionDuration] = useState([])
+
+    //the basket you offer
+
+    const [offerBasket, setOfferBasket] = useState([])
+
+    const addOfferBasket = (value, isBasketChanged) => {
+        setOfferBasket(value)
+        // setIsBasketChanged(isBasketChanged)
+    }
+
+
+    //the basket you demand
+    const [demandGuild, setDemandGuild] = useState(null)
+    console.log("demandGuild", demandGuild);
+    const [demandGuildName, setDemandGuildName] = useState(null)
+    const [demandJobCategory, setDemandJobCategory] = useState(null)
+
+    const getDataFromChild = (guild, guildName, jobCategory) => {
+        setDemandGuild(guild)
+        setDemandGuildName(guildName)
+        setDemandJobCategory(jobCategory)
+    }
+
+    const [demandBasket, setDemandBasket] = useState([])
+
+    const addDemandBasket = (value, isBasketChanged) => {
+        setDemandBasket(value)
+        // setIsBasketChanged(isBasketChanged)
+    }
+    // join Union funtion
+    async function createUnion() {
+        const res = await fetch('api/createUnion', {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                unionID: union._id, // به کدام اتحاد میخوای جوین بشی
+                businessID: selectedBusiness._id,// با کدوم کسب و کار
+                offerBasket,
+                demandBasket,
+                guildID: demandGuild._id,
+                guildName: demandGuildName,
+                jobCategory: demandJobCategory
+            })
+        })
+        if (res.status === 500) {
+            console.log("server error");
+        } else if (res.status === 409) {
+            setOpen409Snackbar(true)
+        } else if (res.status === 201) {
+            console.log("union created successfully", res);
+            setUnionName("")
+            setDescriptionText("")
+            setUnionDuration("")
+            setOfferBasket([])
+            setDemandBasket([])
+            setOpenSnackbar(true)
+        }
+    }
+
+
     const router = useRouter()
-    const [joinUnionButtonClicked, setJoinUnionButtonClicked] = useState(false)
     return (
-        joinUnionButtonClicked ?
-            <React.Fragment>
-                <Button variant="outlined" onClick={handleClickOpen}>
-                    Slide in alert dialog
-                </Button>
-                <Dialog
-                    open={open}
-                    TransitionComponent={Transition}
-                    keepMounted
-                    onClose={handleClose}
-                    aria-describedby="alert-dialog-slide-description"
-                >
-                    <DialogTitle>{"Use Google's location service?"}</DialogTitle>
-                    <JoinUnionDialog />
-                    <DialogActions>
-                        <Button onClick={handleClose}>Disagree</Button>
-                        <Button onClick={handleClose}>Agree</Button>
-                    </DialogActions>
-                </Dialog>
-            </React.Fragment>
-            : <Accordion disableGutters sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: "100%" }} >
+        <React.Fragment>
+
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={handleClose}
+                aria-describedby="alert-dialog-slide-description"
+            >
+                <DialogTitle>عضویت در اتحاد</DialogTitle>
+                <DialogContent>
+                    <Container maxWidth="md" className="inMiddle" align='center'>
+                        <FormControl sx={{ my: 2, width: 300, align: "center" }}>
+                            <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
+                            <Select
+                                labelId="chose-business-lable"
+                                id="chose-business"
+                                value={selectedBusinessName}
+                                label="انتخاب کسب و کار"
+                                onChange={(e) => {
+                                    setSelectedBusinessName(e.target.value);
+                                }}
+                            >
+                                {userBusinesses.map((userBusinessesName) => {
+                                    return <MenuItem key={userBusinessesName} value={userBusinessesName}>{userBusinessesName}</MenuItem>
+                                })}
+                            </Select>
+
+                        </FormControl>
+                        <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
+                            سبد محصولاتی که می خواهید عرضه کنید
+                        </Typography>
+                        <BasketSelection
+                            parentBasketFunction={addOfferBasket}
+                            business={selectedBusiness}
+                        />
+                        <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
+                            سبد محصولاتی که می خواهید دریافت کنید
+                        </Typography>
+                        <SelectCategoryAndGuild sendDataToParent={getDataFromChild} />
+                        <BasketSelection
+                            parentBasketFunction={addDemandBasket}
+                            guild={demandGuild}
+                        />
+
+
+                    </Container>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>لغو</Button>
+                    <Button
+                        sx={{ mb: 10 }}
+                        children={"ایجاد اتحاد"}
+                        variant="contained"
+                        fullWidth
+                        disabled={!(unionName && descriptionText && unionDuration && offerBasket.length && demandBasket.length)}
+                        onClick={() => createUnion()}
+                    />
+                </DialogActions>
+            </Dialog>
+            <Accordion disableGutters sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: "100%" }} >
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon sx={{ alignSelf: 'flex-start' }} />}
                     aria-controls="pane-content"
@@ -154,7 +270,9 @@ export default function ThirdTabOtherUnions({ union }) {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={() => setJoinUnionButtonClicked(true)}
+                            onClick={() => {
+                                setOpen(true);
+                            }}
                         >
                             عضویت
                         </Button>
@@ -162,6 +280,7 @@ export default function ThirdTabOtherUnions({ union }) {
                 </AccordionActions>
 
             </Accordion>
+        </React.Fragment >
     )
 };
 

@@ -37,7 +37,7 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
             };
             fetchProducts();
         }
-    }, [business || guild]);
+    }, [business, guild]);
 
     const [selectedProductName, setSelectedProductName] = React.useState("");
     // select unitOfMasurment

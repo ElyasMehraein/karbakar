@@ -50,10 +50,12 @@ export default function ThirdTabFab({ user, primeBusiness }) {
 
     //the basket you demand
     const [demandGuild, setDemandGuild] = useState(null)
+    const [demandGuildName, setDemandGuildName] = useState(null)
     const [demandJobCategory, setDemandJobCategory] = useState(null)
 
-    const getDataFromChild = (guild, jobCategory) => {
+    const getDataFromChild = (guild, guildName, jobCategory) => {
         setDemandGuild(guild)
+        setDemandGuildName(guildName)
         setDemandJobCategory(jobCategory)
     }
 
@@ -65,6 +67,7 @@ export default function ThirdTabFab({ user, primeBusiness }) {
     }
 
     // create Union Button
+
     async function createUnion() {
         const res = await fetch('api/createUnion', {
             method: "POST",
@@ -76,7 +79,8 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 offerBasket,
                 demandBasket,
                 businessID: selectedBusiness._id,
-                guildName: demandGuild,
+                guildID: demandGuild._id,
+                guildName: demandGuildName,
                 jobCategory: demandJobCategory
             })
         })

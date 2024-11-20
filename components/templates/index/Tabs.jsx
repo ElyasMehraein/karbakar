@@ -180,7 +180,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
           {
             fabIndex !== value ?
-              <ThirdTab />
+              <ThirdTab {...{ primeBusiness, user }} />
               :
               <ThirdTabFab {...{ primeBusiness, user }} />
           }

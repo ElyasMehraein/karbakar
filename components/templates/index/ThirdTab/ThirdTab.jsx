@@ -13,7 +13,8 @@ import ThirdTabUnionWaitForComplete from './ThirdTabUnionWaitForComplete';
 import ThirdTabUnionsWhichNeedYourProducts from './ThirdTabUnionsWhichNeedYourProducts';
 import ThirdTabOtherUnions from './ThirdTabOtherUnions';
 
-export default function ThirdTab() {
+export default function ThirdTab({ primeBusiness, user }) {
+
     // - تمام اتحادهای دیگر
     //   - اتحاد هایی که به محصولات کسب و کارهای شما نیاز دارند
     //   - اتحادهای منتظر تکمیل توسط شما
@@ -27,7 +28,6 @@ export default function ThirdTab() {
                 const res = await fetch("/api/getUnions", { method: "GET" });
                 if (res.status === 200) {
                     const { data } = await res.json();
-                    console.log("data", data);
                     setUnions(data)
                 } else if (res.status === 403) {
                     console.log("unauthorized access");
@@ -72,7 +72,7 @@ export default function ThirdTab() {
                 سایر اتحادها
             </Typography>
             {unions.map((union) => {
-                return <ThirdTabOtherUnions union={union} key={union._id} />
+                return <ThirdTabOtherUnions {...{ primeBusiness, user }} union={union} key={union._id} />
             })}
         </Container>
     )

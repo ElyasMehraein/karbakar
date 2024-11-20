@@ -25,6 +25,7 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
 
     const [guilds, setGuilds] = useState([])
     const [guild, setGuild] = useState("")
+    const [guildName, setGuildName] = useState("")
 
     useEffect(() => {
         const getGuilds = async () => {
@@ -49,8 +50,8 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
 
     // send guild to parent
     useEffect(() => {
-        sendDataToParent(guild, jobCategory);
-    }, [guild]);
+        sendDataToParent(guild, guildName, jobCategory);
+    }, [guildName]);
 
     return (
         <Container maxWidth="md">
@@ -93,16 +94,20 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
                     options={guilds.map(guild => guild.guildName)}
                     renderInput={(params) => <TextField {...params} label="عنوان صنف" />}
                     onInputChange={(event, newInputValue) => {
+                        setGuild(guilds.find((guild) => {
+                            if (guild.guildName === newInputValue) {
+                                return guild
+                            }
+                        }));
                         if (newInputValue) {
-                            setGuild(newInputValue);
+                            setGuildName(newInputValue);
                         }
                     }}
                     onChange={(event, value) => {
                         if (value && typeof value === "string") {
-                            setGuild(value);
-                        } else if (value && value.guildName) {
-                            setGuild(value.guildName);
+                            setGuildName(value);
                         }
+
                     }}
                 />
 
