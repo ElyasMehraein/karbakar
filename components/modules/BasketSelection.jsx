@@ -16,18 +16,18 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     // select product
 
     const [products, setProducts] = React.useState([]);
-    const fetchAddress = business ? `/api/getBusinessProduct?businessId=${business._id}` : guild && `/api/getGuildProduct?guildID=${guild?._id}`;
 
     useEffect(() => {
         if (business || guild?._id) {
             const fetchProducts = async () => {
                 try {
-                    const response = await fetch(fetchAddress);
+                    const response = await fetch(`/api/getGuildProduct?guildID=${guildID}`);
                     if (!response.ok) {
                         throw new Error('Failed to fetch products');
                     }
                     const data = await response.json();
-                    const Products = data.data.map((product) => business ? product.product : guild && product)
+
+                    const Products = data.data.map((product) => product)
                     setProducts(Products);
                 }
                 catch (err) {
