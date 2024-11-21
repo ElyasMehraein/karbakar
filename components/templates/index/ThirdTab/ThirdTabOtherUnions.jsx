@@ -86,7 +86,7 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
         return results;
     };
 
-    calculateProductDifferences(union)
+    // calculateProductDifferences(union)
 
     //dialog
     const [open, setOpen] = useState(false);
@@ -147,8 +147,8 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                unionID: union._id, // به کدام اتحاد میخوای جوین بشی
-                businessID: selectedBusiness._id,// با کدوم کسب و کار
+                unionID: union._id,
+                businessID: selectedBusiness._id,
                 offerBasket,
                 demandBasket,
                 guildID: demandGuild._id,
