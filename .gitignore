@@ -44,3 +44,5 @@ next-env.d.ts
 certificates
 app/api/auth/signup/route.js
 components/templates/welcome/Welcome.jsx
+*.zip
+*.bat
