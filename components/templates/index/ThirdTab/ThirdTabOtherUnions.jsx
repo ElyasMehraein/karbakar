@@ -24,7 +24,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import BasketSelection from '@/components/modules/BasketSelection';
 import { InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
+import SelectOrCreateCategoryAndGuild from '@/components/modules/SelectOrCreateCategoryAndGuild';
 
 //dialog
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -213,7 +213,7 @@ export default function ThirdTabOtherUnions({ union, primeBusiness, user }) {
                         <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                             سبد محصولاتی که می خواهید دریافت کنید
                         </Typography>
-                        <SelectCategoryAndGuild sendDataToParent={getDataFromChild} />
+                        <SelectOrCreateCategoryAndGuild sendDataToParent={getDataFromChild} />
                         <BasketSelection
                             parentBasketFunction={addDemandBasket}
                             guild={demandGuild}

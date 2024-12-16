@@ -1,7 +1,7 @@
 import UserModel from "@/models/User"
 import connectToDb from "@/configs/db"
 import { createHash } from "crypto";
-import { SMSOtpvalidator } from "@/controllers/smsotp.js"
+// import { SMSOtpvalidator } from "@/controllers/smsotp.js"
 import jwt from "jsonwebtoken";
 import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/validators"
 import { cookies } from 'next/headers'
