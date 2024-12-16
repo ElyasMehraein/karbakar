@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, Container, TextField, Typography, Autocomplete } from '@mui/material'
+import { Box, Button, Container, TextField, Typography, Autocomplete, FormControl, InputLabel, Select } from '@mui/material'
 import MyAppBar from '@/components/modules/MyAppBar'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
@@ -7,7 +7,7 @@ import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
 import jobCategoriesData from "@/public/jobCategories";
 
-export default function SelectOrCreateCategoryAndGuild({ sendDataToParent }) {
+export default function SelectCategoryAndGuild({ sendDataToParent }) {
 
     // select category
 
@@ -63,7 +63,6 @@ export default function SelectOrCreateCategoryAndGuild({ sendDataToParent }) {
                 display="flex" flexDirection="column">
                 <Autocomplete
                     sx={{ my: 1 }}
-                    size='small'
                     options={formattedOptions}
                     groupBy={(option) => option.group}
                     getOptionLabel={(option) => option.label}
@@ -86,7 +85,7 @@ export default function SelectOrCreateCategoryAndGuild({ sendDataToParent }) {
                         }
                     </>
                 }
-                <Autocomplete
+                {/* <Autocomplete
                     size='small'
                     sx={{ m: 1 }}
                     id="add-product"
@@ -109,7 +108,34 @@ export default function SelectOrCreateCategoryAndGuild({ sendDataToParent }) {
                         }
 
                     }}
-                />
+                /> */}
+                <FormControl sx={{ my: 1, width: 300 }}>
+                    <InputLabel id="chose-business-lable">عنوان صنف</InputLabel>
+                    <Select
+                        labelId="chose-business-lable"
+                        id="chose-business"
+                        // value={selectedBusinessName}
+                        label="عنوان صنف"
+                        onChange={(event, newInputValue) => {
+                            setGuild(guilds.find((guild) => {
+                                if (guild.guildName === newInputValue) {
+                                    return guild
+                                }
+                            }));
+                            if (newInputValue) {
+                                setGuildName(newInputValue);
+                            }
+                        }}
+                        // {(e) => {
+                        //     setSelectedBusinessName(e.target.value);
+                        //     setSelectedProductName("");
+                        // }}
+                    >
+                        {guilds.map((guild) => {
+                            return <MenuItem key={guild._id} value={guild}>{guild}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
 
             </Box>
         </Container>
