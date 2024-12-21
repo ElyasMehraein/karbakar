@@ -1,10 +1,10 @@
 "use client"
-import { Box, Button, Container, TextField, Typography, Autocomplete, FormControl, InputLabel, Select } from '@mui/material'
-import MyAppBar from '@/components/modules/MyAppBar'
+import { Box, Button, Container, TextField, Typography, Autocomplete } from '@mui/material'
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import { green } from '@mui/material/colors';
 import jobCategoriesData from "@/public/jobCategories";
 
 export default function SelectCategoryAndGuild({ sendDataToParent }) {
@@ -26,6 +26,12 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
     const [guilds, setGuilds] = useState([])
     const [guild, setGuild] = useState("")
     const [guildName, setGuildName] = useState("")
+    console.log("guild.guildName", guild.guildName, "guildName", guildName);
+
+    const handleChange = (event) => {
+        setGuildName(event.target.value);
+        setGuild(guilds.find(g => g.guildName === event.target.value))
+    };
 
     useEffect(() => {
         const getGuilds = async () => {
@@ -50,7 +56,7 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
 
     // send guild to parent
     useEffect(() => {
-        sendDataToParent(guild, guildName, jobCategory);
+        sendDataToParent(guild);
     }, [guildName]);
 
     return (
@@ -70,73 +76,33 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
                     isOptionEqualToValue={isOptionEqualToValue}
                     onChange={changeHandler}
                 />
-                {jobCategory &&
+                {jobCategory && guilds.length ?
                     <>
-                        {guilds[0] ?
-                            <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
-                                اگر عنوان های صنف موجود به کسب و کار شما مرتبط نیست یک نام مناسب تایپ کنید
-                                <br />
-                                انتخاب صنف مناسب موجب بهتر دیده شدن کسب و کار شما می شود
-                            </Typography>
-                            :
-                            <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
-                                در این دسته بندی هنوز صنفی ایجاد نشده است  لذا برای ایجاد صنف جدید عنوان مناسب را تایپ کنید
-                            </Typography>
-                        }
+                        <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
+                            صنف تولید کننده محصولی که می خواهید را انتخاب نمایید
+                        </Typography>
+
+                        <FormControl sx={{ my: 1, width: 300 }}>
+
+                            <InputLabel id="chose-business-lable">عنوان صنف</InputLabel>
+                            <Select
+                                labelId="chose-business-lable"
+                                id="chose-business"
+                                value={guildName}
+                                label="عنوان صنف"
+                                onChange={handleChange}
+                            >
+                                {guilds.map((guild) => {
+                                    return <MenuItem key={guild._id} value={guild.guildName}>{guild.guildName}</MenuItem>
+                                })}
+                            </Select>
+                        </FormControl>
                     </>
+                    :
+                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
+                        در این دسته بندی هنوز صنفی ایجاد نشده و وجود ندارد؛ دسته بندی های دیگر را امتحان کنید
+                    </Typography>
                 }
-                {/* <Autocomplete
-                    size='small'
-                    sx={{ m: 1 }}
-                    id="add-product"
-                    freeSolo
-                    options={guilds.map(guild => guild.guildName)}
-                    renderInput={(params) => <TextField {...params} label="عنوان صنف" />}
-                    onInputChange={(event, newInputValue) => {
-                        setGuild(guilds.find((guild) => {
-                            if (guild.guildName === newInputValue) {
-                                return guild
-                            }
-                        }));
-                        if (newInputValue) {
-                            setGuildName(newInputValue);
-                        }
-                    }}
-                    onChange={(event, value) => {
-                        if (value && typeof value === "string") {
-                            setGuildName(value);
-                        }
-
-                    }}
-                /> */}
-                <FormControl sx={{ my: 1, width: 300 }}>
-                    <InputLabel id="chose-business-lable">عنوان صنف</InputLabel>
-                    <Select
-                        labelId="chose-business-lable"
-                        id="chose-business"
-                        // value={selectedBusinessName}
-                        label="عنوان صنف"
-                        onChange={(event, newInputValue) => {
-                            setGuild(guilds.find((guild) => {
-                                if (guild.guildName === newInputValue) {
-                                    return guild
-                                }
-                            }));
-                            if (newInputValue) {
-                                setGuildName(newInputValue);
-                            }
-                        }}
-                        // {(e) => {
-                        //     setSelectedBusinessName(e.target.value);
-                        //     setSelectedProductName("");
-                        // }}
-                    >
-                        {guilds.map((guild) => {
-                            return <MenuItem key={guild._id} value={guild}>{guild}</MenuItem>
-                        })}
-                    </Select>
-                </FormControl>
-
             </Box>
         </Container>
     )
