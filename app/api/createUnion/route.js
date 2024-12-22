@@ -18,9 +18,7 @@ export async function POST(req) {
             offerBasket,
             demandBasket,
             businessID,
-            jobCategory,
             guildID,
-            guildName,
         } = body;
 
         const res = await GET(req);
@@ -62,7 +60,7 @@ export async function POST(req) {
                 const { productName, unitOfMeasurement, isRetail } = product.product;
 
                 // Check if the required fields for the product are present
-                if (!productName || !unitOfMeasurement || (!guildID && (!guildName || !jobCategory))) {
+                if (!productName || !unitOfMeasurement || !guildID) {
                     throw new Error("Incomplete product information in basket");
                 }
 
@@ -77,23 +75,13 @@ export async function POST(req) {
                             throw new Error("Guild associated with the business not found");
                         }
                     } else {
-                        // For demandBasket, find or create the guild based on the provided guildID or guildName
-                        GuildInDB = guildID
-                            ? await GuildModel.findById(guildID)
-                            : await GuildModel.findOne({ guildName });
-
-                        // If the guild doesn't exist, create a new one
-                        if (!GuildInDB) {
-                            const newGuild = await GuildModel.create({
-                                guildName,
-                                jobCategory,
-                            });
-                            GuildInDB = newGuild;
-                        }
+                        // For demandBasket, find the guild based on the provided guildID
+                        GuildInDB = await GuildModel.findById(guildID)
                     }
 
                     let existingProduct = await ProductModel.findOne({
                         productName,
+                        unitOfMeasurement,
                         guild: GuildInDB._id,
                     });
 
@@ -123,7 +111,7 @@ export async function POST(req) {
 
         // Validate and create products for both offer and demand baskets
         const validatedOfferBasket = await validateAndCreateProducts(offerBasket, true);  // For offerBasket, use the business's guild
-        const validatedDemandBasket = await validateAndCreateProducts(demandBasket);       // For demandBasket, use the provided guild or create a new one
+        const validatedDemandBasket = await validateAndCreateProducts(demandBasket);       // For demandBasket, use the provided guild 
 
         const newUnion = new UnionModel({
             unionName,

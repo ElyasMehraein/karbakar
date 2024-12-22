@@ -1,15 +1,7 @@
 import React from 'react'
-import { IconButton, List, ListItem, ListItemText, } from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete';
-import ProductBasket from '@/components/modules/ProductBasket';
-import { useEffect, useState } from 'react'
-import Chip from '@mui/material/Chip';
-import Box from '@mui/material/Box';
-import { Autocomplete, Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
-import jobCategoriesData from "@/public/jobCategories";
+import { useState } from 'react'
+import {  Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
-import { CircularProgress } from '@mui/material';
-import SelectOrCreateCategoryAndGuild from '@/components/modules/SelectOrCreateCategoryAndGuild';
 import BasketSelection from '@/components/modules/BasketSelection';
 import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
 
@@ -27,9 +19,6 @@ export default function ThirdTabFab({ user, primeBusiness }) {
         }
     })
 
-    const addBusinessID = () => {
-        // alaki
-    }
     // entering union name
     const [unionName, setUnionName] = React.useState("")
 
@@ -43,28 +32,22 @@ export default function ThirdTabFab({ user, primeBusiness }) {
 
     const [offerBasket, setOfferBasket] = useState([])
 
-    const addOfferBasket = (value, isBasketChanged) => {
+    const addOfferBasket = (value) => {
         setOfferBasket(value)
-        // setIsBasketChanged(isBasketChanged)
     }
 
- 
+
     //the basket you demand
     const [demandGuild, setDemandGuild] = useState(null)
-    const [demandGuildName, setDemandGuildName] = useState(null)
-    const [demandJobCategory, setDemandJobCategory] = useState(null)
 
-    const getDataFromChild = (guild, guildName, jobCategory) => {
+    const getDataFromChild = (guild) => {
         setDemandGuild(guild)
-        setDemandGuildName(guildName)
-        setDemandJobCategory(jobCategory)
     }
 
     const [demandBasket, setDemandBasket] = useState([])
 
-    const addDemandBasket = (value, isBasketChanged) => {
+    const addDemandBasket = (value) => {
         setDemandBasket(value)
-        // setIsBasketChanged(isBasketChanged)
     }
 
     // create Union Button
@@ -81,8 +64,6 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 demandBasket,
                 businessID: selectedBusiness._id,
                 guildID: demandGuild._id,
-                guildName: demandGuildName,
-                jobCategory: demandJobCategory
             })
         })
         if (res.status === 500) {
@@ -161,7 +142,6 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 سبد محصولاتی که می خواهید دریافت کنید
             </Typography>
             <SelectCategoryAndGuild sendDataToParent={getDataFromChild} />
-            {/* <SelectOrCreateCategoryAndGuild sendDataToParent={getDataFromChild} /> */}
             <BasketSelection
                 parentBasketFunction={addDemandBasket}
                 guild={demandGuild}
@@ -176,7 +156,7 @@ export default function ThirdTabFab({ user, primeBusiness }) {
             />
             <CustomSnackbar
                 open={openSnackbar}
-                onClose={() => setOpenSnackbar(false)}
+                onClose={() => location.reload()}
                 message="اتحاد ایجاد شد"
             />
             <CustomSnackbar

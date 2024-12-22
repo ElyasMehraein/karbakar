@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, Container, TextField, Typography, Autocomplete } from '@mui/material'
+import { Box, Container, TextField, Typography, Autocomplete } from '@mui/material'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -26,7 +26,6 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
     const [guilds, setGuilds] = useState([])
     const [guild, setGuild] = useState("")
     const [guildName, setGuildName] = useState("")
-    console.log("guild.guildName", guild.guildName, "guildName", guildName);
 
     const handleChange = (event) => {
         setGuildName(event.target.value);
