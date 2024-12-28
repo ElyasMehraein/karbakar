@@ -12,6 +12,7 @@ import { grey } from '@mui/material/colors';
 import ThirdTabUnionWaitForComplete from './ThirdTabUnionWaitForComplete';
 import ThirdTabUnionsWhichNeedYourProducts from './ThirdTabUnionsWhichNeedYourProducts';
 import ThirdTabOtherUnions from './ThirdTabOtherUnions';
+import ThirdTabAccordion from './ThirdTabAccordion';
 
 export default function ThirdTab({ primeBusiness, user }) {
 
@@ -72,9 +73,13 @@ export default function ThirdTab({ primeBusiness, user }) {
             <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                 سایر اتحادها
             </Typography> */}
-            {unions.map((union) => {
+            {/* {unions.map((union) => {
                 return <ThirdTabOtherUnions {...{ primeBusiness, user }} union={union} key={union._id} />
+            })} */}
+            {unions.map((union) => {
+                return <ThirdTabAccordion {...{ primeBusiness, user }} union={union} key={union._id} />
             })}
+            
         </Container>
     )
 }
