@@ -72,8 +72,6 @@ export default function ThirdTab({ primeBusiness, user }) {
             {/* <ThirdTabUnionsWhichNeedYourProducts />
         */}
             <OtherUnions {...{ primeBusiness, user, unions }} />
-
-
         </Container>
     )
 }

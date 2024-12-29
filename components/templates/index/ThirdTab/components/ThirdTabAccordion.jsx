@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -10,10 +10,9 @@ import { Button } from '@mui/material';
 
 export default function ThirdTabAccordion({ union, accordionDetails, primeBusiness, user }) {
 
-  // متد باز کردن دیالوگ یا هر منطق دیگری که با دکمه‌ی "عضویت" انجام می‌شود
+  const [open, setOpen] = useState(false);
   const handleMembership = () => {
-    // setOpen(true);
-    console.log('عضویت در اتحادیه');
+    setOpen(true);
   };
 
   return (
