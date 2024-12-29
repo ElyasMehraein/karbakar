@@ -1,16 +1,10 @@
+import { AccordionDetails, Box, Divider, Typography } from '@mui/material'
 import React from 'react'
-import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { blue } from '@mui/material/colors';
-import { useTheme } from '@mui/material/styles';
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import { Button, Divider } from '@mui/material';
 import Avatar from "@mui/material/Avatar";
 import ItsAvatar from "@/components/modules/ItsAvatar";
+import { useTheme } from '@mui/material/styles';
+import { blue } from '@mui/material/colors';
+
 import {
   TableContainer,
   Paper,
@@ -22,133 +16,130 @@ import {
   TableCell,
 } from "@mui/material";
 
-// مثال: اگر از next/router استفاده می‌کنید
-// import { useRouter } from 'next/router';
-// const router = useRouter();
+export default function OtherUnionsAccordionDetails(union) {
 
-export default function ThirdTabAccordion({ union, primeBusiness, user }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  // متد کمکی برای محاسبه‌ی عرضه و تقاضای باقی‌مانده
-  const calculateUnionLeftovers = React.useCallback((members) => {
-    const productTotals = new Map(); // ذخیره کل عرضه و تقاضا برای هر محصول
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    members.forEach((member) => {
-      // جمع‌زدن پیشنهادها
-      member.offerBasket.forEach((offer) => {
-        if (!offer?.product?._id) return;
-        const productId = offer.product._id.toString();
-        if (!productTotals.has(productId)) {
-          productTotals.set(productId, {
-            productName: offer.product.productName,
-            unitOfMeasurement: offer.product.unitOfMeasurement,
-            totalSupply: 0,
-            totalDemand: 0,
-          });
-        }
-        productTotals.get(productId).totalSupply += offer.amount;
-      });
-
-      // جمع‌زدن نیازها
-      member.demandBasket.forEach((demand) => {
-        if (!demand?.product?._id) return;
-        const productId = demand.product._id.toString();
-        if (!productTotals.has(productId)) {
-          productTotals.set(productId, {
-            productName: demand.product.productName,
-            unitOfMeasurement: demand.product.unitOfMeasurement,
-            totalSupply: 0,
-            totalDemand: 0,
-          });
-        }
-        productTotals.get(productId).totalDemand += demand.amount;
-      });
-    });
-
-    const leftoverSupply = [];
-    const leftoverDemand = [];
-
-    for (const [, data] of productTotals.entries()) {
-      const { productName, unitOfMeasurement, totalSupply, totalDemand } = data;
-      const diff = totalSupply - totalDemand;
-
-      if (diff > 0) {
-        leftoverSupply.push({ productName, amount: diff, unitOfMeasurement });
-      } else if (diff < 0) {
-        leftoverDemand.push({
-          productName,
-          amount: Math.abs(diff),
-          unitOfMeasurement,
+    // متد کمکی برای محاسبه‌ی عرضه و تقاضای باقی‌مانده
+    const calculateUnionLeftovers = React.useCallback((members) => {
+      const productTotals = new Map(); // ذخیره کل عرضه و تقاضا برای هر محصول
+  
+      members.forEach((member) => {
+        // جمع‌زدن پیشنهادها
+        member.offerBasket.forEach((offer) => {
+          if (!offer?.product?._id) return;
+          const productId = offer.product._id.toString();
+          if (!productTotals.has(productId)) {
+            productTotals.set(productId, {
+              productName: offer.product.productName,
+              unitOfMeasurement: offer.product.unitOfMeasurement,
+              totalSupply: 0,
+              totalDemand: 0,
+            });
+          }
+          productTotals.get(productId).totalSupply += offer.amount;
         });
+  
+        // جمع‌زدن نیازها
+        member.demandBasket.forEach((demand) => {
+          if (!demand?.product?._id) return;
+          const productId = demand.product._id.toString();
+          if (!productTotals.has(productId)) {
+            productTotals.set(productId, {
+              productName: demand.product.productName,
+              unitOfMeasurement: demand.product.unitOfMeasurement,
+              totalSupply: 0,
+              totalDemand: 0,
+            });
+          }
+          productTotals.get(productId).totalDemand += demand.amount;
+        });
+      });
+  
+      const leftoverSupply = [];
+      const leftoverDemand = [];
+  
+      for (const [, data] of productTotals.entries()) {
+        const { productName, unitOfMeasurement, totalSupply, totalDemand } = data;
+        const diff = totalSupply - totalDemand;
+  
+        if (diff > 0) {
+          leftoverSupply.push({ productName, amount: diff, unitOfMeasurement });
+        } else if (diff < 0) {
+          leftoverDemand.push({
+            productName,
+            amount: Math.abs(diff),
+            unitOfMeasurement,
+          });
+        }
       }
-    }
-
-    return { leftoverSupply, leftoverDemand };
-  }, []);
-
-  // داده‌های عرضه/تقاضای نهایی
-  const { leftoverSupply, leftoverDemand } = React.useMemo(() => {
-    return calculateUnionLeftovers(union.members);
-  }, [union.members, calculateUnionLeftovers]);
-
-  // مرتب‌سازی اعضا براساس نام کسب‌وکار
-  const sortedMembers = React.useMemo(() => {
-    if (!union?.members) return [];
-    return [...union.members].sort((a, b) =>
-      a.member.businessName.localeCompare(b.member.businessName)
-    );
-  }, [union]);
-
-  // متد کمکی برای مرتب‌سازی سبد پیشنهاد و نیاز
-  const getSortedBaskets = (member) => {
-    const sortedOfferBasket = [...member.offerBasket].sort((a, b) =>
-      a.product.productName.localeCompare(b.product.productName)
-    );
-    const sortedDemandBasket = [...member.demandBasket].sort((a, b) =>
-      a.product.productName.localeCompare(b.product.productName)
-    );
-    return { sortedOfferBasket, sortedDemandBasket };
-  };
-
-  // کامپوننت کمکی برای نمایش آواتار و اطلاعات اولیه‌ی هر عضو
-  const MemberInfo = ({ member }) => {
-    // const router = useRouter(); // در صورت استفاده از next/router
-    return (
-      <Box
-        // onClick={() => router.push(`/${member.member.businessName}`)}
-        onClick={() => console.log(`Go to /${member.member.businessName}`)}
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          cursor: 'pointer',
-          gap: 1,
-        }}
-      >
-        <Avatar sx={{ width: 40, height: 40 }}>
-          <ItsAvatar
-            isAvatar={member.member.isAvatar}
-            userCodeOrBusinessBrand={member.member.businessName}
-          />
-        </Avatar>
-        <Box sx={{ textAlign: 'right' }}>
-          <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-            {member.member.businessBrand}
-          </Typography>
-          <Typography variant="caption" display="block">
-            {member.member.businessName}
-          </Typography>
-          <Typography variant="caption" display="block">
-            {member.member.guild.guildName}
-          </Typography>
+  
+      return { leftoverSupply, leftoverDemand };
+    }, []);
+  
+    // داده‌های عرضه/تقاضای نهایی
+    const { leftoverSupply, leftoverDemand } = React.useMemo(() => {
+      return calculateUnionLeftovers(union.members);
+    }, [union.members, calculateUnionLeftovers]);
+  
+    // مرتب‌سازی اعضا براساس نام کسب‌وکار
+    const sortedMembers = React.useMemo(() => {
+      if (!union?.members) return [];
+      return [...union.members].sort((a, b) =>
+        a.member.businessName.localeCompare(b.member.businessName)
+      );
+    }, [union]);
+  
+    // متد کمکی برای مرتب‌سازی سبد پیشنهاد و نیاز
+    const getSortedBaskets = (member) => {
+      const sortedOfferBasket = [...member.offerBasket].sort((a, b) =>
+        a.product.productName.localeCompare(b.product.productName)
+      );
+      const sortedDemandBasket = [...member.demandBasket].sort((a, b) =>
+        a.product.productName.localeCompare(b.product.productName)
+      );
+      return { sortedOfferBasket, sortedDemandBasket };
+    };
+  
+    // کامپوننت کمکی برای نمایش آواتار و اطلاعات اولیه‌ی هر عضو
+    const MemberInfo = ({ member }) => {
+      // const router = useRouter(); // در صورت استفاده از next/router
+      return (
+        <Box
+          // onClick={() => router.push(`/${member.member.businessName}`)}
+          onClick={() => console.log(`Go to /${member.member.businessName}`)}
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            cursor: 'pointer',
+            gap: 1,
+          }}
+        >
+          <Avatar sx={{ width: 40, height: 40 }}>
+            <ItsAvatar
+              isAvatar={member.member.isAvatar}
+              userCodeOrBusinessBrand={member.member.businessName}
+            />
+          </Avatar>
+          <Box sx={{ textAlign: 'right' }}>
+            <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+              {member.member.businessBrand}
+            </Typography>
+            <Typography variant="caption" display="block">
+              {member.member.businessName}
+            </Typography>
+            <Typography variant="caption" display="block">
+              {member.member.guild.guildName}
+            </Typography>
+          </Box>
         </Box>
-      </Box>
-    );
-  };
-
-  // رندر نسخه دسکتاپ
+      );
+    };
+      // رندر نسخه دسکتاپ
   const renderDesktopTable = () => {
     return (
       <TableContainer sx={{ boxShadow: 'none', bgcolor: 'transparent' }}>
@@ -292,61 +283,8 @@ export default function ThirdTabAccordion({ union, primeBusiness, user }) {
       </Box>
     );
   };
-
-  // متد باز کردن دیالوگ یا هر منطق دیگری که با دکمه‌ی "عضویت" انجام می‌شود
-  const handleMembership = () => {
-    // setOpen(true);
-    console.log('عضویت در اتحادیه');
-  };
-
   return (
-    <Accordion
-      disableGutters
-      sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}
-    >
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon sx={{ alignSelf: 'flex-start' }} />}
-        aria-controls="pane-content"
-        id="pane-header"
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          pl: 1,
-          minHeight: 56,
-          position: 'relative',
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'flex-start',
-            flexDirection: 'column',
-          }}
-        >
-          <Typography
-            sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }}
-            textAlign="right"
-          >
-            {union.unionName}
-          </Typography>
-          <Typography
-            sx={{
-              fontSize: 11,
-              overflow: 'hidden',
-              WebkitBoxOrient: 'vertical',
-              WebkitLineClamp: 2,
-            }}
-            align="justify"
-            dir="rtl"
-          >
-            {union.slogan}
-          </Typography>
-        </Box>
-      </AccordionSummary>
-
-      <AccordionDetails
+    <AccordionDetails
         sx={{
           bgcolor: 'white',
           borderTop: `1px solid ${blue[100]}`,
@@ -402,24 +340,5 @@ export default function ThirdTabAccordion({ union, primeBusiness, user }) {
           </Box>
         </Box>
       </AccordionDetails>
-
-      <AccordionActions>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-          }}
-        >
-          <Typography sx={{ mr: 1, fontSize: '12px' }}>
-            {`مدت اتحاد: ${union.deadline} روز`}
-          </Typography>
-          <Button variant="contained" color="primary" onClick={handleMembership}>
-            عضویت
-          </Button>
-        </Box>
-      </AccordionActions>
-    </Accordion>
-  );
+  )
 }

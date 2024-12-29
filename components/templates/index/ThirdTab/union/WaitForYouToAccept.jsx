@@ -17,7 +17,7 @@ import { blue } from '@mui/material/colors';
 import { useRouter } from "next/navigation";
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function ThirdTabWaitForOthersToAccept({ request }) {
+export default function WaitForYouToAccept({ request }) {
     return (
         <Accordion sx={{ bgcolor: blue[50], my: 1 }} >
             <AccordionSummary

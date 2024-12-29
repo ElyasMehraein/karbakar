@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import ThirdTabFrame from './ThirdTabActiveUnion'
+import ThirdTabFrame from './union/ActiveUnion'
 import { AvatarGroup, Container, Typography } from '@mui/material'
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import ItsAvatar from '@/components/modules/ItsAvatar';
-import ThirdTabWaitForOthersToAccept from './ThirdTabWaitForOthersToAccept';
-import ThirdTabActiveUnion from './ThirdTabActiveUnion';
-import ThirdTabWaitForYouToAccept from './ThirdTabWaitForYouToAccept';
+import WaitForOthersToAccept from './union/WaitForOthersToAccept';
+import ActiveUnion from './union/ActiveUnion';
+import WaitForYouToAccept from './union/WaitForYouToAccept';
 import { blue } from '@mui/material/colors';
 import { grey } from '@mui/material/colors';
-import ThirdTabUnionWaitForComplete from './ThirdTabUnionWaitForComplete';
-import ThirdTabUnionsWhichNeedYourProducts from './ThirdTabUnionsWhichNeedYourProducts';
-import ThirdTabOtherUnions from './ThirdTabOtherUnions';
-import ThirdTabAccordion from './ThirdTabAccordion';
+import UnionWaitForComplete from './union/UnionWaitForComplete';
+import UnionsWhichNeedYourProducts from './union/UnionsWhichNeedYourProducts';
+import OtherUnions from './union/OtherUnions';
+import ThirdTabAccordion from './components/ThirdTabAccordion';
 
 export default function ThirdTab({ primeBusiness, user }) {
 
@@ -39,7 +39,7 @@ export default function ThirdTab({ primeBusiness, user }) {
         };
         getUnions();
     }, []);
-    
+
     return (
         <Container sx={{ mb: 10 }} maxWidth="md" className="inMiddle" display="flex" align='center'>
             {/* <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
@@ -70,16 +70,10 @@ export default function ThirdTab({ primeBusiness, user }) {
                 اتحادهایی که به محصولات شما نیاز دارند
             </Typography>
             {/* <ThirdTabUnionsWhichNeedYourProducts />
-            <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
-                سایر اتحادها
-            </Typography> */}
-            {/* {unions.map((union) => {
-                return <ThirdTabOtherUnions {...{ primeBusiness, user }} union={union} key={union._id} />
-            })} */}
-            {unions.map((union) => {
-                return <ThirdTabAccordion {...{ primeBusiness, user }} union={union} key={union._id} />
-            })}
-            
+        */}
+            <OtherUnions {...{ primeBusiness, user, unions }} />
+
+
         </Container>
     )
 }
