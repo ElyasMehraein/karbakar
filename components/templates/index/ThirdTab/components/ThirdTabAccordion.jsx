@@ -13,14 +13,16 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
 
   const [open, setOpen] = useState(false);
   const handleMembership = () => {
-    // setOpen(true);
-    console.log("ha biua");
-
+    setOpen(true);
   };
+  const dialogCloseHandler = () => {
+    setOpen(false);
+  };
+
 
   return (
     <React.Fragment>
-      <ThirdTabjoinAUnion  {...{ primeBusiness, user,union }} />
+      <ThirdTabjoinAUnion  {...{ primeBusiness, user, union, open ,dialogCloseHandler}} />
       <Accordion
         disableGutters
         sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}

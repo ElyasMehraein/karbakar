@@ -4,6 +4,7 @@ import {
     Button,
     Container,
     FormControl,
+    IconButton,
     Slide,
 } from "@mui/material";
 import Dialog from '@mui/material/Dialog';
@@ -17,12 +18,14 @@ import {
     MenuItem,
     Select,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ThirdTabjoinAUnion({ union, primeBusiness, user }) {
+export default function ThirdTabjoinAUnion({ union, primeBusiness, user, open, dialogCloseHandler }) {
 
     const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness.businessName);
     const userBusinesses = user.businesses.map((business) => business.businessName);
@@ -82,12 +85,25 @@ export default function ThirdTabjoinAUnion({ union, primeBusiness, user }) {
 
     return (
         <Dialog
-            // open={open}
+            open={open}
             TransitionComponent={Transition}
             keepMounted
-        // onClose={handleClose}
+            onClose={() => dialogCloseHandler()}
         >
             <DialogTitle>عضویت در اتحاد</DialogTitle>
+            <IconButton
+                aria-label="close"
+                onClick={() => dialogCloseHandler()}
+                sx={(theme) => ({
+                    position: 'absolute',
+                    left: 8,
+                    top: 8,
+                    color: theme.palette.grey[500],
+                })}
+            >
+                <CloseIcon />
+            </IconButton>
+
             <DialogContent>
                 <Container maxWidth="md" className="inMiddle" align="center">
                     <FormControl sx={{ my: 2, width: 300, align: "center" }}>
