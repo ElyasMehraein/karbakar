@@ -10,6 +10,7 @@ import { Button } from '@mui/material';
 import ThirdTabjoinAUnion from './ThirdTabjoinAUnion';
 
 export default function ThirdTabAccordion({ union, accordionDetails, primeBusiness, user }) {
+  // console.log("primeBusiness", primeBusiness, user);
 
   const [open, setOpen] = useState(false);
   const handleMembership = () => {
@@ -22,7 +23,7 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
 
   return (
     <React.Fragment>
-      <ThirdTabjoinAUnion  {...{ primeBusiness, user, union, open ,dialogCloseHandler}} />
+      {primeBusiness && <ThirdTabjoinAUnion  {...{ primeBusiness, user, union, open, dialogCloseHandler }} />}
       <Accordion
         disableGutters
         sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}
@@ -31,15 +32,15 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
           expandIcon={<ExpandMoreIcon sx={{ alignSelf: 'flex-start' }} />}
           aria-controls="pane-content"
           id="pane-header"
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'flex-start',
-            pl: 1,
-            minHeight: 56,
-            position: 'relative',
-          }}
+        // sx={{
+        //   display: 'flex',
+        //   flexDirection: 'row',
+        //   justifyContent: 'space-between',
+        //   // alignItems: 'flex-start',
+        //   // pl: 1,
+        //   // minHeight: 56,
+        //   position: 'relative',
+        // }}
         >
           <Box
             sx={{
@@ -83,9 +84,11 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
             <Typography sx={{ mr: 1, fontSize: '12px' }}>
               {`مدت اتحاد: ${union.deadline} روز`}
             </Typography>
-            <Button variant="contained" color="primary" onClick={handleMembership}>
-              عضویت
-            </Button>
+            {user.code === primeBusiness.agentCode &&
+              <Button variant="contained" color="primary" onClick={handleMembership}>
+                عضویت
+              </Button>
+            }
           </Box>
         </AccordionActions>
       </Accordion>

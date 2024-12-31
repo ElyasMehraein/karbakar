@@ -47,13 +47,9 @@ export default function ThirdTabjoinAUnion({ union, primeBusiness, user, open, d
 
     // دسته، صنف و ...
     const [demandGuild, setDemandGuild] = useState(null);
-    const [demandGuildName, setDemandGuildName] = useState(null);
-    const [demandJobCategory, setDemandJobCategory] = useState(null);
 
-    const getDataFromChild = (guild, guildName, jobCategory) => {
+    const getDataFromChild = (guild) => {
         setDemandGuild(guild);
-        setDemandGuildName(guildName);
-        setDemandJobCategory(jobCategory);
     };
 
     // عضویت در اتحاد
@@ -66,9 +62,7 @@ export default function ThirdTabjoinAUnion({ union, primeBusiness, user, open, d
                 businessID: selectedBusiness._id,
                 offerBasket,
                 demandBasket,
-                guildID: demandGuild?._id,
-                guildName: demandGuildName,
-                jobCategory: demandJobCategory
+                demandGuildID: demandGuild?._id,
             })
         });
         if (res.status === 500) {

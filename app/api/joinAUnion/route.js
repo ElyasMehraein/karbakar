@@ -8,7 +8,7 @@ import { GET } from "@/app/api/auth/me/route";
 export async function POST(req) {
     try {
         const body = await req.json();
-        const { unionID, businessID, offerBasket, demandBasket, guildID, guildName, jobCategory } = body;
+        const { unionID, businessID, offerBasket, demandBasket, demandGuildID } = body;
 
         await connectToDB();
 
@@ -29,67 +29,59 @@ export async function POST(req) {
         }
 
         // Function to validate and create products
-        async function validateAndCreateProducts(basket) {
-            const validatedBasket = [];
+        // async function validateAndCreateProducts(basket) {
+        //     const validatedBasket = [];
 
-            for (const item of basket) {
-                const { productName, unitOfMeasurement, isRetail } = item.product;
-                const { amount } = item;
+        //     for (const item of basket) {
+        //         const { productName, unitOfMeasurement, isRetail } = item.product;
+        //         const { amount } = item;
 
-                if (!productName || !unitOfMeasurement || (!guildID && (!guildName || !jobCategory))) {
-                    throw new Error("Incomplete product information in basket");
-                }
+        //         if (!productName || !unitOfMeasurement || !demandGuildID) {
+        //             throw new Error("Incomplete product information in basket");
+        //         }
 
-                // Find or create the guild
-                let guild;
-                if (guildID) {
-                    guild = await GuildModel.findById(guildID);
-                    if (!guild) throw new Error("Invalid guildID provided");
-                } else {
-                    guild = await GuildModel.findOne({ guildName, jobCategory });
-                    if (!guild) {
-                        guild = new GuildModel({ guildName, jobCategory });
-                        await guild.save();
-                    }
-                }
+        //         // Find or create the guild
+        //         let guild = await GuildModel.findById(demandGuildID);
+        //         if (!guild) throw new Error("Invalid guildID provided");
 
-                // Find or create the product
-                let product = await ProductModel.findOne({
-                    productName,
-                    guild: guild._id,
-                });
 
-                if (!product) {
-                    product = new ProductModel({
-                        productName,
-                        unitOfMeasurement,
-                        guild: guild._id,
-                        isRetail,
-                    });
-                    await product.save();
-                }
+        //         // Find or create the product
+        //         let product = await ProductModel.findOne({
+        //             productName,
+        //             guild: guild._id,
+        //         });
 
-                validatedBasket.push({
-                    product: product._id,
-                    amount,
-                });
-            }
+        //         if (!product) {
+        //             product = new ProductModel({
+        //                 productName,
+        //                 unitOfMeasurement,
+        //                 guild: guild._id,
+        //                 isRetail,
+        //             });
+        //             await product.save();
+        //         }
 
-            return validatedBasket;
-        }
+        //         validatedBasket.push({
+        //             product: product._id,
+        //             amount,
+        //         });
+        //     }
 
-        // Validate and create products for both baskets
-        const validatedOfferBasket = await validateAndCreateProducts(offerBasket);
-        const validatedDemandBasket = await validateAndCreateProducts(demandBasket);
+        //     return validatedBasket;
+        // }
 
-        // Add the business as a member to the union
-        union.members.push({
-            member: businessID,
-            offerBasket: validatedOfferBasket,
-            demandBasket: validatedDemandBasket,
-        });
+        // // Validate and create products for both baskets
+        // const validatedOfferBasket = await validateAndCreateProducts(offerBasket);
+        // const validatedDemandBasket = await validateAndCreateProducts(demandBasket);
 
-        await union.save();
+        // // Add the business as a member to the union
+        // union.members.push({
+        //     member: businessID,
+        //     offerBasket: validatedOfferBasket,
+        //     demandBasket: validatedDemandBasket,
+        // });
+
+        // await union.save();
 
         return Response.json({ message: "Business successfully added to the union" }, { status: 201 });
     } catch (error) {
