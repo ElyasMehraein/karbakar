@@ -292,7 +292,7 @@ export default function OtherUnionsAccordionDetails(union) {
       >
         {isMobile ? renderMobileCards() : renderDesktopTable()}
 
-        <Divider sx={{ my: 2 }} />
+        {/* <Divider sx={{ my: 2 }} /> */}
 
         {/* نمایش تراز (عرضه و تقاضای باقی‌مانده) */}
         <Box sx={{ flex: 1, minWidth: 150 }}>

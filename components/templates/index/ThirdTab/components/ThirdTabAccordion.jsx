@@ -23,7 +23,7 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
 
   return (
     <React.Fragment>
-      {primeBusiness && <ThirdTabjoinAUnion  {...{ primeBusiness, user, union, open, dialogCloseHandler }} />}
+      <ThirdTabjoinAUnion  {...{ primeBusiness, user, union, open, dialogCloseHandler }} />
       <Accordion
         disableGutters
         sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}

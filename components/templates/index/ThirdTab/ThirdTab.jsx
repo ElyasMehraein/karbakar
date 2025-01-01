@@ -20,8 +20,10 @@ export default function ThirdTab({ primeBusiness, user }) {
     // اتحادهایی که شما عضو شدید اما پیشنهادها و نیازهای باقی مانده دارد
     // اتحادهای شما که نیازها و پیشنهادهای آن کامل شده و اعضا باید یکدیگر را تایید نمایند
     // اتحاد های فعال شما
-    
+
     const [unions, setUnions] = useState([]);
+    console.log("unions", unions);
+
     useEffect(() => {
         const getUnions = async () => {
             try {
@@ -69,8 +71,11 @@ export default function ThirdTab({ primeBusiness, user }) {
                 اتحادهایی که به محصولات شما نیاز دارند
             </Typography>
             {/* <ThirdTabUnionsWhichNeedYourProducts />
-        */}
             <UnionsWhichNeedYourProducts {...{ primeBusiness, user, unions }} />
+            */}
+            {unions.category1?.length ?
+                <UnionsWhichNeedYourProducts {...{ primeBusiness, user, unions:unions.category1}} /> : null
+            }
         </Container>
     )
 }

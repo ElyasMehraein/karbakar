@@ -11,8 +11,6 @@ export default function UnionsWhichNeedYourProducts({ primeBusiness, user, union
                 اتحاد هایی که به محصولات کسب و کارهای شما نیاز دارند
             </Typography>
             {unions.map((union) => {
-                console.log("union", union);
-                
                 return <ThirdTabAccordion {...{ primeBusiness, user, union }} accordionDetails={OtherUnionsAccordionDetails} key={union._id} />
             })}
         </React.Fragment>
