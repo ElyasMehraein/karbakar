@@ -16,12 +16,11 @@ import ThirdTabAccordion from './components/ThirdTabAccordion';
 
 export default function ThirdTab({ primeBusiness, user }) {
 
-    // - تمام اتحادهای دیگر
-    //   - اتحاد هایی که به محصولات کسب و کارهای شما نیاز دارند
-    //   - اتحادهای منتظر تکمیل توسط شما
-    //   - اتحادهای منتظر تکمیل توسط سایر اعضا
-    //   - اتحادهای تکمیل شده منتظر تایید
-    //   - اتحاد های فعال شما
+    // اتحاد هایی که به محصولات کسب و کارهای شما نیاز دارند
+    // اتحادهایی که شما عضو شدید اما پیشنهادها و نیازهای باقی مانده دارد
+    // اتحادهای شما که نیازها و پیشنهادهای آن کامل شده و اعضا باید یکدیگر را تایید نمایند
+    // اتحاد های فعال شما
+    
     const [unions, setUnions] = useState([]);
     useEffect(() => {
         const getUnions = async () => {
@@ -71,7 +70,7 @@ export default function ThirdTab({ primeBusiness, user }) {
             </Typography>
             {/* <ThirdTabUnionsWhichNeedYourProducts />
         */}
-            <OtherUnions {...{ primeBusiness, user, unions }} />
+            <UnionsWhichNeedYourProducts {...{ primeBusiness, user, unions }} />
         </Container>
     )
 }
