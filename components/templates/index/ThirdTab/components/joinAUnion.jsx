@@ -12,20 +12,20 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import BasketSelection from '@/components/modules/BasketSelection';
-import SelectOrCreateCategoryAndGuild from '@/components/modules/SelectOrCreateCategoryAndGuild';
 import {
     InputLabel,
     MenuItem,
     Select,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ThirdTabjoinAUnion({ union, primeBusiness, user, open, dialogCloseHandler }) {
+export default function joinAUnion({ union, primeBusiness, user, open, dialogCloseHandler }) {
 
     const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness.businessName);
     const userBusinesses = user.businesses.map((business) => business.businessName);
@@ -37,6 +37,7 @@ export default function ThirdTabjoinAUnion({ union, primeBusiness, user, open, d
     // سبدهای عرضه و تقاضا
     const [offerBasket, setOfferBasket] = useState([]);
     const [demandBasket, setDemandBasket] = useState([]);
+   
 
     const addOfferBasket = (value) => {
         setOfferBasket(value);
@@ -130,7 +131,7 @@ export default function ThirdTabjoinAUnion({ union, primeBusiness, user, open, d
                     <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
                         سبد محصولاتی که می خواهید دریافت کنید
                     </Typography>
-                    <SelectOrCreateCategoryAndGuild sendDataToParent={getDataFromChild} />
+                    <SelectCategoryAndGuild sendDataToParent={getDataFromChild} />
                     <BasketSelection
                         parentBasketFunction={addDemandBasket}
                         guild={demandGuild}

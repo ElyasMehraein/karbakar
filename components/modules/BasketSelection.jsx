@@ -1,5 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import { Autocomplete, Box, Button, Container, IconButton, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+  Typography
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -10,196 +22,253 @@ import Groups2Icon from '@mui/icons-material/Groups2';
 import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
+// در صورت نیاز به تولید آیدی یکتا برای محصول جدید
+import { v4 as uuidv4 } from 'uuid';
+
 export default function BasketSelection({ business, guild, parentBasketFunction }) {
+  const guildID = guild?._id || business?.guild;
 
-    const guildID = guild?._id || business?.guild
-    // select product
+  // لیست محصولات دریافت‌شده از سرور
+  const [products, setProducts] = useState([]);
 
-    const [products, setProducts] = React.useState([]);
+  // نام محصول انتخاب‌شده (از Autocomplete)
+  const [selectedProductName, setSelectedProductName] = useState("");
 
-    useEffect(() => {
-        if (business || guild?._id) {
-            const fetchProducts = async () => {
-                try {
-                    const response = await fetch(`/api/getGuildProduct?guildID=${guildID}`);
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch products');
-                    }
-                    const data = await response.json();
+  // آبجکت محصول انتخاب‌شده؛ اگر محصول جدید باشد، این مقدار null خواهد بود
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
-                    const Products = data.data.map((product) => product)
-                    setProducts(Products);
-                }
-                catch (err) {
-                    setOpenSnackbar500Error(true)
-                    console.log(err.message);
-                }
-            };
-            fetchProducts();
+  // تعیین واحد اندازه‌گیری
+  const [unitOfMeasurement, setUnitOfMeasurement] = useState("");
+  const [isUnitOfMeasurementExistInDB, setIsUnitOfMeasurementExistInDB] = useState(false);
+
+  // مقدار (تعداد)
+  const [amount, setAmount] = useState("");
+
+  // رادیو مصرف‌کننده (true => اعضای کسب‌وکار، false => سایر کسب‌وکارها)
+  const [radioGroupValue, setRadioGroupValue] = useState("true");
+
+  // سبد محصولات
+  const [basket, setBasket] = useState([]);
+
+  // اسنک‌بارها
+  const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = useState(false);
+  const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
+
+  // فراخوانی لیست محصولات از سرور
+  useEffect(() => {
+    if (guildID) {
+      const fetchProducts = async () => {
+        try {
+          const response = await fetch(`/api/getGuildProduct?guildID=${guildID}`);
+          if (!response.ok) {
+            throw new Error('Failed to fetch products');
+          }
+          const data = await response.json();
+          const productsFromDB = data.data || [];
+          setProducts(productsFromDB);
+        } catch (err) {
+          setOpenSnackbar500Error(true);
+          console.error(err.message);
         }
-    }, [business, guild]);
+      };
+      fetchProducts();
+    }
+  }, [guildID]);
 
-    const [selectedProductName, setSelectedProductName] = React.useState("");
-    // select unitOfMasurment
+  /**
+   * هر بار که نام محصول تغییر می‌کند، بررسی می‌کنیم
+   * آیا این نام در لیست محصولات دیتابیس وجود دارد یا نه.
+   * اگر وجود داشته باشد، selectedProduct را همان شیء دیتابیس تنظیم می‌کنیم.
+   * اگر وجود نداشته باشد، به‌معنی محصول جدید است، پس selectedProduct را null می‌کنیم.
+   */
+  useEffect(() => {
+    const matchedProduct = products.find(
+      (product) => product.productName === selectedProductName
+    );
+    if (matchedProduct) {
+      setSelectedProduct(matchedProduct);
+      setUnitOfMeasurement(matchedProduct.unitOfMeasurement);
+      setIsUnitOfMeasurementExistInDB(true);
+    } else {
+      setSelectedProduct(null);
+      setUnitOfMeasurement("");
+      setAmount("");
+      setIsUnitOfMeasurementExistInDB(false);
+    }
+  }, [selectedProductName, products]);
 
-    const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
-    const [isUnitOfMeasurementExistInDB, setIsUnitOfMeasurementExistInDB] = React.useState("")
-    useEffect(() => {
-        let selectedProduct = products.find(product => {
-            return product.productName == selectedProductName
-        })
-        if (selectedProduct) {
-            setUnitOfMeasurement(selectedProduct.unitOfMeasurement)
-            setIsUnitOfMeasurementExistInDB(true)
-        } else {
-            setUnitOfMeasurement("")
-            setAmount("")
-            setIsUnitOfMeasurementExistInDB(false)
-        }
-    }, [selectedProductName])
+  // مدیریت تغییرات در Autocomplete
+  const handleProductNameChange = (event, newValue) => {
+    setSelectedProductName(newValue || "");
+    setAmount("");
+  };
 
-    // select Amount
-    const [amount, setAmount] = React.useState("")
-    //radioGroup
-    let [radioGroupValue, setRadioGroupValue] = React.useState("true")
-
-    // Create Basket Button
-    let isButtonDisable = !Boolean(selectedProductName && unitOfMeasurement && amount);
-    //basket
-    const [basket, setBasket] = useState([])
-
-
-    const addToBasket = () => {
-        let isDuplicate = basket.some((value) => {
-            return value.product.productName === selectedProductName;
-        });
-        if (isDuplicate) {
-            setOpenSnackbarDublicateError(true)
-            return
-        }
-        const updatedBasket = [{ product: { _id: Math.floor(Math.random() * 100), productName: selectedProductName, unitOfMeasurement, isRetail: radioGroupValue, guildID }, amount }, ...basket]
-        parentBasketFunction(updatedBasket);
-        setBasket(updatedBasket)
-        setSelectedProductName("")
-        setUnitOfMeasurement("")
-        setAmount("")
+  // افزودن محصول به سبد
+  const addToBasket = () => {
+    // بررسی تکراری نبودن محصول
+    const isDuplicate = basket.some(
+      (item) => item.product.productName === selectedProductName
+    );
+    if (isDuplicate) {
+      setOpenSnackbarDublicateError(true);
+      return;
     }
 
-    //delete frame
-    const deleteFrame = (productName) => {
-        const updatedBasket = basket.filter(frame => frame.product.productName !== productName)
-        parentBasketFunction(updatedBasket);
-        setBasket(updatedBasket)
-    }
-    //Snackbars
-    const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = React.useState(false);
-    const [openSnackbar500Error, setOpenSnackbar500Error] = React.useState(false);
+    // اگر محصول در دیتابیس وجود داشته باشد از همان _id استفاده می‌کنیم
+    // در غیر این صورت، یک آیدی یکتا تولید می‌کنیم
+    const newId = selectedProduct?._id || uuidv4();
 
-    const handleSnackbarClose = () => {
-        setOpenSnackbarDublicateError(false);
-        setOpenSnackbar500Error(false)
+    const newBasketItem = {
+      product: {
+        _id: newId,
+        productName: selectedProductName,
+        unitOfMeasurement: unitOfMeasurement,
+        isRetail: radioGroupValue, // 'true' یا 'false'
+        guildID: guildID,
+      },
+      amount: amount,
     };
 
-    return (
-        <Container maxWidth="md" className="inMiddle" align='center' >
-            <Autocomplete
-                sx={{ width: 300 }}
-                id="add-product"
-                freeSolo
-                inputValue={selectedProductName}
-                options={products.length > 0 ? products.map((product) => product.productName) : []}
-                renderInput={(params) => <TextField {...params} label="محصول" />}
-                onInputChange={(event, newInputValue) => {
-                    setSelectedProductName(newInputValue)
-                    setAmount([])
-                }}
-            />
-            {isUnitOfMeasurementExistInDB ?
-                <Typography sx={{ textAlign: "center", fontSize: 14 }}>
-                    {` واحد اندازه گیری  : ${unitOfMeasurement}`}
-                </Typography>
-                :
-                <Box >
-                    <TextField
-                        sx={{ my: 2, width: 300 }}
-                        id="outlined-controlled"
-                        label="واحد اندازه گیری"
-                        value={unitOfMeasurement}
-                        onChange={(event) => {
-                            setUnitOfMeasurement(event.target.value);
-                        }}
-                    />
-                </Box>
-            }
-            <Box >
-                <TextField
-                    placeholder="بصورت عدد وارد نمایید مثلا 5"
-                    sx={{ width: 300 }}
-                    id="outlined-controlled2"
-                    label="مقدار(عدد)"
-                    onChange={(event) => {
-                        setAmount(event.target.value);
-                    }}
-                    value={amount}
-                />
-            </Box>
-            <FormControl>
-                <FormLabel id="demo-controlled-radio-buttons-group">مصرف کننده</FormLabel>
-                <RadioGroup
-                    row
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={radioGroupValue}
-                    onChange={(e, value) => setRadioGroupValue(value)}
-                >
-                    <FormControlLabel value="false" control={<Radio />} label="کسب و کارها" />
-                    <FormControlLabel value="true" control={<Radio />} label="اعضای کسب و کار" />
-                </RadioGroup>
-            </FormControl>
-            <Button
-                sx={{ display: "block" }}
-                children={"اضافه به سبد"}
-                variant="contained"
-                disabled={isButtonDisable}
-                onClick={addToBasket}
-            />
-            <List dense={true}>
-                {basket.map(producrFrame => {
-                    return (
-                        <ListItem key={producrFrame.product._id} sx={{ my: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
-                            {producrFrame.product.isRetail == "true" ?
-                                <ListItemIcon>
-                                    <Groups2Icon />
-                                </ListItemIcon>
-                                :
-                                <ListItemIcon>
-                                    <BusinessRoundedIcon />
-                                </ListItemIcon>
-                            }
-                            <ListItemText primary={producrFrame.product.productName} secondary={`${producrFrame.amount} - ${producrFrame.product.unitOfMeasurement}`} />
-                            <IconButton onClick={() => deleteFrame(producrFrame.productName || producrFrame.product.productName)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItem>
-                    )
-                })
-                }
-            </List>
-            <CustomSnackbar
-                open={openSnackbar500Error}
-                onClose={handleSnackbarClose}
-                message="خطا از سمت سرور"
-                severity="error"
+    const updatedBasket = [newBasketItem, ...basket];
+    setBasket(updatedBasket);
 
-            />
-            <CustomSnackbar
-                open={openSnackbarDublicateError}
-                onClose={handleSnackbarClose}
-                message="این محصول قبلا به سبد اضافه شده است"
-                severity="error"
+    // اگر نیاز دارید همواره selectedProduct را به والد هم بفرستید:
+    parentBasketFunction?.(updatedBasket, selectedProduct);
 
-            />
+    // ریست فیلدها
+    setSelectedProductName("");
+    setUnitOfMeasurement("");
+    setAmount("");
+    setSelectedProduct(null);
+  };
 
-        </Container>
-    )
+  // حذف محصول از سبد
+  const deleteFrame = (productName) => {
+    const updatedBasket = basket.filter(
+      (frame) => frame.product.productName !== productName
+    );
+    setBasket(updatedBasket);
+    parentBasketFunction?.(updatedBasket, selectedProduct);
+  };
+
+  // بستن اسنک‌بار
+  const handleSnackbarClose = () => {
+    setOpenSnackbarDublicateError(false);
+    setOpenSnackbar500Error(false);
+  };
+
+  // کنترل فعال بودن دکمه
+  const isButtonDisable = !(
+    selectedProductName && unitOfMeasurement && amount
+  );
+
+  return (
+    <Container maxWidth="md" className="inMiddle" align="center">
+      <Autocomplete
+        sx={{ width: 300 }}
+        id="add-product"
+        freeSolo
+        value={selectedProductName}
+        options={products.map((product) => product.productName)}
+        onInputChange={handleProductNameChange}
+        renderInput={(params) => <TextField {...params} label="محصول" />}
+      />
+
+      {isUnitOfMeasurementExistInDB ? (
+        <Typography sx={{ textAlign: "center", fontSize: 14, mt: 1 }}>
+          {`واحد اندازه گیری: ${unitOfMeasurement}`}
+        </Typography>
+      ) : (
+        <Box>
+          <TextField
+            sx={{ my: 2, width: 300 }}
+            id="unit-of-measurement"
+            label="واحد اندازه گیری"
+            value={unitOfMeasurement}
+            onChange={(event) => setUnitOfMeasurement(event.target.value)}
+          />
+        </Box>
+      )}
+
+      <Box>
+        <TextField
+          placeholder="مثلاً 5"
+          sx={{ width: 300 }}
+          id="amount"
+          label="مقدار (عدد)"
+          onChange={(event) => setAmount(event.target.value)}
+          value={amount}
+        />
+      </Box>
+
+      <FormControl sx={{ mt: 2 }}>
+        <FormLabel id="consumer-type">مصرف کننده</FormLabel>
+        <RadioGroup
+          row
+          aria-labelledby="consumer-type"
+          name="consumer-type"
+          value={radioGroupValue}
+          onChange={(e) => setRadioGroupValue(e.target.value)}
+        >
+          <FormControlLabel value="false" control={<Radio />} label="کسب و کارها" />
+          <FormControlLabel value="true" control={<Radio />} label="اعضای کسب و کار" />
+        </RadioGroup>
+      </FormControl>
+
+      <Button
+        sx={{ display: "block", mt: 2 }}
+        variant="contained"
+        disabled={isButtonDisable}
+        onClick={addToBasket}
+      >
+        اضافه به سبد
+      </Button>
+
+      <List dense sx={{ mt: 2 }}>
+        {basket.map((productFrame) => (
+          <ListItem
+            key={productFrame.product._id}
+            sx={{
+              my: 1,
+              width: '100%',
+              minWidth: 300,
+              maxWidth: 400,
+              bgcolor: '#e0e0e0',
+              textAlign: "right"
+            }}
+          >
+            <ListItemIcon>
+              {productFrame.product.isRetail === "true" ? (
+                <Groups2Icon />
+              ) : (
+                <BusinessRoundedIcon />
+              )}
+            </ListItemIcon>
+            <ListItemText
+              primary={productFrame.product.productName}
+              secondary={`${productFrame.amount} - ${productFrame.product.unitOfMeasurement}`}
+            />
+            <IconButton
+              onClick={() => deleteFrame(productFrame.product.productName)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ListItem>
+        ))}
+      </List>
+
+      <CustomSnackbar
+        open={openSnackbar500Error}
+        onClose={handleSnackbarClose}
+        message="خطا از سمت سرور"
+        severity="error"
+      />
+      <CustomSnackbar
+        open={openSnackbarDublicateError}
+        onClose={handleSnackbarClose}
+        message="این محصول قبلا به سبد اضافه شده است"
+        severity="error"
+      />
+    </Container>
+  );
 }

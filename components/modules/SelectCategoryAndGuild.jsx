@@ -75,33 +75,36 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
                     isOptionEqualToValue={isOptionEqualToValue}
                     onChange={changeHandler}
                 />
-                {jobCategory && guilds.length ?
-                    <>
-                        <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
-                            صنف تولید کننده محصولی که می خواهید را انتخاب نمایید
+                {jobCategory ? (
+                    guilds.length ? (
+                        <>
+                            <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
+                                صنف تولید کننده محصولی که می خواهید را انتخاب نمایید
+                            </Typography>
+                            <FormControl sx={{ my: 1, width: 300 }}>
+                                <InputLabel id="chose-business-lable">عنوان صنف</InputLabel>
+                                <Select
+                                    labelId="chose-business-lable"
+                                    id="chose-business"
+                                    value={guildName}
+                                    label="عنوان صنف"
+                                    onChange={handleChange}
+                                >
+                                    {guilds.map((guild) => (
+                                        <MenuItem key={guild._id} value={guild.guildName}>
+                                            {guild.guildName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </>
+                    ) : (
+                        <Typography sx={{ py: 1, textAlign: "center", fontSize: 12, color: "red" }}>
+                            در این دسته بندی هنوز صنفی ایجاد نشده و وجود ندارد؛ دسته بندی های دیگر را امتحان کنید
                         </Typography>
+                    )
+                ) : null}
 
-                        <FormControl sx={{ my: 1, width: 300 }}>
-
-                            <InputLabel id="chose-business-lable">عنوان صنف</InputLabel>
-                            <Select
-                                labelId="chose-business-lable"
-                                id="chose-business"
-                                value={guildName}
-                                label="عنوان صنف"
-                                onChange={handleChange}
-                            >
-                                {guilds.map((guild) => {
-                                    return <MenuItem key={guild._id} value={guild.guildName}>{guild.guildName}</MenuItem>
-                                })}
-                            </Select>
-                        </FormControl>
-                    </>
-                    :
-                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 , color:"red"}}>
-                        در این دسته بندی هنوز صنفی ایجاد نشده و وجود ندارد؛ دسته بندی های دیگر را امتحان کنید
-                    </Typography>
-                }
             </Box>
         </Container>
     )

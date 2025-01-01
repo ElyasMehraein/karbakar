@@ -7,7 +7,7 @@ import { blue } from '@mui/material/colors';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button } from '@mui/material';
-import ThirdTabjoinAUnion from './ThirdTabjoinAUnion';
+import ThirdTabjoinAUnion from './joinAUnion';
 
 export default function ThirdTabAccordion({ union, accordionDetails, primeBusiness, user }) {
   const userIsABusinessAgent = user?.businesses?.some(business => Number(business.agentCode) === Number(user.code));
