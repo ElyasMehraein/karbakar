@@ -4,12 +4,12 @@ import ThirdTabAccordion from '../components/ThirdTabAccordion';
 import OtherUnionsAccordionDetails from '../components/OtherUnionsAccordionDetails';
 
 export default function ThirdTabOtherUnions({ primeBusiness, user, unions }) {
-    const javab = user.businesses.map(business => {
+    const userIsABusinessAgent = user?.businesses.map(business => {
         return business.agentCode
         // === user.code
-    })
-    console.log("javab", javab.includes(`${user.code}`));
-    console.log("user.code", user.code);
+    }).includes(`${user.code}`)
+
+    console.log("userIsABusinessAgent", userIsABusinessAgent);
 
     return (
         <React.Fragment>

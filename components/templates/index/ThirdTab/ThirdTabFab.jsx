@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import {  Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
+import { Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import BasketSelection from '@/components/modules/BasketSelection';
 import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
@@ -116,12 +116,17 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 multiline
                 value={descriptionText}
                 rows={4}
-                placeholder="مثلا:این اتحاد جهت مبادلات بین کارگاههای تولیدی شهرک صنعتی شیراز ایجاد شده است "
-                // fullWidth
+                placeholder="مثلا:این اتحاد جهت مبادلات بین کارگاههای تولیدی شهرک صنعتی شیراز ایجاد شده است"
                 size="small"
-                onChange={(e) => setDescriptionText(e.target.value)}
+                onChange={(e) => {
+                    const newValue = e.target.value.slice(0, 150);
+                    setDescriptionText(newValue);
+                }}
                 sx={{ my: 2, minWidth: 300 }}
+                helperText={`${descriptionText.length}/150`}
             />
+
+
             <TextField
                 value={unionDuration}
                 placeholder='حداکثر 365 روز' variant="outlined"
@@ -151,7 +156,7 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 children={"ایجاد اتحاد"}
                 variant="contained"
                 fullWidth
-                disabled={!(unionName && descriptionText && unionDuration && offerBasket.length && demandBasket.length)}
+                disabled={!(unionName && descriptionText && unionDuration && offerBasket.length && demandBasket.length && demandGuild)}
                 onClick={() => createUnion()}
             />
             <CustomSnackbar

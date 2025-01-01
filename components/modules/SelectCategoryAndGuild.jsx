@@ -98,7 +98,7 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
                         </FormControl>
                     </>
                     :
-                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
+                    <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 , color:"red"}}>
                         در این دسته بندی هنوز صنفی ایجاد نشده و وجود ندارد؛ دسته بندی های دیگر را امتحان کنید
                     </Typography>
                 }
