@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container } from '@mui/material'
-import UnionWaitForComplete from './union/UnionWaitForComplete';
-import UnionsWhichNeedYourProducts from './union/UnionsWhichNeedYourProducts';
-import WaitForVerifyMembers from './union/WaitForVerifyMembers';
+import UnionsWhichNeedYourProducts from './UnionsWhichNeedYourProducts/UnionsWhichNeedYourProducts';
 
 export default function ThirdTab({ primeBusiness, user }) {
 
@@ -62,12 +60,12 @@ export default function ThirdTab({ primeBusiness, user }) {
             {/* <ThirdTabUnionsWhichNeedYourProducts />
             <UnionsWhichNeedYourProducts {...{ primeBusiness, user, unions }} />
             */}
-            {unions.category3?.length ?
+            {/* {unions.category3?.length ?
                 <WaitForVerifyMembers {...{ primeBusiness, user, unions:unions.category3}} /> : null
             }
             {unions.category2?.length ?
                 <UnionWaitForComplete {...{ primeBusiness, user, unions:unions.category2}} /> : null
-            }
+            } */}
             {unions.category1?.length ?
                 <UnionsWhichNeedYourProducts {...{ primeBusiness, user, unions:unions.category1}} /> : null
             }

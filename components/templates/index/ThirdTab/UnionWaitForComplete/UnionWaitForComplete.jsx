@@ -1,6 +1,6 @@
 import React from 'react'
 import Typography from "@mui/material/Typography";
-import ThirdTabAccordion from '../components/ThirdTabAccordion';
+import UnionsWhichNeedYourProductsAccordion from '../components/UnionsWhichNeedYourProductsAccordion';
 import OtherUnionsAccordionDetails from '../components/OtherUnionsAccordionDetails';
 
 export default function UnionWaitForComplete({ primeBusiness, user, unions }) {
@@ -11,7 +11,7 @@ export default function UnionWaitForComplete({ primeBusiness, user, unions }) {
                 اتحادهایی که شما عضو شدید اما پیشنهادها و نیازهای باقی مانده دارد
             </Typography>
             {unions.map((union) => {
-                return <ThirdTabAccordion {...{ primeBusiness, user, union }} accordionDetails={OtherUnionsAccordionDetails} key={union._id} />
+                return <UnionsWhichNeedYourProductsAccordion {...{ primeBusiness, user, union }} accordionDetails={OtherUnionsAccordionDetails} key={union._id} />
             })}
         </React.Fragment>
 

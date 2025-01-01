@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from "@mui/material/Typography";
-import ThirdTabAccordion from '../components/ThirdTabAccordion';
 import OtherUnionsAccordionDetails from '../components/OtherUnionsAccordionDetails';
+import UnionsWhichNeedYourProductsAccordion from './UnionsWhichNeedYourProductsAccordion';
 
 export default function UnionsWhichNeedYourProducts({ primeBusiness, user, unions }) {
 
@@ -11,7 +11,7 @@ export default function UnionsWhichNeedYourProducts({ primeBusiness, user, union
                 اتحاد هایی که به محصولات کسب و کارهای شما نیاز دارند
             </Typography>
             {unions.map((union) => {
-                return <ThirdTabAccordion {...{ primeBusiness, user, union }} accordionDetails={OtherUnionsAccordionDetails} key={union._id} />
+                return <UnionsWhichNeedYourProductsAccordion {...{ primeBusiness, user, union }} accordionDetails={OtherUnionsAccordionDetails} key={union._id} />
             })}
         </React.Fragment>
 

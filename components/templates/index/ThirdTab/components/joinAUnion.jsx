@@ -26,7 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function joinAUnion({ union, primeBusiness, user, open, dialogCloseHandler }) {
+export default function JoinAUnion({ union, primeBusiness, user, open, dialogCloseHandler }) {
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
     const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness.businessName);

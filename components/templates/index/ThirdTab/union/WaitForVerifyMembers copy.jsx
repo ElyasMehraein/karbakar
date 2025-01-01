@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from "@mui/material/Typography";
-import ThirdTabAccordion from '../components/ThirdTabAccordion';
 import OtherUnionsAccordionDetails from '../components/OtherUnionsAccordionDetails';
+import AccordionForVote from '../WaitForVerifyMembers/WaitForVerifyMembersAccordion';
 
 export default function WaitForVerifyMembers({ primeBusiness, user, unions }) {
 
@@ -11,7 +11,7 @@ export default function WaitForVerifyMembers({ primeBusiness, user, unions }) {
                 اتحادهایی که شما عضو هستید و نیازها و پیشنهادهای آن کامل شده و اعضا باید یکدیگر را تایید نمایند
             </Typography>
             {unions.map((union) => {
-                return <ThirdTabAccordion {...{ primeBusiness, user, union }} accordionDetails={OtherUnionsAccordionDetails} key={union._id} />
+                return <AccordionForVote {...{ primeBusiness, user, union }} accordionDetails={OtherUnionsAccordionDetails} key={union._id} />
             })}
         </React.Fragment>
 

@@ -7,9 +7,9 @@ import { blue } from '@mui/material/colors';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button } from '@mui/material';
-import ThirdTabjoinAUnion from './joinAUnion';
+import JoinAUnion from '../components/joinAUnion';
 
-export default function ThirdTabAccordion({ union, accordionDetails, primeBusiness, user }) {
+export default function UnionsWhichNeedYourProductsAccordion({ union, accordionDetails, primeBusiness, user }) {
   const userIsABusinessAgent = user?.businesses?.some(business => Number(business.agentCode) === Number(user.code));
 
 
@@ -26,7 +26,7 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
 
   return (
     <React.Fragment>
-      <ThirdTabjoinAUnion  {...{ primeBusiness, user, union, open, dialogCloseHandler }} />
+      <JoinAUnion  {...{ primeBusiness, user, union, open, dialogCloseHandler }} />
       <Accordion
         disableGutters
         sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}

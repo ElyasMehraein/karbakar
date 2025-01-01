@@ -1,7 +1,7 @@
 import connectToDB from "@/configs/db";
 import UnionModel from "@/models/Union";
 import BusinessModel from "@/models/Business";
-import { GET } from "@/app/api/auth/me/route";
+import { GET as getMe } from "@/app/api/auth/me/route";
 
 export async function DELETE(req) {
   try {
@@ -13,7 +13,7 @@ export async function DELETE(req) {
     await connectToDB();
 
     // دریافت اطلاعات کاربر لاگین‌کرده
-    const response = await GET(req);
+    const response = await getMe(req);
     if (!response.ok) {
       return Response.json({ message: "log in first" }, { status: 401 });
     }
@@ -79,6 +79,16 @@ export async function DELETE(req) {
     //   (ev) => ev.extensionVoter?.toString() !== businessToRemoveID
     // );
 
+    // اگر بعد از حذف، هیچ عضوی در اتحادیه باقی نمانده باشد، خود اتحاد را پاک می‌کنیم
+    if (union.members.length === 0) {
+      await UnionModel.findByIdAndDelete(unionID);
+      return Response.json(
+        { message: "The union had no members left and was deleted entirely" },
+        { status: 200 }
+      );
+    }
+
+    // در غیر این صورت تغییرات را ذخیره می‌کنیم
     await union.save();
 
     return Response.json(
