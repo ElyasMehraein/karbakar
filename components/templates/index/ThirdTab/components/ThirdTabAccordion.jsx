@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 import ThirdTabjoinAUnion from './ThirdTabjoinAUnion';
 
 export default function ThirdTabAccordion({ union, accordionDetails, primeBusiness, user }) {
-  // console.log("primeBusiness", primeBusiness, user);
+  const userIsABusinessAgent = user?.businesses?.some(business => Number(business.agentCode) === Number(user.code));
 
   const [open, setOpen] = useState(false);
   const handleMembership = () => {
@@ -84,7 +84,7 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
             <Typography sx={{ mr: 1, fontSize: '12px' }}>
               {`مدت اتحاد: ${union.deadline} روز`}
             </Typography>
-            {user.code === primeBusiness.agentCode &&
+            {userIsABusinessAgent &&
               <Button variant="contained" color="primary" onClick={handleMembership}>
                 عضویت
               </Button>
