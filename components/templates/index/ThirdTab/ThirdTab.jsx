@@ -4,7 +4,7 @@ import { AvatarGroup, Container, Typography } from '@mui/material'
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import ItsAvatar from '@/components/modules/ItsAvatar';
-import WaitForOthersToAccept from './union/WaitForOthersToAccept';
+import WaitForOthersToAccept from './union/WaitForVerifyMembers';
 import ActiveUnion from './union/ActiveUnion';
 import WaitForYouToAccept from './union/WaitForYouToAccept';
 import { blue } from '@mui/material/colors';
@@ -73,6 +73,12 @@ export default function ThirdTab({ primeBusiness, user }) {
             {/* <ThirdTabUnionsWhichNeedYourProducts />
             <UnionsWhichNeedYourProducts {...{ primeBusiness, user, unions }} />
             */}
+            {unions.category3?.length ?
+                <UnionWaitForComplete {...{ primeBusiness, user, unions:unions.category3}} /> : null
+            }
+            {unions.category2?.length ?
+                <UnionWaitForComplete {...{ primeBusiness, user, unions:unions.category2}} /> : null
+            }
             {unions.category1?.length ?
                 <UnionsWhichNeedYourProducts {...{ primeBusiness, user, unions:unions.category1}} /> : null
             }
