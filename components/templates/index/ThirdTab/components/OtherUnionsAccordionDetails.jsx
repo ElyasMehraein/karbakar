@@ -1,10 +1,10 @@
-import { AccordionDetails, Box, Divider, Typography } from '@mui/material'
-import React from 'react'
+import { AccordionDetails, Box, Button, Divider, Typography } from '@mui/material'
+import React, { useState } from 'react'
 import Avatar from "@mui/material/Avatar";
 import ItsAvatar from "@/components/modules/ItsAvatar";
 import { useTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
-
+import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import {
   TableContainer,
   Paper,
@@ -16,100 +16,135 @@ import {
   TableCell,
 } from "@mui/material";
 
-export default function OtherUnionsAccordionDetails(union) {
+export default function OtherUnionsAccordionDetails(union, user) {
 
   const theme = useTheme();
 
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-    // متد کمکی برای محاسبه‌ی عرضه و تقاضای باقی‌مانده
-    const calculateUnionLeftovers = React.useCallback((members) => {
-      const productTotals = new Map(); // ذخیره کل عرضه و تقاضا برای هر محصول
-  
-      members.forEach((member) => {
-        // جمع‌زدن پیشنهادها
-        member.offerBasket.forEach((offer) => {
-          if (!offer?.product?._id) return;
-          const productId = offer.product._id.toString();
-          if (!productTotals.has(productId)) {
-            productTotals.set(productId, {
-              productName: offer.product.productName,
-              unitOfMeasurement: offer.product.unitOfMeasurement,
-              totalSupply: 0,
-              totalDemand: 0,
-            });
-          }
-          productTotals.get(productId).totalSupply += offer.amount;
-        });
-  
-        // جمع‌زدن نیازها
-        member.demandBasket.forEach((demand) => {
-          if (!demand?.product?._id) return;
-          const productId = demand.product._id.toString();
-          if (!productTotals.has(productId)) {
-            productTotals.set(productId, {
-              productName: demand.product.productName,
-              unitOfMeasurement: demand.product.unitOfMeasurement,
-              totalSupply: 0,
-              totalDemand: 0,
-            });
-          }
-          productTotals.get(productId).totalDemand += demand.amount;
-        });
-      });
-  
-      const leftoverSupply = [];
-      const leftoverDemand = [];
-  
-      for (const [, data] of productTotals.entries()) {
-        const { productName, unitOfMeasurement, totalSupply, totalDemand } = data;
-        const diff = totalSupply - totalDemand;
-  
-        if (diff > 0) {
-          leftoverSupply.push({ productName, amount: diff, unitOfMeasurement });
-        } else if (diff < 0) {
-          leftoverDemand.push({
-            productName,
-            amount: Math.abs(diff),
-            unitOfMeasurement,
+  const userBusinessId = user.businesses.find(business =>
+    union.members.some(member => member.member._id.toString() === business._id.toString())
+  )?._id;
+
+  const [openLeaveUnion, setOpenLeaveUnion] = useState(false);
+
+  async function handleLeaveUnion(myBusinessID, businessToRemoveID) {
+    const res = await fetch('api/leaveAUnion', {
+      method: "DELETE",
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        unionID: union._id, myBusinessID, businessToRemoveID
+      })
+    });
+    if (res.status === 500) {
+      console.log("server error");
+    } else if (res.status === 409) {
+      // ...
+    } else if (res.status === 201) {
+      console.log("joined union successfully", res);
+      // ریست مقادیر
+      setOfferBasket([]);
+      setDemandBasket([]);
+      setOpenLeaveUnion(true)
+    }
+
+
+  };
+  // متد کمکی برای محاسبه‌ی عرضه و تقاضای باقی‌مانده
+  const calculateUnionLeftovers = React.useCallback((members) => {
+    const productTotals = new Map(); // ذخیره کل عرضه و تقاضا برای هر محصول
+
+    members.forEach((member) => {
+      // جمع‌زدن پیشنهادها
+      member.offerBasket.forEach((offer) => {
+        if (!offer?.product?._id) return;
+        const productId = offer.product._id.toString();
+        if (!productTotals.has(productId)) {
+          productTotals.set(productId, {
+            productName: offer.product.productName,
+            unitOfMeasurement: offer.product.unitOfMeasurement,
+            totalSupply: 0,
+            totalDemand: 0,
           });
         }
+        productTotals.get(productId).totalSupply += offer.amount;
+      });
+
+      // جمع‌زدن نیازها
+      member.demandBasket.forEach((demand) => {
+        if (!demand?.product?._id) return;
+        const productId = demand.product._id.toString();
+        if (!productTotals.has(productId)) {
+          productTotals.set(productId, {
+            productName: demand.product.productName,
+            unitOfMeasurement: demand.product.unitOfMeasurement,
+            totalSupply: 0,
+            totalDemand: 0,
+          });
+        }
+        productTotals.get(productId).totalDemand += demand.amount;
+      });
+    });
+
+    const leftoverSupply = [];
+    const leftoverDemand = [];
+
+    for (const [, data] of productTotals.entries()) {
+      const { productName, unitOfMeasurement, totalSupply, totalDemand } = data;
+      const diff = totalSupply - totalDemand;
+
+      if (diff > 0) {
+        leftoverSupply.push({ productName, amount: diff, unitOfMeasurement });
+      } else if (diff < 0) {
+        leftoverDemand.push({
+          productName,
+          amount: Math.abs(diff),
+          unitOfMeasurement,
+        });
       }
-  
-      return { leftoverSupply, leftoverDemand };
-    }, []);
-  
-    // داده‌های عرضه/تقاضای نهایی
-    const { leftoverSupply, leftoverDemand } = React.useMemo(() => {
-      return calculateUnionLeftovers(union.members);
-    }, [union.members, calculateUnionLeftovers]);
-  
-    // مرتب‌سازی اعضا براساس نام کسب‌وکار
-    const sortedMembers = React.useMemo(() => {
-      if (!union?.members) return [];
-      return [...union.members].sort((a, b) =>
-        a.member.businessName.localeCompare(b.member.businessName)
-      );
-    }, [union]);
-  
-    // متد کمکی برای مرتب‌سازی سبد پیشنهاد و نیاز
-    const getSortedBaskets = (member) => {
-      const sortedOfferBasket = [...member.offerBasket].sort((a, b) =>
-        a.product.productName.localeCompare(b.product.productName)
-      );
-      const sortedDemandBasket = [...member.demandBasket].sort((a, b) =>
-        a.product.productName.localeCompare(b.product.productName)
-      );
-      return { sortedOfferBasket, sortedDemandBasket };
-    };
-  
-    // کامپوننت کمکی برای نمایش آواتار و اطلاعات اولیه‌ی هر عضو
-    const MemberInfo = ({ member }) => {
-      // const router = useRouter(); // در صورت استفاده از next/router
-      return (
+    }
+
+    return { leftoverSupply, leftoverDemand };
+  }, []);
+
+  // داده‌های عرضه/تقاضای نهایی
+  const { leftoverSupply, leftoverDemand } = React.useMemo(() => {
+    return calculateUnionLeftovers(union.members);
+  }, [union.members, calculateUnionLeftovers]);
+
+  // مرتب‌سازی اعضا براساس نام کسب‌وکار
+  const sortedMembers = React.useMemo(() => {
+    if (!union?.members) return [];
+    return [...union.members].sort((a, b) =>
+      a.member.businessName.localeCompare(b.member.businessName)
+    );
+  }, [union]);
+
+  // متد کمکی برای مرتب‌سازی سبد پیشنهاد و نیاز
+  const getSortedBaskets = (member) => {
+    const sortedOfferBasket = [...member.offerBasket].sort((a, b) =>
+      a.product.productName.localeCompare(b.product.productName)
+    );
+    const sortedDemandBasket = [...member.demandBasket].sort((a, b) =>
+      a.product.productName.localeCompare(b.product.productName)
+    );
+    return { sortedOfferBasket, sortedDemandBasket };
+  };
+
+  // کامپوننت کمکی برای نمایش آواتار و اطلاعات اولیه‌ی هر عضو
+  const MemberInfo = ({ member }) => {
+
+    // const router = useRouter(); // در صورت استفاده از next/router
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+        }}
+      >
         <Box
-          // onClick={() => router.push(`/${member.member.businessName}`)}
-          onClick={() => console.log(`Go to /${member.member.businessName}`)}
+          onClick={() => router.push(`/${member.member.businessName}`)}
           sx={{
             display: 'flex',
             flexDirection: 'row',
@@ -137,9 +172,15 @@ export default function OtherUnionsAccordionDetails(union) {
             </Typography>
           </Box>
         </Box>
-      );
-    };
-      // رندر نسخه دسکتاپ
+        {userBusinessId === member.member._id &&
+          <Button size="small" variant="outlined" color="error" onClick={() => handleLeaveUnion(userBusinessId, userBusinessId)}>
+            انصراف
+          </Button>
+        }
+      </Box>
+    );
+  };
+  // رندر نسخه دسکتاپ
   const renderDesktopTable = () => {
     return (
       <TableContainer sx={{ boxShadow: 'none', bgcolor: 'transparent' }}>
@@ -285,60 +326,65 @@ export default function OtherUnionsAccordionDetails(union) {
   };
   return (
     <AccordionDetails
+      sx={{
+        bgcolor: 'white',
+        borderTop: `1px solid ${blue[100]}`,
+      }}
+    >
+      {isMobile ? renderMobileCards() : renderDesktopTable()}
+
+      {/* <Divider sx={{ my: 2 }} /> */}
+
+      {/* نمایش تراز (عرضه و تقاضای باقی‌مانده) */}
+      <Box sx={{ flex: 1, minWidth: 150 }}>
+        <Typography
+          sx={{ textAlign: 'right', fontWeight: 'bold', fontSize: '14px' }}
+        >
+          تراز
+        </Typography>
+      </Box>
+      <Box
         sx={{
-          bgcolor: 'white',
-          borderTop: `1px solid ${blue[100]}`,
+          display: 'flex',
+          gap: 2,
+          flexWrap: 'wrap',
+          flexDirection: { xs: 'column', sm: 'row' },
         }}
       >
-        {isMobile ? renderMobileCards() : renderDesktopTable()}
-
-        {/* <Divider sx={{ my: 2 }} /> */}
-
-        {/* نمایش تراز (عرضه و تقاضای باقی‌مانده) */}
         <Box sx={{ flex: 1, minWidth: 150 }}>
-          <Typography
-            sx={{ textAlign: 'right', fontWeight: 'bold', fontSize: '14px' }}
-          >
-            تراز
+          <Typography sx={{ fontWeight: 'bold', fontSize: '12px', mb: 1 }}>
+            پیشنهادهای باقی‌مانده
           </Typography>
+          {leftoverSupply.length === 0 ? (
+            <Typography>---</Typography>
+          ) : (
+            leftoverSupply.map((item) => (
+              <Typography key={item.productName} sx={{ fontSize: '12px' }}>
+                {item.productName} - {item.amount} {item.unitOfMeasurement}
+              </Typography>
+            ))
+          )}
         </Box>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            flexWrap: 'wrap',
-            flexDirection: { xs: 'column', sm: 'row' },
-          }}
-        >
-          <Box sx={{ flex: 1, minWidth: 150 }}>
-            <Typography sx={{ fontWeight: 'bold', fontSize: '12px', mb: 1 }}>
-              پیشنهادهای باقی‌مانده
-            </Typography>
-            {leftoverSupply.length === 0 ? (
-              <Typography>---</Typography>
-            ) : (
-              leftoverSupply.map((item) => (
-                <Typography key={item.productName} sx={{ fontSize: '12px' }}>
-                  {item.productName} - {item.amount} {item.unitOfMeasurement}
-                </Typography>
-              ))
-            )}
-          </Box>
-          <Box sx={{ flex: 1, minWidth: 150 }}>
-            <Typography sx={{ fontWeight: 'bold', fontSize: '12px', mb: 1 }}>
-              نیازهای باقی‌مانده
-            </Typography>
-            {leftoverDemand.length === 0 ? (
-              <Typography>---</Typography>
-            ) : (
-              leftoverDemand.map((item) => (
-                <Typography key={item.productName} sx={{ fontSize: '12px' }}>
-                  {item.productName} - {item.amount} {item.unitOfMeasurement}
-                </Typography>
-              ))
-            )}
-          </Box>
+        <Box sx={{ flex: 1, minWidth: 150 }}>
+          <Typography sx={{ fontWeight: 'bold', fontSize: '12px', mb: 1 }}>
+            نیازهای باقی‌مانده
+          </Typography>
+          {leftoverDemand.length === 0 ? (
+            <Typography>---</Typography>
+          ) : (
+            leftoverDemand.map((item) => (
+              <Typography key={item.productName} sx={{ fontSize: '12px' }}>
+                {item.productName} - {item.amount} {item.unitOfMeasurement}
+              </Typography>
+            ))
+          )}
         </Box>
-      </AccordionDetails>
+      </Box>
+      <CustomSnackbar
+        open={openLeaveUnion}
+        onClose={() => location.reload()}
+        message="شما با موفقیت از اتحاد خارج شدید"
+      />
+    </AccordionDetails>
   )
 }

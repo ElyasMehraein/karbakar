@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import ThirdTabFrame from './union/ActiveUnion'
-import { AvatarGroup, Container, Typography } from '@mui/material'
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import ItsAvatar from '@/components/modules/ItsAvatar';
-import WaitForOthersToAccept from './union/WaitForVerifyMembers';
-import ActiveUnion from './union/ActiveUnion';
-import WaitForYouToAccept from './union/WaitForYouToAccept';
-import { blue } from '@mui/material/colors';
-import { grey } from '@mui/material/colors';
+import { Container } from '@mui/material'
 import UnionWaitForComplete from './union/UnionWaitForComplete';
 import UnionsWhichNeedYourProducts from './union/UnionsWhichNeedYourProducts';
-import OtherUnions from './union/OtherUnions';
-import ThirdTabAccordion from './components/ThirdTabAccordion';
+import WaitForVerifyMembers from './union/WaitForVerifyMembers';
 
 export default function ThirdTab({ primeBusiness, user }) {
 
@@ -22,7 +12,6 @@ export default function ThirdTab({ primeBusiness, user }) {
     // اتحاد های فعال شما
 
     const [unions, setUnions] = useState([]);
-    console.log("unions", unions);
 
     useEffect(() => {
         const getUnions = async () => {
@@ -74,7 +63,7 @@ export default function ThirdTab({ primeBusiness, user }) {
             <UnionsWhichNeedYourProducts {...{ primeBusiness, user, unions }} />
             */}
             {unions.category3?.length ?
-                <UnionWaitForComplete {...{ primeBusiness, user, unions:unions.category3}} /> : null
+                <WaitForVerifyMembers {...{ primeBusiness, user, unions:unions.category3}} /> : null
             }
             {unions.category2?.length ?
                 <UnionWaitForComplete {...{ primeBusiness, user, unions:unions.category2}} /> : null

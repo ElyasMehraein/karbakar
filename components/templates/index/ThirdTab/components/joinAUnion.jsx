@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
+import CustomSnackbar from "@/components/modules/CustomSnackbar";
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -26,6 +27,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function joinAUnion({ union, primeBusiness, user, open, dialogCloseHandler }) {
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
     const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness.businessName);
     const userBusinesses = user.businesses.map((business) => business.businessName);
@@ -37,7 +39,7 @@ export default function joinAUnion({ union, primeBusiness, user, open, dialogClo
     // سبدهای عرضه و تقاضا
     const [offerBasket, setOfferBasket] = useState([]);
     const [demandBasket, setDemandBasket] = useState([]);
-   
+
 
     const addOfferBasket = (value) => {
         setOfferBasket(value);
@@ -75,80 +77,90 @@ export default function joinAUnion({ union, primeBusiness, user, open, dialogClo
             // ریست مقادیر
             setOfferBasket([]);
             setDemandBasket([]);
+            setOpenSnackbar(true)
         }
     }
 
     return (
-        <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={() => dialogCloseHandler()}
-        >
-            <DialogTitle>عضویت در اتحاد</DialogTitle>
-            <IconButton
-                aria-label="close"
-                onClick={() => dialogCloseHandler()}
-                sx={(theme) => ({
-                    position: 'absolute',
-                    left: 8,
-                    top: 8,
-                    color: theme.palette.grey[500],
-                })}
+        <React.Fragment>
+
+            <Dialog
+                open={open}
+                TransitionComponent={Transition}
+                keepMounted
+                onClose={() => dialogCloseHandler()}
             >
-                <CloseIcon />
-            </IconButton>
+                <DialogTitle>عضویت در اتحاد</DialogTitle>
+                <IconButton
+                    aria-label="close"
+                    onClick={() => dialogCloseHandler()}
+                    sx={(theme) => ({
+                        position: 'absolute',
+                        left: 8,
+                        top: 8,
+                        color: theme.palette.grey[500],
+                    })}
+                >
+                    <CloseIcon />
+                </IconButton>
 
-            <DialogContent>
-                <Container maxWidth="md" className="inMiddle" align="center">
-                    <FormControl sx={{ my: 2, width: 300, align: "center" }}>
-                        <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
-                        <Select
-                            labelId="chose-business-lable"
-                            id="chose-business"
-                            value={selectedBusinessName}
-                            label="انتخاب کسب و کار"
-                            onChange={(e) => {
-                                setSelectedBusinessName(e.target.value);
-                            }}
-                        >
-                            {userBusinesses.map((userBusinessesName) => (
-                                <MenuItem key={userBusinessesName} value={userBusinessesName}>
-                                    {userBusinessesName}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
+                <DialogContent>
+                    <Container maxWidth="md" className="inMiddle" align="center">
+                        <FormControl sx={{ my: 2, width: 300, align: "center" }}>
+                            <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
+                            <Select
+                                labelId="chose-business-lable"
+                                id="chose-business"
+                                value={selectedBusinessName}
+                                label="انتخاب کسب و کار"
+                                onChange={(e) => {
+                                    setSelectedBusinessName(e.target.value);
+                                }}
+                            >
+                                {userBusinesses.map((userBusinessesName) => (
+                                    <MenuItem key={userBusinessesName} value={userBusinessesName}>
+                                        {userBusinessesName}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
 
-                    <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
-                        سبد محصولاتی که می خواهید عرضه کنید
-                    </Typography>
-                    <BasketSelection
-                        parentBasketFunction={addOfferBasket}
-                        business={selectedBusiness}
-                    />
+                        <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
+                            سبد محصولاتی که می خواهید عرضه کنید
+                        </Typography>
+                        <BasketSelection
+                            parentBasketFunction={addOfferBasket}
+                            business={selectedBusiness}
+                        />
 
-                    <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
-                        سبد محصولاتی که می خواهید دریافت کنید
-                    </Typography>
-                    <SelectCategoryAndGuild sendDataToParent={getDataFromChild} />
-                    <BasketSelection
-                        parentBasketFunction={addDemandBasket}
-                        guild={demandGuild}
-                    />
-                </Container>
-            </DialogContent>
-            <DialogActions>
-                {/* <Button sx={{ m: 2 }} color="info" variant="contained" onClick={handleClose}>
+                        <Typography sx={{ my: 2, textAlign: "center", fontSize: 14 }}>
+                            سبد محصولاتی که می خواهید دریافت کنید
+                        </Typography>
+                        <SelectCategoryAndGuild sendDataToParent={getDataFromChild} />
+                        <BasketSelection
+                            parentBasketFunction={addDemandBasket}
+                            guild={demandGuild}
+                        />
+                    </Container>
+                </DialogContent>
+                <DialogActions>
+                    {/* <Button sx={{ m: 2 }} color="info" variant="contained" onClick={handleClose}>
                     بازگشت
                 </Button> */}
-                <Button
-                    children={"عضویت در اتحاد"}
-                    variant="contained"
-                    disabled={!(offerBasket.length && demandBasket.length)}
-                    onClick={() => joinAUnion()}
-                />
-            </DialogActions>
-        </Dialog>
+                    <Button
+                        children={"عضویت در اتحاد"}
+                        variant="contained"
+                        disabled={!(offerBasket.length && demandBasket.length)}
+                        onClick={() => joinAUnion()}
+                    />
+                </DialogActions>
+            </Dialog>
+            <CustomSnackbar
+                open={openSnackbar}
+                onClose={() => location.reload()}
+                message="به اتحاد ملحق شدید"
+            />
+
+        </React.Fragment>
     )
 }

@@ -12,10 +12,13 @@ import ThirdTabjoinAUnion from './joinAUnion';
 export default function ThirdTabAccordion({ union, accordionDetails, primeBusiness, user }) {
   const userIsABusinessAgent = user?.businesses?.some(business => Number(business.agentCode) === Number(user.code));
 
+
   const [open, setOpen] = useState(false);
+
   const handleMembership = () => {
     setOpen(true);
   };
+  
   const dialogCloseHandler = () => {
     setOpen(false);
   };
@@ -70,7 +73,7 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
           </Box>
         </AccordionSummary>
 
-        {accordionDetails(union)}
+        {accordionDetails(union, user)}
 
         <AccordionActions>
           <Box
@@ -92,6 +95,7 @@ export default function ThirdTabAccordion({ union, accordionDetails, primeBusine
           </Box>
         </AccordionActions>
       </Accordion>
+      
     </React.Fragment>
   );
 }
