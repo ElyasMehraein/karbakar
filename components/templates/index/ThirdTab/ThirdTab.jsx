@@ -1,6 +1,6 @@
-import { Container } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import Union from './union';
+import Union from './components/Union';
+import { Container, Typography } from '@mui/material';
 
 export default function ThirdTab({ primeBusiness, user }) {
     const [unions, setUnions] = useState([]);
@@ -23,18 +23,21 @@ export default function ThirdTab({ primeBusiness, user }) {
     }, []);
 
     return (
-        <Container sx={{ mb: 10 }} maxWidth="md" className="inMiddle" display="flex" align='center'>
-            {Object.keys(unions).map(category =>
-                unions[category]?.length ? (
-                    <Union
-                        key={category}
-                        primeBusiness={primeBusiness}
-                        user={user}
-                        unions={unions[category]}
-                        category={category}
-                    />
+        <Container sx={{ mb: 10, maxWidth: "md", display: "flex", align: "center", flexDirection: "column" }}>
+            {Object.entries(unions).map(([category, unionList]) =>
+                unionList.length > 0 ? (
+                    unionList.map((union, index) => (
+                        <Union
+                            key={`${category}-${index}`}
+                            primeBusiness={primeBusiness}
+                            user={user}
+                            union={union}
+                            category={category}
+                        />
+                    ))
                 ) : null
             )}
         </Container>
-    );
+
+    )
 }
