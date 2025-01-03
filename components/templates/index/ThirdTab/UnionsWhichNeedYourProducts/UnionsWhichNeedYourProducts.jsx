@@ -1,6 +1,6 @@
 import React from 'react'
 import Typography from "@mui/material/Typography";
-import OtherUnionsAccordionDetails from '../components/OtherUnionsAccordionDetails';
+import OtherUnionsAccordionDetails from '../components/UnionsAccordionDetails';
 import UnionsWhichNeedYourProductsAccordion from './UnionsWhichNeedYourProductsAccordion';
 
 export default function UnionsWhichNeedYourProducts({ primeBusiness, user, unions }) {

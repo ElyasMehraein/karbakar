@@ -1,6 +1,6 @@
 import React from 'react'
 import Typography from "@mui/material/Typography";
-import OtherUnionsAccordionDetails from '../components/OtherUnionsAccordionDetails';
+import OtherUnionsAccordionDetails from '../components/UnionsAccordionDetails';
 import AccordionForVote from '../WaitForVerifyMembers/WaitForVerifyMembersAccordion';
 
 export default function WaitForVerifyMembers({ primeBusiness, user, unions }) {

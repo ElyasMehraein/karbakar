@@ -16,7 +16,7 @@ import {
   TableCell,
 } from "@mui/material";
 
-export default function OtherUnionsAccordionDetails(union, user) {
+export default function UnionsAccordionDetails(union, user) {
 
   const theme = useTheme();
 

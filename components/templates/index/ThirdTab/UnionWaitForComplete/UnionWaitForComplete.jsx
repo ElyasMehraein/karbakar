@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from "@mui/material/Typography";
 import UnionsWhichNeedYourProductsAccordion from '../components/UnionsWhichNeedYourProductsAccordion';
-import OtherUnionsAccordionDetails from '../components/OtherUnionsAccordionDetails';
+import OtherUnionsAccordionDetails from '../components/UnionsAccordionDetails';
 
 export default function UnionWaitForComplete({ primeBusiness, user, unions }) {
 

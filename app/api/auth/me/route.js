@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 
 export async function GET(req, res) {
     try {
-        const token = cookies().get("token")?.value;
+        const token = (await cookies()).get("token")?.value;
         const tokenPayLoad = verifyToken(token);
 
         if (!tokenPayLoad) {

@@ -20,7 +20,6 @@ import SecondTab from './SecondTab/SecondTab';
 import SecondTabFab from './SecondTab/SecondTabFab';
 import ThirdTab from './ThirdTab/ThirdTab';
 import ThirdTabFab from './ThirdTab/ThirdTabFab';
-import ProductBasket from '@/components/modules/ProductBasket';
 
 function CustomTabPanel(props) {
 

@@ -1,44 +1,56 @@
-import connectToDB from '@/configs/db'
+import connectToDB from '@/configs/db';
 import { cookies } from "next/headers";
 import { verifyToken } from "@/controllers/auth";
-import { notFound } from 'next/navigation'
-import BusinessModel from '@/models/Business'
-import { redirect } from 'next/navigation'
-import UserModel from '@/models/User'
+import UserModel from '@/models/User';
 import ReportModel from '@/models/Report';
-import BusinessRelationModel from '@/models/BusinessRelation';
-import ProductModel from '@/models/Product';
-export async function GET(req, res) {
 
-
-    if (!cookies().get("token")) {
-
-        return Response.json(
-            { message: "only users can get reports" },
-            { status: 403 })
-    }
-
-    const token = cookies().get("token")?.value;
-    const tokenPayLoad = verifyToken(token);
+export async function GET(req) {
     try {
+        await connectToDB();
 
-        connectToDB()
-        const logedUser = JSON.parse(JSON.stringify(await UserModel.findOne(
-            { _id: tokenPayLoad.id },
-        )))
-        const reports = await ReportModel.find(
-                { recepiant: logedUser._id }
-        ).populate("business bill recepiant providerBusiness receiverBusiness products.product").sort({ createdAt: -1 })
-        return Response.json(
-            { message: 'get reports successfully', data: reports },
+        // استفاده صحیح از cookies در Next.js 15
+        const cookieStore = await cookies(); // بدون await در این ورژن
+        const token = cookieStore.get("token")?.value;
+
+        if (!token) {
+            return new Response(
+                JSON.stringify({ message: "only users can get reports" }), 
+                { status: 403 }
+            );
+        }
+
+        let tokenPayLoad;
+        try {
+            tokenPayLoad = verifyToken(token);
+        } catch (error) {
+            return new Response(
+                JSON.stringify({ message: "Invalid token", error: error.message }), 
+                { status: 401 }
+            );
+        }
+
+        const logedUser = await UserModel.findById(tokenPayLoad.id);
+        if (!logedUser) {
+            return new Response(
+                JSON.stringify({ message: "User not found" }), 
+                { status: 404 }
+            );
+        }
+
+        const reports = await ReportModel.find({ recepiant: logedUser._id })
+            .populate("business bill recepiant providerBusiness receiverBusiness products.product")
+            .sort({ createdAt: -1 });
+
+        return new Response(
+            JSON.stringify({ message: 'get reports successfully', data: reports }), 
             { status: 200 }
         );
+
     } catch (error) {
-        console.error(`Error get reports`, error);
-        return Response.json(
-            { message: `Error get reports`, error },
-            { status: 500 })
+        console.error(`Error getting reports`, error);
+        return new Response(
+            JSON.stringify({ message: `Error getting reports`, error: error.message }), 
+            { status: 500 }
+        );
     }
-
 }
-

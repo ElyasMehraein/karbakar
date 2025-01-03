@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from "@mui/material/Typography";
 import ThirdTabAccordion from '../components/UnionsWhichNeedYourProductsAccordion';
-import OtherUnionsAccordionDetails from '../components/OtherUnionsAccordionDetails';
+import OtherUnionsAccordionDetails from '../components/UnionsAccordionDetails';
 
 export default function OtherUnions({ primeBusiness, user, unions }) {
     const userIsABusinessAgent = user?.businesses?.some(business => Number(business.agentCode) === Number(user.code));
