@@ -15,13 +15,21 @@ import {
   Typography,
   useMediaQuery,
 } from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import CustomSnackbar from '@/components/modules/CustomSnackbar';
 import ItsAvatar from '@/components/modules/ItsAvatar';
+import LoadingButton from '@mui/lab/LoadingButton';
+import { Backdrop, CircularProgress } from '@mui/material';
 
 export default function UnionsAccordionDetails({ union, user }) {
   const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // شناسه‌ی کسب‌وکار کاربر جاری در این اتحاد
@@ -31,9 +39,15 @@ export default function UnionsAccordionDetails({ union, user }) {
 
   // پیام انصراف از اتحاد
   const [openLeaveUnion, setOpenLeaveUnion] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  //
+  const [leaveUnionSnackbar, setLeaveUnionSnackbar] = useState(false);
 
   // تابع درخواست انصراف از اتحاد
   async function handleLeaveUnion(myBusinessID, businessToRemoveID) {
+    setOpenLeaveUnion(false)
+    setIsLoading(true)
     const res = await fetch('api/leaveAUnion', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -43,11 +57,15 @@ export default function UnionsAccordionDetails({ union, user }) {
         businessToRemoveID,
       }),
     });
-    if (res.status === 201) {
-      setOpenLeaveUnion(true);
+    if (res.status === 200) {
+      setIsLoading(false)
+      setLeaveUnionSnackbar(true);
     }
   }
 
+  const unionResignHandler = () => {
+    setOpenLeaveUnion(true)
+  }
   // محاسبه‌ی عرضه و تقاضای باقی‌مانده در اتحاد
   const calculateUnionLeftovers = useCallback((members) => {
     const productTotals = new Map();
@@ -171,7 +189,7 @@ export default function UnionsAccordionDetails({ union, user }) {
             size="small"
             variant="outlined"
             color="error"
-            onClick={() => handleLeaveUnion(userBusinessId, userBusinessId)}
+            onClick={unionResignHandler}
           >
             انصراف
           </Button>
@@ -333,9 +351,34 @@ export default function UnionsAccordionDetails({ union, user }) {
           </Box>
         </Box>
       </Box>
-
-      <CustomSnackbar
+      <Dialog
+        fullScreen={fullScreen}
         open={openLeaveUnion}
+        onClose={() => setOpenLeaveUnion(false)}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          استعفا از اتحاد
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            آیا درباره خروج از این اتحاد اطمینان دارید؟
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={() => setOpenLeaveUnion(false)}>
+            خیر
+          </Button>
+          <Button onClick={() => handleLeaveUnion(userBusinessId, userBusinessId)} autoFocus>
+            بله
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Backdrop open={isLoading} style={{ color: '#fff', zIndex: 1300 }}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+      <CustomSnackbar
+        open={leaveUnionSnackbar}
         onClose={() => location.reload()}
         message="شما با موفقیت از اتحاد خارج شدید"
       />
