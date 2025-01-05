@@ -12,7 +12,7 @@ export async function POST(req) {
     // اتصال به دیتابیس
     await connectToDB();
 
-    // دریافت اطلاعات کاربر لاگین کرده
+    // دریافت اطلاعات کاربر لاگین‌کرده
     const response = await GET(req);
     const user = await response.json();
 
@@ -31,6 +31,11 @@ export async function POST(req) {
       return Response.json({ message: "Union not found" }, { status: 404 });
     }
 
+    /**
+     * این تابع سبد محصولات پیشنهادی یا موردنیاز را بررسی می‌کند:
+     * ۱. اگر محصولی وجود نداشت (بر اساس _id)، ایجاد می‌کند.
+     * ۲. اگر داشت، همان را برمی‌گرداند.
+     */
     async function validateAndCreateProducts(basket, guildIdForNewProducts) {
       const validatedBasket = [];
 
@@ -38,18 +43,17 @@ export async function POST(req) {
         const { _id, productName, unitOfMeasurement, isRetail } = item.product;
         const { amount } = item;
 
-        // چک‌های مقدماتی
         if (!productName || !unitOfMeasurement || !guildIdForNewProducts) {
           throw new Error("Incomplete product information in basket");
         }
 
         let product;
 
-        // اگر آیدی داریم، ابتدا همان آیدی را در DB جستجو می‌کنیم
+        // اگر آیدی وجود دارد، ابتدا بررسی می‌کنیم در پایگاه داده هست یا خیر
         if (_id) {
           product = await ProductModel.findById(_id);
 
-          // اگر محصول با این آیدی پیدا نشد، محصول جدید می‌سازیم
+          // اگر محصول یافت نشد، یک محصول جدید می‌سازیم
           if (!product) {
             product = new ProductModel({
               productName,
@@ -59,16 +63,16 @@ export async function POST(req) {
             });
             await product.save();
           }
-          // اگر پیدا شد، همان را بی‌هیچ چک دیگری استفاده می‌کنیم
+          // در غیر این صورت همان محصول قدیمی را استفاده می‌کنیم
         } else {
-          // اگر آیدی وجود ندارد، باید بر اساس (productName, unitOfMeasurement, guild) جستجو کنیم
+          // اگر آیدی وجود ندارد، بر اساس (productName، unitOfMeasurement، guild) جستجو می‌کنیم
           product = await ProductModel.findOne({
             productName,
             unitOfMeasurement,
             guild: guildIdForNewProducts,
           });
 
-          // اگر در آن گیلد محصولی با این نام و واحداندازه‌گیری پیدا نشد، محصول جدید می‌سازیم
+          // اگر چنین محصولی پیدا نشد، محصول جدید می‌سازیم
           if (!product) {
             product = new ProductModel({
               productName,
@@ -91,6 +95,7 @@ export async function POST(req) {
 
     // گیلد کسب‌وکار برای سبد پیشنهادی
     const guildIdForOffer = business.guild?._id || business.guild;
+
     // اعتبارسنجی و ساخت/پیداکردن محصولات سبد پیشنهادی
     const validatedOfferBasket = await validateAndCreateProducts(
       offerBasket,
@@ -103,17 +108,38 @@ export async function POST(req) {
       demandGuildID
     );
 
-    // در نهایت کسب‌وکار را به اعضای اتحادیه اضافه می‌کنیم
+    // عضو جدید را به آرایه‌ی members اضافه می‌کنیم
     union.members.push({
       member: businessID,
       offerBasket: validatedOfferBasket,
       demandBasket: validatedDemandBasket,
     });
 
+    // حالا که عضو جدید را اضافه کردیم، 
+    // می‌خواهیم این کسب‌وکار جدید، به همه‌ی اعضای فعلی رأی مثبت بدهد.
+    // پس از اضافه شدن، union.members شامل عضو جدید هم هست، 
+    // بنابراین برای رأی دادن فقط اعضای قدیمی را فیلتر می‌کنیم:
+    const newMemberId = businessID.toString();
+
+    // «اعضای قبل از اضافه‌شدن» می‌توانند با فیلتر زیر مشخص شوند:
+    // ولی اگر تمایل دارید عضو جدید نیز به عضو خودش رأی ندهد:
+    const oldMembers = union.members.filter(
+      (m) => m.member.toString() !== newMemberId
+    );
+
+    // برای هر عضو قدیمی، رکوردی در union.votes اضافه می‌کنیم 
+    // که voter = کسب‌وکار جدید و voteFor = اعضای قدیمی
+    oldMembers.forEach((memberObj) => {
+      union.votes.push({
+        voter: newMemberId,
+        voteFor: memberObj.member,
+      });
+    });
+
     await union.save();
 
     return Response.json(
-      { message: "Business successfully added to the union" },
+      { message: "Business successfully added to the union and voted for existing members" },
       { status: 201 }
     );
   } catch (error) {

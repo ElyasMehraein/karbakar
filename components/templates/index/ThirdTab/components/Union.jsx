@@ -9,15 +9,22 @@ import Box from "@mui/material/Box";
 import { Button } from '@mui/material';
 import UnionsAccordionDetails from './UnionsAccordionDetails';
 import JoinAUnion from './JoinAUnion';
+import UnionVotePage from './UnionVotePage';
 
 export default function Union({ primeBusiness, user, union, category }) {
   const userIsABusinessAgent = user?.businesses?.some(business => Number(business.agentCode) === Number(user.code));
 
-  const [open, setOpen] = useState(false);
+  const [MembershipOpen, setMembershipOpen] = useState(false);
+  const [votePageOpen, setVotePageOpen] = useState(false);
 
   const handleMembership = () => {
-    setOpen(true);
+    setMembershipOpen(true);
   };
+  const unionVotePage = () => {
+    setVotePageOpen(true);
+  };
+
+
 
   const dialogCloseHandler = () => {
     setOpen(false);
@@ -33,7 +40,8 @@ export default function Union({ primeBusiness, user, union, category }) {
   return (
     <React.Fragment>
       <Typography fontSize={14} py={1} >{categoryText[category]}</Typography>
-      <JoinAUnion  {...{ primeBusiness, user, union, open, dialogCloseHandler }} />
+      <JoinAUnion  {...{ primeBusiness, user, union, MembershipOpen, dialogCloseHandler }} />
+      <UnionVotePage  {...{ primeBusiness, user, union, votePageOpen, dialogCloseHandler }} />
       <Accordion
         disableGutters
         sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}
@@ -97,7 +105,7 @@ export default function Union({ primeBusiness, user, union, category }) {
                 عضویت
               </Button>
               :
-              <Button variant="contained" color="secondary" onClick={handleMembership}>
+              <Button variant="contained" color="secondary" onClick={unionVotePage}>
                 صفحه تایید متحدان
               </Button>
             }

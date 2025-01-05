@@ -21,7 +21,7 @@ import CustomSnackbar from '@/components/modules/CustomSnackbar';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-export default function JoinAUnion({ union, primeBusiness, user, MembershipOpen, dialogCloseHandler }) {
+export default function UnionVotePage({ union, primeBusiness, user, votePageOpen, dialogCloseHandler }) {
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness?.businessName || '');
     const userBusinesses = user?.businesses?.map(business => business.businessName) || [];
@@ -61,12 +61,12 @@ export default function JoinAUnion({ union, primeBusiness, user, MembershipOpen,
     return (
         <React.Fragment>
             <Dialog
-                open={MembershipOpen}
+                open={votePageOpen}
                 TransitionComponent={Transition}
                 keepMounted
                 onClose={dialogCloseHandler}
             >
-                <DialogTitle>عضویت در اتحاد</DialogTitle>
+                <DialogTitle>تایید یا رد اعضای اتحاد</DialogTitle>
                 <IconButton
                     aria-label="close"
                     onClick={dialogCloseHandler}
@@ -100,7 +100,6 @@ export default function JoinAUnion({ union, primeBusiness, user, MembershipOpen,
                 </DialogContent>
 
                 <DialogActions>
-                    <Typography sx={{ mx: 1,color:"red", fontSize: 12 }}>با عضویت در اتحاد، اعضای فعلی را تایید می نمایید</Typography>
                     <Button
                         variant="contained"
                         disabled={!(offerBasket.length && demandBasket.length && selectedBusinessName)}

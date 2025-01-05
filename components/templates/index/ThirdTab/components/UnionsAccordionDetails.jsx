@@ -27,6 +27,18 @@ import ItsAvatar from '@/components/modules/ItsAvatar';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Backdrop, CircularProgress } from '@mui/material';
 
+//
+// کمک‌کننده برای چک‌کردن اینکه آیا userBusinessId قبلاً به memberId رأی داده است یا خیر
+//
+function hasUserVoted(union, voterId, voteForId) {
+  if (!union?.votes) return false;
+  return union.votes.some(
+    (v) =>
+      v.voter.toString() === voterId.toString() &&
+      v.voteFor.toString() === voteForId.toString()
+  );
+}
+
 export default function UnionsAccordionDetails({ union, user }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -41,13 +53,13 @@ export default function UnionsAccordionDetails({ union, user }) {
   const [openLeaveUnion, setOpenLeaveUnion] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  //
+  // Snackbar برای انصراف
   const [leaveUnionSnackbar, setLeaveUnionSnackbar] = useState(false);
 
   // تابع درخواست انصراف از اتحاد
   async function handleLeaveUnion(myBusinessID, businessToRemoveID) {
-    setOpenLeaveUnion(false)
-    setIsLoading(true)
+    setOpenLeaveUnion(false);
+    setIsLoading(true);
     const res = await fetch('api/leaveAUnion', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
@@ -58,14 +70,69 @@ export default function UnionsAccordionDetails({ union, user }) {
       }),
     });
     if (res.status === 200) {
-      setIsLoading(false)
+      setIsLoading(false);
       setLeaveUnionSnackbar(true);
     }
   }
 
   const unionResignHandler = () => {
-    setOpenLeaveUnion(true)
+    setOpenLeaveUnion(true);
+  };
+
+  //
+  // تابعی برای رأی مثبت‌دادن (approve)
+  //
+  async function handleApprove(voteForId) {
+    try {
+      setIsLoading(true);
+      const res = await fetch('/api/union/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          unionId: union._id,
+          voterId: userBusinessId,
+          voteForId,
+          voteType: 'approve', // بسته به نیاز شما
+        }),
+      });
+      setIsLoading(false);
+      if (res.ok) {
+        // در صورت موفقیت، می‌توانید داده‌ها را مجدد لود کنید یا از state مدیریت‌شده استفاده کنید
+        location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   }
+
+  //
+  // تابعی برای رد کردن (reject)
+  // در صورت نیاز می‌توانید این را در دیتابیس ذخیره کنید یا ساختار رأی را تغییر دهید
+  //
+  async function handleReject(voteForId) {
+    try {
+      setIsLoading(true);
+      const res = await fetch('/api/union/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          unionId: union._id,
+          voterId: userBusinessId,
+          voteForId,
+          voteType: 'reject', // یا هر داده‌ی دیگر
+        }),
+      });
+      setIsLoading(false);
+      if (res.ok) {
+        location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
+  }
+
   // محاسبه‌ی عرضه و تقاضای باقی‌مانده در اتحاد
   const calculateUnionLeftovers = useCallback((members) => {
     const productTotals = new Map();
@@ -147,44 +214,47 @@ export default function UnionsAccordionDetails({ union, user }) {
     return { sortedOfferBasket, sortedDemandBasket };
   };
 
-  // کامپوننت نمایش اطلاعات هر عضو (آواتار و نام کسب و کار)
+  //
+  // کامپوننت نمایش اطلاعات هر عضو (آواتار و نام کسب و کار + دکمه‌ها)
+  //
   const MemberInfo = ({ member }) => {
-    return (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-        }}
-      >
+    // اگر این عضو، خود کاربر باشد => دکمه "انصراف" نشان بده
+    if (userBusinessId === member.member._id.toString()) {
+      return (
         <Box
           sx={{
             display: 'flex',
             flexDirection: 'row',
-            gap: 1,
+            justifyContent: 'space-between',
             alignItems: 'center',
-            cursor: 'pointer',
           }}
         >
-          <Avatar sx={{ width: 40, height: 40 }}>
-            <ItsAvatar
-              isAvatar={member.member.isAvatar}
-              userCodeOrBusinessBrand={member.member.businessName}
-            />
-          </Avatar>
-          <Box sx={{ textAlign: 'right' }}>
-            <Typography variant="body2">
-              {member.member.businessBrand}
-            </Typography>
-            <Typography variant="caption" display="block">
-              {member.member.businessName}
-            </Typography>
-            <Typography variant="caption" display="block">
-              {member.member.guild.guildName}
-            </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 1,
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ width: 40, height: 40 }}>
+              <ItsAvatar
+                isAvatar={member.member.isAvatar}
+                userCodeOrBusinessBrand={member.member.businessName}
+              />
+            </Avatar>
+            <Box sx={{ textAlign: 'right' }}>
+              <Typography variant="body2">
+                {member.member.businessBrand}
+              </Typography>
+              <Typography variant="caption" display="block">
+                {member.member.businessName}
+              </Typography>
+              <Typography variant="caption" display="block">
+                {member.member.guild.guildName}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-        {userBusinessId === member.member._id && (
           <Button
             size="small"
             variant="outlined"
@@ -193,12 +263,81 @@ export default function UnionsAccordionDetails({ union, user }) {
           >
             انصراف
           </Button>
-        )}
-      </Box>
-    );
+        </Box>
+      );
+    } else {
+      // در غیر این صورت، چک کنیم آیا کاربر جاری قبلاً به این عضو رأی داده است یا خیر
+      const userHasVoted = hasUserVoted(union, userBusinessId, member.member._id);
+
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              gap: 1,
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ width: 40, height: 40 }}>
+              <ItsAvatar
+                isAvatar={member.member.isAvatar}
+                userCodeOrBusinessBrand={member.member.businessName}
+              />
+            </Avatar>
+            <Box sx={{ textAlign: 'right' }}>
+              <Typography variant="body2">
+                {member.member.businessBrand}
+              </Typography>
+              <Typography variant="caption" display="block">
+                {member.member.businessName}
+              </Typography>
+              <Typography variant="caption" display="block">
+                {member.member.guild.guildName}
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* اگر userHasVoted=true => دکمه غیرفعال با متن "تأیید شده" نمایش دهیم */}
+          {userHasVoted ? (
+            <Button size="small" variant="contained" disabled>
+              تأیید شده
+            </Button>
+          ) : (
+            <Box sx={{ display: 'flex', gap: 1 }}>
+              <Button
+                size="small"
+                variant="contained"
+                color="success"
+                onClick={() => handleApprove(member.member._id)}
+              >
+                تأیید
+              </Button>
+              <Button
+                size="small"
+                variant="outlined"
+                color="warning"
+                onClick={() => handleReject(member.member._id)}
+              >
+                رد
+              </Button>
+            </Box>
+          )}
+        </Box>
+      );
+    }
   };
 
+  //
   // رندر نسخه دسکتاپ (Table)
+  //
   const renderDesktopTable = () => (
     <TableContainer sx={{ boxShadow: 'none', bgcolor: 'transparent' }}>
       <Table size="small">
@@ -255,7 +394,9 @@ export default function UnionsAccordionDetails({ union, user }) {
     </TableContainer>
   );
 
+  //
   // رندر نسخه موبایل (Card)
+  //
   const renderMobileCards = () => (
     <Box display="flex" flexDirection="column" gap={2}>
       {sortedMembers.map((member) => {
@@ -305,6 +446,7 @@ export default function UnionsAccordionDetails({ union, user }) {
 
   return (
     <AccordionDetails sx={{ bgcolor: 'white', borderTop: `1px solid ${blue[100]}` }}>
+      {/* نمایش اعضا بر اساس اندازه صفحه */}
       {isMobile ? renderMobileCards() : renderDesktopTable()}
 
       {/* نمایش تراز (عرضه و تقاضای باقی‌مانده) */}
@@ -351,6 +493,8 @@ export default function UnionsAccordionDetails({ union, user }) {
           </Box>
         </Box>
       </Box>
+
+      {/* دیالوگ انصراف از اتحاد */}
       <Dialog
         fullScreen={fullScreen}
         open={openLeaveUnion}
@@ -374,9 +518,13 @@ export default function UnionsAccordionDetails({ union, user }) {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* بک‌دراپ بارگذاری */}
       <Backdrop open={isLoading} style={{ color: '#fff', zIndex: 1300 }}>
         <CircularProgress color="inherit" />
       </Backdrop>
+
+      {/* اسنک‌بار پس از خروج از اتحاد */}
       <CustomSnackbar
         open={leaveUnionSnackbar}
         onClose={() => location.reload()}
