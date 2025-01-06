@@ -50,20 +50,11 @@ export async function POST(req) {
         let product;
 
         // اگر آیدی وجود دارد، ابتدا بررسی می‌کنیم در پایگاه داده هست یا خیر
-        if (_id) {
+        if (!typeof(_id) === "string") {
           product = await ProductModel.findById(_id);
 
           // اگر محصول یافت نشد، یک محصول جدید می‌سازیم
-          if (!product) {
-            product = new ProductModel({
-              productName,
-              unitOfMeasurement,
-              guild: guildIdForNewProducts,
-              isRetail,
-            });
-            await product.save();
-          }
-          // در غیر این صورت همان محصول قدیمی را استفاده می‌کنیم
+         
         } else {
           // اگر آیدی وجود ندارد، بر اساس (productName، unitOfMeasurement، guild) جستجو می‌کنیم
           product = await ProductModel.findOne({

@@ -27,7 +27,8 @@ export default function Union({ primeBusiness, user, union, category }) {
 
 
   const dialogCloseHandler = () => {
-    setOpen(false);
+    setMembershipOpen(false);
+    setVotePageOpen(false);
   };
 
   const categoryText = {
@@ -100,15 +101,18 @@ export default function Union({ primeBusiness, user, union, category }) {
             <Typography sx={{ mr: 1, fontSize: '12px' }}>
               {`مدت اتحاد: ${union.deadline} روز`}
             </Typography>
-            {userIsABusinessAgent && category == "category1" ?
+            {userIsABusinessAgent && category === "category1" ? (
               <Button variant="contained" color="primary" onClick={handleMembership}>
                 عضویت
               </Button>
-              :
-              <Button variant="contained" color="secondary" onClick={unionVotePage}>
-                صفحه تایید متحدان
-              </Button>
-            }
+            ) : (
+              // فقط اگر تعداد اعضا بیشتر از 1 بود، دکمه "صفحه تایید متحدان" را نشان بده
+              union.members?.length > 1 && !union.isActive && (
+                <Button variant="contained" color="secondary" onClick={unionVotePage}>
+                  صفحه تایید متحدان
+                </Button>
+              )
+            )}
           </Box>
         </AccordionActions>
       </Accordion>

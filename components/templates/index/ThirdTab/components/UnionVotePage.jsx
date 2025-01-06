@@ -1,120 +1,119 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Avatar, Box, Chip, Stack, useMediaQuery } from '@mui/material';
+import ItsAvatar from '@/components/modules/ItsAvatar';
 import {
-    Button,
     Container,
-    FormControl,
     IconButton,
     Slide,
     Typography,
-    InputLabel,
-    MenuItem,
-    Select,
     Dialog,
-    DialogActions,
     DialogContent,
     DialogTitle,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import BasketSelection from '@/components/modules/BasketSelection';
-import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
-import CustomSnackbar from '@/components/modules/CustomSnackbar';
+import { useTheme } from '@mui/material/styles';
 
 const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
-export default function UnionVotePage({ union, primeBusiness, user, votePageOpen, dialogCloseHandler }) {
-    const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness?.businessName || '');
-    const userBusinesses = user?.businesses?.map(business => business.businessName) || [];
-    const selectedBusiness = user?.businesses?.find(business => business.businessName === selectedBusinessName) || {};
-
-    const [offerBasket, setOfferBasket] = useState([]);
-    const [demandBasket, setDemandBasket] = useState([]);
-    const [demandGuild, setDemandGuild] = useState(null);
-
-    const joinAUnion = async () => {
-        if (!selectedBusiness._id) return;
-        try {
-            const res = await fetch('api/joinAUnion', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    unionID: union._id,
-                    businessID: selectedBusiness._id,
-                    offerBasket,
-                    demandBasket,
-                    demandGuildID: demandGuild?._id,
-                }),
-            });
-
-            if (res.ok) {
-                setOfferBasket([]);
-                setDemandBasket([]);
-                setOpenSnackbar(true);
-            } else {
-                console.error('Failed to join union');
-            }
-        } catch (error) {
-            console.error('Error joining union:', error);
-        }
-    };
+export default function UnionVotePage({ union, votePageOpen, dialogCloseHandler }) {
+    const theme = useTheme();
+    const isLargeScreen = useMediaQuery(theme.breakpoints.up('lg')); // صفحه بزرگ
 
     return (
-        <React.Fragment>
-            <Dialog
-                open={votePageOpen}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={dialogCloseHandler}
+        <Dialog
+            open={votePageOpen}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={dialogCloseHandler}
+            sx={{
+                '& .MuiDialog-paper': {
+                    minWidth: isLargeScreen ? '1000px' : '90%',
+                    maxWidth: '1200px',
+                }
+            }}
+        >
+            <DialogTitle>آخرین وضعیت رای ها</DialogTitle>
+            <IconButton
+                aria-label="close"
+                onClick={dialogCloseHandler}
+                sx={{ position: 'absolute', left: 8, top: 8, color: 'gray' }}
             >
-                <DialogTitle>تایید یا رد اعضای اتحاد</DialogTitle>
-                <IconButton
-                    aria-label="close"
-                    onClick={dialogCloseHandler}
-                    sx={{ position: 'absolute', left: 8, top: 8, color: 'gray' }}
-                >
-                    <CloseIcon />
-                </IconButton>
+                <CloseIcon />
+            </IconButton>
 
-                <DialogContent>
-                    <Container maxWidth="md" align="center">
-                        <FormControl sx={{ my: 2, width: 300 }}>
-                            <InputLabel id="chose-business-label">انتخاب کسب و کار</InputLabel>
-                            <Select
-                                labelId="chose-business-label"
-                                value={selectedBusinessName}
-                                onChange={(e) => setSelectedBusinessName(e.target.value)}
+            <DialogContent>
+                <Container maxWidth="md" align="center">
+                    {union.members.map((member) => {
+                        return (
+                            <Box
+                                key={member.member._id}
+                                sx={{
+                                    my: 2,
+                                    p: 2,
+                                    border: '1px solid #ccc',
+                                    borderRadius: 2
+                                }}
                             >
-                                {userBusinesses.map(name => (
-                                    <MenuItem key={name} value={name}>{name}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                                {/* اطلاعات کلی عضو (آواتار + نام‌ها) */}
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                                    <Avatar sx={{ width: 40, height: 40 }}>
+                                        <ItsAvatar
+                                            isAvatar={member.member.isAvatar}
+                                            userCodeOrBusinessBrand={member.member.businessName}
+                                        />
+                                    </Avatar>
+                                    <Box sx={{ textAlign: 'right' }}>
+                                        <Typography variant="body2">
+                                            {member.member.businessBrand}
+                                        </Typography>
+                                        <Typography variant="caption" display="block">
+                                            {member.member.businessName}
+                                        </Typography>
+                                        <Typography variant="caption" display="block">
+                                            {member.member.guild.guildName}
+                                        </Typography>
+                                    </Box>
+                                </Box>
 
-                        <Typography sx={{ my: 2, fontSize: 14 }}>سبد محصولاتی که می خواهید عرضه کنید</Typography>
-                        <BasketSelection parentBasketFunction={setOfferBasket} business={selectedBusiness} />
-
-                        <Typography sx={{ my: 2, fontSize: 14 }}>سبد محصولاتی که می خواهید دریافت کنید</Typography>
-                        <SelectCategoryAndGuild sendDataToParent={setDemandGuild} />
-                        <BasketSelection parentBasketFunction={setDemandBasket} guild={demandGuild} />
-                    </Container>
-                </DialogContent>
-
-                <DialogActions>
-                    <Button
-                        variant="contained"
-                        disabled={!(offerBasket.length && demandBasket.length && selectedBusinessName)}
-                        onClick={joinAUnion}
-                    >
-                        عضویت در اتحاد
-                    </Button>
-                </DialogActions>
-            </Dialog>
-
-            <CustomSnackbar
-                open={openSnackbar}
-                onClose={() => window.location.reload()}
-                message="به اتحاد ملحق شدید"
-            />
-        </React.Fragment>
+                                {/* لیست سایر اعضا در قالب چیپ */}
+                                <Box sx={{ mt: 1 }}>
+                                    <Typography variant="caption">سایر اعضا:</Typography>
+                                    <Stack
+                                        sx={{
+                                            mt: 1,
+                                            flexWrap: 'wrap',    // اجازه می‌دهد چیپ‌ها به خط بعد بروند
+                                            gap: 1
+                                        }}
+                                        direction="row"
+                                    >
+                                        {union.members
+                                            .filter((other) => other.member._id !== member.member._id)
+                                            .map((other) => {
+                                                const hasVoted = union.votes.some(
+                                                    (v) =>
+                                                        v.voter.toString() === member.member._id.toString() &&
+                                                        v.voteFor.toString() === other.member._id.toString()
+                                                );
+                                                return (
+                                                    <Chip
+                                                        variant="outlined"
+                                                        key={other.member._id}
+                                                        label={other.member.businessName}
+                                                        color={hasVoted ? 'success' : 'warning'}
+                                                        sx={{
+                                                            maxWidth: 'fit-content',
+                                                            whiteSpace: 'nowrap'
+                                                        }}
+                                                    />
+                                                );
+                                            })}
+                                    </Stack>
+                                </Box>
+                            </Box>
+                        );
+                    })}
+                </Container>
+            </DialogContent>
+        </Dialog>
     );
 }

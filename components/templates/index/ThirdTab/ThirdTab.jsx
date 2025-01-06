@@ -21,7 +21,6 @@ export default function ThirdTab({ primeBusiness, user }) {
         };
         getUnions();
     }, []);
-
     return (
         <Container sx={{ mb: 10, maxWidth: "md", display: "flex", align: "center", flexDirection: "column" }}>
             {Object.entries(unions).map(([category, unionList]) =>

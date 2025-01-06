@@ -14,22 +14,20 @@ import {
   TableRow,
   Typography,
   useMediaQuery,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Backdrop,
+  CircularProgress,
 } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import { useTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import CustomSnackbar from '@/components/modules/CustomSnackbar';
 import ItsAvatar from '@/components/modules/ItsAvatar';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { Backdrop, CircularProgress } from '@mui/material';
 
-//
-// کمک‌کننده برای چک‌کردن اینکه آیا userBusinessId قبلاً به memberId رأی داده است یا خیر
-//
+// بررسی اینکه آیا کاربر جاری (voterId) به یک عضو خاص (voteForId) رأی "تأیید" داده است یا خیر
 function hasUserVoted(union, voterId, voteForId) {
   if (!union?.votes) return false;
   return union.votes.some(
@@ -44,23 +42,20 @@ export default function UnionsAccordionDetails({ union, user }) {
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  // شناسه‌ی کسب‌وکار کاربر جاری در این اتحاد
+  // تشخیص کسب‌وکار کاربر جاری در این اتحاد (اگر باشد)
   const userBusinessId = user?.businesses.find((business) =>
     union.members.some((m) => m.member._id.toString() === business._id.toString())
   )?._id;
 
-  // پیام انصراف از اتحاد
+  // stateها و توابع مربوط به انصراف
   const [openLeaveUnion, setOpenLeaveUnion] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  // Snackbar برای انصراف
   const [leaveUnionSnackbar, setLeaveUnionSnackbar] = useState(false);
 
-  // تابع درخواست انصراف از اتحاد
   async function handleLeaveUnion(myBusinessID, businessToRemoveID) {
     setOpenLeaveUnion(false);
     setIsLoading(true);
-    const res = await fetch('api/leaveAUnion', {
+    const res = await fetch('/api/leaveAUnion', {
       method: 'DELETE',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -69,8 +64,8 @@ export default function UnionsAccordionDetails({ union, user }) {
         businessToRemoveID,
       }),
     });
+    setIsLoading(false);
     if (res.status === 200) {
-      setIsLoading(false);
       setLeaveUnionSnackbar(true);
     }
   }
@@ -79,10 +74,24 @@ export default function UnionsAccordionDetails({ union, user }) {
     setOpenLeaveUnion(true);
   };
 
-  //
-  // تابعی برای رأی مثبت‌دادن (approve)
-  //
-  async function handleApprove(voteForId) {
+  // stateها و توابع مربوط به رأی‌دادن
+  const [openVoteDialog, setOpenVoteDialog] = useState(false);
+  const [selectedVoteForId, setSelectedVoteForId] = useState(null);
+
+  // باز کردن دیالوگ رأی با کلیک روی "رأی دهید"
+  const handleOpenVoteDialog = (voteForId) => {
+    setSelectedVoteForId(voteForId);
+    setOpenVoteDialog(true);
+  };
+
+  const handleCloseVoteDialog = () => {
+    setOpenVoteDialog(false);
+    setSelectedVoteForId(null);
+  };
+
+  // رأی "تأیید" (approve)
+  async function handleApprove() {
+    if (!selectedVoteForId) return;
     try {
       setIsLoading(true);
       const res = await fetch('/api/union/vote', {
@@ -91,13 +100,14 @@ export default function UnionsAccordionDetails({ union, user }) {
         body: JSON.stringify({
           unionId: union._id,
           voterId: userBusinessId,
-          voteForId,
-          voteType: 'approve', // بسته به نیاز شما
+          voteForId: selectedVoteForId,
+          voteType: 'approve',
         }),
       });
       setIsLoading(false);
       if (res.ok) {
-        // در صورت موفقیت، می‌توانید داده‌ها را مجدد لود کنید یا از state مدیریت‌شده استفاده کنید
+        // بسته‌شدن دیالوگ و رفرش یا آپدیت داده‌ها
+        handleCloseVoteDialog();
         location.reload();
       }
     } catch (error) {
@@ -106,11 +116,9 @@ export default function UnionsAccordionDetails({ union, user }) {
     }
   }
 
-  //
-  // تابعی برای رد کردن (reject)
-  // در صورت نیاز می‌توانید این را در دیتابیس ذخیره کنید یا ساختار رأی را تغییر دهید
-  //
-  async function handleReject(voteForId) {
+  // رأی "رد" (reject)
+  async function handleReject() {
+    if (!selectedVoteForId) return;
     try {
       setIsLoading(true);
       const res = await fetch('/api/union/vote', {
@@ -119,12 +127,13 @@ export default function UnionsAccordionDetails({ union, user }) {
         body: JSON.stringify({
           unionId: union._id,
           voterId: userBusinessId,
-          voteForId,
-          voteType: 'reject', // یا هر داده‌ی دیگر
+          voteForId: selectedVoteForId,
+          voteType: 'reject',
         }),
       });
       setIsLoading(false);
       if (res.ok) {
+        handleCloseVoteDialog();
         location.reload();
       }
     } catch (error) {
@@ -133,7 +142,7 @@ export default function UnionsAccordionDetails({ union, user }) {
     }
   }
 
-  // محاسبه‌ی عرضه و تقاضای باقی‌مانده در اتحاد
+  // محاسبه تراز (عرضه و تقاضای باقی‌مانده)
   const calculateUnionLeftovers = useCallback((members) => {
     const productTotals = new Map();
 
@@ -190,7 +199,6 @@ export default function UnionsAccordionDetails({ union, user }) {
     return { leftoverSupply, leftoverDemand };
   }, []);
 
-  // نتیجه‌ی محاسبه‌ی عرضه/تقاضای باقی‌مانده
   const { leftoverSupply, leftoverDemand } = useMemo(() => {
     return calculateUnionLeftovers(union.members);
   }, [union.members, calculateUnionLeftovers]);
@@ -214,129 +222,76 @@ export default function UnionsAccordionDetails({ union, user }) {
     return { sortedOfferBasket, sortedDemandBasket };
   };
 
-  //
-  // کامپوننت نمایش اطلاعات هر عضو (آواتار و نام کسب و کار + دکمه‌ها)
-  //
+  // رندر اطلاعات کسب و کار (بدون دکمه انصراف یا رأی)
   const MemberInfo = ({ member }) => {
-    // اگر این عضو، خود کاربر باشد => دکمه "انصراف" نشان بده
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          gap: 1,
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ width: 40, height: 40 }}>
+          <ItsAvatar
+            isAvatar={member.member.isAvatar}
+            userCodeOrBusinessBrand={member.member.businessName}
+          />
+        </Avatar>
+        <Box sx={{ textAlign: 'right' }}>
+          <Typography variant="body2">{member.member.businessBrand}</Typography>
+          <Typography variant="caption" display="block">
+            {member.member.businessName}
+          </Typography>
+          <Typography variant="caption" display="block">
+            {member.member.guild.guildName}
+          </Typography>
+        </Box>
+      </Box>
+    );
+  };
+
+  // تابع رندر ستون چهارم جدول (منطق رأی‌دهی و انصراف)
+  const renderVoteColumn = (member) => {
+    // اگر کاربر لاگین کرده اصلاً عضوی از این اتحاد نباشد => ستون خالی
+    if (!userBusinessId || union.isActive) {
+      return null;
+    }
+
+    // اگر این ردیف، ردیف کسب و کار خود کاربر باشد => دکمه انصراف
     if (userBusinessId === member.member._id.toString()) {
       return (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
+        <Button
+          size="small"
+          variant="outlined"
+          color="error"
+          onClick={unionResignHandler}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: 1,
-              alignItems: 'center',
-            }}
-          >
-            <Avatar sx={{ width: 40, height: 40 }}>
-              <ItsAvatar
-                isAvatar={member.member.isAvatar}
-                userCodeOrBusinessBrand={member.member.businessName}
-              />
-            </Avatar>
-            <Box sx={{ textAlign: 'right' }}>
-              <Typography variant="body2">
-                {member.member.businessBrand}
-              </Typography>
-              <Typography variant="caption" display="block">
-                {member.member.businessName}
-              </Typography>
-              <Typography variant="caption" display="block">
-                {member.member.guild.guildName}
-              </Typography>
-            </Box>
-          </Box>
-          <Button
-            size="small"
-            variant="outlined"
-            color="error"
-            onClick={unionResignHandler}
-          >
-            انصراف
-          </Button>
-        </Box>
-      );
-    } else {
-      // در غیر این صورت، چک کنیم آیا کاربر جاری قبلاً به این عضو رأی داده است یا خیر
-      const userHasVoted = hasUserVoted(union, userBusinessId, member.member._id);
-
-      return (
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              gap: 1,
-              alignItems: 'center',
-            }}
-          >
-            <Avatar sx={{ width: 40, height: 40 }}>
-              <ItsAvatar
-                isAvatar={member.member.isAvatar}
-                userCodeOrBusinessBrand={member.member.businessName}
-              />
-            </Avatar>
-            <Box sx={{ textAlign: 'right' }}>
-              <Typography variant="body2">
-                {member.member.businessBrand}
-              </Typography>
-              <Typography variant="caption" display="block">
-                {member.member.businessName}
-              </Typography>
-              <Typography variant="caption" display="block">
-                {member.member.guild.guildName}
-              </Typography>
-            </Box>
-          </Box>
-
-          {/* اگر userHasVoted=true => دکمه غیرفعال با متن "تأیید شده" نمایش دهیم */}
-          {userHasVoted ? (
-            <Button size="small" variant="contained" disabled>
-              تأیید شده
-            </Button>
-          ) : (
-            <Box sx={{ display: 'flex', gap: 1 }}>
-              <Button
-                size="small"
-                variant="contained"
-                color="success"
-                onClick={() => handleApprove(member.member._id)}
-              >
-                تأیید
-              </Button>
-              <Button
-                size="small"
-                variant="outlined"
-                color="warning"
-                onClick={() => handleReject(member.member._id)}
-              >
-                رد
-              </Button>
-            </Box>
-          )}
-        </Box>
+          انصراف
+        </Button>
       );
     }
+
+    // در غیر این صورت => ستون رأی
+    const userHasVoted = hasUserVoted(union, userBusinessId, member.member._id);
+    if (userHasVoted) {
+      return (
+        <Button size="small" variant="contained" disabled>
+          تأیید شده
+        </Button>
+      );
+    }
+    // هنوز رأی نداده => دکمه "رای دهید" که دیالوگ را باز می‌کند
+    return (
+      <Button size="small" variant="contained" onClick={() => handleOpenVoteDialog(member.member._id)}>
+        رأی دهید
+      </Button>
+    );
   };
 
   //
-  // رندر نسخه دسکتاپ (Table)
+  // رندر جدول در دسکتاپ
   //
   const renderDesktopTable = () => (
     <TableContainer sx={{ boxShadow: 'none', bgcolor: 'transparent' }}>
@@ -352,6 +307,11 @@ export default function UnionsAccordionDetails({ union, user }) {
             <TableCell sx={{ textAlign: 'right', fontWeight: 'bold', fontSize: '12px' }}>
               نیازها
             </TableCell>
+            {!union.isActive && (
+              <TableCell sx={{ textAlign: 'center', fontWeight: 'bold', fontSize: '12px' }}>
+                رأی
+              </TableCell>
+            )}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -359,9 +319,12 @@ export default function UnionsAccordionDetails({ union, user }) {
             const { sortedOfferBasket, sortedDemandBasket } = getSortedBaskets(member);
             return (
               <TableRow key={member._id}>
+                {/* ستون اعضا */}
                 <TableCell sx={{ verticalAlign: 'top' }}>
                   <MemberInfo member={member} />
                 </TableCell>
+
+                {/* ستون پیشنهادها */}
                 <TableCell sx={{ verticalAlign: 'top' }}>
                   {sortedOfferBasket.map((offer) => (
                     <Typography
@@ -374,6 +337,8 @@ export default function UnionsAccordionDetails({ union, user }) {
                     </Typography>
                   ))}
                 </TableCell>
+
+                {/* ستون نیازها */}
                 <TableCell sx={{ verticalAlign: 'top' }}>
                   {sortedDemandBasket.map((demand) => (
                     <Typography
@@ -386,6 +351,13 @@ export default function UnionsAccordionDetails({ union, user }) {
                     </Typography>
                   ))}
                 </TableCell>
+
+                {/* ستون رأی */}
+                {!union.isActive && (
+                  <TableCell sx={{ verticalAlign: 'top', textAlign: 'center' }}>
+                    {renderVoteColumn(member)}
+                  </TableCell>
+                )}
               </TableRow>
             );
           })}
@@ -395,7 +367,7 @@ export default function UnionsAccordionDetails({ union, user }) {
   );
 
   //
-  // رندر نسخه موبایل (Card)
+  // رندر کارت‌ها در موبایل
   //
   const renderMobileCards = () => (
     <Box display="flex" flexDirection="column" gap={2}>
@@ -403,9 +375,12 @@ export default function UnionsAccordionDetails({ union, user }) {
         const { sortedOfferBasket, sortedDemandBasket } = getSortedBaskets(member);
         return (
           <Paper key={member._id} sx={{ p: 1, border: '1px solid #ddd', borderRadius: 2 }}>
+            {/* بخش اطلاعات عضو */}
             <Box sx={{ mb: 1 }}>
               <MemberInfo member={member} />
             </Box>
+
+            {/* پیشنهادها */}
             <Divider sx={{ my: 1 }} />
             <Typography sx={{ fontWeight: 'bold', fontSize: 13, mb: 1 }}>
               پیشنهادها
@@ -422,6 +397,8 @@ export default function UnionsAccordionDetails({ union, user }) {
                 </Typography>
               ))
             )}
+
+            {/* نیازها */}
             <Divider sx={{ my: 1 }} />
             <Typography sx={{ fontWeight: 'bold', fontSize: 13, mb: 1 }}>
               نیازها
@@ -438,6 +415,17 @@ export default function UnionsAccordionDetails({ union, user }) {
                 </Typography>
               ))
             )}
+
+            {/* ستون رأی در حالت موبایل */}
+            {!union.isActive && (
+              <>
+                <Divider sx={{ my: 1 }} />
+                <Typography sx={{ fontWeight: 'bold', fontSize: 13, mb: 1 }}>
+                  رأی
+                </Typography>
+                {renderVoteColumn(member)}
+              </>
+            )}
           </Paper>
         );
       })}
@@ -446,54 +434,55 @@ export default function UnionsAccordionDetails({ union, user }) {
 
   return (
     <AccordionDetails sx={{ bgcolor: 'white', borderTop: `1px solid ${blue[100]}` }}>
-      {/* نمایش اعضا بر اساس اندازه صفحه */}
+      {/* اگر سایز موبایل است، کارت؛ در غیر این صورت، جدول */}
       {isMobile ? renderMobileCards() : renderDesktopTable()}
 
       {/* نمایش تراز (عرضه و تقاضای باقی‌مانده) */}
-      <Box sx={{ mt: 2 }}>
-        <Typography sx={{ textAlign: 'right', fontWeight: 'bold', fontSize: '14px' }}>
-          تراز
-        </Typography>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            flexWrap: 'wrap',
-            flexDirection: { xs: 'column', sm: 'row' },
-            mt: 1,
-          }}
-        >
-          <Box sx={{ flex: 1, minWidth: 150 }}>
-            <Typography sx={{ fontWeight: 'bold', fontSize: '12px', mb: 1 }}>
-              پیشنهادهای باقی‌مانده
-            </Typography>
-            {leftoverSupply.length === 0 ? (
-              <Typography>---</Typography>
-            ) : (
-              leftoverSupply.map((item) => (
-                <Typography key={item.productName} sx={{ fontSize: '12px' }}>
-                  {item.productName} - {item.amount} {item.unitOfMeasurement}
-                </Typography>
-              ))
-            )}
-          </Box>
-          <Box sx={{ flex: 1, minWidth: 150 }}>
-            <Typography sx={{ fontWeight: 'bold', fontSize: '12px', mb: 1 }}>
-              نیازهای باقی‌مانده
-            </Typography>
-            {leftoverDemand.length === 0 ? (
-              <Typography>---</Typography>
-            ) : (
-              leftoverDemand.map((item) => (
-                <Typography key={item.productName} sx={{ fontSize: '12px' }}>
-                  {item.productName} - {item.amount} {item.unitOfMeasurement}
-                </Typography>
-              ))
-            )}
+      {!union.isActive &&
+        <Box sx={{ mt: 2 }}>
+          <Typography sx={{ textAlign: 'right', fontWeight: 'bold', fontSize: '14px' }}>
+            تراز
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              gap: 2,
+              flexWrap: 'wrap',
+              flexDirection: { xs: 'column', sm: 'row' },
+              mt: 1,
+            }}
+          >
+            <Box sx={{ flex: 1, minWidth: 150 }}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '12px', mb: 1 }}>
+                پیشنهادهای باقی‌مانده
+              </Typography>
+              {leftoverSupply.length === 0 ? (
+                <Typography>---</Typography>
+              ) : (
+                leftoverSupply.map((item) => (
+                  <Typography key={item.productName} sx={{ fontSize: '12px' }}>
+                    {item.productName} - {item.amount} {item.unitOfMeasurement}
+                  </Typography>
+                ))
+              )}
+            </Box>
+            <Box sx={{ flex: 1, minWidth: 150 }}>
+              <Typography sx={{ fontWeight: 'bold', fontSize: '12px', mb: 1 }}>
+                نیازهای باقی‌مانده
+              </Typography>
+              {leftoverDemand.length === 0 ? (
+                <Typography>---</Typography>
+              ) : (
+                leftoverDemand.map((item) => (
+                  <Typography key={item.productName} sx={{ fontSize: '12px' }}>
+                    {item.productName} - {item.amount} {item.unitOfMeasurement}
+                  </Typography>
+                ))
+              )}
+            </Box>
           </Box>
         </Box>
-      </Box>
-
+      }
       {/* دیالوگ انصراف از اتحاد */}
       <Dialog
         fullScreen={fullScreen}
@@ -501,9 +490,7 @@ export default function UnionsAccordionDetails({ union, user }) {
         onClose={() => setOpenLeaveUnion(false)}
         aria-labelledby="responsive-dialog-title"
       >
-        <DialogTitle id="responsive-dialog-title">
-          استعفا از اتحاد
-        </DialogTitle>
+        <DialogTitle id="responsive-dialog-title">استعفا از اتحاد</DialogTitle>
         <DialogContent>
           <DialogContentText>
             آیا درباره خروج از این اتحاد اطمینان دارید؟
@@ -515,6 +502,25 @@ export default function UnionsAccordionDetails({ union, user }) {
           </Button>
           <Button onClick={() => handleLeaveUnion(userBusinessId, userBusinessId)} autoFocus>
             بله
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* دیالوگ رأی دادن */}
+      <Dialog open={openVoteDialog} onClose={handleCloseVoteDialog}>
+        <DialogTitle>رأی‌گیری</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            آیا با عضویت این کسب‌وکار در اتحاد موافق هستید یا مخالف؟
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseVoteDialog}>انصراف</Button>
+          <Button onClick={handleReject} color="warning">
+            مخالفت
+          </Button>
+          <Button onClick={handleApprove} color="success" autoFocus>
+            موافقت
           </Button>
         </DialogActions>
       </Dialog>
