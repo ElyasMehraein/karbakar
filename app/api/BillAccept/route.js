@@ -5,13 +5,13 @@ import ProductModel from '@/models/Product';
 import { GET } from "@/app/api/auth/me/route";
 import ReportModel from '@/models/Report';
 import BusinessRelationModel from '@/models/BusinessRelation';
+import UnionModel from '@/models/Union';
 
 export async function PUT(req) {
     const body = await req.json();
     const { billId } = body;
     const response = await GET(req);
     const user = await response.json();
-
 
     try {
         const bill = await BillModel.findById(billId);
@@ -32,17 +32,10 @@ export async function PUT(req) {
         }
 
         const recipientBusiness = await BusinessModel.findById(bill.recipientBusiness);
-        if (!recipientBusiness) {
-            return new Response(
-                JSON.stringify({ message: "Recipient business not found" }),
-                { status: 404 }
-            );
-        }
-
         const providerBusiness = await BusinessModel.findById(bill.from);
-        if (!providerBusiness) {
+        if (!recipientBusiness || !providerBusiness) {
             return new Response(
-                JSON.stringify({ message: "Provider business not found" }),
+                JSON.stringify({ message: "Business not found" }),
                 { status: 404 }
             );
         }
@@ -89,6 +82,37 @@ export async function PUT(req) {
                 { $set: { billConfirm: true } }
             );
 
+            // بررسی عضویت در اتحاد فعال
+            const activeUnion = await UnionModel.findOne({
+                isActive: true,
+                "members.member": { $all: [providerBusiness._id, recipientBusiness._id] }
+            });
+
+            if (activeUnion) {
+                const providerOffersProduct = activeUnion.members.some(member =>
+                    member.member.toString() === providerBusiness._id.toString() &&
+                    member.offerBasket.some(offer => offer.product.toString() === product._id.toString())
+                );
+
+                const recipientDemandsProduct = activeUnion.members.some(member =>
+                    member.member.toString() === recipientBusiness._id.toString() &&
+                    member.demandBasket.some(demand => demand.product.toString() === product._id.toString())
+                );
+
+                // اگر ارائه‌دهنده پیشنهاد داده و گیرنده همان را تقاضا کرده باشد:
+                if (providerOffersProduct && recipientDemandsProduct) {
+                    activeUnion.transactions.push({
+                        provider: providerBusiness._id,
+                        recipient: recipientBusiness._id,
+                        products: [{
+                            product: product._id,
+                            quantity: billProduct.amount
+                        }]
+                    });
+                    await activeUnion.save();
+                }
+            }
+
             if (businessRelation) {
                 const existingProductInCommitment = providerBusiness.monthlyCommitment.find(
                     (commitmentProduct) => commitmentProduct.product.toString() === product._id.toString()
@@ -102,7 +126,6 @@ export async function PUT(req) {
                         } else {
                             existingProductInCommitment.lastMonthDelivered = billProduct.amount;
                         }
-
                     } else if (existingProductInCommitment.lastDeliveredMonth === currentMonth - 1) {
                         existingProductInCommitment.previousMonthDelivered = existingProductInCommitment.lastMonthDelivered;
                         existingProductInCommitment.lastMonthDelivered = billProduct.amount;
@@ -122,7 +145,6 @@ export async function PUT(req) {
             products,
             isSeen: false,
         });
-
 
         await BillModel.updateOne(
             { _id: billId },
