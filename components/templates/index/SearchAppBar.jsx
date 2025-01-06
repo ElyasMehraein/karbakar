@@ -66,25 +66,25 @@ export default function SearchAppBar({ user, menuClickHandler }) {
   const [reports, setReports] = useState([])
 
 
-  if (user) {
-    useEffect(() => {
-      const getReports = async () => {
-        try {
-          const res = await fetch("/api/reports/getReports", { method: "GET" })
-          if (res.status === 200) {
-            const data = await res.json()
-            setReports(data.data)
-          } else if ((res.status === 403)) {
-            console.log("unauthorized access");
-          }
-        } catch (error) {
-          console.error("Error fetching reports:", error);
+  useEffect(() => {
+    const getReports = async () => {
+      if (!user) return;
+      try {
+        const res = await fetch("/api/reports/getReports", { method: "GET" });
+        if (res.status === 200) {
+          const data = await res.json();
+          setReports(data.data);
+        } else if (res.status === 403) {
+          console.log("unauthorized access");
         }
+      } catch (error) {
+        console.error("Error fetching reports:", error);
       }
-      setIsLoading(false)
-      getReports()
-    }, []);
-  }
+    };
+    setIsLoading(false);
+    getReports();
+  }, [user]);
+
   const avatar = `/avatars/${user?.code}.jpg`;
 
   useEffect(() => {

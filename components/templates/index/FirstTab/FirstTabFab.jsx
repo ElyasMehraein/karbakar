@@ -54,7 +54,6 @@ export default function FirstTabFab({ user, primeBusiness }) {
                     const uniqueChips = new Set([...chips, ...demandsGuilds]);
                     setChips(Array.from(uniqueChips));
                     setIsLoading(false)
-
                 } else if (res.status === 403) {
                     console.log("unauthorized access");
                 }
@@ -63,8 +62,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
             }
         };
         getGuilds();
-    }, [jobCategory]);
-
+    }, [jobCategory, chips, selectedBusiness.demandsForGuilds]);
 
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
@@ -193,13 +191,13 @@ export default function FirstTabFab({ user, primeBusiness }) {
                         sx={{ mt: 2 }}
                     />
                     <Button
-
                         sx={{ mt: 2 }}
-                        children={"ثبت درخواست"}
                         variant="contained"
                         disabled={jobCategory && selectedGuild ? false : true}
                         onClick={() => setDemandsForGuilds()}
-                    />
+                    >
+                        ثبت درخواست
+                    </Button>
                     <CustomSnackbar
                         open={open406Snackbar}
                         onClose={() => setOpen406Snackbar(false)}

@@ -71,11 +71,12 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     />
                     <Button
                         sx={{ display: "block" }}
-                        children={"ذخیره تغییرات"}
                         variant="contained"
                         disabled={isBasketChanged}
                         onClick={updateMonthlyCommitment}
-                    />
+                    >
+                        ذخیره تغییرات
+                    </Button>
                     <CustomSnackbar
                         open={openSnackbar}
                         onClose={handleSnackbarClose}

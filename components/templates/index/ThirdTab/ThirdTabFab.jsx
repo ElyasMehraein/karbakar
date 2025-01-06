@@ -153,12 +153,13 @@ export default function ThirdTabFab({ user, primeBusiness }) {
             />
             <Button
                 sx={{ mb: 10 }}
-                children={"ایجاد اتحاد"}
                 variant="contained"
                 fullWidth
                 disabled={!(unionName && descriptionText && unionDuration && offerBasket.length && demandBasket.length && demandGuild)}
                 onClick={() => createUnion()}
-            />
+            >
+                ایجاد اتحاد
+            </Button>
             <CustomSnackbar
                 open={openSnackbar}
                 onClose={() => location.reload()}

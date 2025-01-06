@@ -19,7 +19,9 @@ import BasketSelection from '@/components/modules/BasketSelection';
 import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
 import CustomSnackbar from '@/components/modules/CustomSnackbar';
 
-const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
+const Transition = React.forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function JoinAUnion({ union, primeBusiness, user, MembershipOpen, dialogCloseHandler }) {
     const [openSnackbar, setOpenSnackbar] = useState(false);

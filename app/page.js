@@ -63,9 +63,6 @@ export default async function page() {
       if (docs.length > 0) {
         const guilds = docs.map(doc => doc.guild);
         distinctGuilds = [...new Set(guilds)];
-
-      } else {
-        console.log('No guilds to show.');
       }
     })
     .catch(err => {
