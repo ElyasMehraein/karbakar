@@ -17,7 +17,7 @@
 
 # production
 /build
-/public/fonts
+# /public/fonts
 /public/avatars
 /public/headers
 
@@ -42,7 +42,7 @@ next-env.d.ts
 >>>>>>> Using-Pages-Router
 
 certificates
-app/api/auth/signup/route.js
-components/templates/welcome/Welcome.jsx
+# app/api/auth/signup/route.js
+# components/templates/welcome/Welcome.jsx
 *.zip
 *.bat
