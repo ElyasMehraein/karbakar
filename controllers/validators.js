@@ -1,7 +1,6 @@
-const Validator = require("fastest-validator");
-const v = new Validator();
+import fastestValidator from 'fastest-validator';
 
-
+const v = new fastestValidator();
 
 
 export function phoneFormatCheck(phoneNo) {
