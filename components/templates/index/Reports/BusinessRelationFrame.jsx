@@ -10,8 +10,6 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import LoadingButton from '@mui/lab/LoadingButton';
-
 
 
 export default function BusinessRelationFrame({ report }) {
@@ -119,18 +117,17 @@ export default function BusinessRelationFrame({ report }) {
         </CardContent>
         {report.isAnswerNeed && !hideQuestion &&
           <Stack direction="row" spacing={2} sx={{ ml: 2, mb: 2, direction: "ltr" }}>
-            <LoadingButton variant="outlined" color="error" loading={rejectIsLoading}
+            <Button variant="outlined" color="error"
               onClick={() => answer(report.businessRelation, false)}>
               رد
-            </LoadingButton>
-            <LoadingButton
+            </Button>
+            <Button
               color="success"
               variant="outlined"
               onClick={() => answer(report.businessRelation, true)}
-              loading={acceptIsLoading}
             >
               تایید
-            </LoadingButton>
+            </Button>
           </Stack>}
 
       </Card>
