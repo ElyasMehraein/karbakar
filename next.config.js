@@ -1,10 +1,5 @@
 const nextConfig = {
-  reactStrictMode: true,
-  devIndicators: {
-      buildActivity: true,
-  },
-};
+    reactStrictMode: true
+}
 
-export default nextConfig;
-
-
+export default nextConfig
