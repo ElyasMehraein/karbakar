@@ -1,8 +1,9 @@
-import TrezSmsClient from "trez-sms-client";
+import TrezSMSClient from "@/utils/Trez";
+
 
 const smsuser = process.env.SMSUSER;
 const smspass = process.env.SMSPASS;
-const client = new TrezSmsClient(smsuser, smspass);
+const client = new TrezSMSClient(smsuser, smspass);
 
 
 function sendSMS(userNumber) {

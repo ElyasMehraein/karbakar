@@ -14,254 +14,158 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
 export default function ProductBasket({ user, primeBusiness, parentBasketFunction, parentSetBusinessID, useFor }) {
-    //first autoCompelete
 
-    const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
-    const userBusinesses = user.businesses.map(business => {
-        if (business.agentCode == user.code) {
-            return business
-        }
-    })
+    const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness.businessName)
+    const userBusinesses = user.businesses.filter(business => business.agentCode === user.code)
     const userBusinessesNames = userBusinesses.map(business => business.businessName)
-
-    //second autoCompelete
-    const [BusinessProducts, setBusinessProducts] = React.useState([]);
-    let selectedBusiness = userBusinesses.find(business => business.businessName == selectedBusinessName)
-
-    useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch(`/api/getBusinessProduct?businessId=${selectedBusiness._id}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch products');
-                }
-                const data = await response.json();
-                const BusinessProducts = data.data.map((product) => product.product)
-                setBusinessProducts(BusinessProducts);
-            } catch (err) {
-                setOpenSnackbar500Error(true)
-                console.log(err.message);
-            }
-        };
-
-        fetchProducts();
-    }, [selectedBusinessName]);
-
-    const [selectedProductName, setSelectedProductName] = React.useState("");
-
-    //third autoCompelete
-    const [unitOfMeasurement, setUnitOfMeasurement] = React.useState("")
-    const [isUnitOfMeasurementExistInDB, setIsUnitOfMeasurementExistInDB] = React.useState("")
-    useEffect(() => {
-        let selectedProduct = BusinessProducts.find(product => {
-            return product.productName == selectedProductName
-        })
-        if (selectedProduct) {
-            setUnitOfMeasurement(selectedProduct.unitOfMeasurement)
-            setIsUnitOfMeasurementExistInDB(true)
-        } else {
-            setUnitOfMeasurement("")
-            setAmount("")
-            setIsUnitOfMeasurementExistInDB(false)
-        }
-    }, [selectedProductName])
-
-    // last textfield
-    const [amount, setAmount] = React.useState("")
-    //radioGroup
-    let [radioGroupValue, setRadioGroupValue] = React.useState("true")
-
-    //button
-    let isButtonDisable = !Boolean(selectedProductName && unitOfMeasurement && amount);
-    //basket
-    const [basket, setBasket] = useState([])
+    const [BusinessProducts, setBusinessProducts] = useState([]);
+    const selectedBusiness = userBusinesses.find(business => business.businessName === selectedBusinessName);
+    const [selectedProductName, setSelectedProductName] = useState("");
+    const [unitOfMeasurement, setUnitOfMeasurement] = useState("");
+    const [isUnitOfMeasurementExistInDB, setIsUnitOfMeasurementExistInDB] = useState(false);
+    const [amount, setAmount] = useState("");
+    const [radioGroupValue, setRadioGroupValue] = useState("true");
+    const [basket, setBasket] = useState([]);
     const [isBasketChanged, setIsBasketChanged] = useState(true);
     const [initialBasketRef, setInitialBasketRef] = useState([]);
+    const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = useState(false);
+    const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
 
     useEffect(() => {
-        if (useFor === "setMonthlyCommitment") {
+        if (selectedBusiness?._id) {
             const fetchProducts = async () => {
                 try {
-                    const response = await fetch(`/api/getBusinessMonthlyCommitment?businessId=${selectedBusiness._id}`);
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch products');
-                    }
-                    const { data } = await response.json();
-                    setBasket(data.monthlyCommitment.map(product => product));
-                    setInitialBasketRef(data.monthlyCommitment.map(product => product));
+                    const response = await fetch(`/api/getBusinessProduct?businessId=${selectedBusiness._id}`);
+                    if (!response.ok) throw new Error('Failed to fetch products');
+                    const data = await response.json();
+                    setBusinessProducts(data.data.map(product => product.product));
                 } catch (err) {
-                    setOpenSnackbar500Error(true)
-                    console.log(err.message);
+                    setOpenSnackbar500Error(true);
+                    console.error(err.message);
                 }
             };
             fetchProducts();
         }
-    }, [selectedBusinessName]);
-
+    }, [selectedBusiness?._id]); 
 
     useEffect(() => {
-        setIsBasketChanged(JSON.stringify(basket) === JSON.stringify(initialBasketRef.current));
-    }, [basket]);
+        const selectedProduct = BusinessProducts.find(product => product.productName === selectedProductName);
+        if (selectedProduct) {
+            setUnitOfMeasurement(selectedProduct.unitOfMeasurement);
+            setIsUnitOfMeasurementExistInDB(true);
+        } else {
+            setUnitOfMeasurement("");
+            setAmount("");
+            setIsUnitOfMeasurementExistInDB(false);
+        }
+    }, [selectedProductName, BusinessProducts]);
+
+    useEffect(() => {
+        if (useFor === "setMonthlyCommitment" && selectedBusiness?._id) {
+            const fetchMonthlyCommitment = async () => {
+                try {
+                    const response = await fetch(`/api/getBusinessMonthlyCommitment?businessId=${selectedBusiness._id}`);
+                    if (!response.ok) throw new Error('Failed to fetch products');
+                    const { data } = await response.json();
+                    setBasket(data.monthlyCommitment);
+                    setInitialBasketRef(data.monthlyCommitment);
+                } catch (err) {
+                    setOpenSnackbar500Error(true);
+                    console.error(err.message);
+                }
+            };
+            fetchMonthlyCommitment();
+        }
+    }, [selectedBusiness?._id, useFor]);
+
+    useEffect(() => {
+        setIsBasketChanged(JSON.stringify(basket) === JSON.stringify(initialBasketRef));
+    }, [basket, initialBasketRef]);
 
     const addToBasket = () => {
-        let isDuplicate = basket.some((value) => {
-            return value.product.productName === selectedProductName;
-        });
+        const isDuplicate = basket.some(item => item.product.productName === selectedProductName);
         if (isDuplicate) {
-            setOpenSnackbarDublicateError(true)
-            return
+            setOpenSnackbarDublicateError(true);
+            return;
         }
-        const updatedBasket = [{ product: { _id: Math.floor(Math.random() * 100), productName: selectedProductName, unitOfMeasurement, isRetail: radioGroupValue }, amount }, ...basket]
+        const updatedBasket = [...basket, {
+            product: { _id: Math.random(), productName: selectedProductName, unitOfMeasurement, isRetail: radioGroupValue },
+            amount
+        }];
+        setBasket(updatedBasket);
         parentBasketFunction(updatedBasket, isBasketChanged);
-        setBasket(updatedBasket)
-        setSelectedProductName("")
-        setUnitOfMeasurement("")
-        setAmount("")
-        parentSetBusinessID(selectedBusiness._id)
-    }
+        parentSetBusinessID(selectedBusiness._id);
+        setSelectedProductName("");
+        setUnitOfMeasurement("");
+        setAmount("");
+    };
 
-    //delete frame
     const deleteFrame = (productName) => {
-        const updatedBasket = basket.filter(frame => frame.product.productName !== productName)
+        const updatedBasket = basket.filter(item => item.product.productName !== productName);
+        setBasket(updatedBasket);
         parentBasketFunction(updatedBasket, isBasketChanged);
-        setBasket(updatedBasket)
-        parentSetBusinessID(selectedBusiness._id)
-
-    }
-    //Snackbars
-    const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = React.useState(false);
-    const [openSnackbar500Error, setOpenSnackbar500Error] = React.useState(false);
-
+    };
 
     const handleSnackbarClose = () => {
         setOpenSnackbarDublicateError(false);
-        setOpenSnackbar500Error(false)
+        setOpenSnackbar500Error(false);
     };
 
-
-
     return (
-        <Container maxWidth="md" className="inMiddle" align='center' >
-            {useFor[0] &&
+        <Container maxWidth="md" align="center">
+            {useFor[0] && (
                 <FormControl sx={{ my: 2, width: 300 }}>
-                    <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
+                    <InputLabel id="chose-business-label">انتخاب کسب و کار</InputLabel>
                     <Select
-                        labelId="chose-business-lable"
-                        id="chose-business"
+                        labelId="chose-business-label"
                         value={selectedBusinessName}
-                        label="انتخاب کسب و کار"
-                        onChange={(e) => {
-                            setSelectedBusinessName(e.target.value);
-                            setSelectedProductName("");
-                        }}
+                        onChange={(e) => setSelectedBusinessName(e.target.value)}
                     >
-                        {userBusinessesNames.map((userBusinessesName) => {
-                            return <MenuItem key={userBusinessesName} value={userBusinessesName}>{userBusinessesName}</MenuItem>
-                        })}
+                        {userBusinessesNames.map((name) => (
+                            <MenuItem key={name} value={name}>{name}</MenuItem>
+                        ))}
                     </Select>
-
                 </FormControl>
-            }
+            )}
             <Autocomplete
                 sx={{ width: 300 }}
-                id="add-product"
                 freeSolo
                 inputValue={selectedProductName}
                 options={BusinessProducts.map((product) => product.productName)}
                 renderInput={(params) => <TextField {...params} label="محصول" />}
-                onInputChange={(event, newInputValue) => {
-                    setSelectedProductName(newInputValue)
-                    setAmount([])
-                }}
+                onInputChange={(e, newValue) => setSelectedProductName(newValue)}
             />
-
-
-            {isUnitOfMeasurementExistInDB ?
+            {isUnitOfMeasurementExistInDB ? (
                 <Typography sx={{ textAlign: "center", fontSize: 14 }}>
-                    {` واحد اندازه گیری  : ${unitOfMeasurement}`}
+                    {`واحد اندازه گیری: ${unitOfMeasurement}`}
                 </Typography>
-                :
-                <Box >
-                    <TextField
-                        sx={{ my: 2, width: 300 }}
-                        id="outlined-controlled"
-                        label="واحد اندازه گیری"
-                        value={unitOfMeasurement}
-                        onChange={(event) => {
-                            setUnitOfMeasurement(event.target.value);
-                        }}
-                    />
-                </Box>
-            }
-            <Box >
+            ) : (
                 <TextField
-                    placeholder="بصورت عدد وارد نمایید مثلا 5"
-                    sx={{ width: 300 }}
-                    id="outlined-controlled2"
-                    label="مقدار(عدد)"
-                    onChange={(event) => {
-                        setAmount(event.target.value);
-                    }}
-                    value={amount}
+                    sx={{ my: 2, width: 300 }}
+                    label="واحد اندازه گیری"
+                    value={unitOfMeasurement}
+                    onChange={(e) => setUnitOfMeasurement(e.target.value)}
                 />
-            </Box>
-            <FormControl>
-                <FormLabel id="demo-controlled-radio-buttons-group">مصرف کننده</FormLabel>
-                <RadioGroup
-                    row
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={radioGroupValue}
-                    onChange={(e, value) => setRadioGroupValue(value)}
-                >
-                    <FormControlLabel value="false" control={<Radio />} label="کسب و کارها" />
-                    <FormControlLabel value="true" control={<Radio />} label="اعضای کسب و کار" />
-                </RadioGroup>
-            </FormControl>
-            <Button
-                sx={{ display: "block" }}
-                children={"اضافه به سبد"}
-                variant="contained"
-                disabled={isButtonDisable}
-                onClick={addToBasket}
+            )}
+            <TextField
+                sx={{ my: 2, width: 300 }}
+                label="مقدار"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
             />
-            <List dense={true}>
-                {basket.map(producrFrame => {
-                    return (
-                        <ListItem key={producrFrame.product._id} sx={{ my: 1, width: '100%', minWidth: 300, maxWidth: 400, bgcolor: '#e0e0e0', textAlign: "right" }} >
-                            {producrFrame.product.isRetail == "true" ?
-                                <ListItemIcon>
-                                    <Groups2Icon />
-                                </ListItemIcon>
-                                :
-                                <ListItemIcon>
-                                    <BusinessRoundedIcon />
-                                </ListItemIcon>
-                            }
-                            <ListItemText primary={producrFrame.product.productName} secondary={`${producrFrame.amount} - ${producrFrame.product.unitOfMeasurement}`} />
-                            <IconButton onClick={() => deleteFrame(producrFrame.productName || producrFrame.product.productName)}>
-                                <DeleteIcon />
-                            </IconButton>
-                        </ListItem>
-                    )
-                })
-                }
+            <Button variant="contained" onClick={addToBasket}>اضافه کردن به سبد</Button>
+            <List>
+                {basket.map((item, index) => (
+                    <ListItem key={index}>
+                        <ListItemText primary={item.product.productName} secondary={`${item.amount} ${item.product.unitOfMeasurement}`} />
+                        <IconButton onClick={() => deleteFrame(item.product.productName)}>
+                            <DeleteIcon />
+                        </IconButton>
+                    </ListItem>
+                ))}
             </List>
-            <CustomSnackbar
-                open={openSnackbar500Error}
-                onClose={handleSnackbarClose}
-                message="خطا از سمت سرور"
-                severity="error"
-
-            />
-            <CustomSnackbar
-                open={openSnackbarDublicateError}
-                onClose={handleSnackbarClose}
-                message="این محصول قبلا به سبد اضافه شده است"
-                severity="error"
-
-            />
-
+            <CustomSnackbar open={openSnackbar500Error} onClose={handleSnackbarClose} message="خطا در سرور" severity="error" />
+            <CustomSnackbar open={openSnackbarDublicateError} onClose={handleSnackbarClose} message="محصول تکراری است" severity="warning" />
         </Container>
-    )
+    );
 }
