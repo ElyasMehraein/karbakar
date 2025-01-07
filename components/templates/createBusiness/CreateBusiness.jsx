@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { green } from '@mui/material/colors';
-import jobCategoriesData from "@/public/jobCategories";
+import jobCategoriesData from "@/utils/JobCategories";
 
 export default function CreateBusiness() {
     const router = useRouter();

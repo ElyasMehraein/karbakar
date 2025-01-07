@@ -8,7 +8,7 @@ import {
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ItsAvatar from '@/components/modules/ItsAvatar'
-import jobCategoriesData from "@/public/jobCategories";
+import jobCategoriesData from "@/utils/JobCategories";
 import { Autocomplete, Button } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import Accordion from '@mui/material/Accordion';

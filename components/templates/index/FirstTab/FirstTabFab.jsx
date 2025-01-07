@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import { Autocomplete, Button, Container, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from '@mui/material';
-import jobCategoriesData from "@/public/jobCategories";
+import jobCategoriesData from "@/utils/JobCategories";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { CircularProgress } from '@mui/material';
 // import dynamic from "next/dynamic";

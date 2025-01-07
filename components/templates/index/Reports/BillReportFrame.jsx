@@ -1,16 +1,11 @@
-"use client"
 import React from 'react'
 import Box from '@mui/material/Box';
-import ItsAvatar from "@/components/modules/ItsAvatar"
 import Typography from "@mui/material/Typography";
-import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
-export default function BillReportFrame({ report }) {
+export default function BillReportFrame() {
 
   return (
     <Box >
