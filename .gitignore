@@ -17,7 +17,7 @@
 
 # production
 /build
-/public/fonts
+# /public/fonts
 /public/avatars
 /public/headers
 
