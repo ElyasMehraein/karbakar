@@ -1,6 +1,6 @@
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter'
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material';
+import { ThemeProvider, Typography } from '@mui/material';
 import theme from '@/styles/theme';
 import './global.css'
 export default function RootLayout({ children }) {
@@ -15,6 +15,7 @@ export default function RootLayout({ children }) {
             <body>
                 <ThemeProvider theme={theme}>
                     <CssBaseline />
+                    <Typography className='inMiddle' sx={{color:"red"}}>این سایت در مرحله تست قرار دارد</Typography>
                     <AppRouterCacheProvider>
                         {children}
                     </AppRouterCacheProvider>

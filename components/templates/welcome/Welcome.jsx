@@ -34,9 +34,11 @@ const steps = [
     label: (<p className={styles.inputText}>کد تایید را وارد کنید</p>),
     placeholder: "کد تایید پیامکی را وارد نمایید",
     description: (
-      <p className={styles.paragraph}>
-        کد تایید برای شماره موبایل شما ارسال شد، در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید.
-      </p>
+      // <p className={styles.paragraph}>
+      //   کد تایید برای شماره موبایل شما ارسال شد، در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید.
+      // </p>
+      <Typography className='inMiddle' fontSize={10} sx={{ color: "red" }}>ارسال پیامک غیر فعال است بجای کد فعال سازی یک شماره دلبخواه وارد نمایید</Typography>
+
     )
 
   },
@@ -84,7 +86,6 @@ export default function Wellcome() {
       phoneError()
     } else if (res.status === 201) {
       setSnackbarOpen(true)
-      router.refresh()
     }
   }
   function phoneError() {
@@ -203,7 +204,7 @@ export default function Wellcome() {
               >
                 "ثبت نام با موفقیت انجام شد لطفا چند ثانیه منتظر بمانید"
               </Alert>
-              
+
             </Snackbar>
           </Box>
         )
