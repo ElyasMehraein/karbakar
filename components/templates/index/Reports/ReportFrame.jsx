@@ -2,13 +2,13 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import BusinessRelationFrame from './BusinessRelationFrame';
-import JobOfferFrame from './jobOfferFrame';
 import YouAreAgentFrame from './YouAreAgentFrame';
-import ResignationFrame from './resignationFrame';
+import ResignationFrame from './ResignationFrame';
 import { Container } from '@mui/material';
 import BillAcceptReportFrame from './BillAcceptReportFrame';
 import BusinessRelationAcceptedFrame from './BusinessRelationAcceptedFrame';
 import BillReportFrame from './BillReportFrame';
+import JobOfferFrame from './JobOfferFrame';
 
 
 export default function ReportFrame({ user, report }) {
