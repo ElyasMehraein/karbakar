@@ -2,23 +2,18 @@ import * as mongoose from 'mongoose';
 import { Schema } from "mongoose";
 
 const schema = new Schema({
-    guildName: { type: String, required: true, unique: true, },
-    products: [
-        {
-            productName: { type: String, maxlength: 30 },
-            unitOfMeasurement: { type: String, maxlength: 20 },
-        }
-    ],
+    guildName: { type: String, required: true, unique: true, required: true },
     jobCategory: {
         type: String,
         required: true,
         enum: [
+            "علم و آموزش",
+            "املاک و اراضی",
             "لوازم خانگی و محصولات",
             "لوازم ساختمانی و محصولات",
             "لوازم کشاورزی و محصولات",
             "لوازم منسوجات و محصولات",
             "لوازم حمل و نقل و محصولات",
-            "املاک و اراضی",
             "تولیدات آهن و فلزات سخت",
             "خدمات الکترونیک",
             "خدمات خودرویی",

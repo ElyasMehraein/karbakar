@@ -13,7 +13,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import Checkbox from '@mui/material/Checkbox';
-import LoadingButton from '@mui/lab/LoadingButton';
 
 export default function AddToReceiversButton({ relations, logedUser, business }) {
 
@@ -254,16 +253,15 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                         <Button onClick={confirmHandler}>تایید</Button>
                     </DialogActions>
                 </Dialog>
-                <LoadingButton
+                <Button
                     dir="ltr"
                     onClick={handleOpen}
                     fullWidth
                     sx={{ m: 1 }}
                     variant="contained"
-                    loading={isLoading}
                 >
                     {buttonText}
-                </LoadingButton>
+                </Button>
                 <CustomSnackbar
                     open={open201Snackbar}
                     onClose={() => { location.reload() }}

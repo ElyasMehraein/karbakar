@@ -66,7 +66,7 @@ export default function CreateRequest({ fabHandler, user, distinctGuilds }) {
   useEffect(() => {
     setRequester(user.businesses.find((business) => (
       user.primeJob === business._id)))
-  }, []);
+  }, [user.businesses, user.primeJob]);
 
 
   async function createThisRequest(requestBox) {

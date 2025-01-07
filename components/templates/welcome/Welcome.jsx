@@ -35,9 +35,10 @@ const steps = [
     placeholder: "کد تایید پیامکی را وارد نمایید",
     description: (
       <p className={styles.paragraph}>
-        `کد تایید برای شماره موبایل شما ارسال شد در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید`
+        کد تایید برای شماره موبایل شما ارسال شد، در صورت اشتباه بودن شماره وارد شده جهت اصلاح آن به مرحله قبل بازگردید.
       </p>
     )
+
   },
 ];
 
@@ -138,10 +139,9 @@ export default function Wellcome() {
       {
         show ? (
           <div className={styles.wellcomeHeader}>
-            <h2 className={styles.aitch2}>باهم برای هم برای زندگی آزاد</h2>
+            <h2 className={styles.aitch2}>اقتصادِ تولیدکنندگان</h2>
             <p className={styles.paragraph}>
-              اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد
-              و کسب و کارهای مولد
+              اقتصاد اجتماعی غیرپولی برای مبادله مستقیم محصولات و خدمات بین کسب‌وکارهای مولد
             </p>
             <Button onClick={changeShow} variant="contained">
               ورود یا ثبت نام
@@ -203,6 +203,7 @@ export default function Wellcome() {
               >
                 "ثبت نام با موفقیت انجام شد لطفا چند ثانیه منتظر بمانید"
               </Alert>
+              
             </Snackbar>
           </Box>
         )

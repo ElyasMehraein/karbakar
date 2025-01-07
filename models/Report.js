@@ -6,18 +6,23 @@ import BillModel from './Bill';
 import BusinessRelationModel from './BusinessRelation';
 
 const schema = new Schema({
-    recepiant: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    title: { type: String, maxlength: 20, },
+    recepiant: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    title: { type: String, maxlength: 20, required: true },
     business: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     bill: { type: mongoose.Schema.Types.ObjectId, ref: "Bill" },
+    products: [
+        {
+            product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+            amount: { type: Number, min: 1, max: 9999, required: true },
+        }
+    ],
     businessRelation: { type: mongoose.Schema.Types.ObjectId, ref: "BusinessRelation" },
-    providerBusiness:{ type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-    receiverBusiness:{ type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-    isSeen: Boolean,
+    providerBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+    receiverBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+    isSeen: { type: Boolean, default: false },
     isAnswerNeed: Boolean,
     answer: Boolean,
-
-}, { timestamps: true })
+})
 
 const ReportModel = mongoose.models.Report || mongoose.model("Report", schema)
 export default ReportModel

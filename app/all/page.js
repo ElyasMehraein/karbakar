@@ -55,7 +55,7 @@ export default function AllBusinesses() {
           latitude: business.latitude, longitude: business.longitude, ...business,
         }))))
     };
-  }, [latitude])
+  }, [latitude, longitude, businesses]);
 
   const goToIndex = () => {
     router.push("/")

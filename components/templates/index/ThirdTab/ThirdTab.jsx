@@ -1,50 +1,42 @@
-import React from 'react'
-import ThirdTabFrame from './ThirdTabActiveUnion'
-import { AvatarGroup, Container, Typography } from '@mui/material'
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import ItsAvatar from '@/components/modules/ItsAvatar';
-import ThirdTabWaitForOthersToAccept from './ThirdTabWaitForOthersToAccept';
-import ThirdTabActiveUnion from './ThirdTabActiveUnion';
-import ThirdTabWaitForYouToAccept from './ThirdTabWaitForYouToAccept';
-import { blue } from '@mui/material/colors';
-import { grey } from '@mui/material/colors';
-import ThirdTabUnionWaitForComplete from './ThirdTabUnionWaitForComplete';
-import ThirdTabUnionsWhichNeedYourProducts from './ThirdTabUnionsWhichNeedYourProducts';
+import React, { useEffect, useState } from 'react';
+import Union from './components/Union';
+import { Container, Typography } from '@mui/material';
 
-export default function ThirdTab() {
+export default function ThirdTab({ primeBusiness, user }) {
+    const [unions, setUnions] = useState([]);
 
-
+    useEffect(() => {
+        const getUnions = async () => {
+            try {
+                const res = await fetch("/api/getUnions", { method: "GET" });
+                if (res.ok) {
+                    const { data } = await res.json();
+                    setUnions(data);
+                } else {
+                    console.log(res.status === 403 ? "unauthorized access" : "Failed to fetch unions");
+                }
+            } catch (error) {
+                console.error("Error fetching Unions:", error);
+            }
+        };
+        getUnions();
+    }, []);
     return (
-        <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
-            <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
-                اتحاد های فعال شما
-            </Typography>
-            <ThirdTabActiveUnion />
-            <ThirdTabActiveUnion />
-            <ThirdTabActiveUnion />
-            <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
-                اتحاد های منتظر تایید سایر اعضا
-            </Typography>
-            <ThirdTabWaitForOthersToAccept />
-            <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
-                اتحاد های منتظر تایید شما
-            </Typography>
-            <ThirdTabWaitForYouToAccept />
-            <Box sx={{ my: 2, p: 2, borderRadius: 2 }} bgcolor={grey[300]}>
-                <Box>
-                    اتحاد های منتظر تکمیل
-                </Box>
-                <Box sx={{ mt: 2, display: "flex", justifyContent: "space-around" }}>
-                    <Typography>درخواست دیگران از شما</Typography>
-                    <Typography>درخواست شما از دیگران</Typography>
-                </Box>
-            </Box>
-            <ThirdTabUnionWaitForComplete />
-            <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
-                اتحادهایی که به محصولات شما نیاز دارند
-            </Typography>
-            <ThirdTabUnionsWhichNeedYourProducts/>
+        <Container sx={{ mb: 10, maxWidth: "md", display: "flex", align: "center", flexDirection: "column" }}>
+            {Object.entries(unions).map(([category, unionList]) =>
+                unionList.length > 0 ? (
+                    unionList.map((union, index) => (
+                        <Union
+                            key={`${category}-${index}`}
+                            primeBusiness={primeBusiness}
+                            user={user}
+                            union={union}
+                            category={category}
+                        />
+                    ))
+                ) : null
+            )}
         </Container>
+
     )
 }

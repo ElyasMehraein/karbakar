@@ -2,26 +2,20 @@ import * as mongoose from 'mongoose';
 import { Schema } from "mongoose";
 import BusinessModel from './Business';
 import UserModel from './User';
+import ProductModel from './Product';
 
 const schema = new Schema({
-    guild:{ type: String, required: true },
-    from:
-    {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Business"
-    },
-    to: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
-    },
+    guild: { type: mongoose.Schema.Types.ObjectId, ref: "Guild", required: true },
+    from: { type: mongoose.Schema.Types.ObjectId, ref: "Business", required: true },
+    to: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    recipientBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
     products: [
         {
-            productName: { type: String, maxlength: 30 },
-            unitOfMeasurement: { type: String, maxlength: 20 },
-            amount: { type: Number, min: 1, max: 9999 },
+            product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+            amount: { type: Number, min: 1, max: 9999, required: true },
         }
     ],
-    status:{ type: String }
+    accepted: { type: Boolean, default: false }
 }, { timestamps: true })
 
 const BillModel = mongoose.models.Bill || mongoose.model("Bill", schema)

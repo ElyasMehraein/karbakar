@@ -91,8 +91,6 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
     fabIndex == value ?
       setFabIndex(10) :
       setFabIndex(value);
-
-
   };
   const fabs = [
     {
@@ -165,7 +163,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
             fabIndex !== value ?
               <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
               :
-              <FirstTabFab user={user} />
+              <FirstTabFab {...{ user, primeBusiness, relations, distinctGuilds }} />
             :
             <OthersRequestForGusts />
           }
@@ -175,22 +173,22 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
             fabIndex !== value ?
               <SecondTab primeBusiness={primeBusiness} />
               :
-              <SecondTabFab {...{ user, primeBusiness }} />
+              <SecondTabFab {...{ user, primeBusiness, relations }} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2} dir={theme.direction}>
           {
             fabIndex !== value ?
-              <ThirdTab />
+              <ThirdTab {...{ primeBusiness, user }} />
               :
-              <ThirdTabFab {...{ user }} />
+              <ThirdTabFab {...{ primeBusiness, user }} />
           }
 
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3} dir={theme.direction}>
           {
             fabIndex === 3 ?
-              <CreateBill user={user} fabHandler={fabHandler} />
+              <CreateBill user={user} primeBusiness={primeBusiness} />
               :
               <Bill bills={bills} user={user} />
           }

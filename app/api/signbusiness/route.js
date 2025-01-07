@@ -60,8 +60,6 @@ export async function POST(req) {
                 email: "",
                 personalPage: "",
                 instagram: "",
-                longitude: "",
-                latitude: "",
                 mapDetail: "",
                 agentCode: user.code,
                 workers: [user._id],

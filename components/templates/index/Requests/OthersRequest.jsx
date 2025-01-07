@@ -71,7 +71,7 @@ export default function OthersRequest({ user, distinctGuilds }) {
       }
     }
     getRequests()
-  }, []);
+  }, [userBusinessesGuilds]);
 
   const isUserAreBusinessAgent = user?.businesses.some((business) => {
     return Number(business.agentCode) === user.code

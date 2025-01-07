@@ -1,43 +1,46 @@
 "use client"
 import Image from 'next/image';
 import * as React from 'react';
-import DefaultHeader from "@/public/assets/default/DefaultHeader"
-import { useState } from 'react';
-import { useEffect } from 'react';
+import DefaultHeader from "@/public/assets/default/DefaultHeader";
+import { useState, useEffect } from 'react';
 
 export default function Header({ user, business }) {
 
-  const userCodeOrBusinessBrand = user?.code || business?.businessName
+  const userCodeOrBusinessBrand = user?.code || business?.businessName;
   const [isLoading, setIsLoading] = useState(true);
   const [isHeader, setIsHeader] = useState(null);
 
   useEffect(() => {
       const fetchData = async () => {
-          const res = await fetch('/api/isHeaderAvalable', {
-              method: "POST",
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ userCodeOrBusinessBrand })
-          })
-          if (res.status === 200) {
-              const { isHeader } = await res.json()
-              setIsHeader(isHeader)
-          } else if (res.status === 500) {
-              console.log("server error")
+          setIsLoading(true); // اصلاح وضعیت لودینگ
+          try {
+              const res = await fetch('/api/isHeaderAvalable', {
+                  method: "POST",
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ userCodeOrBusinessBrand })
+              });
+              if (res.ok) {
+                  const { isHeader } = await res.json();
+                  setIsHeader(isHeader);
+              } else {
+                  console.error("خطا در دریافت داده‌ها");
+              }
+          } catch (error) {
+              console.error("خطای شبکه:", error);
+          } finally {
+              setIsLoading(false); // توقف لودینگ پس از اتمام فراخوانی
           }
-      }
-      fetchData()
-      setIsLoading(false)
-  }, []);
+      };
+      fetchData();
+  }, [userCodeOrBusinessBrand]); // اضافه کردن به آرایه وابستگی‌ها
 
-  const headerImage = `/headers/${user?.code || business?.businessName}.jpg`
-  useEffect(() => {
-    setIsLoading(true)
-
-  }, []);
+  const headerImage = `/headers/${userCodeOrBusinessBrand}.jpg`;
 
   return (
     <div>
-      {isLoading && isHeader ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : isHeader ? (
         <div
           style={{
             position: "relative",
@@ -56,9 +59,9 @@ export default function Header({ user, business }) {
             }}
           />
         </div>
-      ) :
+      ) : (
         <DefaultHeader />
-      }
+      )}
     </div>
-  )
+  );
 }

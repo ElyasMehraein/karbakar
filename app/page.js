@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import MyIndex from '@/components/templates/index/MyIndex';
 import { verifyToken } from "@/controllers/auth";
 import connectToDB from '@/configs/db';
@@ -10,31 +10,52 @@ import GuildModel from '@/models/Guild';
 import BusinessRelationModel from '@/models/BusinessRelation';
 
 export default async function page() {
-  const token = cookies().get("token")?.value;
+  const token = (await cookies()).get("token")?.value;
   const tokenPayLoad = verifyToken(token);
 
   if (!tokenPayLoad) {
-    return <MyIndex />
-  }
-  connectToDB()
-  const user = await UserModel.findOne(
-    { _id: tokenPayLoad.id },
-  ).populate("businesses").lean().exec()
-  let primeBusiness;
-  if (user) {
-    primeBusiness = await BusinessModel.findOne(
-      { _id: user.primeJob },
-    )?.populate("guild").lean().exec()
+    return <MyIndex />;
   }
 
-  const relations = await BusinessRelationModel.find({
-    receiver: { $in: user.businesses.map(business => business._id) },
-    isAnswerNeed: false 
-  }).populate('provider').lean().exec();
+  await connectToDB();
 
-  const bills = await  BillModel.find({
-    to: user?._id
-  }).populate("from").lean().exec()
+  const user = await JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id })
+    .populate({
+      path: "businesses",
+      populate: {
+        path: "monthlyCommitment.product",
+        model: "Product",
+        select: "_id name",
+      },
+    })
+    .lean()))
+
+
+  let primeBusiness = null;
+  if (user?.primeJob) {
+    primeBusiness = await JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: user.primeJob })
+      .populate("guild")
+      .lean()))
+  }
+
+  const relations = await JSON.parse(JSON.stringify(await BusinessRelationModel.find({
+    receiver: { $in: user?.businesses?.map((business) => business._id) },
+    isAnswerNeed: false,
+  })
+    .populate({
+      path: "provider",
+      populate: {
+        path: "monthlyCommitment.product",
+        model: "Product",
+        select: "productName unitOfMeasurement",
+      },
+    })
+    .lean()))
+
+
+  const bills = await JSON.parse(JSON.stringify(await BillModel.find({ to: user?._id })
+    .populate("from products.product")
+    .lean()))
 
   let distinctGuilds = []
   await BillModel.find({ isAccept: true })
@@ -42,19 +63,15 @@ export default async function page() {
       if (docs.length > 0) {
         const guilds = docs.map(doc => doc.guild);
         distinctGuilds = [...new Set(guilds)];
-
-      } else {
-        console.log('No guilds to show.');
       }
     })
     .catch(err => {
       console.error(err);
     });
 
-
   return (
     <MyIndex {...{ user, bills, token, distinctGuilds, primeBusiness, relations }} />
-  )
+  );
 }
 
 

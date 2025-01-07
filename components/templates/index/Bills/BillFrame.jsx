@@ -84,13 +84,12 @@ export default function BillFrame({ user, bill }) {
                                 />
                             </CardActionArea>
                         </Suspense>
-
                         <CardContent >
                             {bill.products.map(product => {
-                                return <BillProductFrame key={product.productName} {...product} />
+                                return <BillProductFrame key={product._id} {...product.product} amount={product.amount} />
                             })
                             }
-                            {bill.status === "pending" &&
+                            {bill.accepted === false &&
                                 <Stack direction="row" spacing={2} sx={{ direction: "ltr" }}>
                                     <Button variant="outlined" color="error" startIcon={<DeleteIcon />}
                                         onClick={() => rejectHandler()}>

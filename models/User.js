@@ -21,8 +21,8 @@ const schema = new Schema({
         // minlength: 4,
         // maxlength: 30,
     },
-    isAvatar:Boolean,
-    isHeader:Boolean,
+    isAvatar: Boolean,
+    isHeader: Boolean,
     bio: {
         type: String,
         maxlength: 150,
@@ -53,13 +53,7 @@ const schema = new Schema({
             ref: "Business"
         }
     ],
-    primeJob: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Business"
-    },
-
-
-
+    primeJob: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
 
 }, { timestamps: true })
 
