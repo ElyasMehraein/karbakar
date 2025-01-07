@@ -6,10 +6,14 @@ import GuildModel from "@/models/Guild";
 export async function GET(req) {
     try {
         await connectToDB();
-        const guilds = JSON.parse(JSON.stringify(await GuildModel.find({},
-          "guildName jobCategory"
-        )));
-
+        const guilds = JSON.parse(JSON.stringify(await GuildModel.find({}, "guildName jobCategory")));
+        if (!guilds.length) {
+            return Response.json(
+                { message: 'No guilds found', data: [] },
+                { status: 404 }
+            );
+        }
+        
 
         return Response.json(
             { message: 'get guilds successfully', data: guilds },

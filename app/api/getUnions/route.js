@@ -10,7 +10,7 @@ export async function GET(req) {
 
         // گرفتن اطلاعات کاربر لاگین‌شده
         const response = await getMe(req);
-        if (!response.ok) {
+        if (!response || !response.ok) {
             return new Response(
                 JSON.stringify({ message: "log in first" }),
                 { status: 401 }
@@ -22,13 +22,13 @@ export async function GET(req) {
         const loggedUser = await UserModel.findOne({ code: user.code })
             .populate({ path: 'businesses' })
             .lean();
-
-        if (!loggedUser) {
+        if (!loggedUser || !loggedUser.businesses.length) {
             return new Response(
-                JSON.stringify({ message: "User not found" }),
+                JSON.stringify({ message: "User not found or no businesses available" }),
                 { status: 404 }
             );
         }
+
 
         const userBusinessIds = loggedUser.businesses.map(b => b._id.toString());
         const userLocation = loggedUser.businesses[0];
@@ -89,7 +89,7 @@ export async function GET(req) {
             }
 
             // محاسبه فاصله برای دسته‌بندی پنجم
-            if (!isUserMember && isAllDemandsSatisfied) {
+            if (creator && creator.latitude && creator.longitude && userLocation?.latitude && userLocation?.longitude) {
                 const creator = union.createdBy[0];
                 if (creator?.latitude && creator?.longitude && userLocation?.latitude && userLocation?.longitude) {
                     const distance = getDistance(
