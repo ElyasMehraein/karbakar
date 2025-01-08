@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import SearchAppBar from "@/components/templates/index/SearchAppBar";
 import RightDrawer from "@/components/templates/index/RightDrawer";
 import Tabs from "@/components/templates/index/Tabs";
+import BugReport from "@/components/modules/BugReport";
 
 
 export default function MyIndex({ user, bills, distinctGuilds, primeBusiness, relations }) {
@@ -23,6 +24,7 @@ export default function MyIndex({ user, bills, distinctGuilds, primeBusiness, re
 
   return (mounted &&
     <>
+      <BugReport />
       <RightDrawer
         user={user}
         open={open}
