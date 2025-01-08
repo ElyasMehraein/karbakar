@@ -24,7 +24,7 @@ export default function MyIndex({ user, bills, distinctGuilds, primeBusiness, re
 
   return (mounted &&
     <>
-      <BugReport />
+      {user && <BugReport />}
       <RightDrawer
         user={user}
         open={open}
