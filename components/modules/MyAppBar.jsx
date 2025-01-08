@@ -11,18 +11,18 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
 
-export default function MyAppBar({ user, logedUser, business }) {
+export default function MyAppBar({ user, logedUserCode, business }) {
   const pathname = usePathname();
   const modifiedUrl = pathname.split('/').slice(0, -1).join('/') + '/';
   const router = useRouter()
   const isEditNeeded = Boolean(user || business)
-  const isAauthorizedToEdit = user ? (logedUser?.code === user.code) : (logedUser?.code == business?.agentCode)
+  const isAauthorizedToEdit = user ? (logedUserCode === user.code) : (logedUserCode == business?.agentCode)
 
   const goToIndex = () => {
     router.push(modifiedUrl)
   }
   const goToEdit = () => {
-    router.push(`${business?.businessName || logedUser.code}/edit`)
+    router.push(`${business?.businessName || logedUserCode}/edit`)
   }
 
   return (

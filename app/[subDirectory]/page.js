@@ -1,91 +1,87 @@
+export const dynamicParams = true;
 import connectToDB from '@/configs/db';
 import { cookies } from "next/headers";
 import { verifyToken } from "@/controllers/auth";
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import BillModel from '@/models/Bill';
 import BusinessModel from '@/models/Business';
 import Business from '@/components/templates/business/business';
 import UserModel from '@/models/User';
 import Profile from '@/components/templates/Profile/Profile';
-import { redirect } from 'next/navigation';
-import { GET } from '../api/auth/logout/route';
 import BusinessRelationModel from '@/models/BusinessRelation';
 
 export default async function subDirectory({ params }) {
-
   try {
-    const token = cookies().get("token")?.value;
+    const token = (await cookies()).get("token")?.value;
     const tokenPayLoad = verifyToken(token);
 
-    connectToDB();
+    await connectToDB();
     let logedUser = null;
 
     if (tokenPayLoad) {
-      logedUser = JSON.parse(JSON.stringify(await UserModel.findOne(
+      logedUser = await UserModel.findOne(
         { _id: tokenPayLoad.id },
         "-_id code businesses"
-      ).populate([
-        "businesses",
-      ])));
+      ).populate("businesses").lean();
     }
 
-    if (isNaN(params.subDirectory)) {
+    // استفاده‌ی مستقیم از `params` بدون await
+    const subDirectory = params.subDirectory;
 
-      // Find Business with relationships (populated)
-      const business = JSON.parse(JSON.stringify(await BusinessModel.findOne({
-        businessName: params.subDirectory
+    if (isNaN(subDirectory)) {
+      const business = await BusinessModel.findOne({
+        businessName: subDirectory
       }).populate([
         "workers",
         "guild",
         "monthlyCommitment.product"
-      ])));
+      ]).lean();
 
       if (!business) {
         console.log("business not found in DB");
         notFound();
       }
 
-      // Find relevant Bills
-      const bills = JSON.parse(JSON.stringify(await BillModel.find({
+      const bills = await BillModel.find({
         from: business._id,
         isAccept: true
-      }).populate("to")));
+      }).populate("to").lean();
 
-      // Get related businesses for logged-in user (if any)
-      let relations = JSON.parse(JSON.stringify(await BusinessRelationModel.find({
+      const relations = await BusinessRelationModel.find({
         $or: [
           { provider: business._id },
-          { receiver: business._id },
+          { receiver: business._id }
         ],
-      }).populate("receiver provider")));
+      }).populate("receiver provider").lean();
 
       return (
         <Business
-          business={business}
-          logedUser={logedUser}
-          bills={bills}
-          relations={relations}
+          business={JSON.parse(JSON.stringify(business))}
+          logedUser={JSON.parse(JSON.stringify(logedUser))}
+          bills={JSON.parse(JSON.stringify(bills))}
+          relations={JSON.parse(JSON.stringify(relations))}
         />
       );
 
     } else {
-
-      const user = JSON.parse(JSON.stringify(await UserModel.findOne(
-        { code: params.subDirectory },
-      ).populate("businesses")));
+      const user = await UserModel.findOne(
+        { code: Number(subDirectory) }
+      ).populate("businesses").lean();
 
       if (!user) {
         console.log("user not found in DB");
         notFound();
       }
+
       return (
-        <Profile user={user}
-          logedUser={logedUser}
+        <Profile 
+          user={JSON.parse(JSON.stringify(user))} 
+          logedUser={JSON.parse(JSON.stringify(logedUser))} 
         />
       );
     }
   } catch (err) {
-    console.error('server error in subDirectory:', err);
+    console.error('Server error:', err);
     redirect("/w");
   }
 }

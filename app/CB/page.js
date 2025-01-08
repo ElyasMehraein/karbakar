@@ -8,7 +8,7 @@ import UserModel from "@/models/User";
 
 
 export default async function page() {
-    const token = cookies().get("token")?.value;
+    const token = (await cookies()).get("token")?.value;
     const tokenPayLoad = verifyToken(token);
     if (!tokenPayLoad) {
         redirect('/')

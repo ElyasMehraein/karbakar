@@ -8,7 +8,7 @@ import UserModel from '@/models/User'
 import RequestModel from '@/models/Request';
 
 export async function GET(req, res) {
-    const token = cookies().get("token")?.value;
+    const token = (await cookies()).get("token")?.value;
     const tokenPayLoad = verifyToken(token);
     try {
 

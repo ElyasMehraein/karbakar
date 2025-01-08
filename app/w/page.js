@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation'
 import { cookies } from "next/headers";
 
 export default async function page() {
-  const token = cookies().get("token")?.value;
+  const token = (await cookies()).get("token")?.value;
   if (!token) {
     return (
       <Wellcome />

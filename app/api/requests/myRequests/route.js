@@ -7,7 +7,7 @@ import { verifyToken } from "@/controllers/auth";
 import { createHash } from "crypto";
 
 export async function GET(req, res) {
-    const token = cookies().get("token")?.value;
+    const token = (await cookies()).get("token")?.value;
     const tokenPayLoad = verifyToken(token);
 
     if (!tokenPayLoad) {

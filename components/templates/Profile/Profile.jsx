@@ -8,6 +8,7 @@ import Explain from "@/components/modules/Explain";
 import UserJobs from "@/components/templates/Profile/UserJobs";
 import Name from "@/components/modules/Name";
 function Profile({ user, logedUserCode }) {
+
     return (
         <>
             <MyAppBar user={user} logedUserCode={logedUserCode} />
