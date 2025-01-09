@@ -21,7 +21,9 @@ export default function AllBusinesses() {
   const [businesses, setBusinesses] = useState(false);
   const [latitude, setLatitude] = useState("")
   const [longitude, setLongitude] = useState("")
-  const [businessesOrderByDistance, setBusinessesOrderByDistance] = useState("")
+  const [businessesOrderByDistance, setBusinessesOrderByDistance] = useState([])
+
+  console.log("businessesOrderByDistance", businessesOrderByDistance);
 
   const setLocation = function (latitude, longitude) {
     setLatitude(latitude)
@@ -101,7 +103,7 @@ export default function AllBusinesses() {
           </Accordion>
           <ShowMyLocation setLocation={setLocation} />
           {businesses ?
-            businessesOrderByDistance ?
+            businessesOrderByDistance.length ?
               businessesOrderByDistance.map((business) => {
                 return (
                   <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
@@ -124,6 +126,7 @@ export default function AllBusinesses() {
               })
               :
               businesses.map((business) => {
+                console.log("hahiii");
                 return (
                   <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
