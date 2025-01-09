@@ -11,7 +11,6 @@ export async function POST(request) {
         const { description } = await request.json();
         const response = await GET(request);
         const user = await response.json();
-        console.log("user", user.code);
 
         const newBugReport = new BugReportModel({
             description,

@@ -1,68 +1,97 @@
-import connectToDB from '@/configs/db'
-import { cookies } from "next/headers";
-import { verifyToken } from "@/controllers/auth";
 import { notFound, redirect } from 'next/navigation'
+import { cookies } from 'next/headers'
+import connectToDB from '@/configs/db'
+import { verifyToken } from '@/controllers/auth'
 import BusinessModel from '@/models/Business'
-import EditBusiness from '@/components/templates/editBusiness/EditBusiness';
 import UserModel from '@/models/User'
 import EditProfile from '@/components/templates/editProfile/EditProfile'
+import EditBusiness from '@/components/templates/editBusiness/EditBusiness'
 
-export default async function edit({ params }) {
+export default async function Page({ params }) {
   try {
-    const token = (await cookies()).get("token")?.value;
-    const tokenPayLoad = verifyToken(token);
+    // گرفتن توکن از کوکی
+    const token = cookies().get('token')?.value
+    // اعتبارسنجی توکن
+    const tokenPayload = verifyToken(token)
 
-    if (!tokenPayLoad) {
-      redirect("/w");
+    if (!tokenPayload) {
+      // اگر توکن معتبر نباشد، ریدایرکت
+      redirect('/w')
     }
 
-    await connectToDB();
-    const logedUser = await UserModel.findOne(
-      { _id: tokenPayLoad.id },
-      "code"
-    ).lean();
+    // اتصال به دیتابیس
+    await connectToDB()
 
-    if (!logedUser) {
-      console.log("Logged user not found");
-      notFound();
+    // یافتن کاربر لاگین شده
+    const loggedUser = await UserModel.findOne(
+      { _id: tokenPayload.id },
+      'code'
+    ).lean()
+
+    if (!loggedUser) {
+      console.log('Logged user not found')
+      notFound()
     }
 
-    const logedUserCode = logedUser.code;
+    const loggedUserCode = loggedUser.code
+    const { subDirectory } = params
 
-    if (!isNaN(params.subDirectory)) {
+    // اگر پارامتر مسیر (subDirectory) عدد باشد => ویرایش پروفایل کاربر
+    if (!isNaN(Number(subDirectory))) {
       const user = await UserModel.findOne(
-        { code: Number(params.subDirectory) }
-      ).lean();
+        { code: Number(subDirectory) }
+      ).lean()
 
       if (!user) {
-        console.log("User not found in DB");
-        notFound();
+        console.log('User not found in DB')
+        notFound()
       }
+
+      // تبدیل به یک شیء ساده برای جلوگیری از ارور بافر/ObjectID
+      const userToSend = JSON.parse(JSON.stringify(user))
 
       return (
-        <EditProfile user={user} logedUserCode={logedUserCode} />
-      );
-    } else {
+        <EditProfile
+          user={userToSend}
+          logedUserCode={loggedUserCode}
+        />
+      )
+    }
+    // در غیر این صورت => ویرایش بیزینس
+    else {
       const business = await BusinessModel.findOne({
-        businessName: params.subDirectory
-      }).populate("workers").lean();
+        businessName: subDirectory,
+      })
+        .populate('workers')
+        .lean()
 
       if (!business) {
-        console.log("Business not found in DB");
-        notFound();
+        console.log('Business not found in DB')
+        notFound()
       }
 
-      if (Number(business.agentCode) !== logedUserCode) {
+      // بررسی مالکیت بیزینس
+      if (Number(business.agentCode) !== loggedUserCode) {
         return <h1 className='inMiddle'>403 دسترسی غیر مجاز</h1>
       }
 
-      const users = await UserModel.find().lean();
+      // یافتن تمامی کاربران (در صورت نیاز برای ویرایش بیزینس)
+      const users = await UserModel.find().lean()
+
+      // تبدیل اشیاء دریافتی به اشیاء ساده
+      const businessToSend = JSON.parse(JSON.stringify(business))
+      const usersToSend = JSON.parse(JSON.stringify(users))
+
       return (
-        <EditBusiness business={business} logedUserCode={logedUserCode} users={users} />
-      );
+        <EditBusiness
+          business={businessToSend}
+          logedUserCode={loggedUserCode}
+          users={usersToSend}
+        />
+      )
     }
   } catch (err) {
-    console.error("Error in edit route:", err);
-    redirect("/w");
+    console.error('Error in edit route:', err)
+    redirect('/w')
   }
 }
