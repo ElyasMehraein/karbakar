@@ -10,10 +10,11 @@ import { Container, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Chip from '@mui/material/Chip';
 import DoneIcon from '@mui/icons-material/Done';
-import { Accordion, AccordionDetails } from '@mui/material';
+
 
 export default function ContactEdit({ user, business, maxLengthError }) {
 
+    const [isSaving, setIsSaving] = useState(false);
     const { phone, email, personalPage, instagram } = user || business;
     const [newValue, setNewValue] = useState(null);
     const [expandedSection, setExpandedSection] = useState({
@@ -23,22 +24,58 @@ export default function ContactEdit({ user, business, maxLengthError }) {
         instagram: false
     });
 
+    //phoneChangeHandler
     const phoneChangeHandler = (e) => {
-        if (e.target.value.length === 11) {
+        let value = e.target.value;
+        if (value.length === 11) {
             if (/^09\d*$/.test(e.target.value)) {
                 setNewValue(e.target.value);
                 setExpandedSection({ ...expandedSection, phone: true });
             } else {
                 maxLengthError("شماره تماس بایستی متشکل از اعداد باشد و با 09 شروع شود");
             }
+        } else if (value.length > 11) {
+            maxLengthError();
+            setExpandedSection({ ...expandedSection, phone: false });
+        } else {
+            setExpandedSection({ ...expandedSection, phone: false });
         }
     };
 
+    //mailChangeHandler
+    const mailChangeHandler = (e) => {
+        if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(e.target.value)) {
+            setNewValue(e.target.value);
+            setExpandedSection({ ...expandedSection, email: true });
+
+        } else {
+            setExpandedSection({ ...expandedSection, email: false });
+        }
+    };
+
+
+    //instagramChangeHandler
+    const instagramChangeHandler = (e) => {
+        if (/^(?!.*\.\.)(?!.*\.$)[a-zA-Z0-9._]{5,30}$/.test(e.target.value)) {
+            setNewValue(e.target.value);
+            setExpandedSection({ ...expandedSection, instagram: true });
+
+        } else {
+            setExpandedSection({ ...expandedSection, instagram: false });
+        }
+    };
+
+
+    //changeHandler
     const changeHandler = (e) => {
         setNewValue(e.target.value);
     };
 
+
+
+    //saveHandler
     const saveHandler = async (fieldName) => {
+        setIsSaving(true);
         const model = user ? "UserModel" : "BusinessModel";
         const id = user ? user._id : business._id;
         await fetch("/api/updateDB", {
@@ -49,6 +86,7 @@ export default function ContactEdit({ user, business, maxLengthError }) {
             body: JSON.stringify({ model, id, fieldName, newValue }),
         });
         setExpandedSection({ ...expandedSection, [fieldName]: false });
+        setIsSaving(false);
     };
 
     return (
@@ -67,47 +105,51 @@ export default function ContactEdit({ user, business, maxLengthError }) {
                         />
                         {expandedSection.phone && (
                             <Chip
-                                label="ذخیره"
+                                label={isSaving ? "در حال ذخیره..." : "ذخیره"}
                                 onClick={() => saveHandler("phone")}
                                 icon={<DoneIcon />}
+                                sx={{ direction: "ltr", }}
+
                             />
                         )}
                     </Box>
 
                     {/* Email Section */}
-                    <Box sx={{ my: 2, '& .MuiTextField-root': { width: '25ch' } }} display="flex" alignItems="center" align='center'>
+                    <Box sx={{ '& .MuiTextField-root': { width: '25ch' } }} display="flex" alignItems="center" align='center'>
                         <Box><EmailIcon fontSize="large" /></Box>
                         <Box sx={{ width: '7ch', mx: 3 }}><Typography sx={{ fontSize: "14px" }}>ایمیل</Typography></Box>
                         <TextField
                             size="small"
                             label="مثال example@gmail.com"
                             defaultValue={email}
-                            onChange={changeHandler}
+                            onChange={mailChangeHandler}
                         />
                         {expandedSection.email && (
                             <Chip
-                                label="ذخیره"
+                                label={isSaving ? "در حال ذخیره..." : "ذخیره"}
                                 onClick={() => saveHandler("email")}
                                 icon={<DoneIcon />}
+                                sx={{ direction: "ltr", }}
                             />
                         )}
                     </Box>
 
                     {/* Instagram Section */}
-                    <Box sx={{ my: 2, '& .MuiTextField-root': { width: '25ch' } }} display="flex" alignItems="center" align='center'>
+                    <Box sx={{ mt: 1, '& .MuiTextField-root': { width: '25ch' } }} display="flex" alignItems="center" align='center'>
                         <Box><InstagramIcon fontSize="large" /></Box>
                         <Box sx={{ width: '7ch', mx: 3 }}><Typography sx={{ fontSize: "14px" }}>اینستاگرام</Typography></Box>
                         <TextField
                             size="small"
-                            label="مثال @username"
+                            label="مثال:karbakar"
                             defaultValue={instagram}
-                            onChange={changeHandler}
+                            onChange={instagramChangeHandler}
                         />
                         {expandedSection.instagram && (
                             <Chip
-                                label="ذخیره"
+                                label={isSaving ? "در حال ذخیره..." : "ذخیره"}
                                 onClick={() => saveHandler("instagram")}
                                 icon={<DoneIcon />}
+                                sx={{ direction: "ltr", }}
                             />
                         )}
                     </Box>

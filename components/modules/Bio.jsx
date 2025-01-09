@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 
 const ProfileBio = ({ user , business}) => {
+
     const { bio } = user || business
     return (
         <Box
