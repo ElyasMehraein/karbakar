@@ -175,6 +175,7 @@ export default function Wellcome() {
                 }
                 placeholder={steps[activeStep].placeholder}
                 value={activeStep === 0 ? phone : SMSCode}
+                autoFocus
               />
             </Paper>
             <Box sx={{ height: 80, maxWidth: 420, width: "100%" }}>
@@ -202,7 +203,7 @@ export default function Wellcome() {
                 severity={"success"}
                 variant="filled"
               >
-                "ثبت نام با موفقیت انجام شد لطفا چند ثانیه منتظر بمانید"
+               با اومدنت منو خوشحال کردی😁
               </Alert>
 
             </Snackbar>

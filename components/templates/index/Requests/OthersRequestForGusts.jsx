@@ -64,13 +64,6 @@ const OthersRequestForGusts = () => {
 
   return (
     <div>
-      <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-        <Chip
-          label="راهنمایی"
-          sx={{ direction: 'ltr' }}
-          onClick={() => setExpanded(!expanded)}
-          icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-        />
         <Typography fontSize={14}>
           محصولاتی که کسب و کارها با هم مبادله می کنند را مشاهده می نمایید
           <br />
@@ -79,9 +72,6 @@ const OthersRequestForGusts = () => {
           برای پیوستن به جامعه کارباکار ثبت نام کنید.
         </Typography>
 
-        <AccordionDetails>
-        </AccordionDetails>
-      </Accordion>
       {!isLoading && renderGuilds()}
     </div>
   );

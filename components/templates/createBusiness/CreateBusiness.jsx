@@ -63,7 +63,7 @@ export default function CreateBusiness() {
 
             if (res.status === 201) {
                 setSuccess(true);
-                router.push('/');
+                window.location.href = '/';
             } else {
                 const errorMessages = {
                     409: "این نام قبلا ایجاد شده و تکراری است لطفا نام دیگری انتخاب کنید",
@@ -93,7 +93,7 @@ export default function CreateBusiness() {
                         options={formattedOptions}
                         groupBy={(option) => option.group}
                         getOptionLabel={(option) => option.label}
-                        renderInput={(params) => <TextField {...params} label="انتخاب دسته بندی شغل" />}
+                        renderInput={(params) => <TextField {...params} label="انتخاب دسته بندی شغل *" />}
                         isOptionEqualToValue={isOptionEqualToValue}
                         onChange={changeHandler}
                     />
@@ -105,23 +105,24 @@ export default function CreateBusiness() {
                     )}
 
                     <Autocomplete
+                        required
                         size='small'
                         sx={{ m: 1 }}
                         id="add-product"
                         freeSolo
                         options={guilds}
-                        renderInput={(params) => <TextField {...params} label="عنوان صنف" />}
+                        renderInput={(params) => <TextField {...params} label="عنوان صنف *" />}
                         onInputChange={(event, newInputValue) => setGuildName(newInputValue)}
                     />
 
                     <TextField
-                        required
+                        // required
                         size='small'
                         error={snackbarError}
                         sx={{ my: 1 }}
                         placeholder='حداکثر 30 کارکتر'
                         variant="outlined"
-                        label="برند کسب و کار شما"
+                        label="برند کسب و کار شما *"
                         onChange={(e) => { setSnackbarError(false); setBusinessName(e.target.value); }}
                     />
 

@@ -52,8 +52,6 @@ export async function POST(req, res) {
                 personalPage: "",
                 instagram: "",
                 businesses: [],
-                primeJob: "66164cc526e2d5fe01b561dc" ,
-
             })
             console.log("user created successfully", user);
             user = user

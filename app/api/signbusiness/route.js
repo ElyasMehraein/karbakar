@@ -35,7 +35,7 @@ export async function POST(req) {
                 return redirect("/w");
             }
 
-            const user = await UserModel.findOne({ _id: tokenPayLoad.id }, "primeJob code businesses").lean();
+            const user = JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id }, "primeJob code businesses")))
 
             if (!user) {
                 return Response.json({ message: "User not found" }, { status: 404 });
@@ -76,7 +76,8 @@ export async function POST(req) {
 
             await UserModel.findByIdAndUpdate(user._id, { $push: { businesses: business._id } });
 
-            if (user.primeJob !== '66164cc526e2d5fe01b561dc') {
+            
+            if (user.primeJob) {
                 return Response.json({ message: "Business created successfully" }, { status: 201 });
             }
 

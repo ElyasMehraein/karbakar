@@ -3,7 +3,7 @@ import { styled } from "@mui/material/styles";
 import Divider from "@mui/material/Divider";
 import Typography from "@mui/material/Typography";
 import MyRequestFrame from "./MyRequestFrame";
-import { mainTabYourReqText } from "@/components/typoRepo";
+// import { mainTabYourReqText } from "@/components/typoRepo";
 import { Accordion, AccordionDetails, Chip, Container, Box, CircularProgress } from "@mui/material";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 
@@ -40,7 +40,7 @@ export default function MyRequests() {
           icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
         />
         <AccordionDetails>
-          {mainTabYourReqText}
+          {/* {mainTabYourReqText} */}
         </AccordionDetails>
       </Accordion>
       {isLoading ?
