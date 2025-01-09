@@ -46,5 +46,5 @@ certificates
 # components/templates/welcome/Welcome.jsx
 *.zip
 *.bat
-public/avatars/1000.jpg
-*.jpg
+# public/avatars/1000.jpg
+# *.jpg
