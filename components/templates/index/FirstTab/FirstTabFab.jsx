@@ -62,7 +62,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
             }
         };
         getGuilds();
-    }, [jobCategory, chips, selectedBusiness.demandsForGuilds]);
+    }, []);
 
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
