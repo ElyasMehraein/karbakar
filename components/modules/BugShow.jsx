@@ -63,7 +63,7 @@ export default function BugShow() {
         >
           <Box>
             <Typography>متن: {bug.description}</Typography>
-            <Typography>کد کاربر: {bug.sender?.code || "نامشخص"}</Typography>
+            <Typography>کد کاربر: {bug.sender || "نامشخص"}</Typography>
           </Box>
           <Button
             variant="outlined"

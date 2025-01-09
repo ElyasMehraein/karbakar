@@ -8,7 +8,9 @@ const bugReportSchema = new Schema(
       maxlength: 150,
       required: true,
     },
-    sender: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    sender: {
+      type: Number,
+    }
   },
   { timestamps: true }
 );
