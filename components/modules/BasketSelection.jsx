@@ -49,7 +49,7 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
 
   // سبد محصولات
   const [basket, setBasket] = useState([]);
-
+  console.log("basket", basket);
   // اسنک‌بارها
   const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = useState(false);
   const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
@@ -75,12 +75,22 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     }
   }, [guildID]);
 
-  /**
-   * هر بار که نام محصول تغییر می‌کند، بررسی می‌کنیم
-   * آیا این نام در لیست محصولات دیتابیس وجود دارد یا نه.
-   * اگر وجود داشته باشد، selectedProduct را همان شیء دیتابیس تنظیم می‌کنیم.
-   * اگر وجود نداشته باشد، به‌معنی محصول جدید است، پس selectedProduct را null می‌کنیم.
-   */
+  useEffect(() => {
+    if (business) {
+      const fetchMonthlyCommitment = async () => {
+        try {
+          const response = await fetch(`/api/getBusinessMonthlyCommitment?businessId=${business._id}`);
+          if (!response.ok) throw new Error('Failed to fetch products');
+          const { data } = await response.json();
+          setBasket(data.monthlyCommitment);
+        } catch (err) {
+          console.log("no MonthlyCommitment", err);
+        }
+      };
+      fetchMonthlyCommitment();
+    }
+  }, [business]);
+
   useEffect(() => {
     const matchedProduct = products.find(
       (product) => product.productName === selectedProductName
@@ -223,38 +233,45 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
       >
         اضافه به سبد
       </Button>
+        <Typography>salam</Typography>
 
       <List dense sx={{ mt: 2 }}>
-        {basket.map((productFrame) => (
-          <ListItem
-            key={productFrame.product._id}
-            sx={{
-              my: 1,
-              width: '100%',
-              minWidth: 300,
-              maxWidth: 400,
-              bgcolor: '#e0e0e0',
-              textAlign: "right"
-            }}
-          >
-            <ListItemIcon>
-              {productFrame.product.isRetail === "true" ? (
-                <Groups2Icon />
-              ) : (
-                <BusinessRoundedIcon />
-              )}
-            </ListItemIcon>
-            <ListItemText
-              primary={productFrame.product.productName}
-              secondary={`${productFrame.amount} - ${productFrame.product.unitOfMeasurement}`}
-            />
-            <IconButton
-              onClick={() => deleteFrame(productFrame.product.productName)}
+        {basket.map((productFrame) => {
+          console.log("ha bia", productFrame.product.productName)
+
+          return (
+            
+            <ListItem
+              key={productFrame.product._id}
+              sx={{
+                my: 1,
+                width: '100%',
+                minWidth: 300,
+                maxWidth: 400,
+                bgcolor: '#e0e0e0',
+                textAlign: "right"
+              }}
             >
-              <DeleteIcon />
-            </IconButton>
-          </ListItem>
-        ))}
+              <ListItemIcon>
+                {productFrame.product.isRetail === "true" ? (
+                  <Groups2Icon />
+                ) : (
+                  <BusinessRoundedIcon />
+                )}
+              </ListItemIcon>
+              <ListItemText
+                primary={productFrame.product.productName}
+                secondary={`${productFrame.amount} - ${productFrame.product.unitOfMeasurement}`}
+              />
+              <IconButton
+                onClick={() => deleteFrame(productFrame.product.productName)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </ListItem>
+          )
+        }
+        )}
       </List>
 
       <CustomSnackbar

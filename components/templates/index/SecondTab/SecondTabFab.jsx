@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Button, CircularProgress, Container } from '@mui/material';
+import { Button, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import ProductBasket from '@/components/modules/ProductBasket';
+import BasketSelection from '@/components/modules/BasketSelection';
 
 
 export default function SecondTabFab({ user, primeBusiness }) {
     const [isLoading, setIsLoading] = React.useState(false);
+
+    const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness.businessName)
+    const userBusinesses = user.businesses.filter(business => business.agentCode == user.code)
+    const userBusinessesNames = userBusinesses.map(business => business.businessName)
+    const selectedBusiness = userBusinesses.find(business => business.businessName === selectedBusinessName);
 
     const [businessID, setBusinessID] = React.useState()
     const addBusinessID = (value) => {
@@ -57,18 +63,30 @@ export default function SecondTabFab({ user, primeBusiness }) {
             setIsLoading(false)
         }
     }
-    const useFor = "setMonthlyCommitment"
     return (
         <Container maxWidth="md" className="inMiddle" align='center' >
             {isLoading ?
                 <CircularProgress />
                 :
                 <>
-                    <ProductBasket
-                        {...{ user, primeBusiness, useFor }}
-                        parentBasketFunction={addBasket}
-                        parentSetBusinessID={addBusinessID}
-                    />
+                    <FormControl sx={{ my: 2, width: 300 }}>
+                        <InputLabel id="chose-business-label">انتخاب کسب و کار</InputLabel>
+                        <Select
+                            labelId="chose-business-label"
+                            value={selectedBusinessName}
+                            onChange={(e) => setSelectedBusinessName(e.target.value)}
+                        >
+                            {userBusinessesNames.map((name) => (
+                                <MenuItem key={name} value={name}>{name}</MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    {selectedBusiness &&
+                        <BasketSelection
+                            {...{ selectedBusiness, primeBusiness }}
+                            parentBasketFunction={addBasket}
+                        />
+                    }
                     <Button
                         sx={{ display: "block" }}
                         variant="contained"

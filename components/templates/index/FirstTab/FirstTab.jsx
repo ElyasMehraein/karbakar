@@ -3,7 +3,6 @@ import * as React from "react";
 import { FirtstTabText } from "@/components/typoRepo";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import { Avatar, Box, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import ItsAvatar from '@/components/modules/ItsAvatar'
