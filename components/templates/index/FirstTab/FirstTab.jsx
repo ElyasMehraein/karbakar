@@ -26,25 +26,24 @@ export default function FirstTab({ user, relations }) {
 
     return (
         <Container maxWidth="md">
+            <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
+                <Chip
+                    label="راهنمایی"
+                    sx={{ direction: 'ltr' }}
+                    onClick={() => setExpanded(!expanded)}
+                    icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
+                />
+                <AccordionDetails>
+                    {FirtstTabText()}
+                </AccordionDetails>
+            </Accordion>
             <Box className='inMiddle'
                 sx={{
                     '& .MuiTextField-root': { width: '30ch' },
                     my: 3
                 }}
                 display="flex" flexDirection="column">
-                <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-                    <Chip
-                        label="راهنمایی"
-                        sx={{ direction: 'ltr' }}
-                        onClick={() => setExpanded(!expanded)}
-                        icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-                    />
-                    <AccordionDetails>
-                        <Typography>
-                            {FirtstTabText}
-                        </Typography>
-                    </AccordionDetails>
-                </Accordion>
+
                 {businesses.length ?
                     businesses.map((business) => {
                         return (
@@ -89,7 +88,7 @@ export default function FirstTab({ user, relations }) {
                             </List>
                         )
                     }) :
-                    <Typography>هیچ کسب و کاری به ارائه محصول به شما متعهد نشده است شما می توانید از منوی سمت راست جهت یافتن نزدیک ترین کسب و کارها اقدام نمایید</Typography>
+                    <Typography>هنوز هیچ کسب و کاری به ارائه محصول به کسب و کار شما متعهد نشده است </Typography>
                 }
             </Box>
         </Container>

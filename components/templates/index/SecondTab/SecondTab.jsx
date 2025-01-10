@@ -11,15 +11,17 @@ import ItsAvatar from '@/components/modules/ItsAvatar'
 import jobCategoriesData from "@/utils/JobCategories";
 import { Autocomplete, Button } from '@mui/material';
 import { blue } from '@mui/material/colors';
-import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Accordion, AccordionDetails, Chip } from "@mui/material";
+import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+import { SecondTabText} from "@/components/typoRepo";
 
 const color = blue[50];
 
 export default function SecondTab({ user, primeBusiness }) {
+    const [expanded, setExpanded] = React.useState(false);
 
     // select job category 
     const [jobCategory, setJobCategory] = useState("")
@@ -87,13 +89,25 @@ export default function SecondTab({ user, primeBusiness }) {
 
 
     return (
-        <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
+        <Container maxWidth="md">
+            <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
+                <Chip
+                    label="راهنمایی"
+                    sx={{ direction: 'ltr' }}
+                    onClick={() => setExpanded(!expanded)}
+                    icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
+                />
+                <AccordionDetails>
+                    {SecondTabText()}
+                </AccordionDetails>
+            </Accordion>
             <Box className='inMiddle'
                 sx={{
                     '& .MuiTextField-root': { width: '30ch' },
                     my: 3
                 }}
                 display="flex" flexDirection="column">
+
                 <Autocomplete
                     sx={{ m: 1 }}
                     size='small'

@@ -14,9 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 
 export default function ProductBasket({ user, primeBusiness, parentBasketFunction, parentSetBusinessID, useFor }) {
-
     const [selectedBusinessName, setSelectedBusinessName] = useState(primeBusiness.businessName)
-    const userBusinesses = user.businesses.filter(business => business.agentCode === user.code)
+    const userBusinesses = user.businesses.filter(business => business.agentCode == user.code)
     const userBusinessesNames = userBusinesses.map(business => business.businessName)
     const [BusinessProducts, setBusinessProducts] = useState([]);
     const selectedBusiness = userBusinesses.find(business => business.businessName === selectedBusinessName);
@@ -46,7 +45,7 @@ export default function ProductBasket({ user, primeBusiness, parentBasketFunctio
             };
             fetchProducts();
         }
-    }, [selectedBusiness?._id]); 
+    }, [selectedBusiness?._id]);
 
     useEffect(() => {
         const selectedProduct = BusinessProducts.find(product => product.productName === selectedProductName);
