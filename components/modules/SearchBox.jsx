@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
+import { useRouter } from "next/navigation";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -51,7 +52,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
-    left: 0,  // تغییر موقعیت به سمت چپ
+    left: 0,
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
@@ -64,14 +65,53 @@ const groupLabelMap = {
 };
 
 export default function SearchBox() {
+    const router = useRouter();
+
     const [term, setTerm] = useState("");
+    const [open, setOpen] = useState(false);
+
+    const handleInputChange = (e, newValue) => {
+        setTerm(newValue);
+        setOpen(newValue.trim().length > 0);
+    };
+
     const [allOptions, setAllOptions] = useState([]);
     const [expandedGroups, setExpandedGroups] = useState({
         user: false,
         business: false,
     });
 
-    // ✅ فراخوانی داده‌ها
+    const renderOption = (props, option) => {
+        let avatarSrc = "";
+        if (option.type === "user" && option.isAvatar) {
+            avatarSrc = `/avatars/${option.code}.jpg`;
+        } else if (option.type === "business" && option.isAvatar) {
+            avatarSrc = `/avatars/business/${option._id}.jpg`;
+        }
+
+        const handleClick = () => {
+            if (option.type === "user") {
+                router.push(`/${option.code}`);
+            } else if (option.type === "business") {
+                router.push(`/${option.name}`);
+            }
+        };
+        return (
+            <div
+                {...props}
+                key={option._id}
+                style={{ width: "100%", cursor: "pointer" }}
+                onClick={handleClick}
+            >
+                <ListItem disableGutters>
+                    <ListItemAvatar>
+                        <Avatar src={avatarSrc} />
+                    </ListItemAvatar>
+                    <ListItemText primary={option.name} secondary={option.code} />
+                </ListItem>
+            </div>
+        );
+    };
     useEffect(() => {
         if (!term.trim()) {
             setAllOptions([]);
@@ -139,26 +179,26 @@ export default function SearchBox() {
         );
     };
 
-    // ✅ رفع خطای تودرتو با استفاده از <div> به جای <li>
-    const renderOption = (props, option) => {
-        let avatarSrc = "";
-        if (option.type === "user" && option.isAvatar) {
-            avatarSrc = `/avatars/${option.code}.jpg`;
-        } else if (option.type === "business" && option.isAvatar) {
-            avatarSrc = `/avatars/business/${option._id}.jpg`;
-        }
+    // // ✅ رفع خطای تودرتو با استفاده از <div> به جای <li>
+    // const renderOption = (props, option) => {
+    //     let avatarSrc = "";
+    //     if (option.type === "user" && option.isAvatar) {
+    //         avatarSrc = `/avatars/${option.code}.jpg`;
+    //     } else if (option.type === "business" && option.isAvatar) {
+    //         avatarSrc = `/avatars/business/${option._id}.jpg`;
+    //     }
 
-        return (
-            <div {...props} key={option._id} style={{ width: '100%' }}>
-                <ListItem disableGutters>
-                    <ListItemAvatar>
-                        <Avatar src={avatarSrc} />
-                    </ListItemAvatar>
-                    <ListItemText primary={option.name} secondary={option.code} />
-                </ListItem>
-            </div>
-        );
-    };
+    //     return (
+    //         <div {...props} key={option._id} style={{ width: '100%' }}>
+    //             <ListItem disableGutters>
+    //                 <ListItemAvatar>
+    //                     <Avatar src={avatarSrc} />
+    //                 </ListItemAvatar>
+    //                 <ListItemText primary={option.name} secondary={option.code} />
+    //             </ListItem>
+    //         </div>
+    //     );
+    // };
 
     // ✅ کامپوننت نهایی
     return (
@@ -175,7 +215,10 @@ export default function SearchBox() {
                     renderOption={renderOption}
                     noOptionsText="موردی یافت نشد"
                     inputValue={term}
-                    onInputChange={(e, newValue) => setTerm(newValue)}
+                    open={open}
+                    // onOpen={() => setOpen(true)}
+                    onClose={() => setOpen(false)}
+                    onInputChange={handleInputChange}
                     renderInput={(params) => (
                         <TextField
                             {...params}
