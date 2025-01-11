@@ -236,7 +236,7 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
       </Button>
       {basket.length > 0 &&
         <List
-          dense sx={{ mt: 2, bgcolor: blue[50], p: 2, borderRadius: 2 }}
+          dense sx={{ mb: 2, bgcolor: blue[50], p: 2, borderRadius: 2 }}
           subheader={<ListSubheader>سبد محصولات</ListSubheader>}
         >
 
