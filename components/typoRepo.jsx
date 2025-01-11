@@ -103,9 +103,19 @@ export const FirtstTabText = () => {
         <Typography sx={{ mb: 1, fontSize: 12 }}>
             اونها             عنوان شغل و مقدار و نوع محصولاتی که به دیگران ارائه می کنید را می بینند و در مورد اینکه بعنوان دریافت کننده محصول آنها انتخاب شوید تصمیم می گیرند
         </Typography>
-            </Box>
+    </Box>
 }
+export const FirtstTabText2 = () => {
 
+    return <Box sx={{ py: 1, textAlign: "center" }}>
+        <Typography sx={{ mb: 1, fontSize: 12 }}>
+            👇کسب و کارهایی که به ارائه محصول به کسب و کار شما متعهد شده اند را ملاحظه می فرمایید
+        </Typography>
+        <Typography sx={{ mb: 1, fontSize: 12 }}>
+            جهت دریافت این محصولات با آنها هماهنگ نمایید📞
+        </Typography>
+    </Box>
+}
 export const createBusiness_selectAsPrimary = () => {
 
     return <Box sx={{ py: 1, textAlign: "center" }}>

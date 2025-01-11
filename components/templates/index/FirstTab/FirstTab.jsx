@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react";
-import { FirtstTabText } from "@/components/typoRepo";
+import { FirtstTabText, FirtstTabText2 } from "@/components/typoRepo";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import { Avatar, Box, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
@@ -33,7 +33,7 @@ export default function FirstTab({ user, relations }) {
                     icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
                 />
                 <AccordionDetails>
-                    {FirtstTabText()}
+                    {FirtstTabText2()}
                 </AccordionDetails>
             </Accordion>
             <Box className='inMiddle'
@@ -87,7 +87,7 @@ export default function FirstTab({ user, relations }) {
                             </List>
                         )
                     }) :
-                    <Typography>هنوز هیچ کسب و کاری به ارائه محصول به کسب و کار شما متعهد نشده است </Typography>
+                    FirtstTabText()
                 }
             </Box>
         </Container>
