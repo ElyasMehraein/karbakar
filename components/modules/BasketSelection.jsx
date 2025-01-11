@@ -49,7 +49,6 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
 
   // سبد محصولات
   const [basket, setBasket] = useState([]);
-  console.log("basket", basket);
   // اسنک‌بارها
   const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = useState(false);
   const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
@@ -237,7 +236,6 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
 
       <List dense sx={{ mt: 2 }}>
         {basket.map((productFrame) => {
-          console.log("ha bia", productFrame.product.productName)
 
           return (
             

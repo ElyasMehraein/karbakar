@@ -83,7 +83,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     </FormControl>
                     {selectedBusiness &&
                         <BasketSelection
-                            {...{ selectedBusiness, primeBusiness }}
+                            business={selectedBusiness}
                             parentBasketFunction={addBasket}
                         />
                     }
