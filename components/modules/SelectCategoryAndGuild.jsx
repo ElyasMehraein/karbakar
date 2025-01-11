@@ -7,13 +7,17 @@ import Select from '@mui/material/Select';
 import { useState, useEffect } from 'react'
 import jobCategoriesData from "@/utils/JobCategories";
 
-export default function SelectCategoryAndGuild({ sendDataToParent }) {
+export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness }) {
+    console.log("primeBusiness", primeBusiness.guild.jobCategory);
 
     // select category
 
-    const [jobCategory, setJobCategory] = useState("")
+    const [jobCategory, setJobCategory] = useState(primeBusiness.guild.jobCategory ?? undefined)
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
+    );
+    const defaultCategory = formattedOptions.find(
+        (option) => option.label === primeBusiness.guild.jobCategory
     );
     const isOptionEqualToValue = (option, value) => {
         return option.label === value.label;
@@ -74,12 +78,13 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
                     renderInput={(params) => <TextField {...params} label="انتخاب دسته بندی" />}
                     isOptionEqualToValue={isOptionEqualToValue}
                     onChange={changeHandler}
+                    defaultValue={defaultCategory ?? null}
                 />
                 {jobCategory ? (
                     guilds.length ? (
                         <>
                             <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
-                                صنف تولید کننده محصولی که می خواهید را انتخاب نمایید
+                                صنف مد نظر خود را انتخاب نمایید
                             </Typography>
                             <FormControl sx={{ my: 1, width: 300 }}>
                                 <InputLabel id="chose-business-lable">عنوان صنف</InputLabel>

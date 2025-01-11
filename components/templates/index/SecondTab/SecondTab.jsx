@@ -16,44 +16,19 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
-import { SecondTabText} from "@/components/typoRepo";
+import { SecondTabText } from "@/components/typoRepo";
+import SelectCategoryAndGuild from "@/components/modules/SelectCategoryAndGuild";
 
 const color = blue[50];
 
 export default function SecondTab({ user, primeBusiness }) {
     const [expanded, setExpanded] = React.useState(false);
 
-    // select job category 
-    const [jobCategory, setJobCategory] = useState("")
-    const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
-        categories.map(category => ({ label: category, group }))
-    );
-    let changeHandler = (e, value) => setJobCategory(value?.label)
-    const isOptionEqualToValue = (option, value) => {
-        return option.label === value.label;
-    };
-
-    // get and select guild after job category selecting
-    const [guilds, setGuilds] = useState([]);
     const [selectedGuild, setSelectedGuild] = useState(null)
 
-    useEffect(() => {
-        const getGuilds = async () => {
-            try {
-                const res = await fetch("/api/getGuilds", { method: "GET" });
-                if (res.status === 200) {
-                    const { data } = await res.json();
-                    let recivedGuilds = data.filter(guild => guild.jobCategory === jobCategory)
-                    setGuilds(recivedGuilds)
-                } else if (res.status === 403) {
-                    console.log("unauthorized access");
-                }
-            } catch (error) {
-                console.error("Error fetching Guilds:", error);
-            }
-        };
-        getGuilds();
-    }, [jobCategory]);
+    const setGuildHandler = (guild) => {
+        setSelectedGuild(guild)
+    }
 
 
     // get and show businesses
@@ -107,29 +82,7 @@ export default function SecondTab({ user, primeBusiness }) {
                     my: 3
                 }}
                 display="flex" flexDirection="column">
-
-                <Autocomplete
-                    sx={{ m: 1 }}
-                    size='small'
-                    options={formattedOptions}
-                    groupBy={(option) => option.group}
-                    getOptionLabel={(option) => option.label}
-                    renderInput={(params) => <TextField {...params} label="انتخاب دسته بندی شغل" />}
-                    isOptionEqualToValue={isOptionEqualToValue}
-                    onChange={changeHandler}
-                />
-                <Autocomplete
-                    size='small'
-                    sx={{ m: 1 }}
-                    id="add-product"
-                    freeSolo
-                    options={guilds.map((guild) => guild.guildName)}
-                    renderInput={(params) => <TextField {...params} label="عنوان صنف" />}
-                    onInputChange={(event, newInputValue) => {
-                        const selected = guilds.find(guild => guild.guildName === newInputValue);
-                        setSelectedGuild(selected || null);
-                    }}
-                />
+                <SelectCategoryAndGuild primeBusiness={primeBusiness} sendDataToParent={setGuildHandler} />
                 {businesses.length ?
                     <>
                         <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>
