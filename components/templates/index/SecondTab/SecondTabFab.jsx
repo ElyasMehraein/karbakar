@@ -28,12 +28,15 @@ export default function SecondTabFab({ user, primeBusiness }) {
     //Snackbars
     const [openSnackbar, setOpenSnackbar] = React.useState(false);
     const [openSnackbar200, setOpenSnackbar200] = React.useState(false);
+    const [openSnackbar403Error, setOpenSnackbar403Error] = React.useState(false);
     const [openSnackbar500Error, setOpenSnackbar500Error] = React.useState(false);
 
 
     const handleSnackbarClose = () => {
-        setOpenSnackbar500Error(false)
         setOpenSnackbar(false);
+        setOpenSnackbar200(false)
+        setOpenSnackbar403Error(false)
+        setOpenSnackbar500Error(false)
     };
 
     //save basket to db
@@ -45,7 +48,10 @@ export default function SecondTabFab({ user, primeBusiness }) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ businessID, basket })
         })
-        if (res.status === 500) {
+        if (res.status === 403) {
+            setOpenSnackbar403Error(true)
+            setIsLoading(false)
+        } else if (res.status === 500) {
             console.log("server error");
             setOpenSnackbar500Error(true)
             setIsLoading(false)
@@ -93,7 +99,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                         disabled={isBasketChanged}
                         onClick={updateMonthlyCommitment}
                     >
-                        ذخیره تغییرات
+                       {isBasketChanged ? "منتظر تغییر سبد": "ذخیره تغییرات"}
                     </Button>
                     <CustomSnackbar
                         open={openSnackbar}
@@ -109,6 +115,12 @@ export default function SecondTabFab({ user, primeBusiness }) {
                         open={openSnackbar500Error}
                         onClose={handleSnackbarClose}
                         message="خطا از سمت سرور"
+                        severity="error"
+                    />
+                    <CustomSnackbar
+                        open={openSnackbar403Error}
+                        onClose={handleSnackbarClose}
+                        message="اطلاعات ثبت شده تغییری نداشت"
                         severity="error"
                     />
                 </>

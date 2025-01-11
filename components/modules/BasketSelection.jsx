@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ListSubheader,
   TextField,
   Typography
 } from '@mui/material';
@@ -21,6 +22,7 @@ import FormLabel from '@mui/material/FormLabel';
 import Groups2Icon from '@mui/icons-material/Groups2';
 import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
+import { blue } from '@mui/material/colors';
 
 // در صورت نیاز به تولید آیدی یکتا برای محصول جدید
 import { v4 as uuidv4 } from 'uuid';
@@ -225,52 +227,56 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
       </FormControl>
 
       <Button
-        sx={{ display: "block", mt: 2 }}
+        sx={{ display: "block", my: 2 }}
         variant="contained"
         disabled={isButtonDisable}
         onClick={addToBasket}
       >
         اضافه به سبد
       </Button>
-        <Typography>salam</Typography>
+      {basket.length > 0 &&
+        <List
+          dense sx={{ mt: 2, bgcolor: blue[50], p: 2, borderRadius: 2 }}
+          subheader={<ListSubheader>سبد محصولات</ListSubheader>}
+        >
 
-      <List dense sx={{ mt: 2 }}>
-        {basket.map((productFrame) => {
+          {basket.map((productFrame) => {
 
-          return (
-            
-            <ListItem
-              key={productFrame.product._id}
-              sx={{
-                my: 1,
-                width: '100%',
-                minWidth: 300,
-                maxWidth: 400,
-                bgcolor: '#e0e0e0',
-                textAlign: "right"
-              }}
-            >
-              <ListItemIcon>
-                {productFrame.product.isRetail === "true" ? (
-                  <Groups2Icon />
-                ) : (
-                  <BusinessRoundedIcon />
-                )}
-              </ListItemIcon>
-              <ListItemText
-                primary={productFrame.product.productName}
-                secondary={`${productFrame.amount} - ${productFrame.product.unitOfMeasurement}`}
-              />
-              <IconButton
-                onClick={() => deleteFrame(productFrame.product.productName)}
+            return (
+
+              <ListItem
+                key={productFrame.product._id}
+                sx={{
+                  mt: 1,
+                  width: '100%',
+                  minWidth: 300,
+                  maxWidth: 400,
+                  bgcolor: blue[100],
+                  textAlign: "right",
+                  borderRadius: 2
+                }}
               >
-                <DeleteIcon />
-              </IconButton>
-            </ListItem>
-          )
-        }
-        )}
-      </List>
+                <ListItemIcon>
+                  {productFrame.product.isRetail === "true" ? (
+                    <Groups2Icon />
+                  ) : (
+                    <BusinessRoundedIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText
+                  primary={productFrame.product.productName}
+                  secondary={`${productFrame.amount} - ${productFrame.product.unitOfMeasurement}`}
+                />
+                <IconButton
+                  onClick={() => deleteFrame(productFrame.product.productName)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItem>
+            )
+          }
+          )}
+        </List>}
 
       <CustomSnackbar
         open={openSnackbar500Error}
