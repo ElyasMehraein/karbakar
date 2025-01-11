@@ -8,17 +8,17 @@ import { useState, useEffect } from 'react'
 import jobCategoriesData from "@/utils/JobCategories";
 
 export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness }) {
-    console.log("primeBusiness", primeBusiness.guild.jobCategory);
 
+    
     // select category
 
-    const [jobCategory, setJobCategory] = useState(primeBusiness.guild.jobCategory ?? undefined)
+    const [jobCategory, setJobCategory] = useState(primeBusiness?.guild.jobCategory ?? undefined)
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
     );
-    const defaultCategory = formattedOptions.find(
+    const defaultCategory = primeBusiness ? formattedOptions.find(
         (option) => option.label === primeBusiness.guild.jobCategory
-    );
+    ):undefined
     const isOptionEqualToValue = (option, value) => {
         return option.label === value.label;
     };
