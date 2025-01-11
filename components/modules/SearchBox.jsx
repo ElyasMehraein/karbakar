@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
-import InputBase from '@mui/material/InputBase';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -25,31 +24,38 @@ const Search = styled('div')(({ theme }) => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100%',
-    maxWidth: '600px',  // ✅ محدودیت عرض
+    width: '100% !important',
+    flexGrow: 1
 }));
+
+const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
+    "& .MuiOutlinedInput-notchedOutline": {
+        border: "none",
+    },
+    width: '100% !important',
+    minWidth: '100%',
+    '& .MuiOutlinedInput-root': {
+        paddingLeft: theme.spacing(5),
+        padding: theme.spacing(1, 1, 1, 5),
+        paddingTop: theme.spacing(0),  // تنظیم فاصله عمودی
+        paddingBottom: theme.spacing(0), // تنظیم فاصله عمودی
+        width: '100% !important',
+        color: 'white',
+        border: "none",
+    },
+}));
+
+
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
+    left: 0,  // تغییر موقعیت به سمت چپ
     pointerEvents: 'none',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '100%', // ✅ تغییر برای ریسپانسیو
-        },
-    },
 }));
 
 const groupLabelMap = {
@@ -113,7 +119,7 @@ export default function SearchBox() {
         const isExpanded = expandedGroups[group];
 
         return (
-            <div key={params.key}> 
+            <div key={params.key}>
                 <Typography variant="subtitle2" sx={{ px: 2, pt: 1, display: "flex", gap: 1 }}>
                     {label}
                     {!isExpanded && totalCount > 3 && (
@@ -161,7 +167,7 @@ export default function SearchBox() {
                 <SearchIconWrapper>
                     <SearchIcon />
                 </SearchIconWrapper>
-                <Autocomplete
+                <StyledAutocomplete
                     options={displayedOptions}
                     groupBy={groupBy}
                     renderGroup={renderGroup}
@@ -176,9 +182,13 @@ export default function SearchBox() {
                             placeholder="کارباکار"
                             variant="outlined"
                             fullWidth
+                            sx={{ width: '100% !important' }}
                         />
                     )}
+                    fullWidth
+                    sx={{ width: '100% !important', border: 'none' }}
                 />
+
             </Search>
         </Box>
     );

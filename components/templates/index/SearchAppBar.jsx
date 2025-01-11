@@ -107,7 +107,9 @@ export default function SearchAppBar({ user, menuClickHandler }) {
           <MenuIcon />
         </IconButton>
         <Box sx={{ flexGrow: 1 }} />
-        <SearchBox/>
+        <Box sx={{ flexGrow: 1, width: '100% !important' }}>
+          <SearchBox sx={{ width: '100% !important' }} />
+        </Box>
         {!user ? (<Button size="small" sx={{ display: { xs: 'none', sm: 'block' }, mr: 1, minWidth: 110, maxWidth: 110 }}
           onClick={signOut} variant="contained" color="secondary">
           ورود یا ثبت نام
