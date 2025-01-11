@@ -145,7 +145,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
                             value={selectedBusinessName}
                             label="برای این کسب و کار ثبت شود"
                             onChange={(e) => {
-                                setSelectedProductName(e.target.value);
+                                setSelectedBusinessName(e.target.value);
                             }}
                         >
                             {userBusinesses.map((userBusinessesName) => {

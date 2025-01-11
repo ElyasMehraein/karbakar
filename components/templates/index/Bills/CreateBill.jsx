@@ -3,18 +3,21 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from '@mui/material/Button';
-import { Accordion, AccordionDetails, Chip, CircularProgress, Container } from "@mui/material";
+import { Accordion, AccordionDetails, Chip, CircularProgress, Container, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
-import ProductBasket from "@/components/modules/ProductBasket";
+import BasketSelection from "@/components/modules/BasketSelection";
 
 export default function CreateBill({ user, primeBusiness }) {
   const [isLoading, setIsLoading] = React.useState(false);
+  const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
+  const userBusinesses = user.businesses.map(business => business.businessName)
+  const selectedBusiness = user.businesses.find((business) => {
+    if (business.businessName == selectedBusinessName) {
+      return business
+    }
+  })
 
-  const [businessID, setBusinessID] = React.useState()
-  const addBusinessID = (value) => {
-    setBusinessID(value)
-  }
   const [customerCode, setCustomerCode] = React.useState()
   const [basket, setBasket] = React.useState([])
   const [isBasketChanged, setIsBasketChanged] = useState(true);
@@ -41,7 +44,7 @@ export default function CreateBill({ user, primeBusiness }) {
     const res = await fetch('api/createBill', {
       method: "POST",
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ businessID, customerCode, basket })
+      body: JSON.stringify({ businessID: selectedBusiness._id, customerCode, basket })
     })
     if (res.status === 500) {
       console.log("server error");
@@ -62,7 +65,7 @@ export default function CreateBill({ user, primeBusiness }) {
   }
   const [expanded, setExpanded] = React.useState(false);
   return (
-    <Container maxWidth="md" sx={{ pb: 5 }} className="inMiddle" align='center'>
+    <Container maxWidth="md" sx={{ pb: 5 }} >
       <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
         <Chip
           label="راهنمایی"
@@ -88,24 +91,47 @@ export default function CreateBill({ user, primeBusiness }) {
         </Box>
         :
         <>
-          <ProductBasket
+          {/* <ProductBasket
             {...{ user, primeBusiness, useFor: "bill" }}
             parentBasketFunction={addBasket}
             parentSetBusinessID={addBusinessID}
-          />
-          <TextField
-            placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
-            label="کد کاربری مشتری"
-            onChange={(e) => setCustomerCode(e.target.value)}
-            sx={{ mt: 2, width: 300 }}
-          />
-          < Button
-            sx={{ mt: 2 }}
-            disabled={isBasketChanged}
-            children={"ارسال صورتحساب"}
-            variant="contained"
-            onClick={() => createThisBill()}
-          />
+          /> */}
+          <Box className="inMiddle">
+            <FormControl sx={{ my: 2, width: 300 }}>
+              <InputLabel id="chose-business-lable">برای این کسب و کار ثبت شود</InputLabel>
+              <Select
+                size='small'
+                labelId="chose-business-lable"
+                id="chose-business"
+                value={selectedBusinessName}
+                label="برای این کسب و کار ثبت شود"
+                onChange={(e) => {
+                  setSelectedBusinessName(e.target.value);
+                }}
+              >
+                {userBusinesses.map((userBusinessesName) => {
+                  return <MenuItem key={userBusinessesName} value={userBusinessesName}>{userBusinessesName}</MenuItem>
+                })}
+              </Select>
+            </FormControl>
+            <BasketSelection
+              // business={business}
+              parentBasketFunction={addBasket}
+            />
+            <TextField
+              placeholder="در پروفایل کاربران قابل مشاهده است" variant="outlined"
+              label="کد کاربری مشتری"
+              onChange={(e) => setCustomerCode(e.target.value)}
+              sx={{ mt: 2, width: 300 }}
+            />
+            < Button
+              sx={{ mt: 2 }}
+              disabled={isBasketChanged}
+              children={"ارسال صورتحساب"}
+              variant="contained"
+              onClick={() => createThisBill()}
+            />
+          </Box>
         </>
       }
       <CustomSnackbar
