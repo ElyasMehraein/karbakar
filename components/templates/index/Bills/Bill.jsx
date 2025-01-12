@@ -11,6 +11,7 @@ import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import BillFrame from "./BillFrame";
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { billText } from "@/components/typoRepo";
 
 export default function Bill({ user, bills }) {
   const [expanded, setExpanded] = React.useState(false);
@@ -20,55 +21,48 @@ export default function Bill({ user, bills }) {
     setAlignment(newAlignment);
   };
 
-  if (!bills || !bills[0]) {
-    return (
-      <Typography color="error">
-        هیچ صورتحسابی برای شما ارسال نشده است
-      </Typography>
-    )
-  }
+
   return (
     <Container maxWidth="md" >
+      <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
+        <Chip
+          label="راهنمایی"
+          sx={{ direction: 'ltr' }}
+          onClick={() => setExpanded(!expanded)}
+          icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
+        />
+        <AccordionDetails>
+          {billText()}
+        </AccordionDetails>
+      </Accordion>
       <Box display="flex"
         justifyContent="center"
         alignItems="center"
         flexDirection={"column"}
       >
-        <Box >
-          <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-            <Chip
-              label="راهنمایی"
-              sx={{ direction: 'ltr' }}
-              onClick={() => setExpanded(!expanded)}
-              icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-            />
-            <AccordionDetails>
-              <Typography>
-                این صورتحساب ها توسط کسب و کارهایی که از آنها محصول یا خدمات دریافت می کنید ارسال می شود
-              </Typography>
-              <Typography sx={{ my: 2 }} color="error">
-                * تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
-              </Typography>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
-        <ToggleButtonGroup
-          sx={{ direction: "ltr", my: 1 }}
-          color="primary"
-          value={alignment}
-          exclusive
-          onChange={handleChange}
-          aria-label="Platform"
-        >
-          <ToggleButton value="accepted">تایید شده</ToggleButton>
-          <ToggleButton value="new">جدید</ToggleButton>
-        </ToggleButtonGroup>
-        {alignment === "new" && bills.filter((bill) => bill.accepted == false).map((bill) => {
-          return <BillFrame user={user} key={bill._id} bill={bill} />
-        })}
-        {alignment === "accepted" && bills.filter((bill) => bill.accepted == true).map((bill) => {
-          return <BillFrame user={user} key={bill._id} bill={bill} />
-        })}
+        {bills.length == 0 ?
+          <Typography color="error">
+            هیچ صورتحسابی برای شما ارسال نشده است
+          </Typography> :
+          <>
+            <ToggleButtonGroup
+              sx={{ direction: "ltr", my: 1 }}
+              color="primary"
+              value={alignment}
+              exclusive
+              onChange={handleChange}
+              aria-label="Platform"
+            >
+              <ToggleButton value="accepted">تایید شده</ToggleButton>
+              <ToggleButton value="new">جدید</ToggleButton>
+            </ToggleButtonGroup>
+            {alignment === "new" && bills.filter((bill) => bill.accepted == false).map((bill) => {
+              return <BillFrame user={user} key={bill._id} bill={bill} />
+            })}
+            {alignment === "accepted" && bills.filter((bill) => bill.accepted == true).map((bill) => {
+              return <BillFrame user={user} key={bill._id} bill={bill} />
+            })}
+          </>}
       </Box>
     </Container>
   );

@@ -37,18 +37,18 @@ export const firtsEnterText = () => {
 export const SecondTabText = () => {
 
     return <Box sx={{ py: 1, textAlign: "center" }}>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             کسب وکارهایی که در این بخش می بینید به محصولات و خدمات شما نیاز دارند
         </Typography>
         <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
-        <Typography sx={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: 14 }}>
             شما می توانید با انتخاب صنف مد نظر خود نیازهای اعلام شده در هر صنف را ببینید
         </Typography>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             با زدن روی هر کسب و کار وارد صفحه آن کسب و کار می شوید و می توانید آنها را بعنوان دریافت کننده خود انتخاب کنید
         </Typography>
         <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
-        <Typography sx={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: 14 }}>
             با زدن دکمه تغییر ظرفیت تولید👇 مقدار محصولی که می خواهید ماهانه به آنها ارائه دهید را مشخص نمایید
         </Typography>
     </Box>
@@ -56,31 +56,57 @@ export const SecondTabText = () => {
 export const thirdTabText = () => {
 
     return <Box sx={{ py: 1, textAlign: "center" }}>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             ساخت یک اتحاد با ثبت نیاز یک کسب و کار به مقداری مشخص از محصولات و خدمات یک یا چند صنف و زمان مشخص شروع می شود        </Typography>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             و این اعلان نیاز به ترتیب فاصله جغرافیایی به نمایندگان اصناف تامین کننده نمایش داده می شود
         </Typography>
         <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
-        <Typography sx={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: 14 }}>
             صنفی که به محصولات آن نیاز دارید باید از قبل وجود داشته باشد و همه اعضا باید یکدیگر را تایید کنند
         </Typography>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             کسب و کارها با عضویت در اتحاد تمام اعضای قبلی را تایید می نمایند و اعضای قبلی نیز با رای دادن به عضو جدید می توانند با آن متحد شوند
         </Typography>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             اعضای قبلی در صورت رای منفی به عضو جدید او را از اتحاد اخراج می نمایند
         </Typography>
         <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
-        <Typography sx={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: 14 }}>
             افراد در هر مرحله ای غیر از فعال شدن اتحاد می توانند انصراف داده و از اتحاد خارج شوند
         </Typography>
         <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
-        <Typography sx={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: 14 }}>
             سوابق اتحاد های شکل گرفته از بین نمی روند و در صفحه هر کسب و کار نمایش داده می شود
         </Typography>
-        <Typography sx={{ fontSize: 12 }}>
+        <Typography sx={{ fontSize: 14 }}>
             هر کسب و کار تنها می تواند 5 اتحاد در ماه ایجاد نماید
+        </Typography>
+    </Box>
+}
+export const billText = () => {
+
+    return <Box sx={{ py: 1, textAlign: "center" }}>
+        <Typography>
+            اینجا بخش دریافت و ارسال صورتحساب است
+        </Typography>
+        <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
+        <Typography sx={{ fontSize: 14 }}>
+            صورتحساب ها توسط نماینده کسب و کارها ایجاد و ارسال می شوند
+        </Typography>
+        <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
+        <Typography sx={{ fontSize: 14 }}>
+            زمانی که صورتحساب تایید می شود محصولات ارائه شده در جدولی در کسب و کار تامین کننده نمایش داده می شود
+        </Typography>
+        <Typography sx={{ fontSize: 14 }}>
+            البته در صفحه کسب و کار دریافت کننده جهت حفظ حریم شخصی بدون ذخیره و نمایش نام محصول ثبت می شود
+        </Typography>
+        <Typography sx={{ fontSize: 14 }}>
+            بطور مثال بجای 100 عدد صندلی پلاستیکی برند فلان از فلان کسب و کار نوشته می شود 100 عدد محصول از صنف فروش لوازم خانگی
+        </Typography>
+        <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
+        <Typography sx={{ my: 2 }} color="error">
+            * تایید شما به معنی تایید کمیت و کیفیت و رضایت شما از محصولات دریافتی است
         </Typography>
     </Box>
 }
@@ -111,14 +137,14 @@ export const OthersRequestText = `
 export const FirtstTabText = () => {
 
     return <Box sx={{ py: 1, textAlign: "center" }}>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             با زدن دکمه اعلام نیاز👇 هر چیزی که برای خودت یا کسب و کارت نیاز داری اعلام کن
         </Typography>
         <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             نماینده های کسب و کارهایی که به محصولاتشون نیاز دارید درخواست شما رو می بینن و وارد صفحه کسب و کار شما میشن
         </Typography>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             اونها             عنوان شغل و مقدار و نوع محصولاتی که به دیگران ارائه می کنید را می بینند و در مورد اینکه بعنوان دریافت کننده محصول آنها انتخاب شوید تصمیم می گیرند
         </Typography>
     </Box>
@@ -126,10 +152,10 @@ export const FirtstTabText = () => {
 export const FirtstTabText2 = () => {
 
     return <Box sx={{ py: 1, textAlign: "center" }}>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             👇کسب و کارهایی که به ارائه محصول به کسب و کار شما متعهد شده اند را ملاحظه می فرمایید
         </Typography>
-        <Typography sx={{ mb: 1, fontSize: 12 }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
             جهت دریافت این محصولات با آنها هماهنگ نمایید📞
         </Typography>
     </Box>
