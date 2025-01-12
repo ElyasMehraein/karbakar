@@ -63,6 +63,7 @@ export default function BugReport() {
                 <CustomSnackbar
                     open={open}
                     message={message}
+                    onClose={() => setOpen(false)}
                 />
             </Box>
         </Container>
