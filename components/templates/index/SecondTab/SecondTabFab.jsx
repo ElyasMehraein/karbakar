@@ -46,7 +46,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
         const res = await fetch('api/setMonthlyCommitment', {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ businessID, basket })
+            body: JSON.stringify({ businessID:selectedBusiness._id, basket })
         })
         if (res.status === 403) {
             setOpenSnackbar403Error(true)
@@ -120,7 +120,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                     <CustomSnackbar
                         open={openSnackbar403Error}
                         onClose={handleSnackbarClose}
-                        message="اطلاعات ثبت شده تغییری نداشت"
+                        message="شما نماینده این کسب و کار نیستید"
                         severity="error"
                     />
                 </>

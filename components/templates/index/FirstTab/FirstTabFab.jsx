@@ -28,7 +28,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
 
 
     const [guilds, setGuilds] = useState([])
-
+    
     const [selectedGuild, setsSelectedGuild] = useState("")
 
     const [requestText, setrequestText] = useState([])
@@ -62,7 +62,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
             }
         };
         getGuilds();
-    }, []);
+    }, [jobCategory]);
 
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
