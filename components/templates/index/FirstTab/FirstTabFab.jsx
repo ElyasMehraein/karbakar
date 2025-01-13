@@ -5,15 +5,17 @@ import { Autocomplete, Button, Container, FormControl, InputLabel, MenuItem, Sel
 import jobCategoriesData from "@/utils/JobCategories";
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
 import { CircularProgress } from '@mui/material';
-// import dynamic from "next/dynamic";
-// const Map = dynamic(() => import("@/components/templates/index/FirstTab/Map"), { ssr: false })
 
 export default function FirstTabFab({ user, primeBusiness }) {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [open406Snackbar, setOpen406Snackbar] = useState(false);
-    const [open422Snackbar, setOpen422Snackbar] = useState(false);
 
+    //chips
+    const [chips, setChips] = useState(primeBusiness.demandsForGuilds.map(demandsForGuild => demandsForGuild.guild))
+    const [chipsObjectTrigger, setChipsObjectTrigger] = useState(false)
+
+console.log("chips", chips);
+    // user Bussiness
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
     const userBusinesses = user.businesses.map(business => business.businessName)
     const selectedBusiness = user.businesses.find((business) => {
@@ -22,19 +24,23 @@ export default function FirstTabFab({ user, primeBusiness }) {
         }
     })
 
-
+    //jobCategory
     const [jobCategory, setJobCategory] = useState("")
     let changeHandler = (e, value) => setJobCategory(value?.label)
 
-
+    //guilds
     const [guilds, setGuilds] = useState([])
-    
     const [selectedGuild, setsSelectedGuild] = useState("")
 
+    //requestTitle
     const [requestText, setrequestText] = useState([])
-    const [chips, setChips] = useState([])
-    const [chipsObjectTrigger, setChipsObjectTrigger] = useState(false)
 
+    //snackbar
+    const [open406Snackbar, setOpen406Snackbar] = useState(false);
+    const [open422Snackbar, setOpen422Snackbar] = useState(false);
+
+
+    // load chips
     useEffect(() => {
         const getGuilds = async () => {
             try {
@@ -45,14 +51,6 @@ export default function FirstTabFab({ user, primeBusiness }) {
                         .filter(guild => guild.jobCategory === jobCategory)
                         .map(guild => guild.guildName);
                     setGuilds(recivedGuilds.length ? recivedGuilds : []);
-
-                    const demandsGuilds = selectedBusiness.demandsForGuilds.map(demandGuild => {
-                        const guild = data.data.find(guild => guild._id === demandGuild.guild);
-                        return guild ? guild : null;
-                    }).filter(guild => guild);
-
-                    const uniqueChips = new Set([...chips, ...demandsGuilds]);
-                    setChips(Array.from(uniqueChips));
                     setIsLoading(false)
                 } else if (res.status === 403) {
                     console.log("unauthorized access");
@@ -63,7 +61,19 @@ export default function FirstTabFab({ user, primeBusiness }) {
         };
         getGuilds();
     }, [jobCategory]);
+    //                 const demandsGuilds = selectedBusiness.demandsForGuilds.map(demandGuild => {
+    //                     const guild = data.data.find(guild => guild._id === demandGuild.guild);
+    //                     return guild ? guild : null;
+    //                 }).filter(guild => guild);
 
+    //                 const uniqueChips = new Set([...chips, ...demandsGuilds]);
+    //                 setChips(Array.from(uniqueChips));
+    //        
+
+
+
+
+    // prepare data for inputs
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
     );
@@ -72,31 +82,37 @@ export default function FirstTabFab({ user, primeBusiness }) {
     };
 
 
+    // update DB
     async function setDemandsForGuilds() {
-
         const res = await fetch('api/setDemandsForGuilds', {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ businessID: selectedBusiness._id, selectedGuild, requestText, jobCategory })
-        })
-        if (res.status === 500) {
-            console.log("server error");
+        });
+
+        if (!res.ok) {
+            console.error("Server Error: ", res.status);
+            return;
         }
-        if (res.status === 422) {
-            setOpen422Snackbar(true)
-        }
-        if (res.status === 406) {
-            setOpen406Snackbar(true)
-            setsSelectedGuild("")
-        } else if (res.status === 201) {
-            const { data } = await res.json();
-            console.log("Demand For the Guild sited successfully", res);
-            setChips([...chips, { _id: data, guildName: selectedGuild }]);
-            setsSelectedGuild("")
-            setrequestText("")
+
+        try {
+            const result = await res.json();
+            if (result.data && typeof result.data === "string") {
+                setChips((prevChips) => {
+                    if (!prevChips.some(chip => chip._id === result.data)) {
+                        return [...prevChips, { _id: result.data, guildName: selectedGuild }];
+                    }
+                    return prevChips;
+                });
+            } else {
+                console.error("Invalid data format received:", result);
+            }
+        } catch (error) {
+            console.error("Error parsing response:", error);
         }
     }
 
+    // delete chips in DB
     async function deleteDemandsForGuild(demandID) {
 
         const res = await fetch('api/deleteDemandsForGuild', {
@@ -114,6 +130,8 @@ export default function FirstTabFab({ user, primeBusiness }) {
             setrequestText("")
         }
     }
+
+
 
     return (
         <Container maxWidth="md" className="inMiddle" display="flex" align='center'>
@@ -176,8 +194,6 @@ export default function FirstTabFab({ user, primeBusiness }) {
                         }}
                     />
 
-                    {/* <Typography sx={{ m: 2, textAlign: "center", fontSize: 14 }}>دوست دارید تامین‌کننده‌های شما به کدام نقطه از نقشه نزدیک‌تر باشند؟</Typography>
-            <Map business={user.businesses[0]} ></Map> */}
                     <TextField
                         id="requestText"
                         label="شرح درخواست خود را وارد نمایید(غیر الزامی)"

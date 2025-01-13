@@ -37,7 +37,7 @@ export default async function page() {
 
             if (user?.primeJob) {
                 primeBusiness = await JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: user.primeJob })
-                    .populate("guild")
+                    .populate("demandsForGuilds.guild")
                     .lean()));
             }
 
@@ -64,7 +64,7 @@ export default async function page() {
     } catch (error) {
         console.error("Error fetching data:", error);
     }
-
+    
     return (
         <MyIndex 
             user={user} 
