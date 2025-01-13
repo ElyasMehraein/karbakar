@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 
-export default function BugShow() {
+export default function BugShow({user}) {
   const [bugReports, setBugReports] = useState([]);
   const [error, setError] = useState("");
 
@@ -22,6 +22,10 @@ export default function BugShow() {
 
   const deleteBug = async (id) => {
     try {
+      if (user.code > 1004) {
+        alert("مگه تو ادمینی که پاک می کنی؟ 😀")
+        return
+      }
       const res = await fetch(`/api/Bug/bugDelete/${id}`, {
         method: "DELETE",
       });
