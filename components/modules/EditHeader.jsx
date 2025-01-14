@@ -12,19 +12,20 @@ import { Alert, Snackbar } from '@mui/material';
 const color = grey[900];
 
 export default function EditHeader({ user, business }) {
+
   const userCodeOrBusinessBrand = user?.code || business?.businessName
   const [isLoading, setIsLoading] = useState(true);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [isHeader, setIsHeader] = useState(user?.isHeader || business?.isHeader);
+  const headerUrl = user?.headerUrl || business?.headerUrl
   const [uploadeding, setUploadeding] = useState(false)
-  useEffect(() => {
 
+  useEffect(() => {
     setIsLoading(false)
   }, []);
 
   const handleHeaderUpload = async (event) => {
-    const image = event.target.files[0];
 
+    const image = event.target.files[0];
     if (!validateImageType(image)) {
       setSnackbarOpen(true)
       return;
@@ -34,7 +35,7 @@ export default function EditHeader({ user, business }) {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append("imagePath", `images/headers/${userCodeOrBusinessBrand}.jpg`);
+    formData.append("imagePath", `headers/${userCodeOrBusinessBrand}.jpg`);
 
     try {
       const response = await fetch('/api/uploadImg', {
@@ -44,7 +45,6 @@ export default function EditHeader({ user, business }) {
 
       if (response.status === 201) {
         console.log('header Uploaded successfully');
-        setIsHeader(true)
         location.reload()
       }
     } catch (error) {
@@ -61,14 +61,14 @@ export default function EditHeader({ user, business }) {
 
   return (
     <>
-      {isHeader && !isLoading ?
+      {headerUrl && !isLoading ?
         <Box
           display="flex" alignItems="flex-end" justifyContent="left"
           style={{
             position: "relative",
             width: "100%",
             height: "50vh",
-            backgroundImage: `url(/images/headers/${userCodeOrBusinessBrand}.jpg)`,
+            backgroundImage: `url(/images/headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

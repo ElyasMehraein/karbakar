@@ -43,7 +43,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
     getReports();
   }, [user]);
 
-  const avatar = `/avatars/${user?.code}.jpg`;
+  const avatar = `/images/avatars/${user?.code}.jpg?timestamp=${new Date().getTime()}`;
 
   useEffect(() => {
     if (reports) {
@@ -143,7 +143,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
               color="inherit"
               onClick={goToProfile}
             >
-              {!isLoading && user?.isAvatar ?
+              {!isLoading && user?.avatarUrl ?
                 <Avatar sx={{ width: 40, height: 40 }}>
                   <Image
                     src={avatar}

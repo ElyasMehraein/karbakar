@@ -27,7 +27,7 @@ export async function GET(request) {
             // اگر عدد باشد، فقط در کد کاربران جستجو کن
             users = await UserModel.find(
                 { code: parsedCode },
-                "userName code isAvatar"
+                "userName code avatarUrl"
             )
                 .limit(10)
                 .lean();
@@ -37,7 +37,7 @@ export async function GET(request) {
             // اگر رشته باشد، در userName جستجو کن
             users = await UserModel.find(
                 { userName: { $regex: term, $options: "i" } },
-                "userName code isAvatar"
+                "userName code avatarUrl"
             )
                 .limit(10)
                 .lean();
@@ -50,7 +50,7 @@ export async function GET(request) {
                         { businessBrand: { $regex: term, $options: "i" } },
                     ],
                 },
-                "businessName businessBrand isAvatar"
+                "businessName businessBrand avatarUrl"
             )
                 .limit(10)
                 .lean();
@@ -63,14 +63,14 @@ export async function GET(request) {
                 type: "user",
                 name: u.userName,
                 code: u.code,
-                isAvatar: u.isAvatar,
+                avatarUrl: u.avatarUrl,
             })),
             ...businesses.map(b => ({
                 _id: b._id?.toString(),
                 type: "business",
                 name: b.businessName,
                 brand: b.businessBrand,
-                isAvatar: b.isAvatar,
+                avatarUrl: b.avatarUrl,
             })),
         ];
 

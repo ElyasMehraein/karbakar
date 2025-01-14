@@ -7,7 +7,7 @@ export async function GET(req) {
     try {
         await connectToDB();
         const businesses = JSON.parse(JSON.stringify(await BusinessModel.find({},
-            "businessName bio businessBrand isAvatar longitude latitude"
+            "businessName bio businessBrand avatarUrl longitude latitude"
         )));
 
 

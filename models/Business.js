@@ -14,8 +14,14 @@ const schema = new Schema({
         type: String,
         maxlength: 30,
     },
-    isAvatar: Boolean,
-    isHeader: Boolean,
+    avatarUrl: {
+        type: String,
+        maxlength: 100,
+    },
+    headerUrl: {
+        type: String,
+        maxlength: 100,
+    },
     bio: { type: String, maxlength: 150, },
     explain: { type: String, maxlength: 300, },
     phone: { type: String, maxlength: 11, },

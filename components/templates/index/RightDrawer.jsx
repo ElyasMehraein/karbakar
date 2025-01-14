@@ -105,7 +105,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
                         <ListItemAvatar>
                           <ListItemIcon>
                             <Avatar>
-                              <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                              <ItsAvatar  userCodeOrBusinessBrand={business.businessName} />
                             </Avatar>
                           </ListItemIcon>
                         </ListItemAvatar>

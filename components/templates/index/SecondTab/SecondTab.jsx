@@ -94,7 +94,7 @@ export default function SecondTab({ user, primeBusiness }) {
                                 //     <ListItemButton sx={{ bgcolor: color, borderRadius: 2, py: 3 }} onClick={() => router.push(`/${business.businessName}`)}>
                                 //         <ListItemAvatar>
                                 //             <Avatar>
-                                //                 <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
+                                //                 <ItsAvatar userCodeOrBusinessBrand={business.businessName}  alt="workers avatar" />
                                 //             </Avatar>
                                 //         </ListItemAvatar>
                                 //         <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessBrand} secondary={
@@ -130,7 +130,7 @@ export default function SecondTab({ user, primeBusiness }) {
                                             }}
                                         >
                                             <Avatar >
-                                                <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} alt=" avatar" />
+                                                <ItsAvatar  userCodeOrBusinessBrand={business.businessName} alt=" avatar" />
                                             </Avatar>
                                             <Box
                                                 sx={{

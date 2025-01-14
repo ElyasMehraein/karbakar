@@ -5,20 +5,25 @@ import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Avatar, Box, ListItemIcon } from '@mui/material';
 
-export default function ItsAvatar({ userCodeOrBusinessBrand, isAvatar }) {
+export default function ItsAvatar({ userCodeOrBusinessBrand }) {
+    const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
     const [isLoading, setIsLoading] = useState(true);
     useEffect(() => {
         setIsLoading(false)
     }, []);
-
-    let avatar = `/avatars/${userCodeOrBusinessBrand}.jpg`
-
+    useEffect(() => {
+        if (avatarUrl) {
+            setAvatarUrl(`/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
+        }
+    }, [userCodeOrBusinessBrand]);
+    let avatar = `images/avatars/${userCodeOrBusinessBrand}.jpg`
+    console.log("avatar", avatar);
     return (
-        !isLoading && isAvatar ?
+        !isLoading && avatarUrl ?
 
             <Image
                 style={{ objectFit: "cover" }}
-                src={avatar}
+                src={avatarUrl}
                 alt={userCodeOrBusinessBrand}
                 quality={100}
                 fill

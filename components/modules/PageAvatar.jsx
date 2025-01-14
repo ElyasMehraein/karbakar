@@ -10,22 +10,27 @@ import Image from 'next/image'
 
 
 export default function PageAvatar({ user, business }) {
+
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
   const createdAt = new Date(user?.createdAt || business.createdAt)
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - createdAt.getTime();
   const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
-
-  const isAvatar = user?.isAvatar || business?.isAvatar;
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const avatar = `/images/avatars/${userCodeOrBusinessBrand}.jpg`
+
+  useEffect(() => {
+    if (avatarUrl) {
+      setAvatarUrl(`/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
+    }
+  }, [userCodeOrBusinessBrand]);
 
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
-          {isAvatar ? <>
+          {avatarUrl ? <>
             <Image
-              src={avatar}
+              src={avatarUrl}
               alt={userCodeOrBusinessBrand}
               quality={100}
               fill
