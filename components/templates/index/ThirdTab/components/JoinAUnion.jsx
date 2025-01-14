@@ -18,6 +18,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import BasketSelection from '@/components/modules/BasketSelection';
 import SelectCategoryAndGuild from '@/components/modules/SelectCategoryAndGuild';
 import CustomSnackbar from '@/components/modules/CustomSnackbar';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -60,9 +62,13 @@ export default function JoinAUnion({ union, primeBusiness, user, MembershipOpen,
         }
     };
 
+const theme = useTheme();
+const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
     return (
         <React.Fragment>
             <Dialog
+                fullScreen={fullScreen}
                 open={MembershipOpen}
                 TransitionComponent={Transition}
                 keepMounted
@@ -78,11 +84,12 @@ export default function JoinAUnion({ union, primeBusiness, user, MembershipOpen,
                 </IconButton>
 
                 <DialogContent>
-                    <Container maxWidth="md" align="center">
-                        <FormControl sx={{ my: 2, width: 300 }}>
+                    <Container className="inMiddle" maxWidth="md" align="center">
+                        <FormControl sx={{ width: 300 }}>
                             <InputLabel id="chose-business-label">انتخاب کسب و کار</InputLabel>
                             <Select
                                 labelId="chose-business-label"
+                                label="انتخاب کسب و کار"
                                 value={selectedBusinessName}
                                 onChange={(e) => setSelectedBusinessName(e.target.value)}
                             >
@@ -102,7 +109,7 @@ export default function JoinAUnion({ union, primeBusiness, user, MembershipOpen,
                 </DialogContent>
 
                 <DialogActions>
-                    <Typography sx={{ mx: 1,color:"red", fontSize: 12 }}>با عضویت در اتحاد، اعضای فعلی را تایید می نمایید</Typography>
+                    <Typography sx={{ mx: 1, color: "red", fontSize: 12 }}>با عضویت در اتحاد، اعضای فعلی را تایید می نمایید</Typography>
                     <Button
                         variant="contained"
                         disabled={!(offerBasket.length && demandBasket.length && selectedBusinessName)}
