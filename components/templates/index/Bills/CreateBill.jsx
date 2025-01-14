@@ -41,28 +41,32 @@ export default function CreateBill({ user, primeBusiness }) {
   };
   async function createThisBill() {
     setIsLoading(true);
-    const res = await fetch('api/createBill', {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ businessID: selectedBusiness._id, customerCode, basket })
-    })
-    if (res.status === 500) {
-      console.log("server error");
-    } else if (res.status === 201) {
-      console.log("bill created successfully");
-      handleShowSnackbar()
-      setIsLoading(false)
-    } else if (res.status === 404) {
-      setOpenSnackbar404Error(true)
-      setIsLoading(false)
-    } else if (res.status === 406) {
-      setOpenSnackbarError(true)
-      setIsLoading(false)
-    } else if (res.status === 407) {
-      setOpenSnackbar407Error(true)
-      setIsLoading(false)
+    try {
+      const res = await fetch('/api/createBill', {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ businessID: selectedBusiness._id, customerCode, basket }),
+      });
+
+      if (!res.ok) {
+       const errorData = await res.json();
+        console.error('Error:', errorData.message);
+        if (res.status === 404) setOpenSnackbar404Error(true);
+        if (res.status === 406) setOpenSnackbarError(true);
+        if (res.status === 422) setOpenSnackbar407Error(true);
+        return;
+      }
+
+      const data = await res.json();
+      console.log("Bill created successfully:", data);
+      handleShowSnackbar();
+    } catch (error) {
+      console.error("Network error:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
+
   const [expanded, setExpanded] = React.useState(false);
   return (
     <Container maxWidth="md" sx={{ pb: 5 }} >

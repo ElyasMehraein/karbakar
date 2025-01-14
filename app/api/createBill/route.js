@@ -29,7 +29,7 @@ export async function POST(req) {
             return Response.json({ message: "406 You can't sell things to yourself!" }, { status: 406 });
         }
         if (customer.businesses.length === 0) {
-            return Response.json({ message: "Customer has no business" }, { status: 407 });
+            return Response.json({ message: "Customer has no business" }, { status: 422 });
         }
 
 
