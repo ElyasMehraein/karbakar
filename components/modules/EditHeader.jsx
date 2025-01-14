@@ -34,7 +34,7 @@ export default function EditHeader({ user, business }) {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append("imagePath", `headers/${userCodeOrBusinessBrand}.jpg`);
+    formData.append("imagePath", `images/headers/${userCodeOrBusinessBrand}.jpg`);
 
     try {
       const response = await fetch('/api/uploadImg', {
@@ -68,7 +68,7 @@ export default function EditHeader({ user, business }) {
             position: "relative",
             width: "100%",
             height: "50vh",
-            backgroundImage: `url(/headers/${userCodeOrBusinessBrand}.jpg)`,
+            backgroundImage: `url(/images/headers/${userCodeOrBusinessBrand}.jpg)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

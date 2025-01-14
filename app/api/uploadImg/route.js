@@ -10,7 +10,7 @@ export async function PUT(req, res) {
     const image = formData.get("image")
     const imagePath = formData.get("imagePath")
     const buffer = Buffer.from(await image.arrayBuffer())
-    const imageFullPath = path.join(process.cwd(), "public/" + imagePath);
+    const imageFullPath = path.join(process.cwd(), "public/images/" + imagePath);
     await writeFile(imageFullPath, buffer);
 
     // update DB

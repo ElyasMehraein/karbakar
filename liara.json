@@ -1,4 +1,10 @@
 {
+    "disks": [
+        {
+            "name": "media",
+            "mountTo": "uploads/media"
+        }
+    ],    
     "platform": "next",
     "build": "npm run build",
     "port": 3000

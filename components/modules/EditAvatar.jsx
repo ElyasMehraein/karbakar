@@ -27,7 +27,7 @@ export default function EditAvatar({ user, business }) {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append("imagePath", `avatars/${user?.code || business?.businessName}.jpg`);
+    formData.append("imagePath", `images/avatars/${user?.code || business?.businessName}.jpg`);
 
     try {
       const response = await fetch('/api/uploadImg', {
@@ -53,7 +53,7 @@ export default function EditAvatar({ user, business }) {
   };
 
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg`;
+  const avatar = `/images/avatars/${userCodeOrBusinessBrand}.jpg`;
 
   return (
     <Container maxWidth="md">
