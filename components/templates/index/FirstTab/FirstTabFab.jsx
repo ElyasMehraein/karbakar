@@ -149,12 +149,39 @@ export default function FirstTabFab({ user, primeBusiness }) {
                                     return (
                                         <Chip
                                             key={chip._id}
-                                            sx={{ m: 0.5, direction: 'ltr' }}
+                                            sx={{
+                                                m: 0.5,
+                                                direction: 'ltr',
+                                                animation: 'greenRotate 0.4s ease-in-out',
+                                                '@keyframes greenRotate': {
+                                                    '0%': {
+                                                        backgroundColor: 'transparent',
+                                                        transform: 'rotate(0deg)',
+                                                    },
+                                                    '25%': {
+                                                        backgroundColor: 'lightskyblue',
+                                                        transform: 'rotate(5deg)',
+                                                    },
+                                                    '50%': {
+                                                        backgroundColor: 'transparent',
+                                                        transform: 'rotate(0deg)',
+                                                    },
+                                                    '75%': {
+                                                        backgroundColor: 'lightgreen',
+                                                        transform: 'rotate(-5deg)',
+                                                    },
+                                                    '100%': {
+                                                        backgroundColor: 'transparent',
+                                                        transform: 'rotate(0deg)',
+                                                    },
+                                                },
+                                            }}
                                             label={chip.guildName}
                                             value={chip._Id}
                                             variant="outlined"
                                             onDelete={() => deleteDemandsForGuild(chip._id)}
                                         />
+
                                     )
                                 })}
                             </Box>
