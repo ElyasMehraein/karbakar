@@ -1,8 +1,8 @@
 {
     "disks": [
         {
-            "name": "media",
-            "mountTo": "uploads/media"
+            "name": "karbakardisk",
+            "mountTo": "public/images"
         }
     ],    
     "platform": "next",
