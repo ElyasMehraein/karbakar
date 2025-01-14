@@ -10,11 +10,10 @@ export default function FirstTabFab({ user, primeBusiness }) {
 
     const [isLoading, setIsLoading] = useState(true);
 
-    //chips
-    const [chips, setChips] = useState(primeBusiness.demandsForGuilds.map(demandsForGuild => demandsForGuild.guild))
-    const [chipsObjectTrigger, setChipsObjectTrigger] = useState(false)
+    //snackbar
+    const [open406Snackbar, setOpen406Snackbar] = useState(false);
+    const [open422Snackbar, setOpen422Snackbar] = useState(false);
 
-console.log("chips", chips);
     // user Bussiness
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
     const userBusinesses = user.businesses.map(business => business.businessName)
@@ -23,6 +22,33 @@ console.log("chips", chips);
             return business
         }
     })
+
+    //نیازهای ثبت شده
+    const [chips, setChips] = useState([])
+
+    // fill chips with update getDemandsGuilds from DB
+    const [useEffectTrigger, setUseEffectTrigger] = useState(1);
+    useEffect(() => {
+        if (!selectedBusiness) return;
+        const getDemandsGuilds = async () => {
+            try {
+                const res = await fetch(`/api/getBusinessesDemandsGuilds?businessID=${selectedBusiness._id}`
+                    , { method: "GET" })
+                if (res.status === 200) {
+                    const { data } = await res.json()
+                    setChips(data.map(demandsForGuilds => demandsForGuilds.guild));
+                } else if ((res.status === 403)) {
+                    console.log("unauthorized access");
+                }
+            } catch (error) {
+                console.error("Error fetching Businesses:", error);
+            }
+        }
+        getDemandsGuilds()
+    }, [selectedBusiness, useEffectTrigger])
+
+
+    //================ ثبت نیاز جدید ======================>
 
     //jobCategory
     const [jobCategory, setJobCategory] = useState("")
@@ -35,12 +61,7 @@ console.log("chips", chips);
     //requestTitle
     const [requestText, setrequestText] = useState([])
 
-    //snackbar
-    const [open406Snackbar, setOpen406Snackbar] = useState(false);
-    const [open422Snackbar, setOpen422Snackbar] = useState(false);
-
-
-    // load chips
+    // load all guilds and show guilds related to jobCategory for select guild Autocomplete
     useEffect(() => {
         const getGuilds = async () => {
             try {
@@ -61,16 +82,6 @@ console.log("chips", chips);
         };
         getGuilds();
     }, [jobCategory]);
-    //                 const demandsGuilds = selectedBusiness.demandsForGuilds.map(demandGuild => {
-    //                     const guild = data.data.find(guild => guild._id === demandGuild.guild);
-    //                     return guild ? guild : null;
-    //                 }).filter(guild => guild);
-
-    //                 const uniqueChips = new Set([...chips, ...demandsGuilds]);
-    //                 setChips(Array.from(uniqueChips));
-    //        
-
-
 
 
     // prepare data for inputs
@@ -82,7 +93,7 @@ console.log("chips", chips);
     };
 
 
-    // update DB
+    // set Demand for guild in bussiness DB
     async function setDemandsForGuilds() {
         const res = await fetch('api/setDemandsForGuilds', {
             method: "PUT",
@@ -90,25 +101,19 @@ console.log("chips", chips);
             body: JSON.stringify({ businessID: selectedBusiness._id, selectedGuild, requestText, jobCategory })
         });
 
-        if (!res.ok) {
-            console.error("Server Error: ", res.status);
-            return;
+        if (res.status === 500) {
+            console.log("server error");
         }
-
-        try {
-            const result = await res.json();
-            if (result.data && typeof result.data === "string") {
-                setChips((prevChips) => {
-                    if (!prevChips.some(chip => chip._id === result.data)) {
-                        return [...prevChips, { _id: result.data, guildName: selectedGuild }];
-                    }
-                    return prevChips;
-                });
-            } else {
-                console.error("Invalid data format received:", result);
-            }
-        } catch (error) {
-            console.error("Error parsing response:", error);
+        if (res.status === 422) {
+            setOpen422Snackbar(true)
+        }
+        if (res.status === 406) {
+            setOpen406Snackbar(true)
+            setsSelectedGuild("")
+        } else if (res.status === 201) {
+            setUseEffectTrigger(prevState => prevState + 1)
+            setsSelectedGuild("")
+            setrequestText("")
         }
     }
 
@@ -123,11 +128,7 @@ console.log("chips", chips);
         if (res.status === 500) {
             console.log("server error");
         } else if (res.status === 200) {
-            setChipsObjectTrigger(!chipsObjectTrigger)
-            setChips((prevChips) => prevChips.filter((chip) => chip._id !== demandID));
-            console.log("Demand For the Guild deleted successfully");
-            setsSelectedGuild("")
-            setrequestText("")
+            setUseEffectTrigger(prevState => prevState + 1)
         }
     }
 
@@ -140,28 +141,33 @@ console.log("chips", chips);
                     <CircularProgress />
                 </Box>
                 : <>
-                    <Box >
-                        {chips.map(chip => {
-                            return (
-                                <Chip
-                                    key={chip._id}
-                                    sx={{ m: 0.5, direction: 'ltr' }}
-                                    label={chip.guildName}
-                                    value={chip._Id}
-                                    variant="outlined"
-                                    onDelete={() => deleteDemandsForGuild(chip._id)}
-                                />
-                            )
-                        })}
-                    </Box>
-                    <FormControl sx={{ mt: 3, width: 300 }}>
-                        <InputLabel id="chose-business-lable">برای این کسب و کار ثبت شود</InputLabel>
+                    {chips.length > 0 &&
+                        <>
+                            <Typography sx={{ fontSize: 14 }}>نیازهای ثبت شده برای این کسب و کار</Typography>
+                            <Box >
+                                {chips.map(chip => {
+                                    return (
+                                        <Chip
+                                            key={chip._id}
+                                            sx={{ m: 0.5, direction: 'ltr' }}
+                                            label={chip.guildName}
+                                            value={chip._Id}
+                                            variant="outlined"
+                                            onDelete={() => deleteDemandsForGuild(chip._id)}
+                                        />
+                                    )
+                                })}
+                            </Box>
+                        </>
+                    }
+                    <FormControl sx={{ mt: 2, width: 300 }}>
+                        <InputLabel id="chose-business-lable">انتخاب کسب و کار</InputLabel>
                         <Select
                             size='small'
                             labelId="chose-business-lable"
                             id="chose-business"
                             value={selectedBusinessName}
-                            label="برای این کسب و کار ثبت شود"
+                            label="انتخاب کسب و کار"
                             onChange={(e) => {
                                 setSelectedBusinessName(e.target.value);
                             }}
@@ -171,6 +177,7 @@ console.log("chips", chips);
                             })}
                         </Select>
                     </FormControl>
+                    <Typography sx={{ mt: 5, fontSize: 14 }}>برای کسب و کار انتخاب شده نیاز به خدمات چه صنفی دارید؟</Typography>
                     <Autocomplete
                         sx={{ m: 2, width: 300 }}
                         size='small'

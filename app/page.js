@@ -25,15 +25,23 @@ export default async function page() {
     try {
         if (!isGuest) {
             user = await JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id })
-                .populate({
-                    path: "businesses",
-                    populate: {
+            .populate({
+                path: "businesses",
+                populate: [
+                    {
                         path: "monthlyCommitment.product",
                         model: "Product",
                         select: "_id name",
                     },
-                })
-                .lean()));
+                    {
+                        path: "demandsForGuilds.guild",
+                        model: "Guild",
+                        select: "_id guildName",
+                    }
+                ],
+            })
+            .lean()));
+        
 
             if (user?.primeJob) {
                 primeBusiness = await JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: user.primeJob })
