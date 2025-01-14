@@ -34,7 +34,7 @@ export default function Header({ user, business }) {
       fetchData();
   }, [userCodeOrBusinessBrand]); // اضافه کردن به آرایه وابستگی‌ها
 
-  const headerImage = `images/headers/${userCodeOrBusinessBrand}.jpg`;
+  const headerImage = `/images/headers/${userCodeOrBusinessBrand}.jpg`;
 
   return (
     <div>
