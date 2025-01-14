@@ -9,7 +9,7 @@ import jobCategoriesData from "@/utils/JobCategories";
 
 export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness }) {
 
-    
+
     // select category
 
     const [jobCategory, setJobCategory] = useState(primeBusiness?.guild.jobCategory ?? undefined)
@@ -18,17 +18,18 @@ export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness
     );
     const defaultCategory = primeBusiness ? formattedOptions.find(
         (option) => option.label === primeBusiness.guild.jobCategory
-    ):undefined
+    ) : undefined
     const isOptionEqualToValue = (option, value) => {
         return option.label === value.label;
     };
-    let changeHandler = (e, value) => setJobCategory(value?.label)
+
+
 
 
     // select guild
 
     const [guilds, setGuilds] = useState([])
-    const [guild, setGuild] = useState("")
+    const [guild, setGuild] = useState(null)
     const [guildName, setGuildName] = useState("")
 
     const handleChange = (event) => {
@@ -36,6 +37,11 @@ export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness
         setGuild(guilds.find(g => g.guildName === event.target.value))
     };
 
+
+    let jobCategoryChangeHandler = (e, value) => {
+        setGuildName("")
+        setJobCategory(value?.label)
+    }
     useEffect(() => {
         const getGuilds = async () => {
             try {
@@ -57,10 +63,14 @@ export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness
         getGuilds();
     }, [jobCategory]);
 
+    useEffect(() => {
+        setGuild(guilds[0])
+        setGuildName(guilds[0] ? guilds[0].guildName : "");
+    }, [guilds]);
     // send guild to parent
     useEffect(() => {
         sendDataToParent(guild);
-    }, [guildName]);
+    }, [guild]);
 
     return (
         <Container maxWidth="md">
@@ -77,7 +87,7 @@ export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness
                     getOptionLabel={(option) => option.label}
                     renderInput={(params) => <TextField {...params} label="انتخاب دسته بندی" />}
                     isOptionEqualToValue={isOptionEqualToValue}
-                    onChange={changeHandler}
+                    onChange={jobCategoryChangeHandler}
                     defaultValue={defaultCategory ?? null}
                 />
                 {jobCategory ? (
