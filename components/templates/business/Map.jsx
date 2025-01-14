@@ -7,7 +7,10 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Container } from "@mui/material";
 
 export default function Map({ business }) {
-    const position = [business.latitude, business.longitude]
+    const latitude = Number(business?.latitude?.$numberDecimal);
+    const longitude = Number(business?.longitude?.$numberDecimal);
+
+    const position = [latitude, longitude]
     return (
         <>
             {position[0] &&
