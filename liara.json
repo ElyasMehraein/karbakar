@@ -2,7 +2,7 @@
     "disks": [
         {
             "name": "karbakardisk",
-            "mountTo": "public/images"
+            "mountTo": "public"
         }
     ],    
     "platform": "next",

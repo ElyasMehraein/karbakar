@@ -11,6 +11,7 @@ const color = grey[900];
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function EditAvatar({ user, business }) {
+  const [errorDBUrl, setErrorDBUrl] = useState(false)
 
   const avatarUrl = user?.avatarUrl || business?.avatarUrl;
 
@@ -65,7 +66,7 @@ export default function EditAvatar({ user, business }) {
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
           {uploadeding ? <CircularProgress /> :
-            avatarUrl && avatarSrc ? (
+            avatarUrl && avatarSrc && errorDBUrl ? (
               <Image
                 src={avatarSrc}
                 alt={userCodeOrBusinessBrand}
@@ -73,6 +74,7 @@ export default function EditAvatar({ user, business }) {
                 fill
                 sizes="100px"
                 style={{ objectFit: 'cover' }}
+                onError={() => setErrorDBUrl(true)}
               />
             ) : isNaN(userCodeOrBusinessBrand) ? (
               <BusinessIcon />
