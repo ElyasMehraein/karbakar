@@ -14,7 +14,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
     const [open406Snackbar, setOpen406Snackbar] = useState(false);
     const [open422Snackbar, setOpen422Snackbar] = useState(false);
 
-    // user Bussiness
+    // user Business
     const [selectedBusinessName, setSelectedBusinessName] = React.useState(primeBusiness.businessName)
     const userBusinesses = user.businesses.map(business => business.businessName)
     const selectedBusiness = user.businesses.find((business) => {
@@ -93,7 +93,7 @@ export default function FirstTabFab({ user, primeBusiness }) {
     };
 
 
-    // set Demand for guild in bussiness DB
+    // set Demand for guild in business DB
     async function setDemandsForGuilds() {
         const res = await fetch('api/setDemandsForGuilds', {
             method: "PUT",

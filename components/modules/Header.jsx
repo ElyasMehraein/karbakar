@@ -4,14 +4,18 @@ import Image from 'next/image';
 import DefaultHeader from "@/public/assets/default/DefaultHeader";
 
 export default function Header({ user, business }) {
+  const [errorDBUrl, setErrorDBUrl] = useState(false)
+
+
   const [headerUrl, setHeaderUrl] = useState(user?.headerUrl || business?.headerUrl)
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
 
   useEffect(() => {
     setHeaderUrl(`/images/Headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
   }, [userCodeOrBusinessBrand]);
+
   return (
-    headerUrl ? (
+    headerUrl && errorDBUrl ? (
       <div
         style={{
           position: "relative",
@@ -28,6 +32,8 @@ export default function Header({ user, business }) {
           style={{
             objectFit: 'cover',
           }}
+          onError={() => setErrorDBUrl(true)}
+
         />
       </div>
     ) : (
