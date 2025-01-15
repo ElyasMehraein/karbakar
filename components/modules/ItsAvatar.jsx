@@ -6,21 +6,15 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import { Avatar, Box, ListItemIcon } from '@mui/material';
 
 export default function ItsAvatar({ userCodeOrBusinessBrand }) {
-    const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
+    const avatarUrl = `/images/avatars/${userCodeOrBusinessBrand}.jpg`
     const [isLoading, setIsLoading] = useState(true);
+    const [errorDBUrl, setErrorDBUrl] = useState(false)
     useEffect(() => {
         setIsLoading(false)
     }, []);
-    useEffect(() => {
-        if (avatarUrl) {
-            setAvatarUrl(`/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
-        }
-    }, [userCodeOrBusinessBrand]);
-    let avatar = `images/avatars/${userCodeOrBusinessBrand}.jpg`
-    console.log("avatar", avatar);
-    return (
-        !isLoading && avatarUrl ?
 
+    return (
+        !isLoading && !errorDBUrl ?
             <Image
                 style={{ objectFit: "cover" }}
                 src={avatarUrl}
@@ -28,8 +22,8 @@ export default function ItsAvatar({ userCodeOrBusinessBrand }) {
                 quality={100}
                 fill
                 sizes="100px"
+                onError={() => setErrorDBUrl(true)}
             />
-
             :
             isNaN(userCodeOrBusinessBrand) ?
                 <ListItemIcon style={{ display: 'grid', placeItems: 'center' }}>
