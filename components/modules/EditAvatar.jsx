@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -14,8 +14,11 @@ export default function EditAvatar({ user, business }) {
   
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
   const [isAvatarUrl, setIsAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
-  const avatarUrl = `/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`
-  
+  const [avatarUrl, setAvatartUrl] = useState(`/images/avatars/${userCodeOrBusinessBrand}.jpg`)
+  useEffect(() => {
+    setAvatartUrl(`/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`)
+  }, [isAvatarUrl])
+
   const [uploadeding, setUploadeding] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
@@ -31,7 +34,7 @@ export default function EditAvatar({ user, business }) {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append("imagePath", avatarUrl);
+    formData.append("imagePath", `/images/avatars/${userCodeOrBusinessBrand}.jpg`);
 
     try {
       const response = await fetch('/api/uploadImg', {
