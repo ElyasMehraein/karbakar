@@ -14,7 +14,7 @@ export default function EditAvatar({ user, business }) {
   
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
   const [isAvatarUrl, setIsAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
-  const avatarUrl = `/images/avatars/${userCodeOrBusinessBrand}.jpg`
+  const avatarUrl = `/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`
   
   const [uploadeding, setUploadeding] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -65,7 +65,7 @@ export default function EditAvatar({ user, business }) {
           {uploadeding ? <CircularProgress /> :
             isAvatarUrl ? (
               <Image
-                src={`${avatarUrl}?timestamp=${new Date().getTime()}`}
+                src={avatarUrl}
                 alt={userCodeOrBusinessBrand}
                 quality={100}
                 fill

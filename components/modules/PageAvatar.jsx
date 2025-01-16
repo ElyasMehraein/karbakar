@@ -11,7 +11,7 @@ import Image from 'next/image'
 
 export default function PageAvatar({ user, business }) {
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const avatarUrl = `/images/avatars/${userCodeOrBusinessBrand}.jpg`
+  const avatarUrl = `/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`
   const [isAvatarUrl, setIsAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
 
   //قدمت صفحه
@@ -27,7 +27,7 @@ export default function PageAvatar({ user, business }) {
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
           {isAvatarUrl ? (
             <Image
-              src={`${avatarUrl}?timestamp=${new Date().getTime()}`}
+              src={avatarUrl}
               alt={userCodeOrBusinessBrand}
               quality={100}
               fill
