@@ -7,7 +7,7 @@ export default function DefaultHeader() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Box sx={{ bgcolor: '#cfe8fc', height: "30vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', position: 'relative'}} />
+      <Box sx={{ bgcolor: '#cfe8fc', height: "50vh", background: 'linear-gradient(to right bottom, #36EAEF, #6B0AC9)', position: 'relative'}} />
     </React.Fragment>
   );
 }

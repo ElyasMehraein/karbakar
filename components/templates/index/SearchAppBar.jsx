@@ -43,7 +43,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
     getReports();
   }, [user]);
 
-  const avatar = `/images/avatars/${user?.code}.jpg?timestamp=${new Date().getTime()}`;
+  const avatar = `/api/images/avatars/${user?.code}.jpg?timestamp=${new Date().getTime()}`;
 
   useEffect(() => {
     if (reports) {
