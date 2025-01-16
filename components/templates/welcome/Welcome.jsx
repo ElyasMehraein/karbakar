@@ -17,7 +17,7 @@ import hands from "@/public/m-hands.png"
 import { useRouter } from "next/navigation";
 // import { phoneFormatCheck, SMSFormatCheck } from "@/controllers/validators";
 import { Alert, Snackbar } from "@mui/material";
-
+import Link from 'next/link'
 
 
 const steps = [
@@ -26,7 +26,7 @@ const steps = [
     placeholder: "مثلا 09123456789",
     description: (
       <p className={styles.paragraph}>
-        انتخاب دکمه بعدی به معنی موافقت با <a href="url">قوانین سایت</a> است
+        انتخاب دکمه بعدی به معنی موافقت با <Link href="/rules">قوانین سایت</Link> است
       </p>
     ),
   },
