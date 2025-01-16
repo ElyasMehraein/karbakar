@@ -1,7 +1,10 @@
+import MyAppBar from '@/components/modules/MyAppBar';
 import React from 'react';
 
 const Rules = () => {
   return (
+    <>
+    <MyAppBar business={null} logedUserCode={null} whichUserProfile={null} />
     <div
       style={{
         direction: 'rtl',
@@ -188,6 +191,7 @@ const Rules = () => {
         می‌تواند منجر به محدودیت در دسترسی یا استفاده از خدمات پلتفرم شود.
       </p>
     </div>
+    </>
   );
 };
 
