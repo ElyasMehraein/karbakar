@@ -22,7 +22,7 @@ export async function PUT(req, res) {
     const isBusiness = isNaN(userCodeOrBusinessName);
     const Model = isBusiness ? BusinessModel : UserModel;
     const query = isBusiness ? { businessName: userCodeOrBusinessName } : { code: userCodeOrBusinessName };
-    const update = headerOrAvatar === 'headers'
+    const update = headerOrAvatar === '/images/headers'
       ? { headerUrl: imagePath }
       : { avatarUrl: imagePath };
 

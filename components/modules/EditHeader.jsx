@@ -13,15 +13,19 @@ const color = grey[900];
 
 export default function EditHeader({ user, business }) {
 
-  const userCodeOrBusinessBrand = user?.code || business?.businessName
-  const [isLoading, setIsLoading] = useState(true);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const headerUrl = user?.headerUrl || business?.headerUrl
-  const [uploadeding, setUploadeding] = useState(false)
+  const userCodeOrBusinessBrand = user?.code || business?.businessName;
+  const [isHeaderUrl, setIsHeaderUrl] = useState(user?.avatarUrl || business?.avatarUrl)
+  const [headerUrl, setHeaderUrl] = useState(`/images/headers/${userCodeOrBusinessBrand}.jpg`)
+  const [thereIsNewImage, setThereIsNewImage] = useState(new Date().getTime())
 
   useEffect(() => {
-    setIsLoading(false)
-  }, []);
+    setHeaderUrl(`/images/headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`)
+  }, [thereIsNewImage])
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [uploadeding, setUploadeding] = useState(false)
+
+
 
   const handleHeaderUpload = async (event) => {
 
@@ -35,7 +39,7 @@ export default function EditHeader({ user, business }) {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append("imagePath", `headers/${userCodeOrBusinessBrand}.jpg`);
+    formData.append("imagePath", `/images/headers/${userCodeOrBusinessBrand}.jpg`);
 
     try {
       const response = await fetch('/api/uploadImg', {
@@ -45,7 +49,8 @@ export default function EditHeader({ user, business }) {
 
       if (response.status === 201) {
         console.log('header Uploaded successfully');
-        location.reload()
+        setIsHeaderUrl(true)
+        setThereIsNewImage(new Date().getTime())
       }
     } catch (error) {
       console.error('Error uploading header:', error);
@@ -61,14 +66,14 @@ export default function EditHeader({ user, business }) {
 
   return (
     <>
-      {headerUrl && !isLoading ?
+      {isHeaderUrl ?
         <Box
           display="flex" alignItems="flex-end" justifyContent="left"
           style={{
             position: "relative",
             width: "100%",
             height: "50vh",
-            backgroundImage: `url(/images/headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()})`,
+            backgroundImage: `url(${headerUrl})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
