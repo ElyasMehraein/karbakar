@@ -11,7 +11,7 @@ export default function Header({ user, business }) {
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
 
   useEffect(() => {
-    setHeaderUrl(`/images/Headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
+    setHeaderUrl(`/api/images/Headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
   }, []);
 
   return (

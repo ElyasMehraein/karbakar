@@ -12,9 +12,9 @@ import Image from 'next/image'
 export default function PageAvatar({ user, business }) {
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
   const [isAvatarUrl, setIsAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
-  const [avatarUrl, setAvatartUrl] = useState(`/images/avatars/${userCodeOrBusinessBrand}.jpg`)
+  const [avatarUrl, setAvatartUrl] = useState(`/api/images/avatars/${userCodeOrBusinessBrand}.jpg`)
   useEffect(() => {
-    setAvatartUrl(`/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`)
+    setAvatartUrl(`/api/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`)
   }, [isAvatarUrl])
 
   //قدمت صفحه

@@ -11,7 +11,7 @@ export async function PUT(req, res) {
     const image = formData.get("image");
     const imagePath = formData.get("imagePath");
     const buffer = Buffer.from(await image.arrayBuffer());
-    const imageFullPath = path.join(process.cwd(), "public", imagePath);
+    const imageFullPath = path.join(process.cwd(), "images", imagePath);
     await writeFile(imageFullPath, buffer);
 
     // Update DB
@@ -22,10 +22,11 @@ export async function PUT(req, res) {
     const isBusiness = isNaN(userCodeOrBusinessName);
     const Model = isBusiness ? BusinessModel : UserModel;
     const query = isBusiness ? { businessName: userCodeOrBusinessName } : { code: userCodeOrBusinessName };
-    const update = headerOrAvatar === '/images/headers'
-      ? { headerUrl: imagePath }
-      : { avatarUrl: imagePath };
+    const update = headerOrAvatar === '/headers'
+      ? { headerUrl: `/api/images${imagePath}` }
+      : { avatarUrl: `/api/images${imagePath}` };
 
+    console.log("query", query, "update", update);
     await Model.findOneAndUpdate(query, update);
 
     return Response.json(

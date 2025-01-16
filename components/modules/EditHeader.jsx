@@ -15,11 +15,11 @@ export default function EditHeader({ user, business }) {
 
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
   const [isHeaderUrl, setIsHeaderUrl] = useState(user?.avatarUrl || business?.avatarUrl)
-  const [headerUrl, setHeaderUrl] = useState(`/images/headers/${userCodeOrBusinessBrand}.jpg`)
+  const [headerUrl, setHeaderUrl] = useState(`/api/images/headers/${userCodeOrBusinessBrand}.jpg`)
   const [thereIsNewImage, setThereIsNewImage] = useState(new Date().getTime())
 
   useEffect(() => {
-    setHeaderUrl(`/images/headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`)
+    setHeaderUrl(`/api/images/headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`)
   }, [thereIsNewImage])
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -39,7 +39,7 @@ export default function EditHeader({ user, business }) {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append("imagePath", `/images/headers/${userCodeOrBusinessBrand}.jpg`);
+    formData.append("imagePath", `/headers/${userCodeOrBusinessBrand}.jpg`);
 
     try {
       const response = await fetch('/api/uploadImg', {
