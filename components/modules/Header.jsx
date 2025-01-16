@@ -12,10 +12,10 @@ export default function Header({ user, business }) {
 
   useEffect(() => {
     setHeaderUrl(`/images/Headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
-  }, [userCodeOrBusinessBrand]);
+  }, []);
 
   return (
-    headerUrl && errorDBUrl ? (
+    headerUrl && !errorDBUrl ? (
       <div
         style={{
           position: "relative",
