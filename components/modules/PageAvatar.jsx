@@ -10,43 +10,36 @@ import Image from 'next/image'
 
 
 export default function PageAvatar({ user, business }) {
-  const [errorDBUrl, setErrorDBUrl] = useState(false)
-  const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
+  const userCodeOrBusinessBrand = user?.code || business?.businessName;
+  const avatarUrl = `/images/avatars/${userCodeOrBusinessBrand}.jpg`
+  const [isAvatarUrl, setIsAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
+
+  //قدمت صفحه
   const createdAt = new Date(user?.createdAt || business.createdAt)
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - createdAt.getTime();
   const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
-  const userCodeOrBusinessBrand = user?.code || business?.businessName;
 
-  useEffect(() => {
-    if (avatarUrl) {
-      setAvatarUrl(`/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
-    }
-  }, [userCodeOrBusinessBrand]);
 
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
-          {avatarUrl && !errorDBUrl ?
-            <>
-              <Image
-                src={avatarUrl}
-                alt={userCodeOrBusinessBrand}
-                quality={100}
-                fill
-                sizes="100px"
-                style={{ objectFit: 'cover' }}
-                onError={() => setErrorDBUrl(true)}
-              />
-            </>
-            :
-            isNaN(userCodeOrBusinessBrand) ?
-
-              <BusinessIcon />
-              :
-              <AccountCircle sx={{ width: 30, height: 30 }} />
-          }
+          {isAvatarUrl ? (
+            <Image
+              src={`${avatarUrl}?timestamp=${new Date().getTime()}`}
+              alt={userCodeOrBusinessBrand}
+              quality={100}
+              fill
+              sizes="100px"
+              style={{ objectFit: 'cover' }}
+              onError={() => setIsAvatarUrl(false)}
+            />
+          ) : user ? (
+            <AccountCircle sx={{ width: 70, height: 70 }} />
+          ) : (
+            <BusinessIcon />
+          )}
         </Avatar>
         <Box style={{ flexGrow: 1 }}></Box>
         <Box display={"flex"} flexDirection={"column"}>

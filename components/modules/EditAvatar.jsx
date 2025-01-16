@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -11,13 +11,13 @@ const color = grey[900];
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function EditAvatar({ user, business }) {
-  const [errorDBUrl, setErrorDBUrl] = useState(false)
-
-  const avatarUrl = user?.avatarUrl || business?.avatarUrl;
-
+  
+  const userCodeOrBusinessBrand = user?.code || business?.businessName;
+  const [isAvatarUrl, setIsAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
+  const avatarUrl = `/images/avatars/${userCodeOrBusinessBrand}.jpg`
+  
   const [uploadeding, setUploadeding] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [avatarSrc, setAvatarSrc] = useState('');
 
   const handleAvatarUpload = async (event) => {
     const image = event.target.files[0];
@@ -31,7 +31,7 @@ export default function EditAvatar({ user, business }) {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append("imagePath", `avatars/${user?.code || business?.businessName}.jpg`);
+    formData.append("imagePath", avatarUrl);
 
     try {
       const response = await fetch('/api/uploadImg', {
@@ -41,7 +41,7 @@ export default function EditAvatar({ user, business }) {
 
       if (response.status === 201) {
         console.log('avatar Uploaded successfully');
-        location.reload();
+        setIsAvatarUrl(true)
       }
     } catch (error) {
       console.error('Error uploading avatar:', error);
@@ -55,31 +55,28 @@ export default function EditAvatar({ user, business }) {
     return acceptedTypes.includes(image.type);
   };
 
-  const userCodeOrBusinessBrand = user?.code || business?.businessName;
 
-  useEffect(() => {
-    setAvatarSrc(`/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
-  }, [userCodeOrBusinessBrand]);
+
 
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
           {uploadeding ? <CircularProgress /> :
-            avatarUrl && avatarSrc && errorDBUrl ? (
+            isAvatarUrl ? (
               <Image
-                src={avatarSrc}
+                src={`${avatarUrl}?timestamp=${new Date().getTime()}`}
                 alt={userCodeOrBusinessBrand}
                 quality={100}
                 fill
                 sizes="100px"
                 style={{ objectFit: 'cover' }}
-                onError={() => setErrorDBUrl(true)}
+                onError={() => setIsAvatarUrl(false)}
               />
-            ) : isNaN(userCodeOrBusinessBrand) ? (
-              <BusinessIcon />
-            ) : (
+            ) : user ? (
               <AccountCircle sx={{ width: 70, height: 70 }} />
+            ) : (
+              <BusinessIcon />
             )}
         </Avatar>
         <input
