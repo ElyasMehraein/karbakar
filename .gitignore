@@ -49,3 +49,4 @@ certificates
 *.bat
 # public/avatars/1000.jpg
 # *.jpg
+.vscode/extensions.json

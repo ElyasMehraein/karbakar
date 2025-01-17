@@ -1,7 +1,6 @@
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, Typography } from "@mui/material";
-import Link from "next/link";
 
 import theme from "@/styles/theme";
 import "./global.css";
@@ -24,14 +23,6 @@ export default function RootLayout({ children }) {
             این سایت در مرحله تست قرار دارد
           </Typography>
           <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
-          <Typography p={4} fontSize={12} fontWeight="bold" className="inMiddle">
-            <Link
-              href="/rules"
-              style={{ textDecoration: "none" }}
-            >
-              قوانین و مقررات پلتفرم کارباکار
-            </Link>
-          </Typography>
         </ThemeProvider>
       </body>
     </html>
