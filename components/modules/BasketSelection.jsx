@@ -27,6 +27,17 @@ import { blue } from '@mui/material/colors';
 // در صورت نیاز به تولید آیدی یکتا برای محصول جدید
 import { v4 as uuidv4 } from 'uuid';
 
+const convertToEnglishNumbers = (input) => {
+  const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+  const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+  if (typeof input === 'string') {
+    for (let i = 0; i < 10; i++) {
+      input = input.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+    }
+  }
+  return input;
+};
+
 export default function BasketSelection({ business, guild, parentBasketFunction }) {
   const guildID = guild?._id || business?.guild;
 
@@ -173,6 +184,13 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     selectedProductName && unitOfMeasurement && amount
   );
 
+  const handleAmountChange = (event) => {
+    const value = convertToEnglishNumbers(event.target.value);
+    if (/^[0-9]*$/.test(value)) {
+      setAmount(value);
+    }
+  };
+
   return (
     <Container maxWidth="md" className="inMiddle" align="center">
       <Autocomplete
@@ -207,8 +225,9 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
           sx={{ width: 300 }}
           id="amount"
           label="مقدار (عدد)"
-          onChange={(event) => setAmount(event.target.value)}
+          onChange={handleAmountChange}
           value={amount}
+          slotProps={{ input: { inputProps: { pattern: "[0-9]*" } } }}
         />
       </Box>
 
