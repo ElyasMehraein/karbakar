@@ -15,6 +15,7 @@ export default function CreateBusiness() {
     const [jobCategory, setJobCategory] = useState("");
     const [snackbarError, setSnackbarError] = useState(false);
     const [snackbarErrorMessage, setSnackbarErrorMessage] = useState("");
+    const [businessCreatedSnackbar, setBusinessCreatedSnackbar] = useState("");
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
@@ -71,7 +72,7 @@ export default function CreateBusiness() {
 
             if (res.status === 201) {
                 setSuccess(true);
-                window.location.href = '/';
+                setBusinessCreatedSnackbar(true);
             } else {
                 const errorMessages = {
                     409: "این نام قبلا ایجاد شده و تکراری است لطفا نام دیگری انتخاب کنید",
@@ -145,6 +146,12 @@ export default function CreateBusiness() {
                 onClose={() => setSnackbarError(false)}
                 message={snackbarErrorMessage}
                 severity="error"
+            />
+            <CustomSnackbar
+                open={businessCreatedSnackbar}
+                onClose={() => window.location.href = '/'}
+                message={"کسب و کار با موفقیت ایجاد شد! به صفحه اول منتقل می شوید"}
+                severity="success"
             />
         </>
     );
