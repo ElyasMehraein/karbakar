@@ -25,6 +25,7 @@ import HelpIcon from '@/components/modules/HelpIcon';
 import { iconText } from '@/components/typoRepo';
 import Resignation from '@/components/modules/Resignation';
 import Link from "next/link";
+import Backdrop from '@mui/material/Backdrop';
 
 const drawerWidth = 240;
 
@@ -50,6 +51,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
   }
   return (
     <Box >
+        <Backdrop open={open} onClick={handleDrawerClose} sx={{ zIndex: theme.zIndex.drawer - 1 }} />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -60,6 +62,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
         variant="persistent"
         anchor="left"
         open={open}
+        onClose={handleDrawerClose}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
