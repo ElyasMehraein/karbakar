@@ -65,6 +65,7 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
   // اسنک‌بارها
   const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = useState(false);
   const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
+  const [snackbarInputError, setSnackbarInputError] = useState(false);
 
   // فراخوانی لیست محصولات از سرور
   useEffect(() => {
@@ -188,6 +189,8 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     const value = convertToEnglishNumbers(event.target.value);
     if (/^[0-9]*$/.test(value)) {
       setAmount(value);
+    } else {
+      setSnackbarInputError(true);
     }
   };
 
@@ -307,6 +310,12 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
         open={openSnackbarDublicateError}
         onClose={handleSnackbarClose}
         message="این محصول قبلا به سبد اضافه شده است"
+        severity="error"
+      />
+      <CustomSnackbar
+        open={snackbarInputError}
+        onClose={setSnackbarInputError}
+        message="فقط عدد مجاز است"
         severity="error"
       />
     </Container>
