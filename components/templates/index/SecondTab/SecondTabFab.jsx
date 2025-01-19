@@ -81,6 +81,7 @@ export default function SecondTabFab({ user, primeBusiness }) {
                             labelId="chose-business-label"
                             value={selectedBusinessName}
                             onChange={(e) => setSelectedBusinessName(e.target.value)}
+                             label="انتخاب کسب و کار"
                         >
                             {userBusinessesNames.map((name) => (
                                 <MenuItem key={name} value={name}>{name}</MenuItem>
