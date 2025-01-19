@@ -13,7 +13,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import { cyan, green } from '@mui/material/colors';
 import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import OthersRequestForGusts from './Requests/OthersRequestForGusts';
 import FirstTab from './FirstTab/FirstTab';
 import FirstTabFab from './FirstTab/FirstTabFab';
 import SecondTab from './SecondTab/SecondTab';
@@ -168,7 +167,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
                 <FirstTabFab {...{ user, primeBusiness, relations, distinctGuilds }} />
               : firtsEnterText()
             :
-            <OthersRequestForGusts />
+            "salam bar mehman"
           }
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1} dir={theme.direction}>
