@@ -18,6 +18,14 @@ export default function CreateBusiness() {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
+        const englishLetters = /^[A-Za-z\-_.]+$/;
+        if (businessName.length && !englishLetters.test(businessName)) {
+            setSnackbarError(true);
+            setSnackbarErrorMessage("برای نام کسب و کار تنها از حروف کوچک و بزرگ انگلیسی بدون فاصله و نقطه استفاده نمایید")
+        }
+    },[businessName])
+
+    useEffect(() => {
         const getGuilds = async () => {
             try {
                 const res = await fetch("/api/getGuilds", { method: "GET" });
