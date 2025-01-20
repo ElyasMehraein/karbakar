@@ -25,7 +25,8 @@ const Search = styled('div')(({ theme }) => ({
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: '100% !important',
+    maxWidth: 300,
+    width: '100%',
     flexGrow: 1
 }));
 
@@ -33,14 +34,14 @@ const StyledAutocomplete = styled(Autocomplete)(({ theme }) => ({
     "& .MuiOutlinedInput-notchedOutline": {
         border: "none",
     },
-    width: '100% !important',
-    minWidth: '100%',
+    // width: '100% !important',
+    // minWidth: '100%',
     '& .MuiOutlinedInput-root': {
         paddingLeft: theme.spacing(5),
         padding: theme.spacing(1, 1, 1, 5),
         paddingTop: theme.spacing(0),  // تنظیم فاصله عمودی
         paddingBottom: theme.spacing(0), // تنظیم فاصله عمودی
-        width: '100% !important',
+        // width: '100% !important',
         color: 'white',
         border: "none",
     },
@@ -100,7 +101,7 @@ export default function SearchBox() {
             <div
                 {...props}
                 key={option._id}
-                style={{ width: "100%", cursor: "pointer" }}
+                // style={{ width: "100%", cursor: "pointer" }}
                 onClick={handleClick}
             >
                 <ListItem disableGutters>
@@ -202,7 +203,7 @@ export default function SearchBox() {
 
     // ✅ کامپوننت نهایی
     return (
-        <Box sx={{ direction: "ltr", display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ direction: "ltr", display: 'flex', justifyContent: 'left' }}>
             <Search>
                 <SearchIconWrapper>
                     <SearchIcon />
@@ -224,12 +225,12 @@ export default function SearchBox() {
                             {...params}
                             placeholder="کارباکار"
                             variant="outlined"
-                            fullWidth
-                            sx={{ width: '100% !important' }}
+                        // fullWidth
+                        // sx={{ width: '100% !important' }}
                         />
                     )}
-                    fullWidth
-                    sx={{ width: '100% !important', border: 'none' }}
+                // fullWidth
+                // sx={{ width: '100% !important', border: 'none' }}
                 />
 
             </Search>
