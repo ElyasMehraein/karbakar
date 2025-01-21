@@ -70,7 +70,6 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
 
   // active tab 
   const { activeTab, setActiveTab } = useActiveTab();
-  console.log("activeTab", activeTab);
 
   const handleChange = (event, newValue) => {
     setActiveTab(newValue);
