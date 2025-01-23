@@ -10,36 +10,39 @@ import Image from 'next/image'
 
 
 export default function PageAvatar({ user, business }) {
+  const userCodeOrBusinessBrand = user?.code || business?.businessName;
+  const [isAvatarUrl, setIsAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
+  const [avatarUrl, setAvatartUrl] = useState(`/api/images/avatars/${userCodeOrBusinessBrand}.jpg`)
+  useEffect(() => {
+    setAvatartUrl(`/api/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`)
+  }, [isAvatarUrl])
+
+  //قدمت صفحه
   const createdAt = new Date(user?.createdAt || business.createdAt)
   const currentDate = new Date();
   const timeDifference = currentDate.getTime() - createdAt.getTime();
   const daysPassed = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
 
-  const isAvatar = user?.isAvatar || business?.isAvatar;
-  const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg`
 
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
-          {isAvatar ? <>
+          {isAvatarUrl ? (
             <Image
-              src={avatar}
+              src={avatarUrl}
               alt={userCodeOrBusinessBrand}
               quality={100}
               fill
               sizes="100px"
               style={{ objectFit: 'cover' }}
+              onError={() => setIsAvatarUrl(false)}
             />
-          </>
-            :
-            isNaN(userCodeOrBusinessBrand) ?
-
-              <BusinessIcon />
-              :
-              <AccountCircle sx={{ width: 30, height: 30 }} />
-          }
+          ) : user ? (
+            <AccountCircle sx={{ width: 70, height: 70 }} />
+          ) : (
+            <BusinessIcon />
+          )}
         </Avatar>
         <Box style={{ flexGrow: 1 }}></Box>
         <Box display={"flex"} flexDirection={"column"}>

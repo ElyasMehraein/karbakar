@@ -13,7 +13,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import { cyan, green } from '@mui/material/colors';
 import CreateBill from './Bills/CreateBill';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import OthersRequestForGusts from './Requests/OthersRequestForGusts';
 import FirstTab from './FirstTab/FirstTab';
 import FirstTabFab from './FirstTab/FirstTabFab';
 import SecondTab from './SecondTab/SecondTab';
@@ -21,6 +20,7 @@ import SecondTabFab from './SecondTab/SecondTabFab';
 import ThirdTab from './ThirdTab/ThirdTab';
 import ThirdTabFab from './ThirdTab/ThirdTabFab';
 import { firtsEnterText } from '@/components/typoRepo';
+import { useActiveTab } from '@/components/context/ActiveTabContext';
 
 function CustomTabPanel(props) {
 
@@ -68,30 +68,31 @@ function a11yProps(index) {
 
 export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, relations }) {
 
-
-  const [value, setValue] = React.useState(0);
+  // active tab 
+  const { activeTab, setActiveTab } = useActiveTab();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setActiveTab(newValue);
   };
   const transitionDuration = {
     enter: theme.transitions.duration.enteringScreen,
     exit: theme.transitions.duration.leavingScreen,
   };
   const [fabIndex, setFabIndex] = React.useState(10);
-  const FirstTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
-  const FirstTabFabDynamicText = fabIndex == value ? "بازگشت" : "اعلام نیاز"
-  const SecondTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
-  const SecondTabFabDynamicText = fabIndex == value ? "بازگشت" : "تغییر ظرفیت تولید"
-  const ThirdTabFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <AddIcon />
-  const ThirdTabFabDynamicText = fabIndex == value ? "بازگشت" : "تشکیل اتحاد"
-  const ReportFabDynamicIcon = fabIndex == value ? <ArrowBackIcon /> : <EditIcon />
-  const ReportFabDynamicText = fabIndex == value ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
+
+  const FirstTabFabDynamicIcon = fabIndex == activeTab ? <ArrowBackIcon /> : <AddIcon />
+  const FirstTabFabDynamicText = fabIndex == activeTab ? "بازگشت" : "اعلام نیاز"
+  const SecondTabFabDynamicIcon = fabIndex == activeTab ? <ArrowBackIcon /> : <EditIcon />
+  const SecondTabFabDynamicText = fabIndex == activeTab ? "بازگشت" : "تغییر ظرفیت تولید"
+  const ThirdTabFabDynamicIcon = fabIndex == activeTab ? <ArrowBackIcon /> : <AddIcon />
+  const ThirdTabFabDynamicText = fabIndex == activeTab ? "بازگشت" : "تشکیل اتحاد"
+  const ReportFabDynamicIcon = fabIndex == activeTab ? <ArrowBackIcon /> : <EditIcon />
+  const ReportFabDynamicText = fabIndex == activeTab ? "بازگشت به صورتحساب" : "ایجاد صورتحساب"
 
   const fabHandler = () => {
-    fabIndex == value ?
+    fabIndex == activeTab ?
       setFabIndex(10) :
-      setFabIndex(value);
+      setFabIndex(activeTab);
   };
   const fabs = [
     {
@@ -133,7 +134,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               indicatorColor="secondary"
               sx={{ color: "white" }}
               textColor="inherit"
-              value={value}
+              value={activeTab}
               onChange={handleChange}
               aria-label="basic tabs example"
             >
@@ -149,7 +150,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               indicatorColor="secondary"
               sx={{ color: "white" }}
               textColor="inherit"
-              value={value}
+              value={activeTab}
               onChange={handleChange}
               aria-label="basic tabs example"
             >
@@ -159,36 +160,36 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
         </Container>
       </Box>
       <Container sx={{ position: "relative", height: "80%" }}>
-        <CustomTabPanel value={value} index={0} dir={theme.direction}>
+        <CustomTabPanel value={activeTab} index={0} dir={theme.direction}>
           {user ?
             user.businesses[0] ?
-              fabIndex !== value ?
+              fabIndex !== activeTab ?
                 <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
                 :
                 <FirstTabFab {...{ user, primeBusiness, relations, distinctGuilds }} />
               : firtsEnterText()
             :
-            <OthersRequestForGusts />
+            "salam bar mehman"
           }
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={1} dir={theme.direction}>
+        <CustomTabPanel value={activeTab} index={1} dir={theme.direction}>
           {
-            fabIndex !== value ?
+            fabIndex !== activeTab ?
               <SecondTab primeBusiness={primeBusiness} />
               :
               <SecondTabFab {...{ user, primeBusiness, relations }} />
           }
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={2} dir={theme.direction}>
+        <CustomTabPanel value={activeTab} index={2} dir={theme.direction}>
           {
-            fabIndex !== value ?
+            fabIndex !== activeTab ?
               <ThirdTab {...{ primeBusiness, user }} />
               :
               <ThirdTabFab {...{ primeBusiness, user }} />
           }
 
         </CustomTabPanel>
-        <CustomTabPanel value={value} index={3} dir={theme.direction}>
+        <CustomTabPanel value={activeTab} index={3} dir={theme.direction}>
           {
             fabIndex === 3 ?
               <CreateBill user={user} primeBusiness={primeBusiness} />
@@ -202,10 +203,10 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
           fabs.map((fab, index) => (
             <Zoom
               key={index}
-              in={value === index}
+              in={activeTab === index}
               timeout={transitionDuration}
               style={{
-                transitionDelay: `${value === index ? transitionDuration.exit : 0}ms`,
+                transitionDelay: `${activeTab === index ? transitionDuration.exit : 0}ms`,
               }}
               unmountOnExit
               onClick={fabHandler}

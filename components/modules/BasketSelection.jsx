@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ListSubheader,
   TextField,
   Typography
 } from '@mui/material';
@@ -21,9 +22,21 @@ import FormLabel from '@mui/material/FormLabel';
 import Groups2Icon from '@mui/icons-material/Groups2';
 import BusinessRoundedIcon from '@mui/icons-material/BusinessRounded';
 import CustomSnackbar from "@/components/modules/CustomSnackbar";
+import { blue } from '@mui/material/colors';
 
 // در صورت نیاز به تولید آیدی یکتا برای محصول جدید
 import { v4 as uuidv4 } from 'uuid';
+
+const convertToEnglishNumbers = (input) => {
+  const persianNumbers = [/۰/g, /۱/g, /۲/g, /۳/g, /۴/g, /۵/g, /۶/g, /۷/g, /۸/g, /۹/g];
+  const arabicNumbers = [/٠/g, /١/g, /٢/g, /٣/g, /٤/g, /٥/g, /٦/g, /٧/g, /٨/g, /٩/g];
+  if (typeof input === 'string') {
+    for (let i = 0; i < 10; i++) {
+      input = input.replace(persianNumbers[i], i).replace(arabicNumbers[i], i);
+    }
+  }
+  return input;
+};
 
 export default function BasketSelection({ business, guild, parentBasketFunction }) {
   const guildID = guild?._id || business?.guild;
@@ -49,10 +62,10 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
 
   // سبد محصولات
   const [basket, setBasket] = useState([]);
-
   // اسنک‌بارها
   const [openSnackbarDublicateError, setOpenSnackbarDublicateError] = useState(false);
   const [openSnackbar500Error, setOpenSnackbar500Error] = useState(false);
+  const [snackbarInputError, setSnackbarInputError] = useState(false);
 
   // فراخوانی لیست محصولات از سرور
   useEffect(() => {
@@ -75,12 +88,22 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     }
   }, [guildID]);
 
-  /**
-   * هر بار که نام محصول تغییر می‌کند، بررسی می‌کنیم
-   * آیا این نام در لیست محصولات دیتابیس وجود دارد یا نه.
-   * اگر وجود داشته باشد، selectedProduct را همان شیء دیتابیس تنظیم می‌کنیم.
-   * اگر وجود نداشته باشد، به‌معنی محصول جدید است، پس selectedProduct را null می‌کنیم.
-   */
+  useEffect(() => {
+    if (business) {
+      const fetchMonthlyCommitment = async () => {
+        try {
+          const response = await fetch(`/api/getBusinessMonthlyCommitment?businessId=${business._id}`);
+          if (!response.ok) throw new Error('Failed to fetch products');
+          const { data } = await response.json();
+          setBasket(data.monthlyCommitment);
+        } catch (err) {
+          console.log("no MonthlyCommitment", err);
+        }
+      };
+      fetchMonthlyCommitment();
+    }
+  }, [business]);
+
   useEffect(() => {
     const matchedProduct = products.find(
       (product) => product.productName === selectedProductName
@@ -162,6 +185,15 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
     selectedProductName && unitOfMeasurement && amount
   );
 
+  const handleAmountChange = (event) => {
+    const value = convertToEnglishNumbers(event.target.value);
+    if (/^[0-9]*$/.test(value)) {
+      setAmount(value);
+    } else {
+      setSnackbarInputError(true);
+    }
+  };
+
   return (
     <Container maxWidth="md" className="inMiddle" align="center">
       <Autocomplete
@@ -196,8 +228,9 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
           sx={{ width: 300 }}
           id="amount"
           label="مقدار (عدد)"
-          onChange={(event) => setAmount(event.target.value)}
+          onChange={handleAmountChange}
           value={amount}
+          slotProps={{ input: { inputProps: { pattern: "[0-9]*" } } }}
         />
       </Box>
 
@@ -216,46 +249,56 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
       </FormControl>
 
       <Button
-        sx={{ display: "block", mt: 2 }}
+        sx={{ display: "block", my: 2 }}
         variant="contained"
         disabled={isButtonDisable}
         onClick={addToBasket}
       >
         اضافه به سبد
       </Button>
+      {basket.length > 0 &&
+        <List
+          dense sx={{ mb: 2, bgcolor: blue[50], p: 2, borderRadius: 2 }}
+          subheader={<ListSubheader>سبد محصولات</ListSubheader>}
+        >
 
-      <List dense sx={{ mt: 2 }}>
-        {basket.map((productFrame) => (
-          <ListItem
-            key={productFrame.product._id}
-            sx={{
-              my: 1,
-              width: '100%',
-              minWidth: 300,
-              maxWidth: 400,
-              bgcolor: '#e0e0e0',
-              textAlign: "right"
-            }}
-          >
-            <ListItemIcon>
-              {productFrame.product.isRetail === "true" ? (
-                <Groups2Icon />
-              ) : (
-                <BusinessRoundedIcon />
-              )}
-            </ListItemIcon>
-            <ListItemText
-              primary={productFrame.product.productName}
-              secondary={`${productFrame.amount} - ${productFrame.product.unitOfMeasurement}`}
-            />
-            <IconButton
-              onClick={() => deleteFrame(productFrame.product.productName)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </ListItem>
-        ))}
-      </List>
+          {basket.map((productFrame) => {
+
+            return (
+
+              <ListItem
+                key={productFrame.product._id}
+                sx={{
+                  mt: 1,
+                  width: '100%',
+                  minWidth: 300,
+                  maxWidth: 400,
+                  bgcolor: blue[100],
+                  textAlign: "right",
+                  borderRadius: 2
+                }}
+              >
+                <ListItemIcon>
+                  {productFrame.product.isRetail === "true" ? (
+                    <Groups2Icon />
+                  ) : (
+                    <BusinessRoundedIcon />
+                  )}
+                </ListItemIcon>
+                <ListItemText
+                  primary={productFrame.product.productName}
+                  secondary={`${productFrame.amount} - ${productFrame.product.unitOfMeasurement}`}
+                />
+                <IconButton
+                  onClick={() => deleteFrame(productFrame.product.productName)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItem>
+            )
+          }
+          )}
+        </List>}
 
       <CustomSnackbar
         open={openSnackbar500Error}
@@ -267,6 +310,12 @@ export default function BasketSelection({ business, guild, parentBasketFunction 
         open={openSnackbarDublicateError}
         onClose={handleSnackbarClose}
         message="این محصول قبلا به سبد اضافه شده است"
+        severity="error"
+      />
+      <CustomSnackbar
+        open={snackbarInputError}
+        onClose={setSnackbarInputError}
+        message="فقط عدد مجاز است"
         severity="error"
       />
     </Container>

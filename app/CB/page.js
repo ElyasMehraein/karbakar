@@ -11,7 +11,7 @@ export default async function page() {
     const token = (await cookies()).get("token")?.value;
     const tokenPayLoad = verifyToken(token);
     if (!tokenPayLoad) {
-        redirect('/')
+        redirect('/w')
     }
     connectToDB()
     const user = await UserModel.findOne(

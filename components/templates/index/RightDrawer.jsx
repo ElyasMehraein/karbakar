@@ -24,6 +24,8 @@ import PrimeJobSelect from '../../modules/PrimeJobSelect';
 import HelpIcon from '@/components/modules/HelpIcon';
 import { iconText } from '@/components/typoRepo';
 import Resignation from '@/components/modules/Resignation';
+import Link from "next/link";
+import Backdrop from '@mui/material/Backdrop';
 
 const drawerWidth = 240;
 
@@ -48,7 +50,8 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
     }
   }
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box >
+        <Backdrop open={open} onClick={handleDrawerClose} sx={{ zIndex: theme.zIndex.drawer - 1 }} />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -59,6 +62,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
         variant="persistent"
         anchor="left"
         open={open}
+        onClose={handleDrawerClose}
       >
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
@@ -105,7 +109,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
                         <ListItemAvatar>
                           <ListItemIcon>
                             <Avatar>
-                              <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                              <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
                             </Avatar>
                           </ListItemIcon>
                         </ListItemAvatar>
@@ -165,6 +169,22 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             ورود یا ثبت نام
           </Button>
         }
+        <Typography 
+          sx={{
+            position: 'absolute',
+            bottom: 16, 
+            left: '50%', // برای تنظیم در مرکز
+            transform: 'translateX(-50%)', // برای قرارگیری دقیق در وسط
+            textAlign: 'center',
+          }}
+        fontSize={12} fontWeight="bold" className="inMiddle">
+          <Link
+            href="/rules"
+            style={{ textDecoration: "none" }}
+          >
+            قوانین پلتفرم کارباکار
+          </Link>
+        </Typography>
       </Drawer >
     </Box >
   );

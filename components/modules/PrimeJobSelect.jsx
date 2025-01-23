@@ -108,7 +108,7 @@ const PrimeJobSelect = ({ user }) => {
             >
               <ListItemAvatar>
                 <Avatar>
-                  <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                  <ItsAvatar  userCodeOrBusinessBrand={business.businessName} />
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={business.businessName} secondary={business.businessBrand} />

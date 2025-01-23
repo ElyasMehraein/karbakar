@@ -234,7 +234,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
                                         onClick={(event) => handleToggle(event.currentTarget.getAttribute('value'))}
                                     >
                                         <Avatar>
-                                            <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} />
+                                            <ItsAvatar  userCodeOrBusinessBrand={business.businessName} />
                                         </Avatar>
                                         <ListItemText sx={{ mr: 1 }} align='right' primary={business.businessName} secondary={business.businessBrand} />
                                         <Checkbox

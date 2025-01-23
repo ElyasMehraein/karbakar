@@ -17,9 +17,10 @@
 
 # production
 /build
+/images
 # /public/fonts
-/public/avatars
-/public/headers
+# /public/avatars
+# /public/headers
 
 # misc
 .DS_Store
@@ -48,3 +49,4 @@ certificates
 *.bat
 # public/avatars/1000.jpg
 # *.jpg
+.vscode/extensions.json

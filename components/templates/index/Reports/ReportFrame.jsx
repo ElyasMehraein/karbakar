@@ -11,14 +11,14 @@ import BillReportFrame from './BillReportFrame';
 import JobOfferFrame from './JobOfferFrame';
 
 
-export default function ReportFrame({ user, report }) {
+export default function ReportFrame({ user, report, handleClose }) {
     return (
         <Container sx={{ maxWidth: "500px" }}>
-            {report.title == "bill" && <BillReportFrame />}
-            {report.title == "billAccept" && <BillAcceptReportFrame report={report} />}
+            {report.title == "bill" && <BillReportFrame handleClose={handleClose} />}
+            {report.title == "billAccept" && <BillAcceptReportFrame report={report}  />}
             {report.title == "businessRelation" && <BusinessRelationFrame report={report} />}
             {report.title == "RelationAccepted" && <BusinessRelationAcceptedFrame report={report} />}
-            {report.title == "jobOffer" && <JobOfferFrame />}
+            {report.title == "jobOffer" && <JobOfferFrame report={report} />}
             {report.title == "resignation" && <ResignationFrame user={user} />}
             {report.title == "YouAreAgent" && <YouAreAgentFrame />}
         </Container>

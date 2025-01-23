@@ -147,10 +147,12 @@ export default function ThirdTabFab({ user, primeBusiness }) {
                 سبد محصولاتی که می خواهید دریافت کنید
             </Typography>
             <SelectCategoryAndGuild sendDataToParent={getDataFromChild} />
-            <BasketSelection
-                parentBasketFunction={addDemandBasket}
-                guild={demandGuild}
-            />
+            {demandGuild &&
+                <BasketSelection
+                    parentBasketFunction={addDemandBasket}
+                    guild={demandGuild}
+                />
+            }
             <Button
                 sx={{ mb: 10 }}
                 variant="contained"

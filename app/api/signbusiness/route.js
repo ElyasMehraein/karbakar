@@ -58,8 +58,6 @@ export async function POST(req) {
             business = await BusinessModel.create({
                 businessName,
                 businessBrand: "کسب و کار جدید",
-                isAvatar: false,
-                isHeader: false,
                 bio: "",
                 explain: "",
                 phone: "",
@@ -76,7 +74,7 @@ export async function POST(req) {
 
             await UserModel.findByIdAndUpdate(user._id, { $push: { businesses: business._id } });
 
-            
+
             if (user.primeJob) {
                 return Response.json({ message: "Business created successfully" }, { status: 201 });
             }

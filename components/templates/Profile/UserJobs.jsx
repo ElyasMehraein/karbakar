@@ -28,7 +28,7 @@ export default function UserJobs({ user }) {
                             <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                                 <ListItemAvatar>
                                     <Avatar sx={{ width: 40, height: 40 }}>
-                                        <ItsAvatar isAvatar={business.isAvatar} userCodeOrBusinessBrand={business.businessName} alt="business avatar" />
+                                        <ItsAvatar  userCodeOrBusinessBrand={business.businessName} alt="business avatar" />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText

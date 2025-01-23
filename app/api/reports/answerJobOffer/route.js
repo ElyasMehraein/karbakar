@@ -38,8 +38,8 @@ export async function PUT(req) {
             const candidate = await UserModel.findOne({ _id: user._id })
             candidate.businesses.addToSet(Business._id)
             await candidate.save()
-            if (candidate.primeJob != '66164cc526e2d5fe01b561dc') {
-                return Response.json({ message: "business created successfully" }, { status: 201 })
+            if (candidate.primeJob) {
+                return Response.json({ message: "job offer accepted successfully " }, { status: 201 })
             }
             await UserModel.updateOne({ _id: candidate._id }, { primeJob: Business._id });
         }

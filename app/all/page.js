@@ -110,7 +110,7 @@ export default function AllBusinesses() {
                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                       <ListItemAvatar>
                         <Avatar>
-                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
+                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
                         </Avatar>
                       </ListItemAvatar>
                       <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessBrand} secondary={business.bio} />} >
@@ -132,7 +132,7 @@ export default function AllBusinesses() {
                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                       <ListItemAvatar>
                         <Avatar>
-                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
+                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
                         </Avatar>
                       </ListItemAvatar>
                       <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessName} secondary={business.bio} />} >

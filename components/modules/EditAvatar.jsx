@@ -1,5 +1,4 @@
-"use client"
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
@@ -12,14 +11,22 @@ const color = grey[900];
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function EditAvatar({ user, business }) {
-  const [isAvatar, setIsAvatar] = useState(user?.isAvatar || business?.isAvatar);
+
+  const userCodeOrBusinessBrand = user?.code || business?.businessName;
+  const [isAvatarUrl, setIsAvatarUrl] = useState(user?.avatarUrl || business?.avatarUrl)
+  const [avatarUrl, setAvatartUrl] = useState(`/api/images/avatars/${userCodeOrBusinessBrand}.jpg`)
+  useEffect(() => {
+    setAvatartUrl(`/api/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`)
+  }, [isAvatarUrl])
+
   const [uploadeding, setUploadeding] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+
   const handleAvatarUpload = async (event) => {
     const image = event.target.files[0];
 
     if (!validateImageType(image)) {
-      setSnackbarOpen(true)
+      setSnackbarOpen(true);
       return;
     }
 
@@ -27,7 +34,7 @@ export default function EditAvatar({ user, business }) {
 
     const formData = new FormData();
     formData.append('image', image);
-    formData.append("imagePath", `avatars/${user?.code || business?.businessName}.jpg`);
+    formData.append("imagePath", `/avatars/${userCodeOrBusinessBrand}.jpg`);
 
     try {
       const response = await fetch('/api/uploadImg', {
@@ -37,8 +44,7 @@ export default function EditAvatar({ user, business }) {
 
       if (response.status === 201) {
         console.log('avatar Uploaded successfully');
-        setIsAvatar(true);
-        location.reload();
+        setIsAvatarUrl(true)
       }
     } catch (error) {
       console.error('Error uploading avatar:', error);
@@ -52,30 +58,29 @@ export default function EditAvatar({ user, business }) {
     return acceptedTypes.includes(image.type);
   };
 
-  const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const avatar = `/avatars/${userCodeOrBusinessBrand}.jpg`;
+
+
 
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
         <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
           {uploadeding ? <CircularProgress /> :
-            isAvatar ?
+            isAvatarUrl ? (
               <Image
-                src={avatar}
+                src={avatarUrl}
                 alt={userCodeOrBusinessBrand}
                 quality={100}
                 fill
                 sizes="100px"
                 style={{ objectFit: 'cover' }}
+                onError={() => setIsAvatarUrl(false)}
               />
-              :
-              isNaN(userCodeOrBusinessBrand) ?
-
-                <BusinessIcon />
-                :
-                <AccountCircle sx={{ width: 70, height: 70 }} />
-          }
+            ) : user ? (
+              <AccountCircle sx={{ width: 70, height: 70 }} />
+            ) : (
+              <BusinessIcon />
+            )}
         </Avatar>
         <input
           accept="image/*"

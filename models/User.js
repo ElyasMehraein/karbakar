@@ -21,8 +21,14 @@ const schema = new Schema({
         // minlength: 4,
         // maxlength: 30,
     },
-    isAvatar: Boolean,
-    isHeader: Boolean,
+    avatarUrl: {
+        type: String,
+        maxlength: 100,
+    },
+    headerUrl: {
+        type: String,
+        maxlength: 100,
+    },
     bio: {
         type: String,
         maxlength: 150,

@@ -5,7 +5,7 @@ export function verifyToken(token) {
         const validationResult = verify(token, process.env.JWT_SECRET)
         return validationResult
     } catch (err) {
-        console.log("log from auth verifyToken error=> ", err);
+        // console.log("log from auth verifyToken error=> ", err);
         return false
     }
 }

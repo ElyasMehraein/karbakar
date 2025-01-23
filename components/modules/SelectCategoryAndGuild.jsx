@@ -7,24 +7,29 @@ import Select from '@mui/material/Select';
 import { useState, useEffect } from 'react'
 import jobCategoriesData from "@/utils/JobCategories";
 
-export default function SelectCategoryAndGuild({ sendDataToParent }) {
+export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness }) {
+
 
     // select category
 
-    const [jobCategory, setJobCategory] = useState("")
+    const [jobCategory, setJobCategory] = useState(primeBusiness?.guild.jobCategory ?? undefined)
     const formattedOptions = Object.entries(jobCategoriesData).flatMap(([group, categories]) =>
         categories.map(category => ({ label: category, group }))
     );
+    const defaultCategory = primeBusiness ? formattedOptions.find(
+        (option) => option.label === primeBusiness.guild.jobCategory
+    ) : undefined
     const isOptionEqualToValue = (option, value) => {
         return option.label === value.label;
     };
-    let changeHandler = (e, value) => setJobCategory(value?.label)
+
+
 
 
     // select guild
 
     const [guilds, setGuilds] = useState([])
-    const [guild, setGuild] = useState("")
+    const [guild, setGuild] = useState(null)
     const [guildName, setGuildName] = useState("")
 
     const handleChange = (event) => {
@@ -32,6 +37,11 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
         setGuild(guilds.find(g => g.guildName === event.target.value))
     };
 
+
+    let jobCategoryChangeHandler = (e, value) => {
+        setGuildName("")
+        setJobCategory(value?.label)
+    }
     useEffect(() => {
         const getGuilds = async () => {
             try {
@@ -53,10 +63,14 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
         getGuilds();
     }, [jobCategory]);
 
+    useEffect(() => {
+        setGuild(guilds[0])
+        setGuildName(guilds[0] ? guilds[0].guildName : "");
+    }, [guilds]);
     // send guild to parent
     useEffect(() => {
         sendDataToParent(guild);
-    }, [guildName]);
+    }, [guild]);
 
     return (
         <Container maxWidth="md">
@@ -73,13 +87,14 @@ export default function SelectCategoryAndGuild({ sendDataToParent }) {
                     getOptionLabel={(option) => option.label}
                     renderInput={(params) => <TextField {...params} label="انتخاب دسته بندی" />}
                     isOptionEqualToValue={isOptionEqualToValue}
-                    onChange={changeHandler}
+                    onChange={jobCategoryChangeHandler}
+                    defaultValue={defaultCategory ?? null}
                 />
                 {jobCategory ? (
                     guilds.length ? (
                         <>
                             <Typography sx={{ py: 1, textAlign: "center", fontSize: 12 }}>
-                                صنف تولید کننده محصولی که می خواهید را انتخاب نمایید
+                                صنف مد نظر خود را انتخاب نمایید
                             </Typography>
                             <FormControl sx={{ my: 1, width: 300 }}>
                                 <InputLabel id="chose-business-lable">عنوان صنف</InputLabel>
