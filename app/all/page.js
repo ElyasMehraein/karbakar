@@ -19,11 +19,10 @@ export default function AllBusinesses() {
   const [expanded, setExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [businesses, setBusinesses] = useState(false);
-  const [latitude, setLatitude] = useState("")
-  const [longitude, setLongitude] = useState("")
+  const [latitude, setLatitude] = useState(null)
+  const [longitude, setLongitude] = useState(null)
   const [businessesOrderByDistance, setBusinessesOrderByDistance] = useState([])
 
-  console.log("businessesOrderByDistance", businessesOrderByDistance);
 
   const setLocation = function (latitude, longitude) {
     setLatitude(latitude)
@@ -50,7 +49,7 @@ export default function AllBusinesses() {
   }, [])
 
   useEffect(() => {
-    if (businesses || latitude) {
+    if (businesses && latitude) {
       setBusinessesOrderByDistance(orderByDistance({ latitude, longitude },
         businesses.filter((business) => (business.latitude)).map((business) => (
           {
@@ -124,7 +123,6 @@ export default function AllBusinesses() {
               })
               :
               businesses.map((business) => {
-                console.log("hahiii");
                 return (
                   <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
