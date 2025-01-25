@@ -233,12 +233,10 @@ export default function UnionsAccordionDetails({ union, user }) {
           alignItems: 'center',
         }}
       >
-        <Avatar sx={{ width: 40, height: 40 }}>
-          <ItsAvatar
-            isAvatar={member.member.isAvatar}
-            userCodeOrBusinessBrand={member.member.businessName}
-          />
-        </Avatar>
+        <ItsAvatar
+          isAvatar={member.member.isAvatar}
+          userCodeOrBusinessBrand={member.member.businessName}
+        />
         <Box sx={{ textAlign: 'right' }}>
           <Typography variant="body2">{member.member.businessBrand}</Typography>
           <Typography variant="caption" display="block">

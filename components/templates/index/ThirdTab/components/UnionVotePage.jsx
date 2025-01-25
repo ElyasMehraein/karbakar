@@ -58,12 +58,10 @@ export default function UnionVotePage({ union, votePageOpen, dialogCloseHandler 
                             >
                                 {/* اطلاعات کلی عضو (آواتار + نام‌ها) */}
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                    <Avatar sx={{ width: 40, height: 40 }}>
-                                        <ItsAvatar
-                                            isAvatar={member.member.isAvatar}
-                                            userCodeOrBusinessBrand={member.member.businessName}
-                                        />
-                                    </Avatar>
+                                    <ItsAvatar
+                                        isAvatar={member.member.isAvatar}
+                                        userCodeOrBusinessBrand={member.member.businessName}
+                                    />
                                     <Box sx={{ textAlign: 'right' }}>
                                         <Typography variant="body2">
                                             {member.member.businessBrand}

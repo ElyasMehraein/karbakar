@@ -129,9 +129,7 @@ export default function SecondTab({ user, primeBusiness }) {
                                                 justifyContent: "space-between"
                                             }}
                                         >
-                                            <Avatar >
-                                                <ItsAvatar  userCodeOrBusinessBrand={business.businessName} alt=" avatar" />
-                                            </Avatar>
+                                            <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt=" avatar" />
                                             <Box
                                                 sx={{
                                                     width: "100%",

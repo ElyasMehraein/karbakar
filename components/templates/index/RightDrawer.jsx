@@ -51,7 +51,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
   }
   return (
     <Box >
-        <Backdrop open={open} onClick={handleDrawerClose} sx={{ zIndex: theme.zIndex.drawer - 1 }} />
+      <Backdrop open={open} onClick={handleDrawerClose} sx={{ zIndex: theme.zIndex.drawer - 1 }} />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -84,9 +84,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
               <ListItemButton sx={{ mt: -1, p: 0 }} onClick={() => router.push(`/${primeBusiness.businessName}`)}>
                 <ListItem >
                   <ListItemIcon>
-                    <Avatar>
-                      <ItsAvatar isAvatar={primeBusiness.isAvatar} userCodeOrBusinessBrand={primeBusiness.businessName} />
-                    </Avatar>
+                    <ItsAvatar isAvatar={primeBusiness.isAvatar} userCodeOrBusinessBrand={primeBusiness.businessName} />
                   </ListItemIcon>
                   <ListItemText align="right" primary={primeBusiness.businessName} secondary={primeBusiness.businessBrand} sx={{ m: 0 }} />
                 </ListItem>
@@ -108,9 +106,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
                       <ListItemButton sx={{ mt: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                         <ListItemAvatar>
                           <ListItemIcon>
-                            <Avatar>
-                              <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                            </Avatar>
+                            <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
                           </ListItemIcon>
                         </ListItemAvatar>
                         <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
@@ -169,15 +165,15 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             ورود یا ثبت نام
           </Button>
         }
-        <Typography 
+        <Typography
           sx={{
             position: 'absolute',
-            bottom: 16, 
+            bottom: 16,
             left: '50%', // برای تنظیم در مرکز
             transform: 'translateX(-50%)', // برای قرارگیری دقیق در وسط
             textAlign: 'center',
           }}
-        fontSize={12} fontWeight="bold" className="inMiddle">
+          fontSize={12} fontWeight="bold" className="inMiddle">
           <Link
             href="/rules"
             style={{ textDecoration: "none" }}

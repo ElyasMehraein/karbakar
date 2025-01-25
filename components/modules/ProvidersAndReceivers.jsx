@@ -60,13 +60,12 @@ export default function ProvidersAndReceivers({ filteredRelations, title }) {
                         {topAvatarsVisible && (
                             <AvatarGroup dir="ltr" max={4}>
                                 {filteredRelations.map(relation => (
-                                    <Avatar key={relation._id}>
-                                        <ItsAvatar
-                                            userCodeOrBusinessBrand={title === "تامین کنندگان" ? relation.provider.businessName : relation.receiver.businessName}
-                                            isAvatar={title === "تامین کنندگان" ? relation.provider.isAvatar : relation.receiver.isAvatar}
-                                            alt="businessBrand"
-                                        />
-                                    </Avatar>
+                                    <ItsAvatar
+                                        key={relation._id}
+                                        userCodeOrBusinessBrand={title === "تامین کنندگان" ? relation.provider.businessName : relation.receiver.businessName}
+                                        isAvatar={title === "تامین کنندگان" ? relation.provider.isAvatar : relation.receiver.isAvatar}
+                                        alt="businessBrand"
+                                    />
                                 ))}
                             </AvatarGroup>
                         )}
@@ -80,13 +79,13 @@ export default function ProvidersAndReceivers({ filteredRelations, title }) {
                             >
                                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                                     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
-                                        <Avatar sx={{ ml: 2, width: 40, height: 40 }}>
+                                        <Box sx={{ ml: 2, width: 40, height: 40 }}>
                                             <ItsAvatar
                                                 userCodeOrBusinessBrand={title === "تامین کنندگان" ? relation.provider.businessName : relation.receiver.businessName}
                                                 isAvatar={title === "تامین کنندگان" ? relation.provider.isAvatar : relation.receiver.isAvatar}
                                                 alt="businessBrand"
                                             />
-                                        </Avatar>
+                                        </Box>
                                         <ListItemAvatar>
                                             <ListItemText
                                                 align='right'

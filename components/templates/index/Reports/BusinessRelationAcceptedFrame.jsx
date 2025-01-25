@@ -26,9 +26,9 @@ export default function BusinessRelationAcceptedFrame({ report }) {
           <CardHeader
             sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
             avatar={
-              <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
+              <Box sx={{ ml: 1, width: 40, height: 40 }} >
                 <ItsAvatar isAvatar={report.receiverBusiness?.isAvatar} userCodeOrBusinessBrand={report.receiverBusiness?.businessName} />
-              </Avatar>
+              </Box>
             }
             title={report.receiverBusiness?.businessBrand}
             subheader={report.receiverBusiness?.businessName}

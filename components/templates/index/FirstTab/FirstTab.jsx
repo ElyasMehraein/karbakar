@@ -50,9 +50,9 @@ export default function FirstTab({ user, relations }) {
                                 <ListItemButton onClick={() => router.push(`/${business.provider.businessName}`)}>
                                     <Box sx={{ display: "flex", flexDirection: "column", width: "100%", height: "100%" }}>
                                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
-                                            <Avatar sx={{ ml: 2, width: 40, height: 40 }}>
+                                            <Box sx={{ ml: 2, width: 40, height: 40 }}>
                                                 <ItsAvatar userCodeOrBusinessBrand={business.provider.businessName} isAvatar={business.provider.isAvatar} alt="workers avatar" />
-                                            </Avatar>
+                                            </Box>
                                             <ListItemAvatar >
                                                 <ListItemText align='right' primary={business.provider.businessBrand} secondary={business.provider.businessName} />
                                             </ListItemAvatar>

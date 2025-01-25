@@ -80,9 +80,9 @@ export default function JobOfferFrame({ report }) {
               <CardHeader
                 sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                 avatar={
-                  <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
+                  <Box sx={{ ml: 1, width: 40, height: 40 }} >
                     <ItsAvatar userCodeOrBusinessBrand={report.business?.businessName} />
-                  </Avatar>
+                  </Box>
                 }
                 title={report.business?.businessBrand}
                 subheader={report.business?.businessName}
@@ -91,9 +91,9 @@ export default function JobOfferFrame({ report }) {
               <CardHeader
                 sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
                 avatar={
-                  <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
+                  <Box sx={{ ml: 1, width: 40, height: 40 }} >
                     <ItsAvatar userCodeOrBusinessBrand={report.recepiant?.userName} />
-                  </Avatar>
+                  </Box>
                 }
                 title={report.recepiant?.userName}
                 subheader={report.recepiant?.bio}

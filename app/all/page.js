@@ -1,5 +1,5 @@
 "use client"
-import { AppBar, Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AllBusinessesText, selectGuild } from '@/components/typoRepo';
@@ -52,10 +52,10 @@ export default function AllBusinesses() {
   useEffect(() => {
     if (businesses || latitude) {
       setBusinessesOrderByDistance(orderByDistance({ latitude, longitude },
-        businesses.filter((business) => ( business.latitude)).map((business) => (
-        {
-          latitude: business.latitude, longitude: business.longitude, ...business,
-        }))))
+        businesses.filter((business) => (business.latitude)).map((business) => (
+          {
+            latitude: business.latitude, longitude: business.longitude, ...business,
+          }))))
     };
   }, [latitude, longitude, businesses]);
 
@@ -109,13 +109,11 @@ export default function AllBusinesses() {
                   <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                       <ListItemAvatar>
-                        <Avatar>
-                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
-                        </Avatar>
+                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
                       </ListItemAvatar>
                       <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessBrand} secondary={business.bio} />} >
                         <ListItemText
-                          primary={(getDistance({ latitude, longitude }, { latitude: business.latitude, longitude: business.longitude })/1000).toFixed()}
+                          primary={(getDistance({ latitude, longitude }, { latitude: business.latitude.$numberDecimal, longitude: business.longitude.$numberDecimal }) / 1000).toFixed()}
                           secondary="km"
                         />
 
@@ -131,9 +129,7 @@ export default function AllBusinesses() {
                   <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                       <ListItemAvatar>
-                        <Avatar>
-                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
-                        </Avatar>
+                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
                       </ListItemAvatar>
                       <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessName} secondary={business.bio} />} >
                       </ListItem>

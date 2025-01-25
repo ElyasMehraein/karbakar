@@ -16,6 +16,7 @@ import Image from 'next/image'
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ReportsMenu from './Reports/ReportsMenu';
 import SearchBox from '@/components/modules/SearchBox';
+import ItsAvatar from '@/components/modules/ItsAvatar';
 
 
 export default function SearchAppBar({ user, menuClickHandler }) {
@@ -110,7 +111,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
         <Box sx={{ flexGrow: 1, width: '100% !important' }}>
           <SearchBox
           //  sx={{ width: '100% !important' }} 
-           />
+          />
         </Box>
         {!user ? (<Button size="small" sx={{ display: { xs: 'none', sm: 'block' }, mr: 1, minWidth: 110, maxWidth: 110 }}
           onClick={signOut} variant="contained" color="secondary">
@@ -145,20 +146,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
               color="inherit"
               onClick={goToProfile}
             >
-              {!isLoading && user?.avatarUrl ?
-                <Avatar sx={{ width: 40, height: 40 }}>
-                  <Image
-                    src={avatar}
-                    alt={user?.code}
-                    quality={100}
-                    fill
-                    sizes="100px"
-                    style={{ objectFit: 'cover' }}
-                  />
-                </Avatar>
-                :
-                <AccountCircle fontSize="large" />
-              }
+              <ItsAvatar userCodeOrBusinessBrand={user?.code} alt="workers avatar" />
             </IconButton>
           </Box>
         }
