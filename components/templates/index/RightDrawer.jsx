@@ -26,6 +26,7 @@ import { iconText } from '@/components/typoRepo';
 import Resignation from '@/components/modules/Resignation';
 import Link from "next/link";
 import Backdrop from '@mui/material/Backdrop';
+import Image from 'next/image';
 
 const drawerWidth = 240;
 
@@ -165,6 +166,23 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             ورود یا ثبت نام
           </Button>
         }
+        <Link
+          href='https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'
+          target="_blank"
+          referrerPolicy="origin"
+
+        >
+          <Image
+            src={'https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'}
+            alt="enamad"
+            loading="lazy"
+            style={{ cursor: 'pointer' }}
+            code='WVHMOZU94IEbixgjQrSBilZBlW74eHJP'
+            width={100}
+            height={100}
+          />
+        </Link>
+
         <Typography
           sx={{
             position: 'absolute',
