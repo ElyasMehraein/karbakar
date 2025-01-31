@@ -10,8 +10,8 @@ export default function RootLayout({ children }) {
       <head>
         <title>کارباکار</title>
         <meta
-          name="description"
-          content="اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد و کسب و کارهای مولد"
+          // name="description"
+          // content="اقتصاد اجتماعی غیر پولی برای مبادله بدون واسطه محصولات و خدمات افراد و کسب و کارهای مولد"
           name="enamad" content="46997260"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
