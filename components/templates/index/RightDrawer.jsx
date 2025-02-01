@@ -182,7 +182,9 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             height={100}
           />
         </Link>
+        {/* <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP' alt='' style='cursor:pointer' code='WVHMOZU94IEbixgjQrSBilZBlW74eHJP'></a> */}
 
+        <Box dangerouslySetInnerHTML={{ __html: enamadCode }} />
         <Typography
           sx={{
             position: 'absolute',
