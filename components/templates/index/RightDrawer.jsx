@@ -170,6 +170,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
           <img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP' alt='' style='cursor:pointer' code='WVHMOZU94IEbixgjQrSBilZBlW74eHJP'></img>
         </a> */}
         <a
+          className='inMiddle'
           referrerPolicy="origin"
           target="_blank"
           rel="noopener noreferrer"
