@@ -24,8 +24,8 @@ import PrimeJobSelect from '../../modules/PrimeJobSelect';
 import HelpIcon from '@/components/modules/HelpIcon';
 import { iconText } from '@/components/typoRepo';
 import Resignation from '@/components/modules/Resignation';
-import Link from "next/link";
 import Backdrop from '@mui/material/Backdrop';
+import Link from "next/link";
 import Image from 'next/image';
 
 const drawerWidth = 240;
@@ -166,25 +166,22 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             ورود یا ثبت نام
           </Button>
         }
-        <Link
-          href='https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'
-          target="_blank"
+        {/* <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'>
+          <img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP' alt='' style='cursor:pointer' code='WVHMOZU94IEbixgjQrSBilZBlW74eHJP'></img>
+        </a> */}
+        <a
           referrerPolicy="origin"
-
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP"
         >
-          <Image
-            src={'https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'}
-            alt="enamad"
-            loading="lazy"
+          <img
+            referrerPolicy="origin"
+            src="https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP"
+            alt=""
             style={{ cursor: 'pointer' }}
-            code='WVHMOZU94IEbixgjQrSBilZBlW74eHJP'
-            width={100}
-            height={100}
           />
-        </Link>
-        {/* <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'><img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP' alt='' style='cursor:pointer' code='WVHMOZU94IEbixgjQrSBilZBlW74eHJP'></a> */}
-
-        <Box dangerouslySetInnerHTML={{ __html: enamadCode }} />
+        </a>
         <Typography
           sx={{
             position: 'absolute',
