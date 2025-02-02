@@ -5,8 +5,7 @@ import UserModel from '@/models/User';
 import ReportModel from '@/models/Report';
 
 export async function GET(req, { params }) {
-    console.log("params", params);
-    
+
     try {
         // اتصال به پایگاه داده
         await connectToDB();
@@ -40,29 +39,27 @@ export async function GET(req, { params }) {
                 { status: 404 }
             );
         }
-
         // بررسی پارامتر reportId
-        const { reportId } = params;
-        // if (!reportId) {
-        //     return new Response(
-        //         JSON.stringify({ message: "Report ID is required" }),
-        //         { status: 400 }
-        //     );
-        // }
+        const { reportID } = params;
+        if (!reportID) {
+            return new Response(
+                JSON.stringify({ message: "Report ID is required" }),
+                { status: 400 }
+            );
+        }
 
         // پیدا کردن گزارش با بررسی اینکه کاربر گیرنده است
         const report = await ReportModel.findOne({
-            _id: reportId,
+            _id: reportID,
             recepiant: logedUser._id,
         }).populate("business bill recepiant providerBusiness receiverBusiness products.product");
 
-        // if (!report) {
-        //     return new Response(
-        //         JSON.stringify({ message: "Report not found or unauthorized" }),
-        //         { status: 404 }
-        //     );
-        // }
-
+        if (!report) {
+            return new Response(
+                JSON.stringify({ message: "Report not found" }),
+                { status: 404 }
+            );
+        }
         // بازگرداندن گزارش
         return new Response(
             JSON.stringify({ message: "Report fetched successfully", data: report }),

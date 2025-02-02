@@ -47,7 +47,7 @@ export default function MyAppBar({ user, logedUserCode, business }) {
               color="inherit"
               onClick={goToEdit}
             >
-              ویرایش
+              تنظیمات
               <EditIcon />
             </Button>
           }
