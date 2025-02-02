@@ -169,7 +169,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
                 <FirstTabFab {...{ user, primeBusiness, relations, distinctGuilds }} />
               : firtsEnterText()
             :
-            "salam bar mehman"
+            "salam bar mehman" // تمام محصولاتی که کسب و کارهای نزدیک شما در اختیار دیگران قرار دادن
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={1} dir={theme.direction}>

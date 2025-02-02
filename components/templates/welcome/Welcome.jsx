@@ -203,7 +203,7 @@ export default function Wellcome() {
                 severity={"success"}
                 variant="filled"
               >
-               با اومدنت منو خوشحال کردی😁
+                خوش آمدید! همراهی شما به رشد و پیشرفت تولیدکنندگان کمک می‌کند.
               </Alert>
 
             </Snackbar>
