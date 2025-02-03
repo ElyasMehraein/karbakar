@@ -21,6 +21,7 @@ import ThirdTab from './ThirdTab/ThirdTab';
 import ThirdTabFab from './ThirdTab/ThirdTabFab';
 import { firtsEnterText } from '@/components/typoRepo';
 import { useActiveTab } from '@/components/context/ActiveTabContext';
+import FirstTabGuestView from './FirstTab/FirstTabGuestView';
 
 function CustomTabPanel(props) {
 
@@ -66,7 +67,7 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, relations }) {
+export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, relations, guestRelations }) {
 
   // active tab 
   const { activeTab, setActiveTab } = useActiveTab();
@@ -164,12 +165,12 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
           {user ?
             user.businesses[0] ?
               fabIndex !== activeTab ?
-                <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
+                <FirstTab user={user} relations={relations} />
                 :
-                <FirstTabFab {...{ user, primeBusiness, relations, distinctGuilds }} />
+                <FirstTabFab {...{ user, primeBusiness, distinctGuilds }} />
               : firtsEnterText()
             :
-            "salam bar mehman" // تمام محصولاتی که کسب و کارهای نزدیک شما در اختیار دیگران قرار دادن
+            <FirstTabGuestView guestRelations={guestRelations} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={1} dir={theme.direction}>
@@ -177,7 +178,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
             fabIndex !== activeTab ?
               <SecondTab primeBusiness={primeBusiness} />
               :
-              <SecondTabFab {...{ user, primeBusiness, relations }} />
+              <SecondTabFab {...{ user, primeBusiness }} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={2} dir={theme.direction}>

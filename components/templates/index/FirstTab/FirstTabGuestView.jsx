@@ -1,6 +1,6 @@
 import * as React from "react";
-import { FirtstTabText, FirtstTabText2 } from "@/components/typoRepo";
-import { Avatar, Box, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
+import { FirtstTabText2 } from "@/components/typoRepo";
+import { Box, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 import ItsAvatar from '@/components/modules/ItsAvatar'
 import LinearProgress from '@mui/material/LinearProgress';
@@ -10,10 +10,10 @@ import AccordionServise from "@/components/modules/AccordionServise";
 
 const color = blue[50];
 
-export default function FirstTab({ user, relations }) {
+export default function FirstTabGuestView({ guestRelations }) {
 
     const router = useRouter()
-    const businesses = relations.filter((relation) => {
+    const businesses = guestRelations.filter((relation) => {
         if (relation.provider.monthlyCommitment[0]) {
             return relation.provider;
         }
@@ -30,6 +30,9 @@ export default function FirstTab({ user, relations }) {
                     my: 3
                 }}
                 display="flex" flexDirection="column">
+                <Typography>
+                    محصولاتی که کسب و کارهای نزدیک شما ماهانه در اختیار دیگران قرار می دهند
+                </Typography>
 
                 {businesses.length ?
                     businesses.map((business) => {
@@ -75,7 +78,7 @@ export default function FirstTab({ user, relations }) {
                             </List>
                         )
                     }) :
-                    FirtstTabText()
+                    <Typography>در حال حاضر هیچ کسب و کاری محصولی ارائه نمی دهد</Typography>
                 }
             </Box>
         </Container>
