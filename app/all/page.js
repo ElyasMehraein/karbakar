@@ -2,13 +2,12 @@
 import { AppBar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { AllBusinessesText, selectGuild } from '@/components/typoRepo';
-import { Accordion, AccordionDetails, Chip } from "@mui/material";
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+import { AllBusinessesText } from '@/components/typoRepo';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ItsAvatar from '@/components/modules/ItsAvatar'
 import dynamic from 'next/dynamic'
 import { orderByDistance, getDistance } from 'geolib';
+import AccordionServise from '@/components/modules/AccordionServise';
 
 const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
 
@@ -16,7 +15,6 @@ const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation
 export default function AllBusinesses() {
 
   const router = useRouter()
-  const [expanded, setExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [businesses, setBusinesses] = useState(false);
   const [latitude, setLatitude] = useState(null)
@@ -89,17 +87,9 @@ export default function AllBusinesses() {
             my: 3
           }}
           display="flex" flexDirection="column">
-          <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-            <Chip
-              label="راهنمایی"
-              sx={{ direction: 'ltr' }}
-              onClick={() => setExpanded(!expanded)}
-              icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-            />
-            <AccordionDetails>
-              <AllBusinessesText />
-            </AccordionDetails>
-          </Accordion>
+          <AccordionServise>
+            <AllBusinessesText />
+          </AccordionServise>
           <ShowMyLocation setLocation={setLocation} />
           {businesses ?
             businessesOrderByDistance.length ?
