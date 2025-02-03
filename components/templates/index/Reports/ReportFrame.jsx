@@ -19,7 +19,7 @@ export default function ReportFrame({ user, report, handleClose }) {
             {report.title == "businessRelation" && <BusinessRelationFrame report={report} />}
             {report.title == "RelationAccepted" && <BusinessRelationAcceptedFrame report={report} />}
             {report.title == "jobOffer" && <JobOfferFrame report={report} />}
-            {report.title == "resignation" && <ResignationFrame user={user} />}
+            {report.title == "resignation" && <ResignationFrame report={report} />}
             {report.title == "YouAreAgent" && <YouAreAgentFrame />}
         </Container>
     );
