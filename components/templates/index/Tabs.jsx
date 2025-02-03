@@ -22,6 +22,7 @@ import ThirdTabFab from './ThirdTab/ThirdTabFab';
 import { firtsEnterText } from '@/components/typoRepo';
 import { useActiveTab } from '@/components/context/ActiveTabContext';
 import FirstTabGuestView from './FirstTab/FirstTabGuestView';
+import NeedsMasterList from './SecondTab/NeedsMasterList';
 
 function CustomTabPanel(props) {
 
@@ -155,7 +156,9 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="محصولات" {...a11yProps(1)} />
+              <Tab label="محصولات" {...a11yProps(0)} />
+              <Tab label="نیازها" {...a11yProps(1)} />
+              <Tab label="اتحادها" {...a11yProps(2)} />
             </Tabs>
           }
         </Container>
@@ -174,19 +177,23 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={1} dir={theme.direction}>
-          {
+          {user ?
             fabIndex !== activeTab ?
               <SecondTab primeBusiness={primeBusiness} />
               :
               <SecondTabFab {...{ user, primeBusiness }} />
+            :
+            <NeedsMasterList/>
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={2} dir={theme.direction}>
-          {
+          {user ?
             fabIndex !== activeTab ?
               <ThirdTab {...{ primeBusiness, user }} />
               :
               <ThirdTabFab {...{ primeBusiness, user }} />
+            :
+            "salam etehadha"
           }
 
         </CustomTabPanel>

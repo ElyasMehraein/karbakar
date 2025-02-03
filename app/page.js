@@ -71,7 +71,7 @@ export default async function page() {
             const billDocs = await BillModel.find({ isAccept: true }).lean();
             distinctGuilds = [...new Set(billDocs.map(doc => doc.guild))];
         }else{
-            guestRelations = await JSON.parse(JSON.stringify(await BusinessRelationModel.find({
+            const allRelations = await JSON.parse(JSON.stringify(await BusinessRelationModel.find({
                 isAnswerNeed: false,
             }).populate({
                 path: "provider",
@@ -81,6 +81,11 @@ export default async function page() {
                     select: "productName unitOfMeasurement",
                 },
             }).lean()));
+            guestRelations = allRelations.filter((relation, index, allRelations) =>
+                index === allRelations.findIndex(r =>
+                    r.provider && relation.provider && r.provider._id.toString() === relation.provider._id.toString()
+                )
+            );
         }
     } catch (error) {
         console.error("Error fetching data:", error);

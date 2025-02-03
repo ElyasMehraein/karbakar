@@ -4,32 +4,34 @@ import ItsAvatar from '@/components/modules/ItsAvatar'
 import LinearProgress from '@mui/material/LinearProgress';
 import { blue } from '@mui/material/colors';
 import { getDistance } from 'geolib';
+import { useRouter } from 'next/navigation';
 
 
 const color = blue[50];
 export default function FirstTabMonthlyCommitmentBox({ business, latitude, longitude }) {
 
+    const router = useRouter()
     return (
         <List sx={{ width: '100%', maxWidth: 700, bgcolor: color, borderRadius: 2, m: 1, p: 2 }}>
-            <ListItemButton onClick={() => router.push(`/${business.provider.businessName}`)}>
+            <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                 <Box sx={{ display: "flex", flexDirection: "column", width: "100%", height: "100%" }}>
                     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
                         <Box sx={{ ml: 2, width: 40, height: 40 }}>
-                            <ItsAvatar userCodeOrBusinessBrand={business.provider.businessName} isAvatar={business.provider.isAvatar} alt="workers avatar" />
+                            <ItsAvatar userCodeOrBusinessBrand={business.businessName} isAvatar={business.isAvatar} alt="workers avatar" />
                         </Box>
                         <ListItemAvatar >
-                            <ListItemText align='right' primary={business.provider.businessBrand} secondary={business.provider.businessName} />
+                            <ListItemText align='right' primary={business.businessBrand} secondary={business.businessName} />
                         </ListItemAvatar>
                     </Box>
-                    <Typography align='right' variant="caption" sx={{ color: 'text.secondary' }}>{business.provider.bio}</Typography>
+                    <Typography align='right' variant="caption" sx={{ color: 'text.secondary' }}>{business.bio}</Typography>
                     {
-                        business.latitude &&
+                        latitude &&
                         <ListItemText
                             primary={(getDistance({ latitude, longitude }, { latitude: business.latitude?.$numberDecimal, longitude: business.longitude?.$numberDecimal }) / 1000).toFixed()}
                             secondary="km"
                         />
                     }
-                    {business.provider.monthlyCommitment.map((product) => {
+                    {business.monthlyCommitment.map((product) => {
                         return (
                             <Box key={product._id}>
                                 <Typography fontSize={12} align='right'>{product.product.productName}</Typography>
