@@ -16,16 +16,11 @@ import Checkbox from '@mui/material/Checkbox';
 
 export default function AddToReceiversButton({ relations, logedUser, business }) {
 
-    const [answer, setAnswer] = useState(false)
-    const [isAnswerNeed, setIsAnswerNeed] = useState(false)
-
     const isNotOwner = Number(logedUser.code) !== Number(business.agentCode)
 
-    const logedUserBusinesses = logedUser.businesses.map(business => {
-        if (business.agentCode == logedUser.code) {
-            return business
-        }
-    })
+    const logedUserBusinesses = logedUser.businesses.filter(
+        business => Number(business.agentCode) === logedUser.code
+    );
     // buttonText
     const providerBusinessNames = relations
         .filter((relation) => {
@@ -207,7 +202,7 @@ export default function AddToReceiversButton({ relations, logedUser, business })
     }
 
     return (
-        isNotOwner && logedUserBusinesses[0] &&
+        isNotOwner && logedUserBusinesses.length > 0 &&
         <Container
             sx={{ display: "flex", justifyContent: "center", alignItems: 'center' }}
         >
