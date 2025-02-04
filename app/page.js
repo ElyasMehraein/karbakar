@@ -47,7 +47,7 @@ export default async function page() {
 
             if (user?.primeJob) {
                 primeBusiness = await JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: user.primeJob })
-                    .populate("demandsForGuilds.guild")
+                    .populate("demandsForGuilds.guild guild")
                     .lean()));
             }
 

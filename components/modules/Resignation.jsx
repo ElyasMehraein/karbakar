@@ -115,7 +115,7 @@ export default function Resignation({ user }) {
                 onClick={() => handleBusinessChange(business)}
               >
                 <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                <ListItemText primary={business.businessName} secondary={business.businessBrand} />
+                <ListItemText  align="right" sx={{ mr: 2 }} primary={business.businessName} secondary={business.businessBrand} />
               </ListItemButton>
             ))}
           </List>
