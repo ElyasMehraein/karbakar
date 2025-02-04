@@ -119,23 +119,20 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
         }
         <Divider />
         <List>
-          {user &&
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <AddBusinessIcon />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ fontSize: 12, textAlign: "right" }}
-                  dir="rtl"
-                  secondary="ایجاد کسب و کار جدید"
-                  type="button"
-                  onClick={() => router.push("/CB")}
-                />
-              </ListItemButton>
-            </ListItem>
-          }
-
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <AddBusinessIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ fontSize: 12, textAlign: "right" }}
+                dir="rtl"
+                secondary="ایجاد کسب و کار جدید"
+                type="button"
+                onClick={() => router.push("/CB")}
+              />
+            </ListItemButton>
+          </ListItem>
           {user?.businesses[0] &&
             <Resignation user={user} />}
 
@@ -183,7 +180,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             style={{ cursor: 'pointer' }}
           />
         </a>
-        <Box sx={{ flexGrow: 1, overflowY: 'auto' }}/>
+        <Box sx={{ flexGrow: 1, overflowY: 'auto' }} />
 
         <Box
           sx={{
@@ -208,7 +205,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             </Link>
           </Typography>
         </Box>
-        
+
       </Drawer >
     </Box >
   );
