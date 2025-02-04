@@ -70,6 +70,13 @@ function a11yProps(index) {
 
 export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, relations, guestRelations }) {
 
+  const isUserAreAgent = Array.isArray(user?.businesses) 
+  ? user.businesses.some((business) => {     
+      const agentCode = Number(business?.agentCode);
+      return !isNaN(agentCode) && agentCode === user.code;
+    })
+  : false;
+
   // active tab 
   const { activeTab, setActiveTab } = useActiveTab();
 
@@ -183,7 +190,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               :
               <SecondTabFab {...{ user, primeBusiness }} />
             :
-            <NeedsMasterList/>
+            <NeedsMasterList />
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={2} dir={theme.direction}>
@@ -207,7 +214,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
         </CustomTabPanel>
 
 
-        {user?.businesses[0] &&
+        {isUserAreAgent &&
           fabs.map((fab, index) => (
             <Zoom
               key={index}
