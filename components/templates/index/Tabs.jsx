@@ -187,7 +187,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={2} dir={theme.direction}>
-          {user ?
+          {user?.businesses[0] ?
             fabIndex !== activeTab ?
               <ThirdTab {...{ primeBusiness, user }} />
               :
