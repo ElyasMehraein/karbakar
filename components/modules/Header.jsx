@@ -49,7 +49,7 @@ export default function Header({ user, business }) {
           alt={`${userCodeOrBusinessBrand} header`}
           src={headerUrl}
           priority
-          quality={100}
+          quality={200}
           fill
           sizes="100%"
           style={{
