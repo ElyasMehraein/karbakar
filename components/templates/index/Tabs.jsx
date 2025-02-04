@@ -23,6 +23,7 @@ import { firtsEnterText } from '@/components/typoRepo';
 import { useActiveTab } from '@/components/context/ActiveTabContext';
 import FirstTabGuestView from './FirstTab/FirstTabGuestView';
 import NeedsMasterList from './SecondTab/NeedsMasterList';
+import ThirdTabForGuests from './ThirdTab/ThirdTabForGuests';
 
 function CustomTabPanel(props) {
 
@@ -200,7 +201,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               :
               <ThirdTabFab {...{ primeBusiness, user }} />
             :
-            "salam etehadha"
+            <ThirdTabForGuests />
           }
 
         </CustomTabPanel>

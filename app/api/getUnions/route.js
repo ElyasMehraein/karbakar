@@ -6,16 +6,29 @@ import { getDistance } from 'geolib';
 
 export async function GET(req) {
     try {
+
         await connectToDB();
 
+        // گرفتن همه اتحادیه‌ها
+        const unions = await UnionModel.find()
+            .populate('members.member')
+            .populate({ path: 'members.offerBasket.product members.demandBasket.product' })
+            .populate('createdBy')
+            .lean();
+
+            
         // گرفتن اطلاعات کاربر لاگین‌شده
         const response = await getMe(req);
         if (!response || !response.ok) {
             return new Response(
-                JSON.stringify({ message: "log in first" }),
-                { status: 401 }
+                JSON.stringify({
+                    message: 'Unions fetched successfully',
+                    data: unions
+                }),
+                { status: 200 }
             );
         }
+
         const user = await response.json();
 
         // یافتن کاربر و مختصات جغرافیایی آن
@@ -33,12 +46,7 @@ export async function GET(req) {
         const userBusinessIds = loggedUser.businesses.map(b => b._id.toString());
         const userLocation = loggedUser.businesses[0];
 
-        // گرفتن همه اتحادیه‌ها
-        const unions = await UnionModel.find()
-            .populate('members.member')
-            .populate({ path: 'members.offerBasket.product members.demandBasket.product' })
-            .populate('createdBy')
-            .lean();
+
 
         // آرایه‌های دسته‌بندی
         // category1: "اتحاد هایی که به محصولات کسب و کارهای شما نیاز دارند",
@@ -46,7 +54,7 @@ export async function GET(req) {
         // category3: "اتحادهای شما که نیازها و پیشنهادهای آن کامل شده و اعضا باید یکدیگر را تایید نمایند",
         // category4: "اتحاد های فعال شما",
         // category5: "سایر اتحادها",
-        
+
         const category1 = [];
         const category2 = [];
         const category3 = [];

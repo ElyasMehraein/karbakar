@@ -26,7 +26,7 @@ import { useTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
 import CustomSnackbar from '@/components/modules/CustomSnackbar';
 import ItsAvatar from '@/components/modules/ItsAvatar';
-
+import { useRouter } from 'next/navigation';
 // بررسی اینکه آیا کاربر جاری (voterId) به یک عضو خاص (voteForId) رأی "تأیید" داده است یا خیر
 function hasUserVoted(union, voterId, voteForId) {
   if (!union?.votes) return false;
@@ -38,6 +38,7 @@ function hasUserVoted(union, voterId, voteForId) {
 }
 
 export default function UnionsAccordionDetails({ union, user }) {
+  const router = useRouter()
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -231,10 +232,11 @@ export default function UnionsAccordionDetails({ union, user }) {
           flexDirection: 'row',
           gap: 1,
           alignItems: 'center',
+          cursor: 'pointer'
         }}
+        onClick={() => router.push(`/${member.member.businessName}`)}
       >
         <ItsAvatar
-          isAvatar={member.member.isAvatar}
           userCodeOrBusinessBrand={member.member.businessName}
         />
         <Box sx={{ textAlign: 'right' }}>
