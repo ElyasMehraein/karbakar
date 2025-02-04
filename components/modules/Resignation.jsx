@@ -77,6 +77,7 @@ export default function Resignation({ user }) {
     if (res.status === 201) {
       setOpenDialog(false)
       callSnackbar("استعفای شما با موفقیت انجام شد")
+      location.reload()
     } else if (res.status === 500) {
       callSnackbar("خطای اتصال به سرور", "error")
     } else if (res.status === 403) {
