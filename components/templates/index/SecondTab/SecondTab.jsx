@@ -14,8 +14,6 @@ import { SecondTabText } from "@/components/typoRepo";
 import SelectCategoryAndGuild from "@/components/modules/SelectCategoryAndGuild";
 import AccordionServise from "@/components/modules/AccordionServise";
 
-const color = blue[50];
-
 export default function SecondTab({ primeBusiness }) {
 
     const [selectedGuild, setSelectedGuild] = useState(null)
@@ -23,10 +21,6 @@ export default function SecondTab({ primeBusiness }) {
     const setGuildHandler = (guild) => {
         setSelectedGuild(guild)
     }
-
-
-    // get and show businesses
-    // tammam business ha ro check kon har kodom toye demand hash id selected guild bod ro bede
 
     const router = useRouter()
     const [businesses, setBusinesses] = useState([]);
@@ -76,29 +70,6 @@ export default function SecondTab({ primeBusiness }) {
                         </Typography>
                         {businesses.map((business) => {
                             return (
-                                // <List key={business._id} sx={{ width: '100%', maxWidth: 700, }}>
-                                //     <ListItemButton sx={{ bgcolor: color, borderRadius: 2, py: 3 }} onClick={() => router.push(`/${business.businessName}`)}>
-                                //         <ListItemAvatar>
-                                //             <Avatar>
-                                //                 <ItsAvatar userCodeOrBusinessBrand={business.businessName}  alt="workers avatar" />
-                                //             </Avatar>
-                                //         </ListItemAvatar>
-                                //         <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessBrand} secondary={
-                                //             <React.Fragment>
-                                //                 <Typography
-                                //                     component="span"
-                                //                     variant="body2"
-                                //                     sx={{ color: 'text.primary', display: 'inline' }}
-                                //                 >
-                                //                     {business.bio + " — " + business.demandsForGuilds.map(guild => guild.requestText)}
-                                //                 </Typography>
-                                //                 { business.demandsForGuilds.map(guild => guild.requestText)}
-                                //             </React.Fragment>
-                                //         } />} >
-
-                                //         </ListItem>
-                                //     </ListItemButton>
-                                // </List>
                                 <Accordion key={business._id}
                                     sx={{ width: '100%', maxWidth: 700, bgcolor: blue[50], my: 1 }} >
                                     <AccordionSummary

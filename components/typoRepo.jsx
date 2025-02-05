@@ -53,6 +53,18 @@ export const SecondTabText = () => {
         </Typography>
     </Box>
 }
+export const SecondTabGuestText = () => {
+
+    return <Box sx={{ py: 1, textAlign: "center" }}>
+        <Typography sx={{ mb: 1, fontSize: 14 }}>
+            در این بخش نیازهای بازار را می توانید مشاهده نمایید
+        </Typography>
+        <Divider sx={{ width: '50%', mx: 'auto', my: 1, borderBottomWidth: '2px' }} />
+        <Typography sx={{ fontSize: 14 }}>
+            شما می بینید که برای خدمات هر صنف چه مقدار تقاضا وجود دارد
+        </Typography>
+    </Box>
+}
 export const thirdTabText = () => {
 
     return <Box sx={{ py: 1, textAlign: "center" }}>
