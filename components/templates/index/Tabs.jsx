@@ -22,8 +22,8 @@ import ThirdTabFab from './ThirdTab/ThirdTabFab';
 import { firtsEnterText } from '@/components/typoRepo';
 import { useActiveTab } from '@/components/context/ActiveTabContext';
 import FirstTabGuestView from './FirstTab/FirstTabGuestView';
-import NeedsMasterList from './SecondTab/NeedsMasterList';
 import ThirdTabForGuests from './ThirdTab/ThirdTabForGuests';
+import GetbusinessesDemandsFullList from './SecondTab/getbusinessesDemandsFullList';
 
 function CustomTabPanel(props) {
 
@@ -191,7 +191,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               :
               <SecondTabFab {...{ user, primeBusiness }} />
             :
-            <NeedsMasterList />
+            <GetbusinessesDemandsFullList/>
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={2} dir={theme.direction}>
