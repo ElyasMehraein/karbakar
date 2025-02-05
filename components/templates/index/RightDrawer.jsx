@@ -26,7 +26,7 @@ import { iconText } from '@/components/typoRepo';
 import Resignation from '@/components/modules/Resignation';
 import Backdrop from '@mui/material/Backdrop';
 import Link from "next/link";
-import Image from 'next/image';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
 const drawerWidth = 260;
 
@@ -134,8 +134,8 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             </ListItemButton>
           </ListItem>
           {user?.businesses[0] &&
-            <Resignation user={user} />}
-
+            <Resignation user={user} />
+          }
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -149,6 +149,21 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
               />
             </ListItemButton>
           </ListItem>
+          {user &&
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <QueryStatsIcon />
+                </ListItemIcon>
+                <ListItemText
+                  sx={{ textAlign: "right" }}
+                  secondary="بازارسنجی نیازها"
+                  type="button"
+                  onClick={() => router.push("/needs")}
+                />
+              </ListItemButton>
+            </ListItem>
+          }
         </List>
         <Divider />
         {user ?

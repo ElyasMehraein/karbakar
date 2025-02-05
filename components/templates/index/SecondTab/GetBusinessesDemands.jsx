@@ -9,7 +9,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionServise from "@/components/modules/AccordionServise";
 import { SecondTabGuestText } from "@/components/typoRepo";
 
-export default function GetbusinessesDemandsFullList() {
+export default function GetBusinessesDemands() {
   const router = useRouter();
   const [businesses, setBusinesses] = useState({}); // مقدار اولیه به آبجکت تغییر داده شد
 
