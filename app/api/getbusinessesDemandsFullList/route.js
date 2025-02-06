@@ -1,46 +1,56 @@
 import connectToDB from "@/configs/db";
 import BusinessModel from "@/models/Business";
-import GuildModel from "@/models/Guild";
 
 export async function GET(req) {
     try {
         await connectToDB();
 
+        // دریافت کسب‌وکارهایی که درخواست خدمات گیلد دارند
         const businesses = await BusinessModel.find({
             demandsForGuilds: { $exists: true, $not: { $size: 0 } }
         }).populate({
-            path: 'guild', // دریافت اطلاعات کامل گیلد
+            path: 'demandsForGuilds.guild', // populate کردن فیلد guild درون آرایه demandsForGuilds
             select: 'guildName jobCategory'
         });
 
-        // گروه‌بندی کسب‌وکارها بر اساس گیلد
-        const groupedByGuild = {};
+        // گروه‌بندی کسب‌وکارها بر اساس گیلدهای مورد تقاضا
+        const groupedByDemandedGuild = {};
 
         businesses.forEach(business => {
-            const guild = business.guild;
-            if (!guild) return; // بررسی اینکه آیا گیلد موجود است
+            business.demandsForGuilds.forEach(demand => {
+                // اطمینان از وجود اطلاعات گیلد بعد از populate
+                if (!demand.guild) return;
+                const guildId = demand.guild._id.toString();
 
-            const guildId = guild._id.toString();
+                if (!groupedByDemandedGuild[guildId]) {
+                    groupedByDemandedGuild[guildId] = {
+                        guildName: demand.guild.guildName,
+                        jobCategory: demand.guild.jobCategory,
+                        businesses: []
+                    };
+                }
 
-            if (!groupedByGuild[guildId]) {
-                groupedByGuild[guildId] = {
-                    guildName: guild.guildName,
-                    jobCategory: guild.jobCategory, // اضافه کردن دسته‌بندی گیلد
-                    businesses: []
-                };
-            }
-
-            groupedByGuild[guildId].businesses.push(business);
+                groupedByDemandedGuild[guildId].businesses.push({
+                    _id: business._id,
+                    businessName: business.businessName,
+                    businessBrand: business.businessBrand,
+                    bio: business.bio,
+                    explain: business.explain,
+                    demandsForGuilds: business.demandsForGuilds
+                    // در صورت نیاز می‌توانید سایر فیلدها را هم اضافه کنید
+                });
+            });
         });
 
         return Response.json(
-            { message: "get businesses successfully", data: Object.values(groupedByGuild) },
+            { message: "get demanded guilds successfully", data: Object.values(groupedByDemandedGuild) },
             { status: 200 }
         );
+
     } catch (error) {
-        console.error(`Error get businesses`, error);
+        console.error("Error getting demanded guilds", error);
         return Response.json(
-            { message: `Error get businesses`, error },
+            { message: "Error getting demanded guilds", error },
             { status: 500 }
         );
     }
