@@ -4,10 +4,9 @@ import connectToDB from "@/configs/db";
 import BugReportModel from "@/models/BugReport";
 
 export async function DELETE(request, { params }) {
-    console.log("isisi", params);
   try {
     await connectToDB();
-    const { id } = params;
+    const { id } = await params;
     await BugReportModel.findByIdAndDelete(id);
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -26,7 +26,7 @@ export default async function subDirectory({ params }) {
   }
 
   // استفاده‌ی مستقیم از `params` بدون await
-  const subDirectory = params.subDirectory;
+  const subDirectory = await params.subDirectory;
 
   if (isNaN(subDirectory)) {
     const business = await BusinessModel.findOne({

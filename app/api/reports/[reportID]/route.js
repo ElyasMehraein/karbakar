@@ -11,7 +11,7 @@ export async function GET(req, { params }) {
         await connectToDB();
 
         // دریافت و بررسی توکن
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         const token = cookieStore.get("token")?.value;
 
         if (!token) {
@@ -40,7 +40,7 @@ export async function GET(req, { params }) {
             );
         }
         // بررسی پارامتر reportId
-        const { reportID } = params;
+        const { reportID } = await params;
         if (!reportID) {
             return new Response(
                 JSON.stringify({ message: "Report ID is required" }),

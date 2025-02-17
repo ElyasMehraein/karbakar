@@ -10,7 +10,7 @@ import EditBusiness from '@/components/templates/editBusiness/EditBusiness'
 export default async function Page({ params }) {
 
   // گرفتن توکن از کوکی
-  const token = cookies().get('token')?.value
+  const token = await cookies().get('token')?.value
   // اعتبارسنجی توکن
   const tokenPayload = verifyToken(token)
 
@@ -34,7 +34,7 @@ export default async function Page({ params }) {
   }
 
   const loggedUserCode = loggedUser.code
-  const { subDirectory } = params
+  const { subDirectory } = await params
 
   // اگر پارامتر مسیر (subDirectory) عدد باشد => ویرایش پروفایل کاربر
   if (!isNaN(Number(subDirectory))) {
