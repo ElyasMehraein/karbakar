@@ -22,25 +22,8 @@ export default function EditLocation({ setLocation }) {
     const [loading, setLoading] = React.useState(false);
     const [success, setSuccess] = React.useState(false);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [position, setPosition] = React.useState(null);
-    const [mapKey, setMapKey] = React.useState(0); // کلید جدید
-    const [map, setMap] = React.useState(null); // رفرنس مپ
 
-    React.useEffect(() => {
-        if (latitude && longitude) {
-            setPosition([latitude, longitude]);
-            setMapKey(prev => prev + 1); // آپدیت کلید
-        }
-    }, [latitude, longitude]);
-
-    // تمیز کردن منابع
-    React.useEffect(() => {
-        return () => {
-            if (map) {
-                map.remove();
-            }
-        };
-    }, [map]);
+    const position = React.useMemo(() => (latitude && longitude ? [latitude, longitude] : null), [latitude, longitude]);
 
     const buttonSx = success ? { bgcolor: green[500], '&:hover': { bgcolor: green[700] } } : {};
 
@@ -73,7 +56,7 @@ export default function EditLocation({ setLocation }) {
         } finally {
             setTimeout(() => {
                 setLoading(false);
-                setSuccess(true);
+                setSuccess(true);                
             }, 500);
         }
     }
@@ -128,14 +111,14 @@ export default function EditLocation({ setLocation }) {
             </Box>
             {position && (
                 <Container maxWidth="sm" sx={{ my: 2 }}>
-                    <MapContainer
-                        key={`map-${mapKey}-${position.toString()}`}
-                        center={position}
-                        zoom={20}
-                        ref={setMap}
-                        style={{ height: "300px" }}
-                    >
-                        {/* ... TileLayer و Marker */}
+                    <MapContainer center={position} zoom={20} scrollWheelZoom={false} style={{ height: "300px" }}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={position}>
+                            <Popup>{"برای این آدرس جزئیاتی وارد نشده است"}</Popup>
+                        </Marker>
                     </MapContainer>
                 </Container>
             )}
