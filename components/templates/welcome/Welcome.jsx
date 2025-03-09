@@ -137,10 +137,8 @@ export default function Wellcome() {
 
       {show ? (
         <div className={styles.wellcomeHeader}>
-          <h2 className={styles.aitch2}>بازاری میان تولیدکنندگان</h2>
-          <p className={styles.paragraph}>
-           مبادله غیرپولی محصولات و خدمات بین کسب‌وکارهای مولد
-          </p>
+          <h2 className={styles.aitch2}>اتحاد تولیدکنندگان</h2>
+          <p className={styles.paragraph}>بخشش آزاد محصولات به یکدیگر</p>
           <Button onClick={changeShow} variant="contained">
             ورود یا ثبت نام
           </Button>

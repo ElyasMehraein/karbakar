@@ -149,10 +149,10 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               aria-label="basic tabs example"
             >
 
-              <Tab label="دریافت" {...a11yProps(0)} />
-              <Tab label="ارائه" {...a11yProps(1)} />
-              <Tab label="اتحاد" {...a11yProps(2)} />
-              <Tab label="صورتحساب" {...a11yProps(3)} />
+              <Tab label="بخشندگان" {...a11yProps(0)} />
+              <Tab label="بخشش محصولات" {...a11yProps(1)} />
+              <Tab label="اتحاد آزاد" {...a11yProps(2)} />
+              <Tab label="گواهی دریافت" {...a11yProps(3)} />
             </Tabs>
             :
             <Tabs
