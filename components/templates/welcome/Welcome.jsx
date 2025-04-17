@@ -137,8 +137,9 @@ export default function Wellcome() {
 
       {show ? (
         <div className={styles.wellcomeHeader}>
-          <h2 className={styles.aitch2}>اتحاد تولیدکنندگان</h2>
-          <p className={styles.paragraph}>بخشش آزاد محصولات به یکدیگر</p>
+          <h2 className={styles.aitch2}>اتحاد تولیدکنندگانِ آزاد <br/>برای بخشش محصولات و خدمات به یکدیگر</h2>
+          {/* <h6 className={styles.aitch2}>بخشش آزاد محصولات به یکدیگر</h6> */}
+          {/* <p className={styles.paragraph}>بخشش آزاد محصولات به یکدیگر</p> */}
           <Button onClick={changeShow} variant="contained">
             ورود یا ثبت نام
           </Button>
