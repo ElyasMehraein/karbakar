@@ -26,7 +26,6 @@ export async function PUT(req, res) {
       ? { headerUrl: `/api/images${imagePath}` }
       : { avatarUrl: `/api/images${imagePath}` };
 
-    console.log("query", query, "update", update);
     await Model.findOneAndUpdate(query, update);
 
     return Response.json(

@@ -4,7 +4,13 @@ import { ThemeProvider, Typography } from "@mui/material";
 
 import theme from "@/styles/theme";
 import "./global.css";
+import { SnackbarProvider } from "@/components/modules/SnackbarProvider";
+
+export const metadata = {
+  keywords: "کارباکار, مبادله, اقتصاد اجتماعی, اقتصاد غیر پولی, راه اندازی کسب و کار, اقتصاد غیر متمرکز , لیبرالیسم ,کمونیسم , آنارشیسم,آزادی ,اقتصاد غیر دولتی , اقتصاد دیجیتال ,اقتصاد آزاد ,بازار آزاد ,اقتصاد ضد انحصار, اقتصاد ضد دلالی ,اقتصاد بدون ربا,اقتصاد بدون سود"
+}
 export default function RootLayout({ children }) {
+
   return (
     <html lang="fa" dir="rtl">
       <head>
@@ -22,7 +28,11 @@ export default function RootLayout({ children }) {
           <Typography className="inMiddle" sx={{ color: "red" }}>
             این سایت در مرحله تست قرار دارد
           </Typography>
-          <AppRouterCacheProvider>{children}</AppRouterCacheProvider>
+          <AppRouterCacheProvider>
+            <SnackbarProvider>
+              {children}
+            </SnackbarProvider>
+          </AppRouterCacheProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -7,12 +7,14 @@ export async function DELETE(req, res) {
     const response = await GET(req)
     const user = await response.json()
     const bill = await BillModel.findById(billId);
-    if (bill.to !== user._id) {
+
+    if (bill.to.toString() !== user._id) {
         return Response.json(
             { message: `You are not authorized to delete this bill ` },
             { status: 403 }
         )
     }
+
     try {
         const deletedDocument = await BillModel.findOneAndDelete({ _id: billId });
         if (!deletedDocument) {

@@ -84,9 +84,9 @@ export default function BusinessRelationFrame({ report }) {
           <CardHeader
             sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
             avatar={
-              <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
+              <Box sx={{ ml: 1, width: 40, height: 40 }} >
                 <ItsAvatar isAvatar={report.providerBusiness?.isAvatar} userCodeOrBusinessBrand={report.providerBusiness?.businessName} />
-              </Avatar>
+              </Box>
             }
             title={report.providerBusiness?.businessBrand}
             subheader={report.providerBusiness?.businessName}
@@ -95,9 +95,9 @@ export default function BusinessRelationFrame({ report }) {
           <CardHeader
             sx={{ display: 'flex', alignItems: 'center', justifyItems: "center" }}
             avatar={
-              <Avatar sx={{ ml: 1, width: 40, height: 40 }} >
+              <Box sx={{ ml: 1, width: 40, height: 40 }} >
                 <ItsAvatar isAvatar={report.receiverBusiness?.isAvatar} userCodeOrBusinessBrand={report.receiverBusiness?.businessName} />
-              </Avatar>
+              </Box>
             }
             title={report.receiverBusiness?.businessBrand}
             subheader={report.receiverBusiness?.businessName}

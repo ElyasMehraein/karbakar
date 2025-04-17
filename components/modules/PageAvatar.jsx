@@ -7,6 +7,7 @@ import { Container } from "@mui/material";
 import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Image from 'next/image'
+import ItsAvatar from './ItsAvatar';
 
 
 export default function PageAvatar({ user, business }) {
@@ -27,23 +28,7 @@ export default function PageAvatar({ user, business }) {
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
-        <Avatar sx={{ width: 70, height: 70, mt: -5 }}>
-          {isAvatarUrl ? (
-            <Image
-              src={avatarUrl}
-              alt={userCodeOrBusinessBrand}
-              quality={100}
-              fill
-              sizes="100px"
-              style={{ objectFit: 'cover' }}
-              onError={() => setIsAvatarUrl(false)}
-            />
-          ) : user ? (
-            <AccountCircle sx={{ width: 70, height: 70 }} />
-          ) : (
-            <BusinessIcon />
-          )}
-        </Avatar>
+        <ItsAvatar sx={{ width: 70, height: 70, mt: -5 }} userCodeOrBusinessBrand={userCodeOrBusinessBrand} />
         <Box style={{ flexGrow: 1 }}></Box>
         <Box display={"flex"} flexDirection={"column"}>
           <Typography display="inline" variant="subtitle2" >

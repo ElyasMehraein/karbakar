@@ -17,7 +17,7 @@ import ProvidersAndReceivers from "@/components/modules/ProvidersAndReceivers";
 const Map = dynamic(() => import("@/components/templates/business/Map"), { ssr: false });
 
 function Business({ relations, business, logedUser, bills }) {
-    
+
     const providerRelations = relations?.filter((relation) =>
         !relation?.isAnswerNeed && relation?.receiver?._id === business?._id
     );
@@ -28,14 +28,16 @@ function Business({ relations, business, logedUser, bills }) {
 
     return (
         <>
-            <MyAppBar logedUserCode={logedUser.code} business={business} />
+            <MyAppBar logedUserCode={logedUser?.code} business={business} />
             <Header business={business} />
             <PageAvatar business={business} />
             <Name business={business} />
             <Bio business={business} />
             <ProvidersAndReceivers key={"providers" + business._id} filteredRelations={providerRelations} title={"تامین کنندگان"} />
             <ProvidersAndReceivers key={"receivers" + business._id} filteredRelations={receiverRelations} title={"دریافت کنندگان"} />
-            <AddToReceiversButton logedUser={logedUser} business={business} relations={relations} />
+            {logedUser &&
+                <AddToReceiversButton logedUser={logedUser} business={business} relations={relations} />
+            }
             <Contact business={business} />
             <Map business={business} />
             <Explain business={business} />

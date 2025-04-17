@@ -24,10 +24,11 @@ import PrimeJobSelect from '../../modules/PrimeJobSelect';
 import HelpIcon from '@/components/modules/HelpIcon';
 import { iconText } from '@/components/typoRepo';
 import Resignation from '@/components/modules/Resignation';
-import Link from "next/link";
 import Backdrop from '@mui/material/Backdrop';
+import Link from "next/link";
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
-const drawerWidth = 240;
+const drawerWidth = 260;
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -51,7 +52,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
   }
   return (
     <Box >
-        <Backdrop open={open} onClick={handleDrawerClose} sx={{ zIndex: theme.zIndex.drawer - 1 }} />
+      <Backdrop open={open} onClick={handleDrawerClose} sx={{ zIndex: theme.zIndex.drawer - 1 }} />
       <Drawer
         sx={{
           width: drawerWidth,
@@ -84,9 +85,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
               <ListItemButton sx={{ mt: -1, p: 0 }} onClick={() => router.push(`/${primeBusiness.businessName}`)}>
                 <ListItem >
                   <ListItemIcon>
-                    <Avatar>
-                      <ItsAvatar isAvatar={primeBusiness.isAvatar} userCodeOrBusinessBrand={primeBusiness.businessName} />
-                    </Avatar>
+                    <ItsAvatar isAvatar={primeBusiness.isAvatar} userCodeOrBusinessBrand={primeBusiness.businessName} />
                   </ListItemIcon>
                   <ListItemText align="right" primary={primeBusiness.businessName} secondary={primeBusiness.businessBrand} sx={{ m: 0 }} />
                 </ListItem>
@@ -108,9 +107,7 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
                       <ListItemButton sx={{ mt: 0, p: 0 }} onClick={() => router.push(`/${business.businessName}`)}>
                         <ListItemAvatar>
                           <ListItemIcon>
-                            <Avatar>
-                              <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                            </Avatar>
+                            <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
                           </ListItemIcon>
                         </ListItemAvatar>
                         <ListItemText align="right" primary={business.businessName} secondary={business.businessBrand} sx={{ m: 0 }} />
@@ -122,26 +119,23 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
         }
         <Divider />
         <List>
-          {user &&
-            <ListItem disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <AddBusinessIcon />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ fontSize: 12, textAlign: "right" }}
-                  dir="rtl"
-                  secondary="ایجاد کسب و کار جدید"
-                  type="button"
-                  onClick={() => router.push("/CB")}
-                />
-              </ListItemButton>
-            </ListItem>
-          }
-
+          <ListItem disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <AddBusinessIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ fontSize: 12, textAlign: "right" }}
+                dir="rtl"
+                secondary="ایجاد کسب و کار جدید"
+                type="button"
+                onClick={() => router.push("/CB")}
+              />
+            </ListItemButton>
+          </ListItem>
           {user?.businesses[0] &&
-            <Resignation user={user} />}
-
+            <Resignation user={user} />
+          }
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -155,6 +149,21 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
               />
             </ListItemButton>
           </ListItem>
+          {user &&
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <QueryStatsIcon />
+                </ListItemIcon>
+                <ListItemText
+                  sx={{ textAlign: "right" }}
+                  secondary="بازارسنجی نیازها"
+                  type="button"
+                  onClick={() => router.push("/needs")}
+                />
+              </ListItemButton>
+            </ListItem>
+          }
         </List>
         <Divider />
         {user ?
@@ -169,22 +178,49 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             ورود یا ثبت نام
           </Button>
         }
-        <Typography 
+        {/* <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'>
+          <img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP' alt='' style='cursor:pointer' code='WVHMOZU94IEbixgjQrSBilZBlW74eHJP'></img>
+        </a> */}
+        <a
+          className='inMiddle'
+          referrerPolicy="origin"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP"
+        >
+          <img
+            referrerPolicy="origin"
+            src="https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP"
+            alt=""
+            style={{ cursor: 'pointer' }}
+          />
+        </a>
+        <Box sx={{ flexGrow: 1, overflowY: 'auto' }} />
+
+        <Box
           sx={{
-            position: 'absolute',
-            bottom: 16, 
-            left: '50%', // برای تنظیم در مرکز
-            transform: 'translateX(-50%)', // برای قرارگیری دقیق در وسط
-            textAlign: 'center',
+            position: 'sticky',
+            bottom: 0,
+            backgroundColor: 'background.paper',
+            zIndex: 1,
+            padding: 2,
+            borderTop: '1px solid',
+            borderColor: 'divider',
           }}
-        fontSize={12} fontWeight="bold" className="inMiddle">
-          <Link
-            href="/rules"
-            style={{ textDecoration: "none" }}
+        >
+          <Typography
+            sx={{
+              textAlign: 'center',
+              fontSize: 12,
+              fontWeight: 'bold',
+            }}
           >
-            قوانین پلتفرم کارباکار
-          </Link>
-        </Typography>
+            <Link href="/rules" style={{ textDecoration: "none" }}>
+              قوانین پلتفرم کارباکار
+            </Link>
+          </Typography>
+        </Box>
+
       </Drawer >
     </Box >
   );

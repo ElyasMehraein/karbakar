@@ -11,14 +11,14 @@ function Profile({ user, logedUser }) {
 
     return (
         <>
-            <MyAppBar user={user} logedUserCode={logedUser.code} />
+            <MyAppBar user={user} logedUserCode={logedUser?.code} />
             <Header user={user} />
             <PageAvatar user={user} />
             <Name user={user} />
             <Bio user={user} />
             <Contact user={user} />
             <Explain user={user} />
-            {user ? <UserJobs user={user} /> : null}
+            <UserJobs user={user} />
         </>
 
     )

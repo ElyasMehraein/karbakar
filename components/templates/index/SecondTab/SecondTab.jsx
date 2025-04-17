@@ -1,38 +1,26 @@
 "use client"
 import * as React from "react";
-import {
-    Avatar, Box, Container, List,
-    ListItem, ListItemAvatar, ListItemButton,
-    ListItemText, TextField, Typography
-} from '@mui/material'
+import { Box, Container, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import ItsAvatar from '@/components/modules/ItsAvatar'
-import jobCategoriesData from "@/utils/JobCategories";
-import { Autocomplete, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, Chip } from "@mui/material";
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import { SecondTabText } from "@/components/typoRepo";
 import SelectCategoryAndGuild from "@/components/modules/SelectCategoryAndGuild";
+import AccordionServise from "@/components/modules/AccordionServise";
 
-const color = blue[50];
-
-export default function SecondTab({ user, primeBusiness }) {
-    const [expanded, setExpanded] = React.useState(false);
+export default function SecondTab({ primeBusiness }) {
 
     const [selectedGuild, setSelectedGuild] = useState(null)
 
     const setGuildHandler = (guild) => {
         setSelectedGuild(guild)
     }
-
-
-    // get and show businesses
-    // tammam business ha ro check kon har kodom toye demand hash id selected guild bod ro bede
 
     const router = useRouter()
     const [businesses, setBusinesses] = useState([]);
@@ -65,17 +53,9 @@ export default function SecondTab({ user, primeBusiness }) {
 
     return (
         <Container maxWidth="md">
-            <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-                <Chip
-                    label="راهنمایی"
-                    sx={{ direction: 'ltr' }}
-                    onClick={() => setExpanded(!expanded)}
-                    icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-                />
-                <AccordionDetails>
-                    {SecondTabText()}
-                </AccordionDetails>
-            </Accordion>
+            <AccordionServise>
+                {SecondTabText()}
+            </AccordionServise>
             <Box className='inMiddle'
                 sx={{
                     '& .MuiTextField-root': { width: '30ch' },
@@ -90,29 +70,6 @@ export default function SecondTab({ user, primeBusiness }) {
                         </Typography>
                         {businesses.map((business) => {
                             return (
-                                // <List key={business._id} sx={{ width: '100%', maxWidth: 700, }}>
-                                //     <ListItemButton sx={{ bgcolor: color, borderRadius: 2, py: 3 }} onClick={() => router.push(`/${business.businessName}`)}>
-                                //         <ListItemAvatar>
-                                //             <Avatar>
-                                //                 <ItsAvatar userCodeOrBusinessBrand={business.businessName}  alt="workers avatar" />
-                                //             </Avatar>
-                                //         </ListItemAvatar>
-                                //         <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessBrand} secondary={
-                                //             <React.Fragment>
-                                //                 <Typography
-                                //                     component="span"
-                                //                     variant="body2"
-                                //                     sx={{ color: 'text.primary', display: 'inline' }}
-                                //                 >
-                                //                     {business.bio + " — " + business.demandsForGuilds.map(guild => guild.requestText)}
-                                //                 </Typography>
-                                //                 { business.demandsForGuilds.map(guild => guild.requestText)}
-                                //             </React.Fragment>
-                                //         } />} >
-
-                                //         </ListItem>
-                                //     </ListItemButton>
-                                // </List>
                                 <Accordion key={business._id}
                                     sx={{ width: '100%', maxWidth: 700, bgcolor: blue[50], my: 1 }} >
                                     <AccordionSummary
@@ -129,9 +86,7 @@ export default function SecondTab({ user, primeBusiness }) {
                                                 justifyContent: "space-between"
                                             }}
                                         >
-                                            <Avatar >
-                                                <ItsAvatar  userCodeOrBusinessBrand={business.businessName} alt=" avatar" />
-                                            </Avatar>
+                                            <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt=" avatar" />
                                             <Box
                                                 sx={{
                                                     width: "100%",

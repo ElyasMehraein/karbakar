@@ -48,8 +48,8 @@ export default function BillFrame({ user, bill }) {
     }
 
     const rejectHandler = async () => {
-        const res = await fetch("/api/BillReject", {
-            method: "PUT",
+        const res = await fetch("/api/billDelete", {
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -59,6 +59,7 @@ export default function BillFrame({ user, bill }) {
         });
         res.status === 200 ? setSnackbarReject(true) : setSnackbarServerError(true)
     }
+    
     const [openDialog, setOpenDialog] = React.useState(false);
 
     const handleClose = () => {
@@ -75,9 +76,9 @@ export default function BillFrame({ user, bill }) {
 
                                 <CardHeader
                                     avatar={
-                                        <Avatar sx={{ ml: 1 }}>
+                                        <Box sx={{ ml: 1 }}>
                                             <ItsAvatar isAvatar={bill.from.isAvatar} userCodeOrBusinessBrand={bill.from.businessName} />
-                                        </Avatar>
+                                        </Box>
                                     }
                                     title={bill.from.businessBrand}
                                     subheader={bill.from.businessName}

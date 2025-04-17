@@ -107,9 +107,7 @@ const PrimeJobSelect = ({ user }) => {
               onClick={() => handleBusinessChange(business._id)}
             >
               <ListItemAvatar>
-                <Avatar>
-                  <ItsAvatar  userCodeOrBusinessBrand={business.businessName} />
-                </Avatar>
+                <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
               </ListItemAvatar>
               <ListItemText primary={business.businessName} secondary={business.businessBrand} />
             </MenuItem>

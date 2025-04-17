@@ -13,7 +13,9 @@ export default function MyIndex({
   distinctGuilds,
   primeBusiness,
   relations,
+  guestRelations
 }) {
+
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
@@ -39,7 +41,7 @@ export default function MyIndex({
         />
         <ActiveTabProvider>
         <SearchAppBar user={user} menuClickHandler={menuClickHandler} />
-          <Tabs {...{ distinctGuilds, user, bills, primeBusiness, relations }} />
+          <Tabs {...{ distinctGuilds, user, bills, primeBusiness, relations, guestRelations }} />
         </ActiveTabProvider>
       </>
     )

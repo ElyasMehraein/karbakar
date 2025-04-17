@@ -1,14 +1,13 @@
 "use client"
-import { AppBar, Avatar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, Button, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { AllBusinessesText, selectGuild } from '@/components/typoRepo';
-import { Accordion, AccordionDetails, Chip } from "@mui/material";
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
+import { AllBusinessesText } from '@/components/typoRepo';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ItsAvatar from '@/components/modules/ItsAvatar'
 import dynamic from 'next/dynamic'
 import { orderByDistance, getDistance } from 'geolib';
+import AccordionServise from '@/components/modules/AccordionServise';
 
 const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation'), { ssr: false })
 
@@ -16,14 +15,12 @@ const ShowMyLocation = dynamic(() => import('@/components/modules/ShowMyLocation
 export default function AllBusinesses() {
 
   const router = useRouter()
-  const [expanded, setExpanded] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [businesses, setBusinesses] = useState(false);
-  const [latitude, setLatitude] = useState("")
-  const [longitude, setLongitude] = useState("")
+  const [latitude, setLatitude] = useState(null)
+  const [longitude, setLongitude] = useState(null)
   const [businessesOrderByDistance, setBusinessesOrderByDistance] = useState([])
 
-  console.log("businessesOrderByDistance", businessesOrderByDistance);
 
   const setLocation = function (latitude, longitude) {
     setLatitude(latitude)
@@ -50,12 +47,12 @@ export default function AllBusinesses() {
   }, [])
 
   useEffect(() => {
-    if (businesses || latitude) {
+    if (businesses && latitude) {
       setBusinessesOrderByDistance(orderByDistance({ latitude, longitude },
-        businesses.filter((business) => ( business.latitude)).map((business) => (
-        {
-          latitude: business.latitude, longitude: business.longitude, ...business,
-        }))))
+        businesses.filter((business) => (business.latitude)).map((business) => (
+          {
+            latitude: business.latitude, longitude: business.longitude, ...business,
+          }))))
     };
   }, [latitude, longitude, businesses]);
 
@@ -90,17 +87,9 @@ export default function AllBusinesses() {
             my: 3
           }}
           display="flex" flexDirection="column">
-          <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-            <Chip
-              label="راهنمایی"
-              sx={{ direction: 'ltr' }}
-              onClick={() => setExpanded(!expanded)}
-              icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-            />
-            <AccordionDetails>
-              <AllBusinessesText />
-            </AccordionDetails>
-          </Accordion>
+          <AccordionServise>
+            <AllBusinessesText />
+          </AccordionServise>
           <ShowMyLocation setLocation={setLocation} />
           {businesses ?
             businessesOrderByDistance.length ?
@@ -109,13 +98,11 @@ export default function AllBusinesses() {
                   <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                       <ListItemAvatar>
-                        <Avatar>
-                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
-                        </Avatar>
+                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
                       </ListItemAvatar>
                       <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessBrand} secondary={business.bio} />} >
                         <ListItemText
-                          primary={(getDistance({ latitude, longitude }, { latitude: business.latitude, longitude: business.longitude })/1000).toFixed()}
+                          primary={(getDistance({ latitude, longitude }, { latitude: business.latitude.$numberDecimal, longitude: business.longitude.$numberDecimal }) / 1000).toFixed()}
                           secondary="km"
                         />
 
@@ -126,14 +113,11 @@ export default function AllBusinesses() {
               })
               :
               businesses.map((business) => {
-                console.log("hahiii");
                 return (
                   <List key={business._id} sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
                     <ListItemButton onClick={() => router.push(`/${business.businessName}`)}>
                       <ListItemAvatar>
-                        <Avatar>
-                          <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
-                        </Avatar>
+                        <ItsAvatar userCodeOrBusinessBrand={business.businessName} alt="workers avatar" />
                       </ListItemAvatar>
                       <ListItem dense secondaryAction={<ListItemText sx={{ ml: 5 }} align="right" primary={business.businessName} secondary={business.bio} />} >
                       </ListItem>

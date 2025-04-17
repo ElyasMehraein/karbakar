@@ -16,7 +16,7 @@ export async function POST(req, res) {
 
 
         if (!phone.trim() || !SMSCode.trim()) {
-            return Response.json({ message: "Entrance data is empty!" },{status:405})
+            return Response.json({ message: "Entrance data is empty!" }, { status: 405 })
         }
         console.log("Entrance data is not empty");
 
@@ -55,7 +55,7 @@ export async function POST(req, res) {
             user = user
         }
         const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "30 day" });
-        cookies().set({
+        await cookies().set({
             name: 'token',
             value: accessToken,
             httpOnly: true,

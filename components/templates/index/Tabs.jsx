@@ -21,6 +21,9 @@ import ThirdTab from './ThirdTab/ThirdTab';
 import ThirdTabFab from './ThirdTab/ThirdTabFab';
 import { firtsEnterText } from '@/components/typoRepo';
 import { useActiveTab } from '@/components/context/ActiveTabContext';
+import FirstTabGuestView from './FirstTab/FirstTabGuestView';
+import ThirdTabForGuests from './ThirdTab/ThirdTabForGuests';
+import GetBusinessesDemands from './SecondTab/GetBusinessesDemands';
 
 function CustomTabPanel(props) {
 
@@ -66,7 +69,14 @@ function a11yProps(index) {
   };
 }
 
-export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, relations }) {
+export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, relations, guestRelations }) {
+
+  const isUserAreAgent = Array.isArray(user?.businesses) 
+  ? user.businesses.some((business) => {     
+      const agentCode = Number(business?.agentCode);
+      return !isNaN(agentCode) && agentCode === user.code;
+    })
+  : false;
 
   // active tab 
   const { activeTab, setActiveTab } = useActiveTab();
@@ -139,10 +149,10 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               aria-label="basic tabs example"
             >
 
-              <Tab label="دریافت" {...a11yProps(0)} />
-              <Tab label="ارائه" {...a11yProps(1)} />
-              <Tab label="اتحاد" {...a11yProps(2)} />
-              <Tab label="صورتحساب" {...a11yProps(3)} />
+              <Tab label="بخشندگان" {...a11yProps(0)} />
+              <Tab label="بخشش محصولات" {...a11yProps(1)} />
+              <Tab label="اتحاد آزاد" {...a11yProps(2)} />
+              <Tab label="گواهی دریافت" {...a11yProps(3)} />
             </Tabs>
             :
             <Tabs
@@ -154,7 +164,9 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               onChange={handleChange}
               aria-label="basic tabs example"
             >
-              <Tab label="محصولات" {...a11yProps(1)} />
+              <Tab label="محصولات" {...a11yProps(0)} />
+              <Tab label="نیازها" {...a11yProps(1)} />
+              <Tab label="اتحادها" {...a11yProps(2)} />
             </Tabs>
           }
         </Container>
@@ -164,28 +176,32 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
           {user ?
             user.businesses[0] ?
               fabIndex !== activeTab ?
-                <FirstTab user={user} distinctGuilds={distinctGuilds} relations={relations} />
+                <FirstTab user={user} relations={relations} />
                 :
-                <FirstTabFab {...{ user, primeBusiness, relations, distinctGuilds }} />
+                <FirstTabFab {...{ user, primeBusiness, distinctGuilds }} />
               : firtsEnterText()
             :
-            "salam bar mehman"
+            <FirstTabGuestView guestRelations={guestRelations} />
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={1} dir={theme.direction}>
-          {
+          {user ?
             fabIndex !== activeTab ?
               <SecondTab primeBusiness={primeBusiness} />
               :
-              <SecondTabFab {...{ user, primeBusiness, relations }} />
+              <SecondTabFab {...{ user, primeBusiness }} />
+            :
+            <GetBusinessesDemands/>
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={2} dir={theme.direction}>
-          {
+          {user?.businesses[0] ?
             fabIndex !== activeTab ?
               <ThirdTab {...{ primeBusiness, user }} />
               :
               <ThirdTabFab {...{ primeBusiness, user }} />
+            :
+            <ThirdTabForGuests />
           }
 
         </CustomTabPanel>
@@ -199,7 +215,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
         </CustomTabPanel>
 
 
-        {user?.businesses[0] &&
+        {isUserAreAgent &&
           fabs.map((fab, index) => (
             <Zoom
               key={index}

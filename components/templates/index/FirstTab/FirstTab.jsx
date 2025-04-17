@@ -1,22 +1,18 @@
-"use client"
 import * as React from "react";
 import { FirtstTabText, FirtstTabText2 } from "@/components/typoRepo";
-import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 import { Avatar, Box, Container, List, ListItem, ListItemAvatar, ListItemButton, ListItemIcon, ListItemText, TextField, Toolbar, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
-import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import ItsAvatar from '@/components/modules/ItsAvatar'
 import LinearProgress from '@mui/material/LinearProgress';
 
 import { blue } from '@mui/material/colors';
+import AccordionServise from "@/components/modules/AccordionServise";
 
 const color = blue[50];
 
 export default function FirstTab({ user, relations }) {
 
     const router = useRouter()
-    const [expanded, setExpanded] = React.useState(false);
-
     const businesses = relations.filter((relation) => {
         if (relation.provider.monthlyCommitment[0]) {
             return relation.provider;
@@ -25,17 +21,9 @@ export default function FirstTab({ user, relations }) {
 
     return (
         <Container maxWidth="md">
-            <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>
-                <Chip
-                    label="راهنمایی"
-                    sx={{ direction: 'ltr' }}
-                    onClick={() => setExpanded(!expanded)}
-                    icon={<QuestionMarkOutlinedIcon sx={{ fontSize: 16 }} />}
-                />
-                <AccordionDetails>
-                    {FirtstTabText2()}
-                </AccordionDetails>
-            </Accordion>
+            <AccordionServise>
+                {FirtstTabText2()}
+            </AccordionServise>
             <Box className='inMiddle'
                 sx={{
                     '& .MuiTextField-root': { width: '30ch' },
@@ -50,9 +38,9 @@ export default function FirstTab({ user, relations }) {
                                 <ListItemButton onClick={() => router.push(`/${business.provider.businessName}`)}>
                                     <Box sx={{ display: "flex", flexDirection: "column", width: "100%", height: "100%" }}>
                                         <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", }}>
-                                            <Avatar sx={{ ml: 2, width: 40, height: 40 }}>
+                                            <Box sx={{ ml: 2, width: 40, height: 40 }}>
                                                 <ItsAvatar userCodeOrBusinessBrand={business.provider.businessName} isAvatar={business.provider.isAvatar} alt="workers avatar" />
-                                            </Avatar>
+                                            </Box>
                                             <ListItemAvatar >
                                                 <ListItemText align='right' primary={business.provider.businessBrand} secondary={business.provider.businessName} />
                                             </ListItemAvatar>

@@ -19,33 +19,35 @@ export default async function page() {
     let user = null;
     let primeBusiness = null;
     let relations = [];
+    let guestRelations = [];
     let bills = [];
     let distinctGuilds = [];
 
+    
     try {
         if (!isGuest) {
             user = await JSON.parse(JSON.stringify(await UserModel.findOne({ _id: tokenPayLoad.id })
-            .populate({
-                path: "businesses",
-                populate: [
-                    {
-                        path: "monthlyCommitment.product",
-                        model: "Product",
-                        select: "_id name",
-                    },
-                    {
-                        path: "demandsForGuilds.guild",
-                        model: "Guild",
-                        select: "_id guildName",
-                    }
-                ],
-            })
-            .lean()));
-        
+                .populate({
+                    path: "businesses",
+                    populate: [
+                        {
+                            path: "monthlyCommitment.product",
+                            model: "Product",
+                            select: "_id name",
+                        },
+                        {
+                            path: "demandsForGuilds.guild",
+                            model: "Guild",
+                            select: "_id guildName",
+                        }
+                    ],
+                })
+                .lean()));
+
 
             if (user?.primeJob) {
                 primeBusiness = await JSON.parse(JSON.stringify(await BusinessModel.findOne({ _id: user.primeJob })
-                    .populate("demandsForGuilds.guild")
+                    .populate("demandsForGuilds.guild guild")
                     .lean()));
             }
 
@@ -68,20 +70,37 @@ export default async function page() {
             // استخراج دسته‌های مختلف اصناف
             const billDocs = await BillModel.find({ isAccept: true }).lean();
             distinctGuilds = [...new Set(billDocs.map(doc => doc.guild))];
+        }else{
+            const allRelations = await JSON.parse(JSON.stringify(await BusinessRelationModel.find({
+                isAnswerNeed: false,
+            }).populate({
+                path: "provider",
+                populate: {
+                    path: "monthlyCommitment.product",
+                    model: "Product",
+                    select: "productName unitOfMeasurement",
+                },
+            }).lean()));
+            guestRelations = allRelations.filter((relation, index, allRelations) =>
+                index === allRelations.findIndex(r =>
+                    r.provider && relation.provider && r.provider._id.toString() === relation.provider._id.toString()
+                )
+            );
         }
     } catch (error) {
         console.error("Error fetching data:", error);
     }
-    
+
     return (
-        <MyIndex 
-            user={user} 
-            bills={bills} 
-            token={token} 
-            distinctGuilds={distinctGuilds} 
-            primeBusiness={primeBusiness} 
-            relations={relations} 
-            isGuest={isGuest} 
+        <MyIndex
+            user={user}
+            bills={bills}
+            token={token}
+            distinctGuilds={distinctGuilds}
+            primeBusiness={primeBusiness}
+            relations={relations}
+            guestRelations={guestRelations}
+            isGuest={isGuest}
         />
     );
 }

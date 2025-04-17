@@ -14,7 +14,7 @@ export async function GET(req) {
 
         if (!token) {
             return new Response(
-                JSON.stringify({ message: "only users can get reports" }), 
+                JSON.stringify({ message: "only users can get reports" }),
                 { status: 403 }
             );
         }
@@ -24,7 +24,7 @@ export async function GET(req) {
             tokenPayLoad = verifyToken(token);
         } catch (error) {
             return new Response(
-                JSON.stringify({ message: "Invalid token", error: error.message }), 
+                JSON.stringify({ message: "Invalid token", error: error.message }),
                 { status: 401 }
             );
         }
@@ -32,24 +32,24 @@ export async function GET(req) {
         const logedUser = await UserModel.findById(tokenPayLoad.id);
         if (!logedUser) {
             return new Response(
-                JSON.stringify({ message: "User not found" }), 
+                JSON.stringify({ message: "User not found" }),
                 { status: 404 }
             );
         }
 
         const reports = await ReportModel.find({ recepiant: logedUser._id })
             .populate("business bill recepiant providerBusiness receiverBusiness products.product")
-            .sort({ createdAt: -1 });
+
 
         return new Response(
-            JSON.stringify({ message: 'get reports successfully', data: reports }), 
+            JSON.stringify({ message: 'get reports successfully', data: reports.reverse() }),
             { status: 200 }
         );
 
     } catch (error) {
         console.error(`Error getting reports`, error);
         return new Response(
-            JSON.stringify({ message: `Error getting reports`, error: error.message }), 
+            JSON.stringify({ message: `Error getting reports`, error: error.message }),
             { status: 500 }
         );
     }
