@@ -5,7 +5,7 @@ import { stat } from 'fs/promises';
 export async function GET(req, { params }) {
     try {
         // دریافت پارامتر مسیر
-        const { path: filePathArray } = params;
+        const { path: filePathArray } = await params;
 
         // اعتبارسنجی پارامتر
         if (!filePathArray || !Array.isArray(filePathArray) || filePathArray.length < 2) {

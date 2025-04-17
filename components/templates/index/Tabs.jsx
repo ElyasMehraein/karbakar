@@ -22,7 +22,8 @@ import ThirdTabFab from './ThirdTab/ThirdTabFab';
 import { firtsEnterText } from '@/components/typoRepo';
 import { useActiveTab } from '@/components/context/ActiveTabContext';
 import FirstTabGuestView from './FirstTab/FirstTabGuestView';
-import NeedsMasterList from './SecondTab/NeedsMasterList';
+import ThirdTabForGuests from './ThirdTab/ThirdTabForGuests';
+import GetBusinessesDemands from './SecondTab/GetBusinessesDemands';
 
 function CustomTabPanel(props) {
 
@@ -69,6 +70,13 @@ function a11yProps(index) {
 }
 
 export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, relations, guestRelations }) {
+
+  const isUserAreAgent = Array.isArray(user?.businesses) 
+  ? user.businesses.some((business) => {     
+      const agentCode = Number(business?.agentCode);
+      return !isNaN(agentCode) && agentCode === user.code;
+    })
+  : false;
 
   // active tab 
   const { activeTab, setActiveTab } = useActiveTab();
@@ -141,10 +149,10 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               aria-label="basic tabs example"
             >
 
-              <Tab label="دریافت" {...a11yProps(0)} />
-              <Tab label="ارائه" {...a11yProps(1)} />
-              <Tab label="اتحاد" {...a11yProps(2)} />
-              <Tab label="صورتحساب" {...a11yProps(3)} />
+              <Tab label="بخشندگان" {...a11yProps(0)} />
+              <Tab label="بخشش محصولات" {...a11yProps(1)} />
+              <Tab label="اتحاد آزاد" {...a11yProps(2)} />
+              <Tab label="گواهی دریافت" {...a11yProps(3)} />
             </Tabs>
             :
             <Tabs
@@ -183,17 +191,17 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
               :
               <SecondTabFab {...{ user, primeBusiness }} />
             :
-            <NeedsMasterList/>
+            <GetBusinessesDemands/>
           }
         </CustomTabPanel>
         <CustomTabPanel value={activeTab} index={2} dir={theme.direction}>
-          {user ?
+          {user?.businesses[0] ?
             fabIndex !== activeTab ?
               <ThirdTab {...{ primeBusiness, user }} />
               :
               <ThirdTabFab {...{ primeBusiness, user }} />
             :
-            "salam etehadha"
+            <ThirdTabForGuests />
           }
 
         </CustomTabPanel>
@@ -207,7 +215,7 @@ export default function BasicTabs({ user, bills, distinctGuilds, primeBusiness, 
         </CustomTabPanel>
 
 
-        {user?.businesses[0] &&
+        {isUserAreAgent &&
           fabs.map((fab, index) => (
             <Zoom
               key={index}

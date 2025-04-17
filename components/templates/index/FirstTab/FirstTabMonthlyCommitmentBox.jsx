@@ -26,10 +26,22 @@ export default function FirstTabMonthlyCommitmentBox({ business, latitude, longi
                     <Typography align='right' variant="caption" sx={{ color: 'text.secondary' }}>{business.bio}</Typography>
                     {
                         latitude &&
-                        <ListItemText
-                            primary={(getDistance({ latitude, longitude }, { latitude: business.latitude?.$numberDecimal, longitude: business.longitude?.$numberDecimal }) / 1000).toFixed()}
-                            secondary="km"
-                        />
+                        business?.latitude?.$numberDecimal &&
+                        business?.longitude?.$numberDecimal && (
+                            <ListItemText
+                                primary={(
+                                    getDistance(
+                                        { latitude, longitude },
+                                        {
+                                            latitude: parseFloat(business.latitude?.$numberDecimal) || 0,
+                                            longitude: parseFloat(business.longitude?.$numberDecimal) || 0
+                                        }
+                                    ) / 1000
+                                ).toFixed()}
+                                secondary="km"
+                            />
+                        )
+
                     }
                     {business.monthlyCommitment.map((product) => {
                         return (

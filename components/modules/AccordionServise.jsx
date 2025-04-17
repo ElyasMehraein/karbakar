@@ -2,8 +2,8 @@ import React from 'react'
 import { Accordion, AccordionDetails, Chip } from "@mui/material";
 import QuestionMarkOutlinedIcon from '@mui/icons-material/QuestionMarkOutlined';
 
-export default function AccordionServise({children}) {
-    const [expanded, setExpanded] = React.useState(false);
+export default function AccordionServise({ children, expand = false }) {
+    const [expanded, setExpanded] = React.useState(expand);
 
     return (
         <Accordion sx={{ boxShadow: 0 }} expanded={expanded}>

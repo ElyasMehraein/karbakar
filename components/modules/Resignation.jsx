@@ -23,6 +23,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 
 export default function Resignation({ user }) {
 
+  const [userBusinesses , setUserBusinesses] = useState(user.businesses)
+
   const [selectedBusiness, setSelectedBusiness] = useState(user.businesses[0]);
   const [newAgentID, setNewAgentID] = React.useState(null);
 
@@ -77,6 +79,7 @@ export default function Resignation({ user }) {
     if (res.status === 201) {
       setOpenDialog(false)
       callSnackbar("استعفای شما با موفقیت انجام شد")
+      setUserBusinesses(userBusinesses.filter(business => business._id !== selectedBusines._id))
     } else if (res.status === 500) {
       callSnackbar("خطای اتصال به سرور", "error")
     } else if (res.status === 403) {
@@ -106,7 +109,7 @@ export default function Resignation({ user }) {
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {user?.businesses.map((business) => (
+            {userBusinesses.map((business) => (
               <ListItemButton
                 key={business._id}
                 value={business._id}
@@ -114,7 +117,7 @@ export default function Resignation({ user }) {
                 onClick={() => handleBusinessChange(business)}
               >
                 <ItsAvatar userCodeOrBusinessBrand={business.businessName} />
-                <ListItemText primary={business.businessName} secondary={business.businessBrand} />
+                <ListItemText  align="right" sx={{ mr: 2 }} primary={business.businessName} secondary={business.businessBrand} />
               </ListItemButton>
             ))}
           </List>

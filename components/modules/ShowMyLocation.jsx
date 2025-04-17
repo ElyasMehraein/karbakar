@@ -14,6 +14,7 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import { Container } from "@mui/material";
+import { triggerSnackbar } from '@/utils/snackbarService';
 
 export default function EditLocation({ setLocation }) {
     const [latitude, setLatitude] = React.useState(null);
@@ -35,18 +36,37 @@ export default function EditLocation({ setLocation }) {
     async function saveState() {
         try {
             setLoading(true);
+            setSuccess(false)
             const { coords } = await getGeolocation();
             setLatitude(coords.latitude);
             setLongitude(coords.longitude);
         } catch (error) {
+            switch (error.code) {
+                case 1:
+                    triggerSnackbar("لطفا دسترسی به موقعیت مکانی خود را فعال کنید", "error");
+                    break;
+                case 2:
+                    triggerSnackbar("عدم امکان دسترسی به اینترنت", "error");
+                    break;
+                case 3:
+                    triggerSnackbar("دریافت موقعیت جغرافیایی زمان بر شد", "error");
+                    break;
+            }
             console.error(error);
         } finally {
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+                setSuccess(true);                
+            }, 500);
         }
     }
 
     function handleButtonClick() {
-        if (!loading) saveState();
+        if (!loading) {
+            saveState();
+        } else {
+            triggerSnackbar("لطفا کمی صبر کنید");
+        }
     }
 
     React.useEffect(() => {
