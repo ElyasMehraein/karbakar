@@ -1,15 +1,21 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Button, Typography, CircularProgress } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+'use client';
+import { Box, Button, CircularProgress, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface ShowMyLocationProps {
   business: Business;
   onLocationUpdate: (lat: number, lng: number) => void;
 }
 
-export default function ShowMyLocation({ business, onLocationUpdate }: ShowMyLocationProps) {
+export default function ShowMyLocation({
+  business,
+  onLocationUpdate,
+}: ShowMyLocationProps) {
   const [loading, setLoading] = useState(false);
   const { showSnackbar } = useSnackbar();
 
@@ -30,7 +36,10 @@ export default function ShowMyLocation({ business, onLocationUpdate }: ShowMyLoc
         }
       );
     } else {
-      showSnackbar('مرورگر شما از سرویس موقعیت مکانی پشتیبانی نمی‌کند', 'error');
+      showSnackbar(
+        'مرورگر شما از سرویس موقعیت مکانی پشتیبانی نمی‌کند',
+        'error'
+      );
       setLoading(false);
     }
   };
@@ -51,9 +60,10 @@ export default function ShowMyLocation({ business, onLocationUpdate }: ShowMyLoc
       </Button>
       {business.latitude && business.longitude && (
         <Typography variant="body2" sx={{ mt: 1 }}>
-          عرض جغرافیایی: {business.latitude}, طول جغرافیایی: {business.longitude}
+          عرض جغرافیایی: {business.latitude}, طول جغرافیایی:{' '}
+          {business.longitude}
         </Typography>
       )}
     </Box>
   );
-} 
+}

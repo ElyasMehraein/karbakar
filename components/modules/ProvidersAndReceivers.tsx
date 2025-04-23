@@ -1,8 +1,20 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar, Button } from '@mui/material';
+'use client';
+import {
+  Avatar,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
 import { useSnackbar } from './SnackbarProvider';
+
 
 interface ProvidersAndReceiversProps {
   business: Business;
@@ -20,7 +32,9 @@ interface Receiver {
   avatar: string;
 }
 
-export default function ProvidersAndReceivers({ business }: ProvidersAndReceiversProps) {
+export default function ProvidersAndReceivers({
+  business,
+}: ProvidersAndReceiversProps) {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [receivers, setReceivers] = useState<Receiver[]>([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +45,7 @@ export default function ProvidersAndReceivers({ business }: ProvidersAndReceiver
       try {
         const [providersResponse, receiversResponse] = await Promise.all([
           fetch(`/api/business/${business.businessCode}/providers`),
-          fetch(`/api/business/${business.businessCode}/receivers`)
+          fetch(`/api/business/${business.businessCode}/receivers`),
         ]);
 
         if (providersResponse.ok && receiversResponse.ok) {
@@ -98,4 +112,4 @@ export default function ProvidersAndReceivers({ business }: ProvidersAndReceiver
       </Box>
     </Box>
   );
-} 
+}

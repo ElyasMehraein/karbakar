@@ -1,9 +1,21 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Button } from '@mui/material';
+'use client';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useSnackbar } from './SnackbarProvider';
+import {
+  Box,
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface ProductBasketProps {
   business: Business;
@@ -24,7 +36,9 @@ export default function ProductBasket({ business }: ProductBasketProps) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`/api/business/${business.businessCode}/basket`);
+        const response = await fetch(
+          `/api/business/${business.businessCode}/basket`
+        );
         if (response.ok) {
           const data = await response.json();
           setProducts(data);
@@ -44,12 +58,15 @@ export default function ProductBasket({ business }: ProductBasketProps) {
 
   const handleRemoveProduct = async (productId: number) => {
     try {
-      const response = await fetch(`/api/business/${business.businessCode}/basket/${productId}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `/api/business/${business.businessCode}/basket/${productId}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
       if (response.ok) {
-        setProducts(products.filter(product => product.id !== productId));
+        setProducts(products.filter((product) => product.id !== productId));
         showSnackbar('محصول با موفقیت حذف شد', 'success');
       } else {
         showSnackbar('خطا در حذف محصول', 'error');
@@ -61,7 +78,10 @@ export default function ProductBasket({ business }: ProductBasketProps) {
   };
 
   const calculateTotal = () => {
-    return products.reduce((total, product) => total + (product.price * product.quantity), 0);
+    return products.reduce(
+      (total, product) => total + product.price * product.quantity,
+      0
+    );
   };
 
   if (loading) {
@@ -100,7 +120,14 @@ export default function ProductBasket({ business }: ProductBasketProps) {
             ))}
           </List>
 
-          <Box sx={{ mt: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <Box
+            sx={{
+              mt: 2,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
             <Typography variant="h6">
               مجموع: {calculateTotal()} تومان
             </Typography>
@@ -116,4 +143,4 @@ export default function ProductBasket({ business }: ProductBasketProps) {
       )}
     </Box>
   );
-} 
+}

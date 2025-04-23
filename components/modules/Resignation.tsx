@@ -1,8 +1,20 @@
-"use client"
+'use client';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
-import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Typography } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface ResignationProps {
   business: Business;
@@ -25,13 +37,16 @@ export default function Resignation({ business, onResign }: ResignationProps) {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`/api/business/${business.businessCode}/resign`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ reason }),
-      });
+      const response = await fetch(
+        `/api/business/${business.businessCode}/resign`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ reason }),
+        }
+      );
 
       if (response.ok) {
         showSnackbar('درخواست استعفا با موفقیت ثبت شد', 'success');
@@ -48,11 +63,7 @@ export default function Resignation({ business, onResign }: ResignationProps) {
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button
-        variant="outlined"
-        color="error"
-        onClick={handleOpen}
-      >
+      <Button variant="outlined" color="error" onClick={handleOpen}>
         درخواست استعفا
       </Button>
 
@@ -60,7 +71,8 @@ export default function Resignation({ business, onResign }: ResignationProps) {
         <DialogTitle>درخواست استعفا</DialogTitle>
         <DialogContent>
           <Typography variant="body1" gutterBottom>
-            آیا از درخواست استعفا از کسب و کار {business.businessName} اطمینان دارید؟
+            آیا از درخواست استعفا از کسب و کار {business.businessName} اطمینان
+            دارید؟
           </Typography>
           <TextField
             autoFocus
@@ -76,11 +88,15 @@ export default function Resignation({ business, onResign }: ResignationProps) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>انصراف</Button>
-          <Button onClick={handleSubmit} color="error" disabled={!reason.trim()}>
+          <Button
+            onClick={handleSubmit}
+            color="error"
+            disabled={!reason.trim()}
+          >
             تایید استعفا
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
-} 
+}

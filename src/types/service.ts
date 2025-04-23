@@ -5,4 +5,4 @@ export interface Service {
   price: number;
   duration: string;
   availability: boolean;
-} 
+}

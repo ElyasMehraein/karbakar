@@ -96,4 +96,4 @@ export interface Request {
   requesterBusiness?: string;
   uniqCode: string;
   createdAt: Date;
-} 
+}

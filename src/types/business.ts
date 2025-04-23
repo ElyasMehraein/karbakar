@@ -6,4 +6,4 @@ export interface Business {
     lat: number;
     lng: number;
   };
-} 
+}

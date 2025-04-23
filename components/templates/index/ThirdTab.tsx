@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography } from '@mui/material';
+import React from 'react';
 
 export default function ThirdTab() {
   return (
@@ -12,4 +12,4 @@ export default function ThirdTab() {
       {/* محتوای تب سوم */}
     </Box>
   );
-} 
+}

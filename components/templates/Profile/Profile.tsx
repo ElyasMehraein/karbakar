@@ -1,8 +1,11 @@
-"use client"
+'use client';
+import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
-import { Box, Typography, Container } from '@mui/material';
+
 import { User } from '@/types';
+
 import UserJobs from './UserJobs';
+
 
 interface ProfileProps {
   user: User;
@@ -27,4 +30,4 @@ export default function Profile({ user }: ProfileProps) {
       </Box>
     </Container>
   );
-} 
+}

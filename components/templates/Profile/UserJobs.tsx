@@ -1,7 +1,8 @@
-"use client"
+'use client';
+import { Box, List, ListItem, ListItemText, Typography } from '@mui/material';
 import React from 'react';
-import { Box, Typography, List, ListItem, ListItemText } from '@mui/material';
-import { User, Business } from '@/types';
+
+import { Business, User } from '@/types';
 
 interface UserJobsProps {
   user: User;
@@ -31,4 +32,4 @@ export default function UserJobs({ user }: UserJobsProps) {
       )}
     </Box>
   );
-} 
+}

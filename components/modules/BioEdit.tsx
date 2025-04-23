@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { TextField, Box, Container } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface BioEditProps {
@@ -11,7 +12,9 @@ interface BioEditProps {
 export default function BioEdit({ business, maxLengthError }: BioEditProps) {
   const [bio, setBio] = useState<string>(business.bio);
 
-  const handleBioChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleBioChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newBio = event.target.value;
     setBio(newBio);
 
@@ -53,4 +56,4 @@ export default function BioEdit({ business, maxLengthError }: BioEditProps) {
       </Box>
     </Container>
   );
-} 
+}

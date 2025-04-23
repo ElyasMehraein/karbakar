@@ -1,8 +1,19 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+'use client';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface SelectCategoryAndGuildProps {
   business: Business;
@@ -20,7 +31,10 @@ interface Guild {
   categoryId: number;
 }
 
-export default function SelectCategoryAndGuild({ business, onSelectionComplete }: SelectCategoryAndGuildProps) {
+export default function SelectCategoryAndGuild({
+  business,
+  onSelectionComplete,
+}: SelectCategoryAndGuildProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [guilds, setGuilds] = useState<Guild[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number>('');
@@ -57,7 +71,9 @@ export default function SelectCategoryAndGuild({ business, onSelectionComplete }
       }
 
       try {
-        const response = await fetch(`/api/categories/${selectedCategory}/guilds`);
+        const response = await fetch(
+          `/api/categories/${selectedCategory}/guilds`
+        );
         if (response.ok) {
           const data = await response.json();
           setGuilds(data);
@@ -73,7 +89,9 @@ export default function SelectCategoryAndGuild({ business, onSelectionComplete }
     fetchGuilds();
   }, [selectedCategory, showSnackbar]);
 
-  const handleCategoryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleCategoryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
     setSelectedCategory(event.target.value as number);
     setSelectedGuild('');
   };
@@ -84,16 +102,19 @@ export default function SelectCategoryAndGuild({ business, onSelectionComplete }
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`/api/business/${business.businessCode}/category-guild`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          categoryId: selectedCategory,
-          guildId: selectedGuild,
-        }),
-      });
+      const response = await fetch(
+        `/api/business/${business.businessCode}/category-guild`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            categoryId: selectedCategory,
+            guildId: selectedGuild,
+          }),
+        }
+      );
 
       if (response.ok) {
         showSnackbar('دسته‌بندی و صنف با موفقیت ثبت شد', 'success');
@@ -160,4 +181,4 @@ export default function SelectCategoryAndGuild({ business, onSelectionComplete }
       </Button>
     </Box>
   );
-} 
+}

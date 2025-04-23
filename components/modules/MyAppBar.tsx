@@ -1,8 +1,9 @@
-"use client"
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import { Business, User } from '@/types';
+'use client';
+import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import React from 'react';
+
+import { Business, User } from '@/types';
 
 interface MyAppBarProps {
   business?: Business | null;
@@ -10,7 +11,11 @@ interface MyAppBarProps {
   whichUserProfile?: number | null;
 }
 
-export default function MyAppBar({ business, logedUserCode, whichUserProfile }: MyAppBarProps) {
+export default function MyAppBar({
+  business,
+  logedUserCode,
+  whichUserProfile,
+}: MyAppBarProps) {
   const router = useRouter();
 
   const handleBack = () => {
@@ -45,4 +50,4 @@ export default function MyAppBar({ business, logedUserCode, whichUserProfile }: 
       </Toolbar>
     </AppBar>
   );
-} 
+}

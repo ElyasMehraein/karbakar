@@ -1,8 +1,19 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Select, MenuItem, FormControl, InputLabel, Button } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+'use client';
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface PrimeJobSelectProps {
   business: Business;
@@ -15,7 +26,10 @@ interface Job {
   description: string;
 }
 
-export default function PrimeJobSelect({ business, onJobSelect }: PrimeJobSelectProps) {
+export default function PrimeJobSelect({
+  business,
+  onJobSelect,
+}: PrimeJobSelectProps) {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [selectedJob, setSelectedJob] = useState<number>('');
   const [loading, setLoading] = useState(true);
@@ -24,7 +38,9 @@ export default function PrimeJobSelect({ business, onJobSelect }: PrimeJobSelect
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await fetch(`/api/business/${business.businessCode}/jobs`);
+        const response = await fetch(
+          `/api/business/${business.businessCode}/jobs`
+        );
         if (response.ok) {
           const data = await response.json();
           setJobs(data);
@@ -64,11 +80,7 @@ export default function PrimeJobSelect({ business, onJobSelect }: PrimeJobSelect
       </Typography>
       <FormControl fullWidth>
         <InputLabel>شغل اصلی</InputLabel>
-        <Select
-          value={selectedJob}
-          onChange={handleJobSelect}
-          label="شغل اصلی"
-        >
+        <Select value={selectedJob} onChange={handleJobSelect} label="شغل اصلی">
           {jobs.map((job) => (
             <MenuItem key={job.id} value={job.id}>
               {job.title}
@@ -87,4 +99,4 @@ export default function PrimeJobSelect({ business, onJobSelect }: PrimeJobSelect
       </Button>
     </Box>
   );
-} 
+}

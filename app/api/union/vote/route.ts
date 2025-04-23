@@ -1,8 +1,9 @@
-import { NextResponse } from 'next/server';
-import connectToDB from "@/configs/db";
-import UnionModel from "@/models/Union";
-import BusinessModel from "@/models/Business";
 import { Types } from 'mongoose';
+import { NextResponse } from 'next/server';
+
+import connectToDB from '@/configs/db';
+import BusinessModel from '@/models/Business';
+import UnionModel from '@/models/Union';
 
 interface VoteRequest {
   unionId: string;
@@ -61,7 +62,7 @@ function calculateLeftover(union: any): LeftoverResult {
 
 function allMembersHaveVotedForEachOther(union: any): boolean {
   const memberIds = union.members.map((m: any) => m.member.toString());
-  
+
   for (let i = 0; i < memberIds.length; i++) {
     for (let j = 0; j < memberIds.length; j++) {
       if (i === j) continue;
@@ -70,8 +71,7 @@ function allMembersHaveVotedForEachOther(union: any): boolean {
 
       const hasVote = union.votes.some(
         (v: any) =>
-          v.voter.toString() === voter &&
-          v.voteFor.toString() === voteFor
+          v.voter.toString() === voter && v.voteFor.toString() === voteFor
       );
       if (!hasVote) {
         return false;
@@ -86,26 +86,24 @@ export async function POST(req: Request) {
   try {
     await connectToDB();
 
-    const { unionId, voterId, voteForId, voteType } = await req.json() as VoteRequest;
+    const { unionId, voterId, voteForId, voteType } =
+      (await req.json()) as VoteRequest;
 
     if (!unionId || !voterId || !voteForId || !voteType) {
       return NextResponse.json(
-        { message: "Missing required fields" },
+        { message: 'Missing required fields' },
         { status: 400 }
       );
     }
 
     const union = await UnionModel.findById(unionId);
     if (!union) {
-      return NextResponse.json(
-        { message: "Union not found" },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: 'Union not found' }, { status: 404 });
     }
 
     if (union.isActive) {
       return NextResponse.json(
-        { message: "This union is already active. No more changes allowed." },
+        { message: 'This union is already active. No more changes allowed.' },
         { status: 403 }
       );
     }
@@ -119,12 +117,12 @@ export async function POST(req: Request) {
 
     if (!isVoterMember || !isVoteForMember) {
       return NextResponse.json(
-        { message: "Voter or voteFor is not a union member" },
+        { message: 'Voter or voteFor is not a union member' },
         { status: 403 }
       );
     }
 
-    if (voteType === "approve") {
+    if (voteType === 'approve') {
       const hasAlreadyVoted = union.votes.some(
         (v: any) =>
           v.voter.toString() === voterId.toString() &&
@@ -137,8 +135,7 @@ export async function POST(req: Request) {
           voteFor: new Types.ObjectId(voteForId),
         });
       }
-
-    } else if (voteType === "reject") {
+    } else if (voteType === 'reject') {
       union.votes = union.votes.filter(
         (v: any) =>
           !(
@@ -156,10 +153,9 @@ export async function POST(req: Request) {
           v.voter.toString() !== voteForId.toString() &&
           v.voteFor.toString() !== voteForId.toString()
       );
-
     } else {
       return NextResponse.json(
-        { message: "Invalid voteType" },
+        { message: 'Invalid voteType' },
         { status: 400 }
       );
     }
@@ -175,17 +171,17 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json(
-      { message: "Vote processed successfully" },
+      { message: 'Vote processed successfully' },
       { status: 200 }
     );
   } catch (error: any) {
-    console.error("ERROR in /api/union/vote:", error);
+    console.error('ERROR in /api/union/vote:', error);
     return NextResponse.json(
       {
-        message: "Server error",
+        message: 'Server error',
         error: error.message,
       },
       { status: 500 }
     );
   }
-} 
+}

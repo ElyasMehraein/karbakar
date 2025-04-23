@@ -1,11 +1,12 @@
-"use client";
+'use client';
 
-import React, { useEffect, useState } from "react";
-import SearchAppBar from "@/components/templates/index/SearchAppBar";
-import RightDrawer from "@/components/templates/index/RightDrawer";
-import Tabs from "@/components/templates/index/Tabs";
-import BugReport from "@/components/modules/BugReport";
+import React, { useEffect, useState } from 'react';
+
 import { ActiveTabProvider } from '@/components/context/ActiveTabContext';
+import BugReport from '@/components/modules/BugReport';
+import RightDrawer from '@/components/templates/index/RightDrawer';
+import SearchAppBar from '@/components/templates/index/SearchAppBar';
+import Tabs from '@/components/templates/index/Tabs';
 
 interface User {
   _id: string;
@@ -88,7 +89,7 @@ export default function MyIndex({
   distinctGuilds,
   primeBusiness,
   relations,
-  guestRelations
+  guestRelations,
 }: MyIndexProps) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -117,9 +118,18 @@ export default function MyIndex({
         />
         <ActiveTabProvider>
           <SearchAppBar user={user} menuClickHandler={menuClickHandler} />
-          <Tabs {...{ distinctGuilds, user, bills, primeBusiness, relations, guestRelations }} />
+          <Tabs
+            {...{
+              distinctGuilds,
+              user,
+              bills,
+              primeBusiness,
+              relations,
+              guestRelations,
+            }}
+          />
         </ActiveTabProvider>
       </>
     )
   );
-} 
+}

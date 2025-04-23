@@ -1,10 +1,27 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, TextField, Button, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+'use client';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { useSnackbar } from './SnackbarProvider';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  TextField,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface ContactEditProps {
   business: Business;
@@ -28,7 +45,9 @@ export default function ContactEdit({ business }: ContactEditProps) {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch(`/api/business/${business.businessCode}/contacts`);
+        const response = await fetch(
+          `/api/business/${business.businessCode}/contacts`
+        );
         if (response.ok) {
           const data = await response.json();
           setContacts(data);
@@ -55,12 +74,15 @@ export default function ContactEdit({ business }: ContactEditProps) {
 
   const handleDeleteClick = async (contactId: number) => {
     try {
-      const response = await fetch(`/api/business/${business.businessCode}/contacts/${contactId}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `/api/business/${business.businessCode}/contacts/${contactId}`,
+        {
+          method: 'DELETE',
+        }
+      );
 
       if (response.ok) {
-        setContacts(contacts.filter(contact => contact.id !== contactId));
+        setContacts(contacts.filter((contact) => contact.id !== contactId));
         showSnackbar('اطلاعات تماس با موفقیت حذف شد', 'success');
       } else {
         showSnackbar('خطا در حذف اطلاعات تماس', 'error');
@@ -98,9 +120,11 @@ export default function ContactEdit({ business }: ContactEditProps) {
       if (response.ok) {
         const updatedContact = await response.json();
         if (selectedContact) {
-          setContacts(contacts.map(contact =>
-            contact.id === selectedContact.id ? updatedContact : contact
-          ));
+          setContacts(
+            contacts.map((contact) =>
+              contact.id === selectedContact.id ? updatedContact : contact
+            )
+          );
           showSnackbar('اطلاعات تماس با موفقیت به‌روزرسانی شد', 'success');
         } else {
           setContacts([...contacts, updatedContact]);
@@ -138,10 +162,7 @@ export default function ContactEdit({ business }: ContactEditProps) {
       <List>
         {contacts.map((contact) => (
           <ListItem key={contact.id}>
-            <ListItemText
-              primary={contact.type}
-              secondary={contact.value}
-            />
+            <ListItemText primary={contact.type} secondary={contact.value} />
             <ListItemSecondaryAction>
               <IconButton
                 edge="end"
@@ -199,4 +220,4 @@ export default function ContactEdit({ business }: ContactEditProps) {
       </Dialog>
     </Box>
   );
-} 
+}

@@ -1,8 +1,19 @@
-"use client"
+'use client';
+import {
+  Box,
+  Container,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from '@mui/material';
 import React from 'react';
-import { Typography, Box, Container, List, ListItem, ListItemText, ListItemAvatar } from '@mui/material';
+
 import { Business, User } from '@/types';
+
 import ItsAvatar from './ItsAvatar';
+
 
 interface EmployeeListProps {
   business: Business;
@@ -11,7 +22,12 @@ interface EmployeeListProps {
   maxLengthError?: (message: string) => void;
 }
 
-export default function EmployeeList({ business, logedUserCode, users, maxLengthError }: EmployeeListProps) {
+export default function EmployeeList({
+  business,
+  logedUserCode,
+  users,
+  maxLengthError,
+}: EmployeeListProps) {
   if (!business.workers || business.workers.length === 0) return null;
 
   return (
@@ -36,4 +52,4 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
       </Box>
     </Container>
   );
-} 
+}

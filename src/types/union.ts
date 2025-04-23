@@ -4,4 +4,4 @@ export interface Union {
   description: string;
   members: number;
   establishedDate: string;
-} 
+}

@@ -10,14 +10,14 @@ const connectToDB = async (): Promise<boolean> => {
     if (!process.env.MONGO_URI) {
       throw new Error('MONGO_URI environment variable is not defined');
     }
-    
+
     await mongoose.connect(process.env.MONGO_URI);
-    console.log("Connect To DB Successfully :))");
+    console.log('Connect To DB Successfully :))');
     return true;
   } catch (err) {
-    console.error("DB Connection Error:", err);
+    console.error('DB Connection Error:', err);
     throw err;
   }
 };
 
-export default connectToDB; 
+export default connectToDB;

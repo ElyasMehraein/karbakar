@@ -1,6 +1,7 @@
-"use client"
-import React, { useEffect, useRef } from 'react';
+'use client';
 import { Box, Container } from '@mui/material';
+import React, { useEffect, useRef } from 'react';
+
 import { Business } from '@/types';
 
 interface MapProps {
@@ -32,4 +33,4 @@ export default function Map({ business }: MapProps) {
       <Box sx={{ mt: 2, height: '400px' }} ref={mapRef} />
     </Container>
   );
-} 
+}

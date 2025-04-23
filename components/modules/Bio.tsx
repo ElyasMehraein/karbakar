@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
-import { Typography, Box, Container } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface BioProps {
@@ -13,10 +14,8 @@ export default function Bio({ business }: BioProps) {
   return (
     <Container maxWidth="md">
       <Box sx={{ mt: 2 }}>
-        <Typography variant="body1">
-          {business.bio}
-        </Typography>
+        <Typography variant="body1">{business.bio}</Typography>
       </Box>
     </Container>
   );
-} 
+}

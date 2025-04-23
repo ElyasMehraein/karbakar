@@ -1,0 +1,9 @@
+node_modules
+.next
+out
+build
+dist
+*.config.js
+*.config.ts
+jest.setup.ts
+jest.config.ts 

@@ -1,7 +1,8 @@
-"use client"
-import React, { useState } from 'react';
-import { Box, TextField, Button, Container, Typography } from '@mui/material';
+'use client';
+import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+
 import { User } from '@/types';
 
 interface EditProfileProps {
@@ -120,4 +121,4 @@ export default function EditProfile({ user }: EditProfileProps) {
       </Box>
     </Container>
   );
-} 
+}

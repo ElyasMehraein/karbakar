@@ -1,8 +1,24 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, Select, MenuItem, FormControl, InputLabel, Button, TextField, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+'use client';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface SelectOrCreateCategoryAndGuildProps {
   business: Business;
@@ -20,14 +36,18 @@ interface Guild {
   categoryId: number;
 }
 
-export default function SelectOrCreateCategoryAndGuild({ business, onSelectionComplete }: SelectOrCreateCategoryAndGuildProps) {
+export default function SelectOrCreateCategoryAndGuild({
+  business,
+  onSelectionComplete,
+}: SelectOrCreateCategoryAndGuildProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [guilds, setGuilds] = useState<Guild[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<number>('');
   const [selectedGuild, setSelectedGuild] = useState<number>('');
   const [newCategoryName, setNewCategoryName] = useState('');
   const [newGuildName, setNewGuildName] = useState('');
-  const [createCategoryDialogOpen, setCreateCategoryDialogOpen] = useState(false);
+  const [createCategoryDialogOpen, setCreateCategoryDialogOpen] =
+    useState(false);
   const [createGuildDialogOpen, setCreateGuildDialogOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const { showSnackbar } = useSnackbar();
@@ -61,7 +81,9 @@ export default function SelectOrCreateCategoryAndGuild({ business, onSelectionCo
       }
 
       try {
-        const response = await fetch(`/api/categories/${selectedCategory}/guilds`);
+        const response = await fetch(
+          `/api/categories/${selectedCategory}/guilds`
+        );
         if (response.ok) {
           const data = await response.json();
           setGuilds(data);
@@ -77,7 +99,9 @@ export default function SelectOrCreateCategoryAndGuild({ business, onSelectionCo
     fetchGuilds();
   }, [selectedCategory, showSnackbar]);
 
-  const handleCategoryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleCategoryChange = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
     setSelectedCategory(event.target.value as number);
     setSelectedGuild('');
   };
@@ -114,13 +138,16 @@ export default function SelectOrCreateCategoryAndGuild({ business, onSelectionCo
 
   const handleCreateGuild = async () => {
     try {
-      const response = await fetch(`/api/categories/${selectedCategory}/guilds`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: newGuildName }),
-      });
+      const response = await fetch(
+        `/api/categories/${selectedCategory}/guilds`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ name: newGuildName }),
+        }
+      );
 
       if (response.ok) {
         const newGuild = await response.json();
@@ -140,16 +167,19 @@ export default function SelectOrCreateCategoryAndGuild({ business, onSelectionCo
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`/api/business/${business.businessCode}/category-guild`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          categoryId: selectedCategory,
-          guildId: selectedGuild,
-        }),
-      });
+      const response = await fetch(
+        `/api/business/${business.businessCode}/category-guild`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            categoryId: selectedCategory,
+            guildId: selectedGuild,
+          }),
+        }
+      );
 
       if (response.ok) {
         showSnackbar('دسته‌بندی و صنف با موفقیت ثبت شد', 'success');
@@ -232,7 +262,10 @@ export default function SelectOrCreateCategoryAndGuild({ business, onSelectionCo
         ثبت انتخاب
       </Button>
 
-      <Dialog open={createCategoryDialogOpen} onClose={() => setCreateCategoryDialogOpen(false)}>
+      <Dialog
+        open={createCategoryDialogOpen}
+        onClose={() => setCreateCategoryDialogOpen(false)}
+      >
         <DialogTitle>ایجاد دسته‌بندی جدید</DialogTitle>
         <DialogContent>
           <TextField
@@ -246,14 +279,23 @@ export default function SelectOrCreateCategoryAndGuild({ business, onSelectionCo
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setCreateCategoryDialogOpen(false)}>انصراف</Button>
-          <Button onClick={handleCreateCategory} color="primary" disabled={!newCategoryName.trim()}>
+          <Button onClick={() => setCreateCategoryDialogOpen(false)}>
+            انصراف
+          </Button>
+          <Button
+            onClick={handleCreateCategory}
+            color="primary"
+            disabled={!newCategoryName.trim()}
+          >
             ایجاد
           </Button>
         </DialogActions>
       </Dialog>
 
-      <Dialog open={createGuildDialogOpen} onClose={() => setCreateGuildDialogOpen(false)}>
+      <Dialog
+        open={createGuildDialogOpen}
+        onClose={() => setCreateGuildDialogOpen(false)}
+      >
         <DialogTitle>ایجاد صنف جدید</DialogTitle>
         <DialogContent>
           <TextField
@@ -267,12 +309,18 @@ export default function SelectOrCreateCategoryAndGuild({ business, onSelectionCo
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setCreateGuildDialogOpen(false)}>انصراف</Button>
-          <Button onClick={handleCreateGuild} color="primary" disabled={!newGuildName.trim()}>
+          <Button onClick={() => setCreateGuildDialogOpen(false)}>
+            انصراف
+          </Button>
+          <Button
+            onClick={handleCreateGuild}
+            color="primary"
+            disabled={!newGuildName.trim()}
+          >
             ایجاد
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
-} 
+}

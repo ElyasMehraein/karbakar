@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography } from '@mui/material';
+import React from 'react';
 
 interface User {
   _id: string;
@@ -53,7 +53,12 @@ interface FirstTabProps {
   primeBusiness: Business | null;
 }
 
-export default function FirstTab({ user, bills, distinctGuilds, primeBusiness }: FirstTabProps) {
+export default function FirstTab({
+  user,
+  bills,
+  distinctGuilds,
+  primeBusiness,
+}: FirstTabProps) {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h6" gutterBottom>
@@ -62,4 +67,4 @@ export default function FirstTab({ user, bills, distinctGuilds, primeBusiness }:
       {/* محتوای تب اول */}
     </Box>
   );
-} 
+}

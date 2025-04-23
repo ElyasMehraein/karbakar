@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { Service } from '../types/service';
 
 interface BusinessServicesProps {
@@ -12,7 +13,7 @@ const BusinessServices: React.FC<BusinessServicesProps> = ({
   services,
   onAdd,
   onEdit,
-  onToggleAvailability
+  onToggleAvailability,
 }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -21,7 +22,7 @@ const BusinessServices: React.FC<BusinessServicesProps> = ({
     description: '',
     price: 0,
     duration: '',
-    availability: true
+    availability: true,
   });
 
   const handleAdd = () => {
@@ -32,7 +33,7 @@ const BusinessServices: React.FC<BusinessServicesProps> = ({
         description: '',
         price: 0,
         duration: '',
-        availability: true
+        availability: true,
       });
       setIsAdding(false);
     }
@@ -63,27 +64,35 @@ const BusinessServices: React.FC<BusinessServicesProps> = ({
             type="text"
             placeholder="نام خدمت"
             value={newService.name}
-            onChange={(e) => setNewService({ ...newService, name: e.target.value })}
+            onChange={(e) =>
+              setNewService({ ...newService, name: e.target.value })
+            }
             className="w-full p-2 mb-2 rounded"
           />
           <textarea
             placeholder="توضیحات"
             value={newService.description}
-            onChange={(e) => setNewService({ ...newService, description: e.target.value })}
+            onChange={(e) =>
+              setNewService({ ...newService, description: e.target.value })
+            }
             className="w-full p-2 mb-2 rounded"
           />
           <input
             type="number"
             placeholder="قیمت"
             value={newService.price}
-            onChange={(e) => setNewService({ ...newService, price: Number(e.target.value) })}
+            onChange={(e) =>
+              setNewService({ ...newService, price: Number(e.target.value) })
+            }
             className="w-full p-2 mb-2 rounded"
           />
           <input
             type="text"
             placeholder="مدت زمان"
             value={newService.duration}
-            onChange={(e) => setNewService({ ...newService, duration: e.target.value })}
+            onChange={(e) =>
+              setNewService({ ...newService, duration: e.target.value })
+            }
             className="w-full p-2 mb-2 rounded"
           />
           <div className="flex justify-end space-x-2">
@@ -111,24 +120,32 @@ const BusinessServices: React.FC<BusinessServicesProps> = ({
                 <input
                   type="text"
                   value={service.name}
-                  onChange={(e) => handleEdit({ ...service, name: e.target.value })}
+                  onChange={(e) =>
+                    handleEdit({ ...service, name: e.target.value })
+                  }
                   className="w-full p-2 rounded"
                 />
                 <textarea
                   value={service.description}
-                  onChange={(e) => handleEdit({ ...service, description: e.target.value })}
+                  onChange={(e) =>
+                    handleEdit({ ...service, description: e.target.value })
+                  }
                   className="w-full p-2 rounded"
                 />
                 <input
                   type="number"
                   value={service.price}
-                  onChange={(e) => handleEdit({ ...service, price: Number(e.target.value) })}
+                  onChange={(e) =>
+                    handleEdit({ ...service, price: Number(e.target.value) })
+                  }
                   className="w-full p-2 rounded"
                 />
                 <input
                   type="text"
                   value={service.duration}
-                  onChange={(e) => handleEdit({ ...service, duration: e.target.value })}
+                  onChange={(e) =>
+                    handleEdit({ ...service, duration: e.target.value })
+                  }
                   className="w-full p-2 rounded"
                 />
                 <div className="flex justify-end space-x-2">
@@ -169,7 +186,9 @@ const BusinessServices: React.FC<BusinessServicesProps> = ({
                   </div>
                 </div>
                 <p>{service.description}</p>
-                <p className="text-gray-600">{service.price.toLocaleString()} تومان</p>
+                <p className="text-gray-600">
+                  {service.price.toLocaleString()} تومان
+                </p>
                 <p className="text-gray-600">مدت زمان: {service.duration}</p>
               </div>
             )}
@@ -180,4 +199,4 @@ const BusinessServices: React.FC<BusinessServicesProps> = ({
   );
 };
 
-export default BusinessServices; 
+export default BusinessServices;

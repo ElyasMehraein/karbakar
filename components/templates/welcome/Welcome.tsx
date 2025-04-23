@@ -1,7 +1,8 @@
-"use client"
-import React from 'react';
-import { Box, Typography, Button, Container } from '@mui/material';
+'use client';
+import { Box, Button, Container, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import React from 'react';
+
 import { User } from '@/types';
 
 interface WelcomeProps {
@@ -25,7 +26,8 @@ export default function Welcome({ user }: WelcomeProps) {
           خوش آمدید {user.userName}!
         </Typography>
         <Typography variant="body1" align="center" sx={{ mb: 4 }}>
-          به پلتفرم کارباکار خوش آمدید. اینجا می‌توانید کسب و کار خود را مدیریت کنید و با دیگران در ارتباط باشید.
+          به پلتفرم کارباکار خوش آمدید. اینجا می‌توانید کسب و کار خود را مدیریت
+          کنید و با دیگران در ارتباط باشید.
         </Typography>
         <Button
           variant="contained"
@@ -38,4 +40,4 @@ export default function Welcome({ user }: WelcomeProps) {
       </Box>
     </Container>
   );
-} 
+}

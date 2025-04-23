@@ -1,15 +1,30 @@
-"use client"
+'use client';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Typography,
+} from '@mui/material';
 import React, { useState } from 'react';
-import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, TextField, Typography } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface AddToReceiversButtonProps {
   business: Business;
   onAdd: () => void;
 }
 
-export default function AddToReceiversButton({ business, onAdd }: AddToReceiversButtonProps) {
+export default function AddToReceiversButton({
+  business,
+  onAdd,
+}: AddToReceiversButtonProps) {
   const [open, setOpen] = useState(false);
   const [receiverCode, setReceiverCode] = useState('');
   const { showSnackbar } = useSnackbar();
@@ -25,13 +40,16 @@ export default function AddToReceiversButton({ business, onAdd }: AddToReceivers
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`/api/business/${business.businessCode}/receivers`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ receiverCode }),
-      });
+      const response = await fetch(
+        `/api/business/${business.businessCode}/receivers`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ receiverCode }),
+        }
+      );
 
       if (response.ok) {
         showSnackbar('دریافت‌کننده با موفقیت اضافه شد', 'success');
@@ -48,11 +66,7 @@ export default function AddToReceiversButton({ business, onAdd }: AddToReceivers
 
   return (
     <Box sx={{ mt: 2 }}>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleOpen}
-      >
+      <Button variant="contained" color="primary" onClick={handleOpen}>
         افزودن دریافت‌کننده
       </Button>
 
@@ -74,11 +88,15 @@ export default function AddToReceiversButton({ business, onAdd }: AddToReceivers
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>انصراف</Button>
-          <Button onClick={handleSubmit} color="primary" disabled={!receiverCode.trim()}>
+          <Button
+            onClick={handleSubmit}
+            color="primary"
+            disabled={!receiverCode.trim()}
+          >
             تایید
           </Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
-} 
+}

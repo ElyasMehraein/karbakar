@@ -56,4 +56,4 @@ export const ERROR_MESSAGES = {
     SERVER_ERROR: 'خطای سرور',
     NETWORK_ERROR: 'خطای شبکه',
   },
-}; 
+};

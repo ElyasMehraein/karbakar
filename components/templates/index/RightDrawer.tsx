@@ -1,14 +1,22 @@
-"use client";
+'use client';
 
-import React from 'react';
-import { Drawer, List, ListItemButton, ListItemIcon, ListItemText, Divider, IconButton } from '@mui/material';
-import { useRouter } from 'next/navigation';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import HomeIcon from '@mui/icons-material/Home';
 import BusinessIcon from '@mui/icons-material/Business';
-import PersonIcon from '@mui/icons-material/Person';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import HomeIcon from '@mui/icons-material/Home';
+import PersonIcon from '@mui/icons-material/Person';
+import {
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from '@mui/material';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
 interface User {
   _id: string;
@@ -30,7 +38,12 @@ interface RightDrawerProps {
   primeBusiness: Business | null;
 }
 
-export default function RightDrawer({ user, open, handleDrawerClose, primeBusiness }: RightDrawerProps) {
+export default function RightDrawer({
+  user,
+  open,
+  handleDrawerClose,
+  primeBusiness,
+}: RightDrawerProps) {
   const router = useRouter();
 
   const handleLogout = () => {
@@ -52,7 +65,14 @@ export default function RightDrawer({ user, open, handleDrawerClose, primeBusine
         },
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', padding: '8px', justifyContent: 'flex-end' }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '8px',
+          justifyContent: 'flex-end',
+        }}
+      >
         <IconButton onClick={handleDrawerClose}>
           <ChevronRightIcon />
         </IconButton>
@@ -67,7 +87,10 @@ export default function RightDrawer({ user, open, handleDrawerClose, primeBusine
         </ListItemButton>
         {user && (
           <>
-            <ListItemButton component={Link} href={`/${user.businesses[0]?.businessName}`}>
+            <ListItemButton
+              component={Link}
+              href={`/${user.businesses[0]?.businessName}`}
+            >
               <ListItemIcon>
                 <BusinessIcon />
               </ListItemIcon>
@@ -90,4 +113,4 @@ export default function RightDrawer({ user, open, handleDrawerClose, primeBusine
       </List>
     </Drawer>
   );
-} 
+}

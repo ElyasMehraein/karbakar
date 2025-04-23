@@ -1,9 +1,21 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton, Button } from '@mui/material';
+'use client';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useSnackbar } from './SnackbarProvider';
+import {
+  Box,
+  Button,
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface BasketSelectionProps {
   business: Business;
@@ -17,7 +29,10 @@ interface Product {
   quantity: number;
 }
 
-export default function BasketSelection({ business, onSelectionComplete }: BasketSelectionProps) {
+export default function BasketSelection({
+  business,
+  onSelectionComplete,
+}: BasketSelectionProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -26,7 +41,9 @@ export default function BasketSelection({ business, onSelectionComplete }: Baske
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`/api/business/${business.businessCode}/products`);
+        const response = await fetch(
+          `/api/business/${business.businessCode}/products`
+        );
         if (response.ok) {
           const data = await response.json();
           setProducts(data);
@@ -49,18 +66,23 @@ export default function BasketSelection({ business, onSelectionComplete }: Baske
   };
 
   const handleRemoveProduct = (productId: number) => {
-    setSelectedProducts(selectedProducts.filter(product => product.id !== productId));
+    setSelectedProducts(
+      selectedProducts.filter((product) => product.id !== productId)
+    );
   };
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`/api/business/${business.businessCode}/basket`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ products: selectedProducts }),
-      });
+      const response = await fetch(
+        `/api/business/${business.businessCode}/basket`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ products: selectedProducts }),
+        }
+      );
 
       if (response.ok) {
         showSnackbar('سبد خرید با موفقیت ثبت شد', 'success');
@@ -146,4 +168,4 @@ export default function BasketSelection({ business, onSelectionComplete }: Baske
       </Box>
     </Box>
   );
-} 
+}

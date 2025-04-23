@@ -1,14 +1,11 @@
 import * as mongoose from 'mongoose';
-import { Schema, Document, Model, Types } from "mongoose";
-import BusinessModel from './Business';
-import UserModel from './User';
-import BillModel from './Bill';
-import BusinessRelationModel from './BusinessRelation';
-import { IUser } from './User';
-import { IBusiness } from './Business';
-import { IBill } from './Bill';
-import { IBusinessRelation } from './BusinessRelation';
-import { IProduct } from './Product';
+import { Document, Model, Schema, Types } from 'mongoose';
+
+import type { IBill } from './Bill';
+import type { IBusiness } from './Business';
+import type { IBusinessRelation } from './BusinessRelation';
+import type { IProduct } from './Product';
+import type { IUser } from './User';
 
 interface IReportProduct {
   product: Types.ObjectId | IProduct;
@@ -30,23 +27,35 @@ export interface IReport extends Document {
 }
 
 const schema = new Schema({
-  recepiant: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  recepiant: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   title: { type: String, maxlength: 20, required: true },
-  business: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-  bill: { type: mongoose.Schema.Types.ObjectId, ref: "Bill" },
+  business: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
+  bill: { type: mongoose.Schema.Types.ObjectId, ref: 'Bill' },
   products: [
     {
-      product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true,
+      },
       amount: { type: Number, min: 1, max: 9999, required: true },
-    }
+    },
   ],
-  businessRelation: { type: mongoose.Schema.Types.ObjectId, ref: "BusinessRelation" },
-  providerBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
-  receiverBusiness: { type: mongoose.Schema.Types.ObjectId, ref: "Business" },
+  businessRelation: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'BusinessRelation',
+  },
+  providerBusiness: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
+  receiverBusiness: { type: mongoose.Schema.Types.ObjectId, ref: 'Business' },
   isSeen: { type: Boolean, default: false },
   isAnswerNeed: Boolean,
   answer: Boolean,
 });
 
-const ReportModel: Model<IReport> = mongoose.models.Report || mongoose.model<IReport>("Report", schema);
-export default ReportModel; 
+const ReportModel: Model<IReport> =
+  mongoose.models.Report || mongoose.model<IReport>('Report', schema);
+export default ReportModel;

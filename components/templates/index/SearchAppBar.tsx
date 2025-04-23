@@ -1,45 +1,52 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { AppBar, Toolbar, IconButton, Typography, InputBase, Box } from "@mui/material";
-import { Menu as MenuIcon, Search as SearchIcon } from "@mui/icons-material";
-import { styled, alpha } from "@mui/material/styles";
+import { Menu as MenuIcon, Search as SearchIcon } from '@mui/icons-material';
+import {
+  AppBar,
+  Box,
+  IconButton,
+  InputBase,
+  Toolbar,
+  Typography,
+} from '@mui/material';
+import { alpha, styled } from '@mui/material/styles';
+import React, { useState } from 'react';
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
+  '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
     marginLeft: theme.spacing(3),
-    width: "auto",
+    width: 'auto',
   },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
+  color: 'inherit',
+  '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
     },
   },
 }));
@@ -63,8 +70,11 @@ interface SearchAppBarProps {
   menuClickHandler: () => void;
 }
 
-export default function SearchAppBar({ user, menuClickHandler }: SearchAppBarProps) {
-  const [searchQuery, setSearchQuery] = useState("");
+export default function SearchAppBar({
+  user,
+  menuClickHandler,
+}: SearchAppBarProps) {
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -88,7 +98,7 @@ export default function SearchAppBar({ user, menuClickHandler }: SearchAppBarPro
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{ display: { xs: 'none', sm: 'block' } }}
           >
             کارباکار
           </Typography>
@@ -98,7 +108,7 @@ export default function SearchAppBar({ user, menuClickHandler }: SearchAppBarPro
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="جستجو..."
-              inputProps={{ "aria-label": "search" }}
+              inputProps={{ 'aria-label': 'search' }}
               value={searchQuery}
               onChange={handleSearchChange}
             />
@@ -107,4 +117,4 @@ export default function SearchAppBar({ user, menuClickHandler }: SearchAppBarPro
       </AppBar>
     </Box>
   );
-} 
+}

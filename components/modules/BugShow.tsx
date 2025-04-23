@@ -1,8 +1,19 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, Chip, Button } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+'use client';
+import {
+  Box,
+  Button,
+  Chip,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface BugShowProps {
   business: Business;
@@ -24,7 +35,9 @@ export default function BugShow({ business }: BugShowProps) {
   useEffect(() => {
     const fetchBugs = async () => {
       try {
-        const response = await fetch(`/api/business/${business.businessCode}/bugs`);
+        const response = await fetch(
+          `/api/business/${business.businessCode}/bugs`
+        );
         if (response.ok) {
           const data = await response.json();
           setBugs(data);
@@ -111,7 +124,8 @@ export default function BugShow({ business }: BugShowProps) {
                       {bug.description}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                      تاریخ گزارش: {new Date(bug.createdAt).toLocaleDateString('fa-IR')}
+                      تاریخ گزارش:{' '}
+                      {new Date(bug.createdAt).toLocaleDateString('fa-IR')}
                     </Typography>
                   </>
                 }
@@ -122,4 +136,4 @@ export default function BugShow({ business }: BugShowProps) {
       )}
     </Box>
   );
-} 
+}

@@ -5,4 +5,4 @@ export interface Invoice {
   status: 'paid' | 'pending';
   date: string;
   customer: string;
-} 
+}

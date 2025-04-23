@@ -1,11 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Box, Tab, Tabs } from "@mui/material";
-import { useActiveTab } from "@/components/context/ActiveTabContext";
-import FirstTab from "./FirstTab";
-import SecondTab from "./SecondTab";
-import ThirdTab from "./ThirdTab";
+import { Box, Tab, Tabs } from '@mui/material';
+import React, { useState } from 'react';
+
+import { useActiveTab } from '@/components/context/ActiveTabContext';
+
+import FirstTab from './FirstTab';
+import SecondTab from './SecondTab';
+import ThirdTab from './ThirdTab';
+
 
 interface User {
   _id: string;
@@ -74,7 +77,14 @@ interface TabsProps {
   guestRelations: BusinessRelation[];
 }
 
-export default function TabPanel({ user, bills, distinctGuilds, primeBusiness, relations, guestRelations }: TabsProps) {
+export default function TabPanel({
+  user,
+  bills,
+  distinctGuilds,
+  primeBusiness,
+  relations,
+  guestRelations,
+}: TabsProps) {
   const { activeTab, setActiveTab } = useActiveTab();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -82,9 +92,13 @@ export default function TabPanel({ user, bills, distinctGuilds, primeBusiness, r
   };
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={activeTab} onChange={handleChange} aria-label="basic tabs example">
+    <Box sx={{ width: '100%' }}>
+      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs
+          value={activeTab}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
           <Tab label="تب اول" />
           <Tab label="تب دوم" />
           <Tab label="تب سوم" />
@@ -108,4 +122,4 @@ export default function TabPanel({ user, bills, distinctGuilds, primeBusiness, r
       {activeTab === 2 && <ThirdTab />}
     </Box>
   );
-} 
+}

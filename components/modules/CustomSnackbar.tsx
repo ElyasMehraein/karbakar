@@ -1,6 +1,6 @@
-"use client"
+'use client';
+import { Alert, Snackbar } from '@mui/material';
 import React from 'react';
-import { Snackbar, Alert } from '@mui/material';
 
 interface CustomSnackbarProps {
   open: boolean;
@@ -9,7 +9,12 @@ interface CustomSnackbarProps {
   severity?: 'error' | 'warning' | 'info' | 'success';
 }
 
-export default function CustomSnackbar({ open, onClose, message, severity = 'info' }: CustomSnackbarProps) {
+export default function CustomSnackbar({
+  open,
+  onClose,
+  message,
+  severity = 'info',
+}: CustomSnackbarProps) {
   return (
     <Snackbar
       open={open}
@@ -22,4 +27,4 @@ export default function CustomSnackbar({ open, onClose, message, severity = 'inf
       </Alert>
     </Snackbar>
   );
-} 
+}

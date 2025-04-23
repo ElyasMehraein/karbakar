@@ -1,9 +1,10 @@
-"use client"
-import React from 'react';
+'use client';
 import { Box } from '@mui/material';
 import Image from 'next/image';
-import { Business } from '@/types';
+import React from 'react';
+
 import { IMAGE_PATHS } from '@/configs/constants';
+import { Business } from '@/types';
 
 interface HeaderProps {
   business: Business;
@@ -33,4 +34,4 @@ export default function Header({ business }: HeaderProps) {
       />
     </Box>
   );
-} 
+}

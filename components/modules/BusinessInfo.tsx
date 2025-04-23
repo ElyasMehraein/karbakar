@@ -1,8 +1,11 @@
-"use client"
+'use client';
+import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
-import { Box, Typography, Container } from '@mui/material';
+
 import { Business } from '@/types';
+
 import Map from './Map';
+
 
 interface BusinessInfoProps {
   business: Business;
@@ -15,7 +18,7 @@ export default function BusinessInfo({ business }: BusinessInfoProps) {
         <Typography variant="h5" gutterBottom>
           اطلاعات کسب و کار
         </Typography>
-        
+
         {business.bio && (
           <Box sx={{ mb: 3 }}>
             <Typography variant="subtitle1" color="text.secondary" gutterBottom>
@@ -82,4 +85,4 @@ export default function BusinessInfo({ business }: BusinessInfoProps) {
       </Box>
     </Container>
   );
-} 
+}

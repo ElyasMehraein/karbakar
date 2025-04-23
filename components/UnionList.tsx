@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Union } from '../types/union';
 
 interface UnionListProps {
@@ -29,4 +30,4 @@ const UnionList: React.FC<UnionListProps> = ({ unions, onJoin }) => {
   );
 };
 
-export default UnionList; 
+export default UnionList;

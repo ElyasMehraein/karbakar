@@ -5,4 +5,4 @@ export interface Notification {
   type: 'message' | 'system';
   read: boolean;
   timestamp: string;
-} 
+}

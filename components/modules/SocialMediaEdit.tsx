@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { TextField, Box, Container, Typography } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface SocialMediaEditProps {
@@ -8,11 +9,18 @@ interface SocialMediaEditProps {
   maxLengthError: (message: string) => void;
 }
 
-export default function SocialMediaEdit({ business, maxLengthError }: SocialMediaEditProps) {
+export default function SocialMediaEdit({
+  business,
+  maxLengthError,
+}: SocialMediaEditProps) {
   const [instagram, setInstagram] = useState<string>(business.instagram || '');
-  const [personalPage, setPersonalPage] = useState<string>(business.personalPage || '');
+  const [personalPage, setPersonalPage] = useState<string>(
+    business.personalPage || ''
+  );
 
-  const handleInstagramChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInstagramChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newInstagram = event.target.value;
     setInstagram(newInstagram);
 
@@ -39,7 +47,9 @@ export default function SocialMediaEdit({ business, maxLengthError }: SocialMedi
     }
   };
 
-  const handlePersonalPageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePersonalPageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newPersonalPage = event.target.value;
     setPersonalPage(newPersonalPage);
 
@@ -90,4 +100,4 @@ export default function SocialMediaEdit({ business, maxLengthError }: SocialMedi
       </Box>
     </Container>
   );
-} 
+}

@@ -1,6 +1,7 @@
-import styles from '@/styles/not-found.module.css'
-import notFoundImg from "@/public/404.jpg"
-import Image from "next/image";
+import Image from 'next/image';
+
+import notFoundImg from '@/public/404.jpg';
+import styles from '@/styles/not-found.module.css';
 
 export default function Custom404() {
   return (
@@ -16,5 +17,5 @@ export default function Custom404() {
         <h1>صفحه مورد نظر یافت نشد</h1>
       </div>
     </>
-  )
-} 
+  );
+}

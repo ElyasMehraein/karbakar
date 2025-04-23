@@ -1,9 +1,15 @@
-import React, { useState, useCallback, useMemo } from 'react';
 import {
   AccordionDetails,
   Avatar,
+  Backdrop,
   Box,
   Button,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   Paper,
   Table,
@@ -14,19 +20,14 @@ import {
   TableRow,
   Typography,
   useMediaQuery,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Backdrop,
-  CircularProgress,
 } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
 import { blue } from '@mui/material/colors';
+import { useTheme } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
+import React, { useCallback, useMemo, useState } from 'react';
+
 import CustomSnackbar from '@/components/modules/CustomSnackbar';
 import ItsAvatar from '@/components/modules/ItsAvatar';
-import { useRouter } from 'next/navigation';
 
 interface Vote {
   voter: string;
@@ -67,7 +68,11 @@ interface UnionsAccordionDetailsProps {
 }
 
 // بررسی اینکه آیا کاربر جاری (voterId) به یک عضو خاص (voteForId) رأی "تأیید" داده است یا خیر
-function hasUserVoted(union: Union, voterId: string, voteForId: string): boolean {
+function hasUserVoted(
+  union: Union,
+  voterId: string,
+  voteForId: string
+): boolean {
   if (!union?.votes) return false;
   return union.votes.some(
     (v) =>
@@ -76,15 +81,20 @@ function hasUserVoted(union: Union, voterId: string, voteForId: string): boolean
   );
 }
 
-export default function UnionsAccordionDetails({ union, user }: UnionsAccordionDetailsProps) {
-  const router = useRouter()
+export default function UnionsAccordionDetails({
+  union,
+  user,
+}: UnionsAccordionDetailsProps) {
+  const router = useRouter();
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // تشخیص کسب‌وکار کاربر جاری در این اتحاد (اگر باشد)
   const userBusinessId = user?.businesses.find((business) =>
-    union.members.some((m) => m.member._id.toString() === business._id.toString())
+    union.members.some(
+      (m) => m.member._id.toString() === business._id.toString()
+    )
   )?._id;
 
   // stateها و توابع مربوط به انصراف
@@ -92,7 +102,10 @@ export default function UnionsAccordionDetails({ union, user }: UnionsAccordionD
   const [isLoading, setIsLoading] = useState(false);
   const [leaveUnionSnackbar, setLeaveUnionSnackbar] = useState(false);
 
-  async function handleLeaveUnion(myBusinessID: string, businessToRemoveID: string) {
+  async function handleLeaveUnion(
+    myBusinessID: string,
+    businessToRemoveID: string
+  ) {
     setOpenLeaveUnion(false);
     setIsLoading(true);
     const res = await fetch('/api/leaveAUnion', {
@@ -116,7 +129,9 @@ export default function UnionsAccordionDetails({ union, user }: UnionsAccordionD
 
   // stateها و توابع مربوط به رأی‌دادن
   const [openVoteDialog, setOpenVoteDialog] = useState(false);
-  const [selectedVoteForId, setSelectedVoteForId] = useState<string | null>(null);
+  const [selectedVoteForId, setSelectedVoteForId] = useState<string | null>(
+    null
+  );
 
   // باز کردن دیالوگ رأی با کلیک روی "رأی دهید"
   const handleOpenVoteDialog = (voteForId: string) => {
@@ -270,7 +285,7 @@ export default function UnionsAccordionDetails({ union, user }: UnionsAccordionD
   return (
     <AccordionDetails>
       {isMobile ? renderMobileCards() : renderDesktopTable()}
-      
+
       <Dialog
         open={openVoteDialog}
         onClose={handleCloseVoteDialog}
@@ -293,10 +308,7 @@ export default function UnionsAccordionDetails({ union, user }: UnionsAccordionD
         </DialogActions>
       </Dialog>
 
-      <Dialog
-        open={openLeaveUnion}
-        onClose={() => setOpenLeaveUnion(false)}
-      >
+      <Dialog open={openLeaveUnion} onClose={() => setOpenLeaveUnion(false)}>
         <DialogTitle>انصراف از اتحاد</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -326,4 +338,4 @@ export default function UnionsAccordionDetails({ union, user }: UnionsAccordionD
       />
     </AccordionDetails>
   );
-} 
+}

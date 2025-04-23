@@ -1,8 +1,16 @@
-"use client";
+'use client';
 
-import React, { useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from '@mui/material';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 interface User {
   _id: string;
@@ -78,4 +86,4 @@ export default function BugReport({ user }: BugReportProps) {
       </Dialog>
     </Box>
   );
-} 
+}

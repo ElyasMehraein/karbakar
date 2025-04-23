@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Notification } from '../types/notification';
 
 interface NotificationListProps {
@@ -6,8 +7,11 @@ interface NotificationListProps {
   onMarkAsRead?: (id: number) => void;
 }
 
-const NotificationList: React.FC<NotificationListProps> = ({ notifications, onMarkAsRead }) => {
-  const unreadCount = notifications.filter(n => !n.read).length;
+const NotificationList: React.FC<NotificationListProps> = ({
+  notifications,
+  onMarkAsRead,
+}) => {
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <div className="space-y-4">
@@ -31,7 +35,9 @@ const NotificationList: React.FC<NotificationListProps> = ({ notifications, onMa
           >
             <div className="flex justify-between items-center">
               <h3 className="font-semibold">{notification.title}</h3>
-              <span className="text-gray-500 text-sm">{notification.timestamp}</span>
+              <span className="text-gray-500 text-sm">
+                {notification.timestamp}
+              </span>
             </div>
             <p className="text-gray-600">{notification.message}</p>
           </div>
@@ -47,4 +53,4 @@ const NotificationList: React.FC<NotificationListProps> = ({ notifications, onMa
   );
 };
 
-export default NotificationList; 
+export default NotificationList;

@@ -1,6 +1,16 @@
-"use client"
+'use client';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface TableBusinessProps {
@@ -46,4 +56,4 @@ export default function TableBusiness({ business }: TableBusinessProps) {
       </Table>
     </TableContainer>
   );
-} 
+}

@@ -1,7 +1,16 @@
-"use client"
-import React, { useState } from 'react';
-import { IconButton, Tooltip, Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography } from '@mui/material';
+'use client';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import React, { useState } from 'react';
 
 interface HelpIconProps {
   title: string;
@@ -38,4 +47,4 @@ export default function HelpIcon({ title, content }: HelpIconProps) {
       </Dialog>
     </>
   );
-} 
+}

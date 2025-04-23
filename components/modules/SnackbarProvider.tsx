@@ -1,12 +1,18 @@
-"use client"
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+'use client';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
+
 import CustomSnackbar from './CustomSnackbar';
 
 interface SnackbarContextType {
-  showSnackbar: (message: string, severity?: 'success' | 'error' | 'warning' | 'info') => void;
+  showSnackbar: (
+    message: string,
+    severity?: 'success' | 'error' | 'warning' | 'info'
+  ) => void;
 }
 
-const SnackbarContext = createContext<SnackbarContextType | undefined>(undefined);
+const SnackbarContext = createContext<SnackbarContextType | undefined>(
+  undefined
+);
 
 interface SnackbarProviderProps {
   children: ReactNode;
@@ -15,9 +21,14 @@ interface SnackbarProviderProps {
 export function SnackbarProvider({ children }: SnackbarProviderProps) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [severity, setSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success');
+  const [severity, setSeverity] = useState<
+    'success' | 'error' | 'warning' | 'info'
+  >('success');
 
-  const showSnackbar = (message: string, severity: 'success' | 'error' | 'warning' | 'info' = 'success') => {
+  const showSnackbar = (
+    message: string,
+    severity: 'success' | 'error' | 'warning' | 'info' = 'success'
+  ) => {
     setMessage(message);
     setSeverity(severity);
     setOpen(true);
@@ -46,4 +57,4 @@ export function useSnackbar() {
     throw new Error('useSnackbar must be used within a SnackbarProvider');
   }
   return context;
-} 
+}

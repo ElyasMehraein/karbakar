@@ -1,10 +1,13 @@
-"use client"
+'use client';
+import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
-import { Box, Typography, Container } from '@mui/material';
-import { Business } from '@/types';
-import MonthlyCommitment from './MonthlyCommitment';
-import Map from './Map';
+
 import BusinessInfo from '@/components/modules/BusinessInfo';
+import { Business } from '@/types';
+
+import Map from './Map';
+import MonthlyCommitment from './MonthlyCommitment';
+
 
 interface BusinessProps {
   business: Business;
@@ -23,4 +26,4 @@ export default function Business({ business }: BusinessProps) {
       </Box>
     </Container>
   );
-} 
+}

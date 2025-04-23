@@ -1,8 +1,20 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Typography, List, ListItem, ListItemText, ListItemAvatar, Avatar, Button } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+'use client';
+import {
+  Avatar,
+  Box,
+  Button,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface GuildProps {
   business: Business;
@@ -23,7 +35,9 @@ export default function Guild({ business }: GuildProps) {
   useEffect(() => {
     const fetchMembers = async () => {
       try {
-        const response = await fetch(`/api/business/${business.businessCode}/guild-members`);
+        const response = await fetch(
+          `/api/business/${business.businessCode}/guild-members`
+        );
         if (response.ok) {
           const data = await response.json();
           setMembers(data);
@@ -62,14 +76,11 @@ export default function Guild({ business }: GuildProps) {
               <ListItemAvatar>
                 <Avatar src={member.avatar} alt={member.name} />
               </ListItemAvatar>
-              <ListItemText
-                primary={member.name}
-                secondary={member.role}
-              />
+              <ListItemText primary={member.name} secondary={member.role} />
             </ListItem>
           ))}
         </List>
       )}
     </Box>
   );
-} 
+}

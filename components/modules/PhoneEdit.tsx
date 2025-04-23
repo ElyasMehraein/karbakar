@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { TextField, Box, Container } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface PhoneEditProps {
@@ -8,10 +9,15 @@ interface PhoneEditProps {
   maxLengthError: (message: string) => void;
 }
 
-export default function PhoneEdit({ business, maxLengthError }: PhoneEditProps) {
+export default function PhoneEdit({
+  business,
+  maxLengthError,
+}: PhoneEditProps) {
   const [phone, setPhone] = useState<string>(business.phone || '');
 
-  const handlePhoneChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhoneChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newPhone = event.target.value;
     setPhone(newPhone);
 
@@ -57,4 +63,4 @@ export default function PhoneEdit({ business, maxLengthError }: PhoneEditProps) 
       </Box>
     </Container>
   );
-} 
+}

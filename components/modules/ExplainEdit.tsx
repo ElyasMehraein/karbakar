@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { TextField, Box, Container } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface ExplainEditProps {
@@ -8,10 +9,15 @@ interface ExplainEditProps {
   maxLengthError: (message: string) => void;
 }
 
-export default function ExplainEdit({ business, maxLengthError }: ExplainEditProps) {
+export default function ExplainEdit({
+  business,
+  maxLengthError,
+}: ExplainEditProps) {
   const [explain, setExplain] = useState<string>(business.explain);
 
-  const handleExplainChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleExplainChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newExplain = event.target.value;
     setExplain(newExplain);
 
@@ -53,4 +59,4 @@ export default function ExplainEdit({ business, maxLengthError }: ExplainEditPro
       </Box>
     </Container>
   );
-} 
+}

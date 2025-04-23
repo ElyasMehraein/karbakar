@@ -1,7 +1,11 @@
-import BugShow from "@/components/modules/BugShow";
-import connectToDB from "@/configs/db";
-import { GET } from "../api/auth/me/route";
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
+
+
+import BugShow from '@/components/modules/BugShow';
+import connectToDB from '@/configs/db';
+
+import { GET } from '../api/auth/me/route';
+
 import { User } from '@/types/user';
 
 export default async function page(): Promise<JSX.Element> {
@@ -11,7 +15,7 @@ export default async function page(): Promise<JSX.Element> {
   try {
     user = await response.json();
   } catch (err) {
-    redirect('/')
+    redirect('/');
   }
   return <BugShow user={user} />;
-} 
+}

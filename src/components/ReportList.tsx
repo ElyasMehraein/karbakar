@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Report } from '../types/report';
 
 interface ReportListProps {
@@ -26,10 +27,16 @@ const ReportList: React.FC<ReportListProps> = ({ reports }) => {
                 <p className="text-gray-600">{report.period}</p>
               </div>
               <div className="flex items-center space-x-2">
-                <span className={`px-2 py-1 rounded ${
-                  report.status === 'completed' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'
-                }`}>
-                  {report.status === 'completed' ? 'تکمیل شده' : 'در حال پردازش'}
+                <span
+                  className={`px-2 py-1 rounded ${
+                    report.status === 'completed'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-yellow-100 text-yellow-800'
+                  }`}
+                >
+                  {report.status === 'completed'
+                    ? 'تکمیل شده'
+                    : 'در حال پردازش'}
                 </span>
                 {report.status === 'completed' && (
                   <a
@@ -41,7 +48,9 @@ const ReportList: React.FC<ReportListProps> = ({ reports }) => {
                 )}
               </div>
             </div>
-            <p className="text-gray-600 mt-2">تاریخ ایجاد: {report.createdAt}</p>
+            <p className="text-gray-600 mt-2">
+              تاریخ ایجاد: {report.createdAt}
+            </p>
           </div>
         ))}
       </div>
@@ -49,4 +58,4 @@ const ReportList: React.FC<ReportListProps> = ({ reports }) => {
   );
 };
 
-export default ReportList; 
+export default ReportList;

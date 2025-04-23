@@ -1,8 +1,11 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, Autocomplete, TextField, Typography } from '@mui/material';
-import { useSnackbar } from './SnackbarProvider';
+'use client';
+import { Autocomplete, Box, TextField, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
+
+import { useSnackbar } from './SnackbarProvider';
+
 
 interface ModulesAutocompleteProps {
   business: Business;
@@ -15,7 +18,10 @@ interface Module {
   description: string;
 }
 
-export default function ModulesAutocomplete({ business, onModuleSelect }: ModulesAutocompleteProps) {
+export default function ModulesAutocomplete({
+  business,
+  onModuleSelect,
+}: ModulesAutocompleteProps) {
   const [modules, setModules] = useState<Module[]>([]);
   const [loading, setLoading] = useState(true);
   const { showSnackbar } = useSnackbar();
@@ -23,7 +29,9 @@ export default function ModulesAutocomplete({ business, onModuleSelect }: Module
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const response = await fetch(`/api/business/${business.businessCode}/modules`);
+        const response = await fetch(
+          `/api/business/${business.businessCode}/modules`
+        );
         if (response.ok) {
           const data = await response.json();
           setModules(data);
@@ -41,7 +49,10 @@ export default function ModulesAutocomplete({ business, onModuleSelect }: Module
     fetchModules();
   }, [business.businessCode, showSnackbar]);
 
-  const handleModuleSelect = (event: React.SyntheticEvent, value: Module | null) => {
+  const handleModuleSelect = (
+    event: React.SyntheticEvent,
+    value: Module | null
+  ) => {
     if (value) {
       onModuleSelect(value.id);
     }
@@ -80,4 +91,4 @@ export default function ModulesAutocomplete({ business, onModuleSelect }: Module
       />
     </Box>
   );
-} 
+}

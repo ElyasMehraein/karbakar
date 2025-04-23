@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography } from '@mui/material';
+import React from 'react';
 
 interface User {
   _id: string;
@@ -38,7 +38,11 @@ interface SecondTabProps {
   guestRelations: BusinessRelation[];
 }
 
-export default function SecondTab({ user, relations, guestRelations }: SecondTabProps) {
+export default function SecondTab({
+  user,
+  relations,
+  guestRelations,
+}: SecondTabProps) {
   return (
     <Box sx={{ p: 3 }}>
       <Typography variant="h6" gutterBottom>
@@ -47,4 +51,4 @@ export default function SecondTab({ user, relations, guestRelations }: SecondTab
       {/* محتوای تب دوم */}
     </Box>
   );
-} 
+}

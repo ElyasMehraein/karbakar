@@ -6,4 +6,4 @@ export interface Report {
   status: 'completed' | 'pending';
   createdAt: string;
   downloadUrl: string;
-} 
+}

@@ -1,7 +1,14 @@
-"use client"
-import React from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Box } from '@mui/material';
+'use client';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Typography,
+} from '@mui/material';
+import React from 'react';
+
 import { Business } from '@/types';
 
 interface AccordionServiseProps {
@@ -37,4 +44,4 @@ export default function AccordionServise({ business }: AccordionServiseProps) {
       </AccordionDetails>
     </Accordion>
   );
-} 
+}

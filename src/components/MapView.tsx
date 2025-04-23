@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Business } from '../types/business';
 
 interface MapViewProps {
@@ -14,14 +15,14 @@ const MapView: React.FC<MapViewProps> = ({ businesses, onCenterChange }) => {
         <button className="px-4 py-2 text-blue-500">رستوران‌ها</button>
         <button className="px-4 py-2 text-blue-500">کافه‌ها</button>
       </div>
-      
+
       {businesses.map((business) => (
         <div
           key={business.id}
           className="absolute"
           style={{
             left: `${(business.location.lng + 180) * 2}px`,
-            top: `${(90 - business.location.lat) * 2}px`
+            top: `${(90 - business.location.lat) * 2}px`,
           }}
           data-testid="business-marker"
           onClick={() => onCenterChange?.(business.location)}
@@ -36,4 +37,4 @@ const MapView: React.FC<MapViewProps> = ({ businesses, onCenterChange }) => {
   );
 };
 
-export default MapView; 
+export default MapView;

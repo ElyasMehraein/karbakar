@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import React from 'react';
-import { Box, Typography, Avatar, Container } from '@mui/material';
-import { User } from '@/types';
-import { IMAGE_PATHS } from '@/configs/constants';
+import { Avatar, Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
+import React from 'react';
+
+import { IMAGE_PATHS } from '@/configs/constants';
+import { User } from '@/types';
 
 interface UserInfoProps {
   user: User;
@@ -66,4 +67,4 @@ export default function UserInfo({ user }: UserInfoProps) {
       </Container>
     </Box>
   );
-} 
+}

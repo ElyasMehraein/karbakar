@@ -12,4 +12,4 @@ export interface Business {
       close: string;
     };
   };
-} 
+}

@@ -1,14 +1,17 @@
-"use client"
-import React, { useState, useEffect } from 'react';
+'use client';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import BusinessIcon from '@mui/icons-material/Business';
+import { Container } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { Container } from "@mui/material";
-import BusinessIcon from '@mui/icons-material/Business';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import Image from 'next/image'
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+
+import { Business as BusinessType, User } from '@/types';
+
 import ItsAvatar from './ItsAvatar';
-import { User, Business as BusinessType } from '@/types';
+
 
 interface PageAvatarProps {
   user?: User;
@@ -17,11 +20,17 @@ interface PageAvatarProps {
 
 export default function PageAvatar({ user, business }: PageAvatarProps) {
   const userCodeOrBusinessBrand = user?.code || business?.businessName;
-  const [isAvatarUrl, setIsAvatarUrl] = useState<boolean>(!!(user?.avatarUrl || business?.avatarUrl));
-  const [avatarUrl, setAvatartUrl] = useState<string>(`/api/images/avatars/${userCodeOrBusinessBrand}.jpg`);
+  const [isAvatarUrl, setIsAvatarUrl] = useState<boolean>(
+    !!(user?.avatarUrl || business?.avatarUrl)
+  );
+  const [avatarUrl, setAvatartUrl] = useState<string>(
+    `/api/images/avatars/${userCodeOrBusinessBrand}.jpg`
+  );
 
   useEffect(() => {
-    setAvatartUrl(`/api/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`);
+    setAvatartUrl(
+      `/api/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`
+    );
   }, [isAvatarUrl, userCodeOrBusinessBrand]);
 
   // قدمت صفحه
@@ -33,23 +42,26 @@ export default function PageAvatar({ user, business }: PageAvatarProps) {
   return (
     <Container maxWidth="md">
       <Box sx={{ justifyContent: 'flex-start' }} display="flex">
-        <ItsAvatar sx={{ width: 70, height: 70, mt: -5 }} userCodeOrBusinessBrand={userCodeOrBusinessBrand} />
+        <ItsAvatar
+          sx={{ width: 70, height: 70, mt: -5 }}
+          userCodeOrBusinessBrand={userCodeOrBusinessBrand}
+        />
         <Box style={{ flexGrow: 1 }}></Box>
-        <Box display={"flex"} flexDirection={"column"}>
+        <Box display={'flex'} flexDirection={'column'}>
           <Typography display="inline" variant="subtitle2">
             قدمت صفحه: {daysPassed} روز
           </Typography>
-          {business ?
+          {business ? (
             <Typography display="inline" variant="subtitle2">
               صنف : {business.guild.guildName}
             </Typography>
-            :
+          ) : (
             <Typography display="inline" variant="subtitle2">
               کد کاربری : {user?.code}
             </Typography>
-          }
+          )}
         </Box>
       </Box>
     </Container>
   );
-} 
+}

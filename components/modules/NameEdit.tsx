@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { TextField, Box, Container } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface NameEditProps {
@@ -9,10 +10,16 @@ interface NameEditProps {
   maxLengthError: (message: string) => void;
 }
 
-export default function NameEdit({ business, label, maxLengthError }: NameEditProps) {
+export default function NameEdit({
+  business,
+  label,
+  maxLengthError,
+}: NameEditProps) {
   const [name, setName] = useState<string>(business.businessName);
 
-  const handleNameChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleNameChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newName = event.target.value;
     setName(newName);
 
@@ -22,7 +29,9 @@ export default function NameEdit({ business, label, maxLengthError }: NameEditPr
     }
 
     if (!/^[A-Za-z\-_.]+$/.test(newName)) {
-      maxLengthError('نام باید فقط شامل حروف انگلیسی، خط تیره، نقطه و زیرخط باشد');
+      maxLengthError(
+        'نام باید فقط شامل حروف انگلیسی، خط تیره، نقطه و زیرخط باشد'
+      );
       return;
     }
 
@@ -57,4 +66,4 @@ export default function NameEdit({ business, label, maxLengthError }: NameEditPr
       </Box>
     </Container>
   );
-} 
+}

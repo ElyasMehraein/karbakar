@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, Typography } from '@mui/material';
 import React from 'react';
-import { Typography, Box, Container } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface ExplainProps {
@@ -19,4 +20,4 @@ export default function Explain({ business }: ExplainProps) {
       </Box>
     </Container>
   );
-} 
+}

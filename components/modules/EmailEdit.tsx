@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { TextField, Box, Container } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface EmailEditProps {
@@ -8,10 +9,15 @@ interface EmailEditProps {
   maxLengthError: (message: string) => void;
 }
 
-export default function EmailEdit({ business, maxLengthError }: EmailEditProps) {
+export default function EmailEdit({
+  business,
+  maxLengthError,
+}: EmailEditProps) {
   const [email, setEmail] = useState<string>(business.email || '');
 
-  const handleEmailChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newEmail = event.target.value;
     setEmail(newEmail);
 
@@ -57,4 +63,4 @@ export default function EmailEdit({ business, maxLengthError }: EmailEditProps) 
       </Box>
     </Container>
   );
-} 
+}

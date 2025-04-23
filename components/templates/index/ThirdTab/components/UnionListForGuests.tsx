@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
-import Typography from "@mui/material/Typography";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Button } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionActions from '@mui/material/AccordionActions';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { blue } from '@mui/material/colors';
-import Box from "@mui/material/Box";
-import { Button } from '@mui/material';
+import React, { useState } from 'react';
+
 import UnionsAccordionDetails from './UnionsAccordionDetails';
 
 interface Union {
@@ -22,7 +23,10 @@ interface UnionListForGuestsProps {
   user: any;
 }
 
-export default function UnionListForGuests({ union, user }: UnionListForGuestsProps) {
+export default function UnionListForGuests({
+  union,
+  user,
+}: UnionListForGuestsProps) {
   const [votePageOpen, setVotePageOpen] = useState(false);
 
   const unionVotePage = () => {
@@ -31,7 +35,9 @@ export default function UnionListForGuests({ union, user }: UnionListForGuestsPr
 
   return (
     <React.Fragment>
-      <Typography className='inMiddle' fontSize={14} py={1} >تمام اتحادها</Typography>
+      <Typography className="inMiddle" fontSize={14} py={1}>
+        تمام اتحادها
+      </Typography>
       <Accordion
         disableGutters
         sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}
@@ -87,16 +93,18 @@ export default function UnionListForGuests({ union, user }: UnionListForGuestsPr
             <Typography sx={{ mr: 1, fontSize: '12px' }}>
               {`مدت اتحاد: ${union.deadline} روز`}
             </Typography>
-            {
-              (union.members?.length ?? 0) > 1 && !union.isActive && (
-                <Button variant="contained" color="secondary" onClick={unionVotePage}>
-                  صفحه تایید متحدان
-                </Button>
-              )
-            }
+            {(union.members?.length ?? 0) > 1 && !union.isActive && (
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={unionVotePage}
+              >
+                صفحه تایید متحدان
+              </Button>
+            )}
           </Box>
         </AccordionActions>
       </Accordion>
     </React.Fragment>
-  )
-} 
+  );
+}

@@ -1,5 +1,5 @@
-import * as mongoose from "mongoose";
-import { Schema, Document, Model } from "mongoose";
+import * as mongoose from 'mongoose';
+import { Document, Model, Schema } from 'mongoose';
 
 export interface IBugReport extends Document {
   description: string;
@@ -17,11 +17,13 @@ const bugReportSchema = new Schema(
     },
     sender: {
       type: Number,
-    }
+    },
   },
   { timestamps: true }
 );
 
-const BugReportModel: Model<IBugReport> = mongoose.models.BugReport || mongoose.model<IBugReport>("BugReport", bugReportSchema);
+const BugReportModel: Model<IBugReport> =
+  mongoose.models.BugReport ||
+  mongoose.model<IBugReport>('BugReport', bugReportSchema);
 
-export default BugReportModel; 
+export default BugReportModel;

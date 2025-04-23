@@ -1,6 +1,7 @@
-"use client"
+'use client';
+import { Box, Container, TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { TextField, Box, Container } from '@mui/material';
+
 import { Business } from '@/types';
 
 interface AddressEditProps {
@@ -8,10 +9,15 @@ interface AddressEditProps {
   maxLengthError: (message: string) => void;
 }
 
-export default function AddressEdit({ business, maxLengthError }: AddressEditProps) {
+export default function AddressEdit({
+  business,
+  maxLengthError,
+}: AddressEditProps) {
   const [address, setAddress] = useState<string>(business.address || '');
 
-  const handleAddressChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddressChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newAddress = event.target.value;
     setAddress(newAddress);
 
@@ -53,4 +59,4 @@ export default function AddressEdit({ business, maxLengthError }: AddressEditPro
       </Box>
     </Container>
   );
-} 
+}

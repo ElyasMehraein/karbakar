@@ -1,7 +1,15 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { Box, TextField, List, ListItem, ListItemText, Typography } from '@mui/material';
+'use client';
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+
 import { Business } from '@/types';
 
 interface SearchBoxProps {
@@ -19,9 +27,12 @@ export default function SearchBox({ businesses }: SearchBoxProps) {
       return;
     }
 
-    const filtered = businesses.filter(business =>
-      business.businessName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      business.bio?.toLowerCase().includes(searchTerm.toLowerCase())
+    const filtered = businesses.filter(
+      (business) =>
+        business.businessName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()) ||
+        business.bio?.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredBusinesses(filtered);
   }, [searchTerm, businesses]);
@@ -75,4 +86,4 @@ export default function SearchBox({ businesses }: SearchBoxProps) {
       )}
     </Box>
   );
-} 
+}

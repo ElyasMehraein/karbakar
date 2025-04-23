@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Business } from '../types/business';
 
 interface BusinessProfileProps {
@@ -7,7 +8,11 @@ interface BusinessProfileProps {
   onSave?: (business: Business) => void;
 }
 
-const BusinessProfile: React.FC<BusinessProfileProps> = ({ business, isOwner, onSave }) => {
+const BusinessProfile: React.FC<BusinessProfileProps> = ({
+  business,
+  isOwner,
+  onSave,
+}) => {
   return (
     <div className="p-4 border rounded-lg">
       <h2 className="text-xl font-bold">{business.name}</h2>
@@ -26,4 +31,4 @@ const BusinessProfile: React.FC<BusinessProfileProps> = ({ business, isOwner, on
   );
 };
 
-export default BusinessProfile; 
+export default BusinessProfile;

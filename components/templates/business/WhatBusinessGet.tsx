@@ -1,7 +1,8 @@
-"use client"
-import React from 'react';
-import { Box, Typography, List, ListItem, ListItemIcon } from '@mui/material';
+'use client';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Box, List, ListItem, ListItemIcon, Typography } from '@mui/material';
+import React from 'react';
+
 import { Business } from '@/types';
 
 interface WhatBusinessGetProps {
@@ -35,9 +36,7 @@ export default function WhatBusinessGet({ business }: WhatBusinessGetProps) {
           <ListItemIcon>
             <CheckCircleIcon color="success" />
           </ListItemIcon>
-          <Typography variant="body1">
-            امکان مدیریت تعهدات ماهانه
-          </Typography>
+          <Typography variant="body1">امکان مدیریت تعهدات ماهانه</Typography>
         </ListItem>
         <ListItem>
           <ListItemIcon>
@@ -50,4 +49,4 @@ export default function WhatBusinessGet({ business }: WhatBusinessGetProps) {
       </List>
     </Box>
   );
-} 
+}
