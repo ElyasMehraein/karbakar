@@ -8,7 +8,7 @@ import Fab from '@mui/material/Fab'
 import CheckIcon from '@mui/icons-material/Check'
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle'
 import { Alert, Container } from '@mui/material'
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import Snackbar from '@mui/material/Snackbar'
 
 export default function EditLocation({ business }) {
@@ -58,16 +58,7 @@ export default function EditLocation({ business }) {
     }
   }
 
-  useEffect(() => {
-    if (latitude && longitude) {
-      saveHandler('latitude', latitude)
-      saveHandler('longitude', longitude)
-      setSuccess(true)
-      setLoading(false)
-    }
-  }, [latitude, longitude])
-
-  const saveHandler = async (fieldName, newValue) => {
+  const saveHandler = useCallback(async (fieldName, newValue) => {
     let model = 'BusinessModel'
     let id = business._id
     const res = await fetch('/api/updateDB', {
@@ -82,7 +73,17 @@ export default function EditLocation({ business }) {
         newValue,
       }),
     })
-  }
+  }, [business._id])
+
+  useEffect(() => {
+    if (latitude && longitude) {
+      saveHandler('latitude', latitude)
+      saveHandler('longitude', longitude)
+      setSuccess(true)
+      setLoading(false)
+    }
+  }, [saveHandler, latitude, longitude])
+
   return (
     <Container maxWidth="md">
       <Box sx={{ display: 'flex', alignItems: 'center' }}>

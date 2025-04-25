@@ -69,6 +69,7 @@ export default function SearchAppBar({ user, menuClickHandler }) {
     if (user.code) {
       return user.code
     }
+    return null
   }
 
   const router = useRouter()

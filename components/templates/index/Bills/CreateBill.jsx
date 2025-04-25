@@ -146,10 +146,11 @@ export default function CreateBill({ user, primeBusiness }) {
             <Button
               sx={{ mt: 2 }}
               disabled={isBasketChanged}
-              children={'ارسال صورتحساب'}
               variant="contained"
               onClick={() => createThisBill()}
-            />
+            >
+              ارسال صورتحساب
+            </Button>
           </Box>
         </>
       )}

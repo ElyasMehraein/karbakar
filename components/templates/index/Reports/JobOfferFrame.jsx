@@ -17,6 +17,8 @@ export default function JobOfferFrame({ report }) {
 
   const [positiveChoise, setPositiveChoise] = useState(false)
 
+  const [isSeen, setIsSeen] = useState(false)
+
   useEffect(() => {
     const fetchReport = async () => {
       const response = await fetch(`/api/reports/${reportID}`, {
@@ -34,7 +36,7 @@ export default function JobOfferFrame({ report }) {
       setIsLoading(false)
     }
     fetchReport()
-  }, [isLoading])
+  }, [reportID, setIsSeen])
 
   const answer = async parameter => {
     setIsLoading(true)

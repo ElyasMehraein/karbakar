@@ -36,7 +36,8 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
     title: 'jobOffer',
   }
   const handleSnackbarClose = () => {
-    setOpenSnackbar(false)
+    setSnackbarAccept(false)
+    location.reload()
   }
   const handleShowSnackbar = () => {
     setOpenSnackbar(true)
@@ -182,8 +183,6 @@ export default function EmployeeList({ business, logedUserCode, users, maxLength
                 </Button>
               </Stack>
             )
-            //استخدام کارکنان جدید
-            //اخراج کارکنان
           }
         </List>
         <Dialog open={open} onClose={handleClose}>

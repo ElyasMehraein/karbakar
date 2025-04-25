@@ -27,6 +27,7 @@ import Resignation from '@/components/modules/Resignation'
 import Backdrop from '@mui/material/Backdrop'
 import Link from 'next/link'
 import QueryStatsIcon from '@mui/icons-material/QueryStats'
+import Image from 'next/image'
 
 const drawerWidth = 260
 
@@ -207,9 +208,6 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
             ورود یا ثبت نام
           </Button>
         )}
-        {/* <a referrerpolicy='origin' target='_blank' href='https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP'>
-          <img referrerpolicy='origin' src='https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP' alt='' style='cursor:pointer' code='WVHMOZU94IEbixgjQrSBilZBlW74eHJP'></img>
-        </a> */}
         <a
           className="inMiddle"
           referrerPolicy="origin"
@@ -217,10 +215,11 @@ export default function DrawerRight({ user, open, handleDrawerClose, primeBusine
           rel="noopener noreferrer"
           href="https://trustseal.enamad.ir/?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP"
         >
-          <img
-            referrerPolicy="origin"
+          <Image 
             src="https://trustseal.enamad.ir/logo.aspx?id=575002&Code=WVHMOZU94IEbixgjQrSBilZBlW74eHJP"
-            alt=""
+            alt="نماد اعتماد الکترونیکی"
+            width={100}
+            height={20}
             style={{ cursor: 'pointer' }}
           />
         </a>

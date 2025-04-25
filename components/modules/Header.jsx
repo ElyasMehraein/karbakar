@@ -15,7 +15,7 @@ export default function Header({ user, business }) {
       `/api/images/headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`
     )
     setIsLoading(false)
-  }, [])
+  }, [userCodeOrBusinessBrand, isLoading])
 
   useEffect(() => {
     const checkImage = async () => {

@@ -43,7 +43,11 @@ export default function BillFrame({ user, bill }) {
         billId,
       }),
     })
-    res.status === 200 ? setSnackbarAccept(true) : setSnackbarServerError(true)
+    if (res.status === 200) {
+      setSnackbarAccept(true)
+    } else {
+      setSnackbarServerError(true)
+    }
   }
 
   const rejectHandler = async () => {
@@ -56,7 +60,11 @@ export default function BillFrame({ user, bill }) {
         billId: bill._id,
       }),
     })
-    res.status === 200 ? setSnackbarReject(true) : setSnackbarServerError(true)
+    if (res.status === 200) {
+      setSnackbarReject(true)
+    } else {
+      setSnackbarServerError(true)
+    }
   }
 
   const [openDialog, setOpenDialog] = React.useState(false)
@@ -136,13 +144,14 @@ export default function BillFrame({ user, bill }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>لغو</Button>
-          <Button onClick={() => saveHandler(true)}>محصول را دریافت نمودم</Button>
+          <Button onClick={() => saveHandler()}>محصول را دریافت نمودم</Button>
         </DialogActions>
       </Dialog>
       <CustomSnackbar
         open={snackbarAccept}
         onClose={() => {
-          setSnackbarAccept(false), location.reload()
+          setSnackbarAccept(false)
+          location.reload()
         }}
         message="دریافت محصولات و خدمات صورتحساب تایید شد"
       />
@@ -155,7 +164,8 @@ export default function BillFrame({ user, bill }) {
       <CustomSnackbar
         open={snackbarReject}
         onClose={() => {
-          setSnackbarReject(false), location.reload()
+          setSnackbarReject(false)
+          location.reload()
         }}
         message="صورتحساب لغو گردید"
         severity="info"

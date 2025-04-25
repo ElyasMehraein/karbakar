@@ -49,7 +49,7 @@ export default function SelectOrCreateCategoryAndGuild({ sendDataToParent }) {
   // send guild to parent
   useEffect(() => {
     sendDataToParent(guild, guildName, jobCategory)
-  }, [guildName])
+  }, [guild, jobCategory, sendDataToParent, guildName])
 
   return (
     <Container maxWidth="md">

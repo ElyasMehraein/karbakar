@@ -21,7 +21,7 @@ export default function EditHeader({ user, business }) {
     setHeaderUrl(
       `/api/images/headers/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`
     )
-  }, [thereIsNewImage])
+  }, [userCodeOrBusinessBrand, thereIsNewImage])
 
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [uploadeding, setUploadeding] = useState(false)

@@ -13,8 +13,10 @@ export default function EditProfile({ user, logedUserCode, whichUserProfile }) {
   const [snackbarError, setSnackbarError] = useState(false)
   const [SnackbarMessage, setSnackbarMessage] = useState('محدودیت تعداد کارکتر را رعایت نمایید')
   const maxLengthError = parameter => {
-    parameter && setSnackbarMessage(parameter)
-    setSnackbarError(true)
+    if (parameter) {
+      setSnackbarMessage(parameter)
+      setSnackbarError(true)
+    }
   }
   return (
     <>

@@ -40,7 +40,7 @@ export default function FirstTabGuestView({ guestRelations }) {
     if (JSON.stringify(sortedBusinesses) !== JSON.stringify(businessesOrderByDistance)) {
       setBusinessesOrderByDistance(sortedBusinesses)
     }
-  }, [latitude, longitude])
+  }, [businesses, businessesOrderByDistance, latitude, longitude])
 
   return (
     <Container maxWidth="md">

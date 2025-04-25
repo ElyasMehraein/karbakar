@@ -17,7 +17,7 @@ export default function PageAvatar({ user, business }) {
     setAvatartUrl(
       `/api/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`
     )
-  }, [isAvatarUrl])
+  }, [userCodeOrBusinessBrand, isAvatarUrl])
 
   //قدمت صفحه
   const createdAt = new Date(user?.createdAt || business.createdAt)

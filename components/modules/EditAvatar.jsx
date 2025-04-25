@@ -18,7 +18,7 @@ export default function EditAvatar({ user, business }) {
     setAvatartUrl(
       `/api/images/avatars/${userCodeOrBusinessBrand}.jpg?timestamp=${new Date().getTime()}`
     )
-  }, [isAvatarUrl])
+  }, [userCodeOrBusinessBrand, isAvatarUrl])
 
   const [uploadeding, setUploadeding] = useState(false)
   const [snackbarOpen, setSnackbarOpen] = useState(false)

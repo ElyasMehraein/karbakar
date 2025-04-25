@@ -103,7 +103,11 @@ export default function BasicTabs({
   const ReportFabDynamicText = fabIndex == activeTab ? 'بازگشت به صورتحساب' : 'ایجاد صورتحساب'
 
   const fabHandler = () => {
-    fabIndex == activeTab ? setFabIndex(10) : setFabIndex(activeTab)
+    if (fabIndex === activeTab) {
+      setFabIndex(10)
+    } else {
+      setFabIndex(activeTab)
+    }
   }
   const fabs = [
     {

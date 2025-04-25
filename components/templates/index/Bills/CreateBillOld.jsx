@@ -234,11 +234,12 @@ export default function CreateBill({ user, fabHandler }) {
 
                 <Button
                   sx={{ mt: 2 }}
-                  children={'اضافه نمودن به فاکتور'}
-                  variant="contained"
                   disabled={selectedProduct && unitOfMeasurement && amount ? false : true}
+                  variant="contained"
                   onClick={addToBills}
-                />
+                >
+                  اضافه نمودن به فاکتور
+                </Button>
                 {bills[0] && (
                   <>
                     <List dense={true}>
@@ -286,10 +287,11 @@ export default function CreateBill({ user, fabHandler }) {
                     <Button
                       sx={{ mt: 2 }}
                       disabled={customerCode ? false : true}
-                      children={'ارسال صورتحساب'}
                       variant="contained"
                       onClick={() => createThisBill(selectedBusiness, customerCode, bills)}
-                    />
+                    >
+                      ارسال صورتحساب
+                    </Button>
                   </>
                 )}
               </>

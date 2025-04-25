@@ -16,17 +16,19 @@ export async function POST(req) {
     .digest('hex')
 
   try {
-    user.primeJob === Requester._id
-    await RequestModel.create({
-      uniqCode,
-      requesterBusiness: Requester,
-      acceptedBy: [],
-      needMoreInfo: [],
-      title,
-      message,
-      guild,
-    })
-    return Response.json({ message: `the Request created successfully.` }, { status: 201 })
+    if (user.primeJob === Requester._id) {
+      await RequestModel.create({
+        uniqCode,
+        requesterBusiness: Requester,
+        acceptedBy: [],
+        needMoreInfo: [],
+        title,
+        message,
+        guild,
+      })
+      return Response.json({ message: `the Request created successfully.` }, { status: 201 })
+    }
+    return Response.json({ message: `Invalid request` }, { status: 400 })
   } catch (error) {
     console.error(`Error creating the Request:`, error)
     return Response.json({ message: `Error creating the Request `, error }, { status: 500 })

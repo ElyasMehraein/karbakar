@@ -64,7 +64,7 @@ export default function SelectCategoryAndGuild({ sendDataToParent, primeBusiness
   // send guild to parent
   useEffect(() => {
     sendDataToParent(guild)
-  }, [guild])
+  }, [sendDataToParent, guild, jobCategory])
 
   return (
     <Container maxWidth="md">
