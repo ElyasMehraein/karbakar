@@ -1,28 +1,28 @@
 import { NextResponse } from 'next/server';
+import mongoose from 'mongoose';
 
 import connectToDB from '@/configs/db';
 import BusinessModel from '@/models/Business';
-import GuildModel from '@/models/Guild';
 
 interface Guild {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   guildName: string;
 }
 
 interface DemandForGuild {
-  guild: string | Guild;
+  guild: mongoose.Types.ObjectId | Guild;
   requestText?: string;
 }
 
 interface Business {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   demandsForGuilds: DemandForGuild[];
 }
 
-export async function GET(req: Request): Promise<NextResponse> {
+export async function GET(_req: Request): Promise<NextResponse> {
   try {
     await connectToDB();
-    const { searchParams } = new URL(req.url);
+    const { searchParams } = new URL(_req.url);
     const businessID = searchParams.get('businessID');
 
     if (!businessID) {
@@ -32,9 +32,9 @@ export async function GET(req: Request): Promise<NextResponse> {
       );
     }
 
-    const business = (await BusinessModel.findById(businessID).populate(
+    const business = await BusinessModel.findById(businessID).populate(
       'demandsForGuilds.guild'
-    )) as Business | null;
+    );
 
     if (!business) {
       return NextResponse.json(
@@ -50,7 +50,7 @@ export async function GET(req: Request): Promise<NextResponse> {
       },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error getting businesses:', error);
     return NextResponse.json(
       { message: 'Error getting businesses', error },

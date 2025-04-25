@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 
 import connectToDB from '@/configs/db';
-import BusinessModel from '@/models/Business';
 import GuildModel from '@/models/Guild';
 
 interface Guild {
@@ -9,7 +8,7 @@ interface Guild {
   jobCategory: string;
 }
 
-export async function GET(req: Request): Promise<NextResponse> {
+export async function GET(_req: Request): Promise<NextResponse> {
   try {
     await connectToDB();
     const guilds: Guild[] = JSON.parse(

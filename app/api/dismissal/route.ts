@@ -1,10 +1,13 @@
 import { NextRequest } from 'next/server';
+import mongoose from 'mongoose';
 
 import { GET } from '@/app/api/auth/me/route';
 import connectToDB from '@/configs/db';
 import BusinessModel from '@/models/Business';
 import ReportModel from '@/models/Report';
 import UserModel from '@/models/User';
+import GuildModel from '@/models/Guild';
+import ProductModel from '@/models/Product';
 
 interface DismissalRequestBody {
   recepiantCode: number;
@@ -14,16 +17,17 @@ interface DismissalRequestBody {
 }
 
 interface User {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   code: number;
-  businesses: string[];
+  businesses: mongoose.Types.ObjectId[];
+  primeJob?: mongoose.Types.ObjectId;
 }
 
 interface Business {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   agentCode: number;
   businessName: string;
-  workers: string[];
+  workers: mongoose.Types.ObjectId[];
 }
 
 export async function POST(req: NextRequest) {
@@ -31,18 +35,27 @@ export async function POST(req: NextRequest) {
     const body: DismissalRequestBody = await req.json();
     const { recepiantCode, business } = body;
     await connectToDB();
-    const response = await GET(req);
+    const response = await GET();
     const user: User = await response.json();
-    const Business: Business = await BusinessModel.findOne({
+    const Business = await BusinessModel.findOne({
       businessName: business.businessName,
     }).lean();
+
+    if (!Business) {
+      return Response.json(
+        { message: '404 Business not found' },
+        { status: 404 }
+      );
+    }
+
     if (Number(Business.agentCode) !== user.code) {
       return Response.json(
         { message: '403 Unauthorized access' },
         { status: 403 }
       );
     }
-    const recepiant: User = await UserModel.findOne({
+
+    const recepiant = await UserModel.findOne({
       code: recepiantCode,
     }).lean();
 
@@ -99,7 +112,7 @@ export async function POST(req: NextRequest) {
       { message: 'Report created and user fired successfully' },
       { status: 201 }
     );
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error(err);
     return Response.json({ message: 'server error' }, { status: 500 });
   }
