@@ -3,18 +3,17 @@
 /* لینک فایلی که وظیفه بارگذاری فونت ها را برعهده دارد */
 
 body {
-	font-family: iranyekan !important;
-	text-align: justify;
-	/* direction: rtl; */
-	
+  font-family: iranyekan !important;
+  text-align: justify;
+  /* direction: rtl; */
 }
 
 .inMiddle {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-	margin-left: auto;
-	margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }

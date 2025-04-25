@@ -1,79 +1,81 @@
-import * as React from 'react';
-import { Select, MenuItem, ListItemText, ListItemButton, Avatar, Snackbar, Alert } from '@mui/material';
-import ItsAvatar from '@/components/modules/ItsAvatar';
-import { useRouter } from 'next/navigation';
-import { FormControl, InputLabel, ListItemAvatar } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
-import { useState } from 'react';
-import Menu from '@mui/material/Menu';
-
+import * as React from 'react'
+import {
+  Select,
+  MenuItem,
+  ListItemText,
+  ListItemButton,
+  Avatar,
+  Snackbar,
+  Alert,
+} from '@mui/material'
+import ItsAvatar from '@/components/modules/ItsAvatar'
+import { useRouter } from 'next/navigation'
+import { FormControl, InputLabel, ListItemAvatar } from '@mui/material'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
+import Button from '@mui/material/Button'
+import { useState } from 'react'
+import Menu from '@mui/material/Menu'
 
 const PrimeJobSelect = ({ user }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [anchorEl, setAnchorEl] = React.useState(null)
+  const open = Boolean(anchorEl)
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
   const handleClose = () => {
-    setAnchorEl(null);
-  };
-
+    setAnchorEl(null)
+  }
 
   // Dialog
-  const [openDialog, setOpenDialog] = useState(false);
-  const [selectedBusinessId, setSelectedBusinessId] = useState(user.primeJob);
+  const [openDialog, setOpenDialog] = useState(false)
+  const [selectedBusinessId, setSelectedBusinessId] = useState(user.primeJob)
 
-  const handleBusinessChange = (BusinessId) => {
-    setSelectedBusinessId(BusinessId);
-    setOpenDialog(true);
+  const handleBusinessChange = BusinessId => {
+    setSelectedBusinessId(BusinessId)
+    setOpenDialog(true)
     handleClose()
-  };
+  }
   const cancelHandler = () => {
     setSelectedBusinessId(user.primeJob)
-    setOpenDialog(false);
-  };
-
-
+    setOpenDialog(false)
+  }
 
   // Snackbar
   const [snackbarOpen, setSnackbarOpen] = useState(false)
-  const [snackbarMessage, setSnackbarMessage] = useState("خطای ناشناخته")
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success")
+  const [snackbarMessage, setSnackbarMessage] = useState('خطای ناشناخته')
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success')
   const callSnackbar = (message, severity) => {
     setSnackbarMessage(message)
     severity && setSnackbarSeverity(severity)
     setSnackbarOpen(true)
-    setSnackbarSeverity("success")
-  };
+    setSnackbarSeverity('success')
+  }
   const onCloseSnackbar = () => {
     setSnackbarOpen(false)
     location.reload()
   }
 
-
-
   async function changePrimeJob(selectedBusinessId) {
     const res = await fetch('/api/changePrimeJob', {
-      method: "POST",
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(selectedBusinessId)
+      body: JSON.stringify(selectedBusinessId),
     })
     if (res.status === 201) {
       setOpenDialog(false)
-      callSnackbar("تغییر کسب و کار اصلی با موفقیت انجام شد")
+      callSnackbar('تغییر کسب و کار اصلی با موفقیت انجام شد')
     } else if (res.status === 500) {
-      callSnackbar("خطای اتصال به سرور", "error")
+      callSnackbar('خطای اتصال به سرور', 'error')
     } else if (res.status === 403) {
-      callSnackbar("شما عضو این کسب و کار نیستید", "error")
+      callSnackbar('شما عضو این کسب و کار نیستید', 'error')
     } else if (res.status === 404) {
-      callSnackbar("کسب و کار یافت نشد کد وارد شده را مجدد بررسی نمایید", "error")
+      callSnackbar('کسب و کار یافت نشد کد وارد شده را مجدد بررسی نمایید', 'error')
     } else if (res.status === 406) {
-      callSnackbar("این کسب و کار در حال حاضر کسب و کار اصلی شماست", "error")
+      callSnackbar('این کسب و کار در حال حاضر کسب و کار اصلی شماست', 'error')
     }
   }
   return (
@@ -98,8 +100,7 @@ const PrimeJobSelect = ({ user }) => {
             'aria-labelledby': 'basic-button',
           }}
         >
-          {user?.businesses.map((business) => (
-
+          {user?.businesses.map(business => (
             <MenuItem
               key={business._id}
               value={business._id}
@@ -114,17 +115,13 @@ const PrimeJobSelect = ({ user }) => {
           ))}
         </Menu>
       </FormControl>
-      <Dialog
-        open={openDialog}
-      >
+      <Dialog open={openDialog}>
         <DialogTitle>تغییر کسب و کار اصلی</DialogTitle>
         <DialogContent>
           <DialogContentText>
             دقت داشته باشید که تغییر کسب و کار اصلی تنها هر 14 روز یکبار امکانپذیر است
           </DialogContentText>
-          <DialogContentText>
-            آیا همچنان به انجام این کار اطمینان دارید؟
-          </DialogContentText>
+          <DialogContentText>آیا همچنان به انجام این کار اطمینان دارید؟</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={cancelHandler}>رد</Button>
@@ -132,17 +129,12 @@ const PrimeJobSelect = ({ user }) => {
         </DialogActions>
       </Dialog>
       <Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => onCloseSnackbar(false)}>
-        <Alert
-          severity={snackbarSeverity}
-          variant="filled"
-          sx={{ width: '100%' }}
-        >
+        <Alert severity={snackbarSeverity} variant="filled" sx={{ width: '100%' }}>
           {snackbarMessage}
         </Alert>
       </Snackbar>
     </>
+  )
+}
 
-  );
-};
-
-export default PrimeJobSelect;
+export default PrimeJobSelect

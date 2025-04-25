@@ -1,5 +1,5 @@
-import * as mongoose from "mongoose";
-import { Schema } from "mongoose";
+import * as mongoose from 'mongoose'
+import { Schema } from 'mongoose'
 
 const bugReportSchema = new Schema(
   {
@@ -10,12 +10,11 @@ const bugReportSchema = new Schema(
     },
     sender: {
       type: Number,
-    }
+    },
   },
   { timestamps: true }
-);
+)
 
-const BugReportModel =
-  mongoose.models.BugReport || mongoose.model("BugReport", bugReportSchema);
+const BugReportModel = mongoose.models.BugReport || mongoose.model('BugReport', bugReportSchema)
 
-export default BugReportModel;
+export default BugReportModel

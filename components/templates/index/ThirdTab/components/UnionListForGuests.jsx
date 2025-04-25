@@ -1,27 +1,25 @@
 import React, { useState } from 'react'
-import Typography from "@mui/material/Typography";
-import Accordion from '@mui/material/Accordion';
-import AccordionActions from '@mui/material/AccordionActions';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { blue } from '@mui/material/colors';
-import Box from "@mui/material/Box";
-import { Button } from '@mui/material';
-import UnionsAccordionDetails from './UnionsAccordionDetails';
+import Typography from '@mui/material/Typography'
+import Accordion from '@mui/material/Accordion'
+import AccordionActions from '@mui/material/AccordionActions'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { blue } from '@mui/material/colors'
+import Box from '@mui/material/Box'
+import { Button } from '@mui/material'
+import UnionsAccordionDetails from './UnionsAccordionDetails'
 
 export default function UnionListForGuests({ union }) {
-
   const unionVotePage = () => {
-    setVotePageOpen(true);
-  };
+    setVotePageOpen(true)
+  }
 
   return (
     <React.Fragment>
-      <Typography className='inMiddle' fontSize={14} py={1} >تمام اتحادها</Typography>
-      <Accordion
-        disableGutters
-        sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}
-      >
+      <Typography className="inMiddle" fontSize={14} py={1}>
+        تمام اتحادها
+      </Typography>
+      <Accordion disableGutters sx={{ bgcolor: blue[50], my: 1, minWidth: 300, width: '100%' }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ alignSelf: 'flex-start' }} />}
           aria-controls="pane-content"
@@ -43,10 +41,7 @@ export default function UnionListForGuests({ union }) {
               flexDirection: 'column',
             }}
           >
-            <Typography
-              sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }}
-              textAlign="right"
-            >
+            <Typography sx={{ fontSize: 12, m: 0, fontWeight: 'bold' }} textAlign="right">
               {union.unionName}
             </Typography>
             <Typography

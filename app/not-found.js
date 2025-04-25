@@ -1,6 +1,6 @@
 import styles from '@/styles/not-found.module.css'
-import notFoundImg from "@/public/404.jpg"
-import Image from "next/image";
+import notFoundImg from '@/public/404.jpg'
+import Image from 'next/image'
 export default function Custom404() {
   return (
     <>
@@ -16,5 +16,4 @@ export default function Custom404() {
       </div>
     </>
   )
-
 }

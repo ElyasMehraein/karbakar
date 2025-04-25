@@ -8,7 +8,6 @@ import EditProfile from '@/components/templates/editProfile/EditProfile'
 import EditBusiness from '@/components/templates/editBusiness/EditBusiness'
 
 export default async function Page({ params }) {
-
   // گرفتن توکن از کوکی
   const token = await cookies().get('token')?.value
   // اعتبارسنجی توکن
@@ -23,10 +22,7 @@ export default async function Page({ params }) {
   await connectToDB()
 
   // یافتن کاربر لاگین شده
-  const loggedUser = await UserModel.findOne(
-    { _id: tokenPayload.id },
-    'code'
-  ).lean()
+  const loggedUser = await UserModel.findOne({ _id: tokenPayload.id }, 'code').lean()
 
   if (!loggedUser) {
     console.log('Logged user not found')
@@ -38,9 +34,7 @@ export default async function Page({ params }) {
 
   // اگر پارامتر مسیر (subDirectory) عدد باشد => ویرایش پروفایل کاربر
   if (!isNaN(Number(subDirectory))) {
-    const user = await UserModel.findOne(
-      { code: Number(subDirectory) }
-    ).lean()
+    const user = await UserModel.findOne({ code: Number(subDirectory) }).lean()
 
     if (!user) {
       console.log('User not found in DB')
@@ -50,12 +44,7 @@ export default async function Page({ params }) {
     // تبدیل به یک شیء ساده برای جلوگیری از ارور بافر/ObjectID
     const userToSend = JSON.parse(JSON.stringify(user))
 
-    return (
-      <EditProfile
-        user={userToSend}
-        logedUserCode={loggedUserCode}
-      />
-    )
+    return <EditProfile user={userToSend} logedUserCode={loggedUserCode} />
   }
   // در غیر این صورت => ویرایش بیزینس
   else {
@@ -72,7 +61,7 @@ export default async function Page({ params }) {
 
     // بررسی مالکیت بیزینس
     if (Number(business.agentCode) !== loggedUserCode) {
-      return <h1 className='inMiddle'>403 دسترسی غیر مجاز</h1>
+      return <h1 className="inMiddle">403 دسترسی غیر مجاز</h1>
     }
 
     // یافتن تمامی کاربران (در صورت نیاز برای ویرایش بیزینس)
@@ -83,11 +72,7 @@ export default async function Page({ params }) {
     const usersToSend = JSON.parse(JSON.stringify(users))
 
     return (
-      <EditBusiness
-        business={businessToSend}
-        logedUserCode={loggedUserCode}
-        users={usersToSend}
-      />
+      <EditBusiness business={businessToSend} logedUserCode={loggedUserCode} users={usersToSend} />
     )
   }
 }
