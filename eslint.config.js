@@ -1,6 +1,7 @@
 import nextPlugin from '@next/eslint-plugin-next'
 import prettierPlugin from 'eslint-plugin-prettier'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
+import reactPlugin from 'eslint-plugin-react'
 
 export default [
   {
@@ -8,7 +9,8 @@ export default [
     plugins: {
       'prettier': prettierPlugin,
       'react-hooks': reactHooksPlugin,
-      '@next': nextPlugin
+      '@next/next': nextPlugin,
+      'react': reactPlugin
     },
     rules: {
       'prettier/prettier': 'warn',
